@@ -1,0 +1,214 @@
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Test Selection</a></li>
+    <li><a href="#tab2" data-toggle="tab">Demographics and Data Entry</a></li>
+    <li><a href="#tab3" data-toggle="tab">Results</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade in active" id="tab1" ng-controller="treeCtrl">
+    <br> <br>
+        <div class ="col-sm-3" >
+           <h2>ANDI Test</h2>
+                <multi-select-tree data-input-model="data" multi-select="true"
+                                   data-output-model="outData" data-default-label="Click here to Select Multiple Tests"
+                                   data-callback="selectOnly1Or2(item, selectedItems)"
+                                   data-select-only-leafs="true" data-switch-view-callback="switchViewCallback(scopeObj)"
+                                   data-switch-view-label="Multiple Test Selection" data-switch-view="true"></multi-select-tree>
+        </div>
+              
+              <div class="col-sm-9">
+                    <h2>Selected Tests</h2>
+                        <div class="panel panel-default">
+                          <div class="panel-body"> {{outData}} </div>
+                        </div>
+              </div>    
+    </div>
+
+<div class="tab-pane fade" id="tab2">
+       <p>This is content of Tab 2</p>
+
+<!-- Edit start -->
+<div ng-controller="EditableColumnCtrl">
+
+    <table border=1>
+    <tr>
+    <td>Age</td>
+    <td ng-repeat="patient in patients">
+      <span>{{patient['age']}}</span>
+    </td>
+    </tr>
+    <tr>
+    <td colspan="4">Tests</td>
+    <tr>
+    <tr ng-show="tests['test1']">
+    <td>test1</td>
+    <td ng-repeat="patient in patients">
+      <span>{{patient['test1']}}</span>
+    </td>
+    </tr>
+    <tr ng-show="tests['test2']">
+    <td>test2</td>
+    <td ng-repeat="patient in patients">
+      <span>{{patient['test2']}}</span>
+    </td>
+    </tr>
+    <tr ng-show="tests['test3']">
+    <td>test3</td>
+    <td ng-repeat="patient in patients">
+      <span>{{patient['test3']}}</span>
+    </td>
+    </tr>
+    </table>
+
+
+  <table class="table table-bordered table-hover table-condensed">
+   <thead>
+        <tr>
+        <th>Demographics</th>
+        <th>Patient</th>
+        </tr>
+    </thead>
+ <tbody ng-repeat="col in columns">
+
+  <tr>
+      <td>Id</td>
+        <td> <span editable-text="patient.id" e-name="patient" onbeforesave="checkName($data)" e-required>{{ user.id || 'empty' }}</span> 
+      </td>
+  </tr>
+  <tr>
+      <td>Age</td>
+      <td>
+          <a href="#" editable-bsdate="showAge(user)" e-datepicker-popup="dd-MMMM-yyyy">
+            {{ (showAge(user)| date:"dd/MM/yyyy") || 'empty' }}
+          </a>
+      </td>
+  </tr>
+
+  <tr>
+     <td>Sex</td>
+     <td> 
+        <a href="#" editable-select="user.status" e-ng-options="s.value as s.text for s in sex">
+     {{ showSex(user) }}
+     </td>
+  </tr>
+
+  <tr>
+    <td>
+      Education
+    </td> 
+    <td >
+        <a href="#" editable-select="user.status" e-ng-options="e.value as e.text for e in education">
+        {{ showEducation(user) }}
+    </td>        
+  </tr>
+
+    <tr ng-repeat="row in rows">
+        <td>
+            Comes from Tree
+        </td> 
+         <td>
+            <span editable-text="patient.name" e-name="patient" onbeforesave="checkName($data)" e-required>{{ 'empty' }}</span> 
+        </td>
+    </tr>
+
+ </tbody>
+ </table>
+  <button class="btn btn-default" ng-click="addRow()">Add Row</button>
+  <button class="btn btn-default" ng-click="addPatient()">Add Patient</button>
+
+
+
+</div>
+  <p> </p>
+  <button class="btn btn-default" ng-click="addPatient()">Export this template in XL</button>
+
+
+
+<br> <br>
+<h2>Advanced settings</h2>
+
+    <!-- Select Basic -->
+        <div class="control-group">
+            <label class="control-label" for="selectbasic">Statistical Significance</label>
+                <div class="controls">
+                    <select id="selectbasic" name="selectbasic" class="input-xlarge">
+                        <option>Two Tailed</option>
+                        <option>One Tailed Right</option>
+                        <option>One Tailed Left</option>
+                    </select>
+                </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="selectbasic">Confidence Interval (CI)</label>
+                <div class="controls">
+                    <select id="selectbasic" name="selectbasic" class="input-xlarge">
+                        <option>95</option>
+                        <option>90</option>
+                        <option>99</option>
+                    </select>
+                </div>
+        </div>
+
+<br> <br>
+        <!-- Edit End-->
+  
+        <div class="control-group" ng-controller="RCtrl">
+            <label class="control-label" for="filebutton">Upload group of patients</label>
+            <div class="controls">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+            </div>
+            <textarea rows="8" cols="80" id="txtRCommands">
+            x <- rnorm(1000); 
+            print(hist(x));
+
+            </textarea> 
+            <br />
+            <input type="button" value="Run code" id="cmdGoR" />
+            <div id="results"> </div>
+        </div>
+</div>
+<div>
+    <a href="javascript:tabPrev();" class="btn">&lsaquo; Prev</a>
+    <a href="javascript:tabNext();" class="btn">Next &rsaquo;</a>
+</div>
+
+<!-- Radar settings start here -->
+<div class="tab-pane fade" id="tab3" ng-controller="radarCtrl as radar" >
+<p> </p> <p></p>
+    
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Plot Graph
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Line Chart</a></li>
+              <li><a href="#">Radar Chart</a></li>
+            </ul>
+          </div>
+<div>
+    <a href="javascript:tabPrev();" class="btn">&lsaquo; Prev</a>
+    <a href="javascript:tabNext();" class="btn">Next &rsaquo;</a>
+</div>
+<script>
+/* This is the function for Previos and Next Tabs*/
+var myTab, myTabsActive, tabNext, tabPrev;
+$(function() {
+    myTabs = $('#myTab li').length;
+    myTabsActive = 0; //or yours active tab
+
+    tabNext = function() {
+        var index = myTabsActive + 1;
+        index = index >= myTabs ? 0 : index;
+
+        $('#myTab li:eq(' + index + ') a').tab('show');
+        myTabsActive = index;
+    }
+
+    tabPrev = function() {
+        var index = myTabsActive - 1;
+        index = index < 0 ? myTabs - 1 : index;
+
+        $('#myTab li:eq(' + index + ') a').tab('show');
+        myTabsActive = index;
+    }
+});
+</script>
