@@ -18,7 +18,7 @@
                        <div
                         ivh-treeview-id-attribute="'uuid'"
                         ivh-treeview="treeCtrl.tests"
-                        ivh-treeview-expand-to-depth="0"
+                        ivh-treeview-expand-to-depth="2"
                         ivh-treeview-filter="testSearch"
                         ivh-treeview-validate="true"
                         ivh-treeview-selected-attribute="'isSelected'"
@@ -29,11 +29,11 @@
                       <td>
                       <div class="col-sm-12">
                             <h2>Selected Tests</h2>
-                                  <ul width:1em; height:100%; ng-repeat="test in treeCtrl.tests  |filter{isSelected:true}" style="list-style-type:none"> 
+                                  <ul width:1em; height:100%; ng-repeat="test in treeCtrl.tests[0].children" style="list-style-type:none"> 
                                   <li width= 100px >{{treeCtrl.getSelectedNodes(test)}}</li>
                                   </ul>
                                   <hr>
-                                  <ul ng-repeat="test in treeCtrl.tests[0] |  filter{isSelected:true}" style="list-style-type:none"> 
+                                  <ul ng-repeat="test in treeCtrl.tests[0]" style="list-style-type:none"> 
                                   <li>{{test}}</li>
                                   </ul>
                       </div>
@@ -68,7 +68,7 @@
                       <td><input type="text" ng-model="patient.id" required> </td>
                     </tr>
                     <tr>
-                      <td>Age</td>
+                      <td>DOB</td>
                       <td><input type="date" ng-model="patient.age" required></td>
                     </tr>
                     <tr>
@@ -84,10 +84,13 @@
                       <td>Education</td>
                       <td> 
                         <select ng-model="patient.education" required>
-                          <option value="1"> Primary Education </option>
-                          <option value="2"> Secondary Education </option>
-                          <option value="3"> Higher Education</option> 
-                          <option value="4"> University Degree</option> 
+                          <option value="1"> Verhage 1 </option>
+                          <option value="2"> Verhage 2 </option>
+                          <option value="3"> Verhage 3</option> 
+                          <option value="4"> Verhage 4</option> 
+                          <option value="5"> Verhage 5</option> 
+                          <option value="6"> Verhage 6</option> 
+                          <option value="7"> Verhage 7</option> 
                         </select>
                       </td>
                     </tr>
@@ -122,9 +125,9 @@
                           </td>
                           <td>
                           <select ng-model="stat.sig">
-                            <option value="0">Two Tailed</option>                      
-                            <option value="1">One Tailed Right</option>                      
-                            <option value="2">One Tailed Left</option>
+                            <option value="twoTailed">Two Tailed</option>                      
+                            <option value="oneTailedRight">One Tailed Right</option> 
+                            <option value="oneTailedLeft">One Tailed Left</option>
                           </select>
                           </td>
                           <td>
@@ -132,9 +135,10 @@
                           </td>
                           <td>
                           <select ng-model="conf.int" >
-                            <option value="0">95</option>                      
-                            <option value="1">90</option>                      
-                            <option value="2">99</option>
+                            <option value="95">95</option>                      
+                            <option value="90">90</option>                      
+                            <option value="99">99</option>
+                            <option value="99">68</option>
                           </select>
                           </td>
                           </tr>
@@ -158,12 +162,15 @@
         <div class="panel" ng-show="panel.isSelected(3)">
               <div ng-controller="plotController as plotCtrl" class="col-sm-12">
               <h2>Results Plots</h2>
-                <select ng-model="patient.chart" required ng-change="plotCtrl.lineChart(patient.chart)">
+                <select ng-model="patient.chart" required ng-change="plotCtrl.radarChart()">
                  <option value="line"> Line Chart </option>
                  <option value="radar"> Radar Chart </option>
                 </select>
-                <nvd3 options="plotCtrl.options" data="plotCtrl.data"></nvd3>
+                <!--<nvd3 options="plotCtrl.options" data="plotCtrl.data"></nvd3>-->
+                <canvas id="radar" options="plotCtrl.options" class="chart chart-radar" data="plotCtrl.data"
+  labels="plotCtrl.labels"></canvas> 
               </div>
-        </div>      
+              <button ng-click="tblCtrl.exportCSV()"> Generate Report</button> 
+        </div>
     </ul>
 </section>

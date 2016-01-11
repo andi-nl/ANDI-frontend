@@ -19,6 +19,7 @@ var app =angular.module('andiApp', [
     'ui.bootstrap',
     'ivh.treeview',
     'ui.ace',
+    'chart.js',
     'nvd3'
   ]);
 
