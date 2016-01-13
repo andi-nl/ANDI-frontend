@@ -9,168 +9,88 @@
         <div class="panel" ng-show="panel.isSelected(1)">
             <div class="tab-pane fade in active" id="tab1">
             <br> <br>
-
                     <div ng-controller="treeController as treeCtrl " class="col-sm-6">
-                      <input type="text" ng-model="testSearch" />
-                      <table>
-                      <tr>
-                      <td>
+                      <input type="text" ng-model="testSearch" class = "form-control" placeholder ="Search for ..."/>
                        <div
                         ivh-treeview-id-attribute="'uuid'"
                         ivh-treeview="treeCtrl.tests"
-                        ivh-treeview-expand-to-depth="2"
+                        ivh-treeview-expand-to-depth="0"
                         ivh-treeview-filter="testSearch"
                         ivh-treeview-validate="true"
                         ivh-treeview-selected-attribute="'isSelected'"
                         ivh-treeview-on-cb-change="fancy.otherAwesomeCallback(ivhNode, ivhIsSelected, ivhTree)"
                         >
                       </div>
-                      </td>
-                      <td>
-                      <div class="col-sm-12">
-                            <h2>Selected Tests</h2>
-                                  <ul width:1em; height:100%; ng-repeat="test in treeCtrl.tests[0].children" style="list-style-type:none"> 
-                                  <li width= 100px >{{treeCtrl.getSelectedNodes(test)}}</li>
-                                  </ul>
-                                  <hr>
-                                  <ul ng-repeat="test in treeCtrl.tests[0]" style="list-style-type:none"> 
-                                  <li>{{test}}</li>
-                                  </ul>
                       </div>
-                      </td>
-                      </tr>
-                      </table>
-                      <table>
-                          <tr>
-                          <td>
-                          <button ng-click="panel.previous()"> Previous</button>
-                          </td>
-                          <td>
-                          <button ng-click="panel.next()"> Next</button> 
-                          </td>
-                          </tr>
-                    </table>                        
-                    </div>
+                      <div class ="col-sm-6" ng-controller="treeController as treeCtrl ">
+                        <h3>Selected Tests</h3>
+                        <ul width:1em; height:100%; ng-repeat="test in treeCtrl.tests  |filter:{isSelected:true}" style="list-style-type:none"> 
+                        <li width= 100px >{{treeCtrl.getSelectedNodes(test)}}</li>
+                        </ul>
+                        <hr>
+                      </div>
+            </div>
+            <div class="col-sm-12">
+                    <button type="button" class="btn btn-previous" ng-click="panel.previous()"> Previous</button>
+                    <button type="button" class ="btn btn-next" ng-click="panel.next()"> Next</button> 
             </div>
         </div>
 
-        <form name="patient.form" ng-controller="TableController as tblCtrl" novalidate="novalidate" ng-model="fields" ng-submit="tblCtrl.submit()">  
-            <div class="panel" ng-show="panel.isSelected(2)">
-               <div class ="col-sm-12" >
-
-                    <table border=1 ng-controller="treeController as treeCtrl">
-                    <tr>
-                     <th>Demographics</td>
-                     <th>Patient</td>
-                    </tr>
-                    <tr>
-                      <td>ID</td>
-                      <td><input type="text" ng-model="patient.id" required> </td>
-                    </tr>
-                    <tr>
-                      <td>DOB</td>
-                      <td><input type="date" ng-model="patient.age" required></td>
-                    </tr>
-                    <tr>
-                      <td>Sex</td>
-                      <td> 
-                        <select ng-model="patient.sex" required>
-                          <option value="0"> Male </option>
-                          <option value="1"> Female</option> 
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Education</td>
-                      <td> 
-                        <select ng-model="patient.education" required>
-                          <option value="1"> Verhage 1 </option>
-                          <option value="2"> Verhage 2 </option>
-                          <option value="3"> Verhage 3</option> 
-                          <option value="4"> Verhage 4</option> 
-                          <option value="5"> Verhage 5</option> 
-                          <option value="6"> Verhage 6</option> 
-                          <option value="7"> Verhage 7</option> 
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tests</td>
-                      <td></td>
-                    </tr>
-                    <tr ng-repeat="test in treeCtrl.tests[0].children">
-                      <td>{{treeCtrl.getSelectedNodes(test)}}</td>
-                      <td><input type="text" ng-model="patient.test.value" required></td>
-                    </tr>
-                    </table>
-                    <!--<div> patient_form is {{patient_form.$valid}} </div>-->
-                    <div>{{tblCtrl.createPatientObject()}}</div>
-                    <table>
-                    <tr>
-                    <td>
-                     <button ng-click="tblCtrl.addPatient()"> Add Patient</button>
-                    </td>
-                    <td>
-                     <button ng-click="tblCtrl.exportCSV()"> Export to CSV</button> 
-                    </td>
-                    </tr>
-                    </table>
-                    <br><br>
-                    <h2>Advanced Settings</h2>
-                    <hr>
-                    <table>
+        <div class="panel" ng-show="panel.isSelected(2)">
+            <form name="patient.form" ng-controller="TableController as tblCtrl" novalidate="novalidate" ng-model="fields" >  
+             <div class ="col-sm-6">
+                <table>
+                  <tr>
+                    <td ng-repeat="data in tblCtrl.tabledata" class="tableindex{{tblCtrl.counterlimit}}">
+                      <table border=1>
                         <tr>
-                          <td>
-                            Statistical significance
+                          <td colspan="2" >
+                              <tree-grid tree-obj="patient" tree-table="tblCtrl" tree-index="tblCtrl.counterlimit" tree-data="tblCtrl.tree_data" tree-control="tblCtrl.my_tree" col-defs="tblCtrl.col_defs" expand-on="tblCtrl.expanding_property" on-select="tblCtrl.my_tree_handler(branch)" expand-level="3" icon-leaf= "glyphicon glyphicon-edit"></tree-grid>
                           </td>
-                          <td>
-                          <select ng-model="stat.sig">
-                            <option value="twoTailed">Two Tailed</option>                      
-                            <option value="oneTailedRight">One Tailed Right</option> 
-                            <option value="oneTailedLeft">One Tailed Left</option>
-                          </select>
-                          </td>
-                          <td>
-                          Confidence Interval
-                          </td>
-                          <td>
-                          <select ng-model="conf.int" >
-                            <option value="95">95</option>                      
-                            <option value="90">90</option>                      
-                            <option value="99">99</option>
-                            <option value="99">68</option>
-                          </select>
-                          </td>
-                          </tr>
-                    </table>
-                    <hr>
-                    <input type="submit" id="submit" value="Submit" />
-                    <table>
-                          <tr>
-                          <td>
-                          <button ng-click="panel.previous()"> Previous</button>
-                          </td>
-                          <td>
-                          <button ng-click="panel.next()"> Next</button> 
-                          </td>
-                          </tr>
-                    </table>
-               </div>
-            </div>
-        </form>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                  <!--<div> patient_form is {{patient_form.$valid}} </div>
+                  <div>{{tblCtrl.createPatientObject()}}</div>-->
+
+                 <button type="button" class ="btn btn-addPatient" ng-click="tblCtrl.addPatient()"> Add Patient</button> 
+
+                 <button type="button" class ="btn btn-download" ng-click="tblCtrl.download()"> Download Template</button> 
+                  <br><br>
+                  <h3>Advanced Settings</h3>
+                  <hr>
+                        <label>Statistical significance </label>
+                        <select ng-model="patient.stat.sig" class ="form-control">
+                          <option value="twoTailed">Two Tailed</option>                      
+                          <option value="oneTailedRight">One Tailed Right</option> 
+                          <option value="oneTailedLeft">One Tailed Left</option>
+                        </select>
+                        <label>Confidence Interval</label>
+                        <select ng-model="patient.conf.int" class="form-control" >
+                          <option value="95">95</option>                      
+                          <option value="90">90</option>                      
+                          <option value="99">99</option>
+                          <option value="99">68</option>
+                        </select>
+                  <hr>
+                    <button type="submit" class="btn btn-submit" ng-click="tblCtrl.submit()">Submit</button>
+                    <button type="button" class="btn btn-previous" ng-click="panel.previous()"> Previous</button>
+                    <button type="button" class ="btn btn-next" ng-click="panel.next()"> Next</button> 
+             </div>
+            </form>
+        </div>
 
         <div class="panel" ng-show="panel.isSelected(3)">
               <div ng-controller="plotController as plotCtrl" class="col-sm-12">
               <h2>Results Plots</h2>
-                <select ng-model="patient.chart" required ng-change="plotCtrl.radarChart()">
+                <select ng-model="patient.chart" required ng-change="plotCtrl.lineChart(patient.chart)" class="form-control">
                  <option value="line"> Line Chart </option>
                  <option value="radar"> Radar Chart </option>
                 </select>
-                <!--<nvd3 options="plotCtrl.options" data="plotCtrl.data"></nvd3>-->
-                <canvas id="radar" options="plotCtrl.options" class="chart chart-radar" data="plotCtrl.data"
-  labels="plotCtrl.labels"></canvas> 
+                <nvd3 options="plotCtrl.options" data="plotCtrl.data"></nvd3>
               </div>
-              <button ng-click="tblCtrl.exportCSV()"> Generate Report</button> 
-        </div>
+        </div>      
     </ul>
 </section>

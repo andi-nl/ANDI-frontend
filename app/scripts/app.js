@@ -20,6 +20,7 @@ var app =angular.module('andiApp', [
     'ivh.treeview',
     'ui.ace',
     'chart.js',
+    'treeGrid',
     'nvd3'
   ]);
 
