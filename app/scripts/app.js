@@ -21,6 +21,7 @@ var app =angular.module('andiApp', [
     'ui.ace',
     'chart.js',
     'treeGrid',
+    'ngTableToCsv',
     'nvd3'
   ]);
 

@@ -38,8 +38,8 @@
 
         <div class="panel" ng-show="panel.isSelected(2)">
             <form name="patient.form" ng-controller="TableController as tblCtrl" novalidate="novalidate" ng-model="fields" >  
-             <div class ="col-sm-6">
-                <table>
+             <div class ="col-sm-6" class="table-responsive">
+                <table class="table table-bordered" export-csv="csv" separator=",">
                   <tr>
                     <td ng-repeat="data in tblCtrl.tabledata" class="tableindex{{tblCtrl.counterlimit}}">
                       <table border=1>
@@ -53,11 +53,23 @@
                   </tr>
                 </table>
                   <!--<div> patient_form is {{patient_form.$valid}} </div>
-                  <div>{{tblCtrl.createPatientObject()}}</div>-->
+                  <div>{{patient}}</div> -->
 
                  <button type="button" class ="btn btn-addPatient" ng-click="tblCtrl.addPatient()"> Add Patient</button> 
-
-                 <button type="button" class ="btn btn-download" ng-click="tblCtrl.download()"> Download Template</button> 
+                  <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"
+                     download="myTable.csv">
+                    <i class="glyphicon glyphicon-new-window"></i> &#160;Download Template
+                  </a>
+                  <hr>
+                  <span id="helpblock" class="help-block">
+                  If there exists more than three patients. Download this template; fill in the test scores for more patients in each column and upload this file below. Make sure none of the fields are left empty !
+                  </span>
+                  <hr>
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                  <span class="btn btn-default btn-file">
+                  <input type="file" name="..."></span>
+                  <span class="fileinput-filename"></span>
+                </div>
                   <br><br>
                   <h3>Advanced Settings</h3>
                   <hr>

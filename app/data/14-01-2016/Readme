@@ -1,0 +1,19 @@
+Description of the Files in this directory
+############################################
+
+1. Scripts JSON2CSV.R: This script should only be used by Anand. This is the first step to make life easy for Nathalie to add or remove tests from a csv file that are easy to use. This format is better suited for programming.
+
+2. Scripts CSV2JSON.R: This script can be used by Anand or Joost, that would generate tests.json file. This is the data used within the website and can be directly fetched from here. This script take creation of JSON objects for tests by considering their relative position within the hierarchy of tests.
+
+3. File tests.csv: This file is created by running JSON2CSV.R script (from point 1 here). It consists of tests that could be used by Nathalie when tests need to be changed, added or deleted. The numbering scheme is important here.
+
+4. File tests.json: This file is created by running CSV2JSON.R script. This file is used to display the tree structure within the website.
+
+5. File historical.Rdata: This file is created by Nathalie and Joost tobe used within the Statistical algorithm.
+
+
+
+IMPORTANT NOTE:
+##############
+
+MAKE SURE THE VERSIONS OF TESTS.JSON ARE COMPATIBLE WITH HISTORICAL DATA, ELSE WE HAVE WRONG RESULTS OF TESTS.

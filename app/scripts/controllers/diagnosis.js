@@ -1213,7 +1213,9 @@ app.controller('TableController', function($scope) {
    return $scope.patient.test.value;
   };
 
-  this.exportCSV=function(){};
+  this.getPat=function(){
+    return ($scope.patient.id);
+  };
 
   this.submit=function(){
     console.log($scope.patient);
