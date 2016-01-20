@@ -1,0 +1,120 @@
+"","document.id","array.index","tests.label","tests.label.1","tests.label.2","tests.label.3"
+"1",1,1,"Intelligence tests / premorbid IQ tests",NA,"Dutch Adult Reading Test (DART/NART)",NA
+"2",1,2,"Intelligence tests / premorbid IQ tests",NA,"Wechsler Adult Intelligence Scale",NA
+"3",1,3,"Intelligence tests / premorbid IQ tests",NA,"WAIS-NL (1970)",NA
+"4",1,4,"Intelligence tests / premorbid IQ tests",NA,"WAIS-R",NA
+"5",1,5,"Intelligence tests / premorbid IQ tests",NA,"WAIS-III_NL",NA
+"6",1,6,"Intelligence tests / premorbid IQ tests",NA,"WAIS-IV_NL",NA
+"7",1,7,"Intelligence tests / premorbid IQ tests",NA,"Wechsler Memory Scales",NA
+"8",1,8,"Intelligence tests / premorbid IQ tests",NA,"WMS-R_NL",NA
+"9",1,9,"Intelligence tests / premorbid IQ tests",NA,"WMS-III_NL",NA
+"10",1,10,"Intelligence tests / premorbid IQ tests",NA,"Coding Task",NA
+"11",1,11,"Intelligence tests / premorbid IQ tests",NA,"Wechsler Intelligence Scale Children",NA
+"12",1,12,"Intelligence tests / premorbid IQ tests",NA,"WISC_NL",NA
+"13",1,13,"Intelligence tests / premorbid IQ tests",NA,"WISC-R_NL",NA
+"14",1,14,"Intelligence tests / premorbid IQ tests",NA,"WISC-III_NL",NA
+"15",1,15,"Intelligence tests / premorbid IQ tests",NA,"Groninger Intelligentie Test",NA
+"16",1,16,"Intelligence tests / premorbid IQ tests",NA,"GIT1",NA
+"17",1,17,"Intelligence tests / premorbid IQ tests",NA,"Raven Matrices",NA
+"18",1,18,"Intelligence tests / premorbid IQ tests",NA,"Raven Coloured Progressive Matrices (RCPM)",NA
+"19",1,19,"Intelligence tests / premorbid IQ tests",NA,"Raven Standard Progressive Matrices (RSPM)",NA
+"20",1,20,"Intelligence tests / premorbid IQ tests",NA,"Differentiële Aanleg Testserie (DAT):",NA
+"21",1,1,"Language Tests",NA,"Boston Naming Test (BNT)",NA
+"22",1,2,"Language Tests",NA,"Token Test",NA
+"23",1,3,"Language Tests",NA,"Peabody Picture Vocabulary Test-Third Edition (PPVT-III)",NA
+"24",1,1,"Memory Tests",NA,"Verbale Leer en Geheugen Taak (VLGT)",NA
+"25",1,2,"Memory Tests",NA,"(Rey) Auditory Verbal Learning Test (AVLT)",NA
+"26",1,3,"Memory Tests",NA,"10 Word Test (10wt)",NA
+"27",1,4,"Memory Tests",NA,"(Rey) Visual Design Learning Test (VDLT)",NA
+"28",1,5,"Memory Tests",NA,"Rey Complex Figure Task (RCFT)",NA
+"29",1,6,"Memory Tests",NA,"Boston Naming Test (BNT)",NA
+"30",1,7,"Memory Tests",NA,"Rivermead Behaviour Memory Test (RBMT)",NA
+"31",1,8,"Memory Tests",NA,"Benton Visual Retention Task (BVRT)",NA
+"32",1,9,"Memory Tests",NA,"The Enhanced Cued Recall Test (ECR)",NA
+"33",1,10,"Memory Tests",NA,"Visual Association Test (VAT)",NA
+"34",1,11,"Memory Tests",NA,"Corsi Block Tapping Test (Corsi)",NA
+"35",1,12,"Memory Tests",NA,"Fepsy Tapping Test (Fepsy)",NA
+"36",1,13,"Memory Tests",NA,"Self-ordered pointing task (SOP)",NA
+"37",1,14,"Memory Tests",NA,"Location Learning Test (LLT)",NA
+"38",1,15,"Memory Tests",NA,"Selective Reminding Test (SRT)",NA
+"39",1,16,"Memory Tests",NA,"Memory Update (MU)",NA
+"40",1,17,"Memory Tests",NA,"The Doors and People test (Doors)",NA
+"41",1,18,"Memory Tests",NA,"Amsterdamse Korte-Termijn Geheugen Taak (AKGT)",NA
+"42",1,1,"Perception Tests",NA,"Benton’s Judgment of Line Orientation Test (JLO)",NA
+"43",1,2,"Perception Tests",NA,"Degraded Facial Affect Recognition (DFAR)",NA
+"44",1,3,"Perception Tests",NA,"Benton Face Recognition Test (BFRT)",NA
+"45",1,4,"Perception Tests",NA,"Bourdon-Wierma dot cancellation Test (BD): ",NA
+"46",1,5,"Perception Tests",NA,"Bourdon-Vos Test (BVT)",NA
+"47",1,1,"Motor/Praxis Tests",NA,"Grooved Pegboard (GroPeg)",NA
+"48",1,2,"Motor/Praxis Tests",NA,"Purdue Pegboard Test (PPT)",NA
+"49",1,3,"Motor/Praxis Tests",NA,"Vienna Test System (VTS)",NA
+"50",1,4,"Motor/Praxis Tests",NA,"Beery VMI (BVMI)",NA
+"51",1,1,"Attention and Working Memory",NA,"Trail Making Task (TMT)",NA
+"52",1,2,"Attention and Working Memory",NA,"Stroop",NA
+"53",1,3,"Attention and Working Memory",NA,"TestD2",NA
+"54",1,4,"Attention and Working Memory",NA,"Test battery of Attentional Performance (TAP)",NA
+"55",1,5,"Attention and Working Memory",NA,"Paced Auditory Serial Addition Test (PASAT)",NA
+"56",1,6,"Attention and Working Memory",NA,"HQ - Continuous Performance Test (HQ-CPT)",NA
+"57",1,1,"Executive Functions",NA,"Semantic Fluency",NA
+"58",1,2,"Executive Functions",NA,"Letter Fluency",NA
+"59",1,3,"Executive Functions",NA,"The Five Point Test (FPT)",NA
+"60",1,4,"Executive Functions",NA,"Wisconsin card sorting test (WCST)",NA
+"61",1,5,"Executive Functions",NA,"Behavioural Assessment of the Dysexecutive Syndrome (BADS)",NA
+"62",1,6,"Executive Functions",NA,"Ruff Figural Fluency Task (RFFT)",NA
+"63",1,7,"Executive Functions",NA,"Tower of London (TOL)",NA
+"64",1,8,"Executive Functions",NA,"Eriksen Flanker Task (FLANK)",NA
+"65",1,9,"Executive Functions",NA,"Brixton Spatial Anticipation Test (BSAT)",NA
+"66",1,10,"Executive Functions",NA,"Hayling Sentence Completion Test (HSCT)",NA
+"67",1,11,"Executive Functions",NA,"Response shifting task (RST)",NA
+"68",1,1,"Cognitive screening tools / dementia screening",NA,"Mini-Metal state Examination (MMSE)",NA
+"69",1,2,"Cognitive screening tools / dementia screening",NA,"Benton Temporal Orientation Test (BTO)",NA
+"70",1,3,"Cognitive screening tools / dementia screening",NA,"7 minute dementia screen (SevenMin)",NA
+"71",1,4,"Cognitive screening tools / dementia screening",NA,"Cognitieve Screening Test (CST)",NA
+"72",1,5,"Cognitive screening tools / dementia screening",NA,"Cambridge Cognitive Examination (CAMCOG)",NA
+"73",1,6,"Cognitive screening tools / dementia screening",NA,"Montreal Cognitive Assessment (MoCA)",NA
+"74",1,7,"Cognitive screening tools / dementia screening",NA,"Mattis Dementia Scale (MDS)",NA
+"75",1,8,"Cognitive screening tools / dementia screening",NA,"Amsterdamse Dementie Screening Test (ADS)",NA
+"76",1,9,"Cognitive screening tools / dementia screening",NA,"Cognitive Failures Questionnaire (CFQ)",NA
+"77",1,10,"Cognitive screening tools / dementia screening",NA,"Clock drawing",NA
+"78",1,11,"Cognitive screening tools / dementia screening",NA,"Symbol Digit Modalities Test (SDMT)",NA
+"79",1,1,"Social Cognition",NA,"Emotion Recognition Task (ERT)",NA
+"80",1,2,"Social Cognition",NA,"Guilford’s Cartoon Predictions Test (GPT)",NA
+"81",1,3,"Social Cognition",NA,"Happe Cartoon test (HCT)",NA
+"82",1,4,"Social Cognition",NA,"Reading the Mind in the Eyes test (RME)",NA
+"83",1,5,"Social Cognition",NA,"Hinting Task (HT)",NA
+"84",1,1,"Questionnaires depression/anxiety",NA,"Hospital Anxiety Depression Scale (HADS)",NA
+"85",1,2,"Questionnaires depression/anxiety",NA,"Inventory of Depressive Symptomatology (IDS)",NA
+"86",1,3,"Questionnaires depression/anxiety",NA,"Center for Epidemiological Studies Depression Scale (CES-D)",NA
+"87",1,4,"Questionnaires depression/anxiety",NA,"Profile of Mood States (POMS)",NA
+"88",1,5,"Questionnaires depression/anxiety",NA,"Rand Mental Health Inventory (MHI)",NA
+"89",1,6,"Questionnaires depression/anxiety",NA,"Liebowitz Social Anxiety Scale (LSAL)",NA
+"90",1,7,"Questionnaires depression/anxiety",NA,"The AMC Linear Disability Score (ALDS)",NA
+"91",1,8,"Questionnaires depression/anxiety",NA,"The Short Form (36) Health Survey (SF-36)",NA
+"92",1,9,"Questionnaires depression/anxiety",NA,"Symptom Checklist (SCL-90)",NA
+"93",1,10,"Questionnaires depression/anxiety",NA,"NEO Five Factor Inventory (NEO-FFI)",NA
+"94",1,11,"Questionnaires depression/anxiety",NA,"Multidimensional fatigue inventory (MFI-20)",NA
+"95",1,12,"Questionnaires depression/anxiety",NA,"Utrechtse Coping Lijst (UCL)",NA
+"96",1,13,"Questionnaires depression/anxiety",NA,"The World Health Organization Quality of Life (WHOQol)",NA
+"97",1,14,"Questionnaires depression/anxiety",NA,"Becks Anxiety Inventory (BAI)",NA
+"98",1,15,"Questionnaires depression/anxiety",NA,"Becks Depression Inventory (BDI)",NA
+"99",1,16,"Questionnaires depression/anxiety",NA,"Hopkins Symptoms Checklist (HSCL-25)",NA
+"100",1,17,"Questionnaires depression/anxiety",NA,"Cognitive Failures Questionnaire (CFQ)",NA
+"101",1,18,"Questionnaires depression/anxiety",NA,"Checklist Individual Strength (CIS20r)",NA
+"102",1,19,"Questionnaires depression/anxiety",NA,"Assesment of Depression Inventory (ADI)",NA
+"103",1,1,"ADHD / Children",NA,"Wender Utah ADHD Rating Scale (WURS)",NA
+"104",1,2,"ADHD / Children",NA,"Rösler ADHD questionnaire (RAQ)",NA
+"105",1,3,"ADHD / Children",NA,"Connors’ Adult ADHD Rating Scale (CAARS)",NA
+"106",1,4,"ADHD / Children",NA,"ADHD Vragenlijst (AVL)",NA
+"107",1,5,"ADHD / Children",NA,"Vragenlijst voor Inventarisatie van Sociaal Gedrag van Kinderen (VISK)",NA
+"108",1,6,"ADHD / Children",NA,"Strengths & Difficulties Questionnaires (SDQ)",NA
+"109",1,7,"ADHD / Children",NA,"Child Behaviour Checklist (CBCL)",NA
+"110",1,8,"ADHD / Children",NA,"Reynell Developmental Language Scales (RDLS)",NA
+"111",1,9,"ADHD / Children",NA,"Behavior Rating Inventory of Executive Function(BRIEF)",NA
+"112",1,10,"ADHD / Children",NA,"PedsQLTM 4.0",NA
+"113",1,11,"ADHD / Children",NA,"Test of Everyday Attention for Children (TEA-CH)",NA
+"114",1,12,"ADHD / Children",NA,"Disruptive Behavior Disorders (DBD)",NA
+"115",1,13,"ADHD / Children",NA,"Vragenlijst voor Gedragsproblemen bij Kinderen 6-16 jaar (VVGK-16)",NA
+"116",1,14,"ADHD / Children",NA,"Behavior Disorder Scale (BDS)",NA
+"117",1,15,"ADHD / Children",NA,"Leidse Diagnostische Test (LDT)",NA
+"118",1,16,"ADHD / Children",NA,"Children Communication Checklist (CCC)",NA
+"119",1,17,"ADHD / Children",NA,"Gedragsvragenlijst voor Kleuters (GVK)",NA

@@ -24,31 +24,20 @@
                       </div>
                       <div class ="col-sm-6" ng-controller="treeController as treeCtrl ">
                         <h3>Selected Tests</h3>
-                        <script type="text/ng-template"  id="tree_item_renderer">
-                          <span ng-if="data.children.length===0"  ng-click="nodeClicked(data)"  >
-                            <!-- /*<i class="glyphicon-plus"></i> */-->
-                            {{treeCtrl.getSelectedNodes(data)}}
-                          </span>
-                          <div ng-if="data.children" class="some">    
-                              <div ng-if="treeCtrl.getSelectedNodes(data)"  ng-repeat="data in data.children" class="parent_li"  ng-include="'tree_item_renderer'" tree-node>
-                          </div>
-                          </div>
-                        </script>
-                        <div class="tree" style="max-height:500px; overflow-y:auto;">
-                            <div ng-if="treeCtrl.getSelectedNodes(data)" ng-repeat="data in treeCtrl.tests"  ng-include="'tree_item_renderer'"></div>
-                        </div>
+                        <ul width:1em; height:100%; ng-repeat="test in treeCtrl.tests  |filter:{isSelected:true}" style="list-style-type:none"> 
+                        <li width= 100px >{{treeCtrl.getSelectedNodes(test)}}</li>
+                        </ul>
                         <hr>
                       </div>
+            </div>
             <div class="col-sm-12">
                     <button type="button" class="btn btn-previous" ng-click="panel.previous()"> Previous</button>
                     <button type="button" class ="btn btn-next" ng-click="panel.next()"> Next</button> 
-            </div>                     
+            </div>
         </div>
-      </div>
 
         <div class="panel" ng-show="panel.isSelected(2)">
-
-            <form name="patient.form" ng-controller="TableController as tblCtrl"  ng-model="fields" ng-submit="tblCtrl.submit()" novalidate angular-validator>  
+            <form name="patient.form" ng-controller="TableController as tblCtrl" novalidate="novalidate" ng-model="fields" >  
              <div class ="col-sm-6" class="table-responsive">
                 <table class="table table-bordered" export-csv="csv" separator=",">
                   <tr>
@@ -56,15 +45,16 @@
                       <table border=1>
                         <tr>
                           <td colspan="2" >
-                              <tree-grid tree-obj="patient" tree-table="tblCtrl" tree-index="tblCtrl.counterlimit" tree-data="tblCtrl.tree_data" tree-control="tblCtrl.my_tree" col-defs="tblCtrl.col_defs" expand-on="tblCtrl.expanding_property" on-select="tblCtrl.my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon"></tree-grid>
+                              <tree-grid tree-obj="patient" tree-table="tblCtrl" tree-index="tblCtrl.counterlimit" tree-data="tblCtrl.tree_data" tree-control="tblCtrl.my_tree" col-defs="tblCtrl.col_defs" expand-on="tblCtrl.expanding_property" on-select="tblCtrl.my_tree_handler(branch)" expand-level="3" icon-leaf= "glyphicon glyphicon-edit">
+                              </tree-grid>
                           </td>
                         </tr>
                       </table>
                     </td>
                   </tr>
                 </table>
-                  <!--<div> patient_form is {{patient_form.$valid}} </div>
-                  <div>{{tblCtrl.createPatientObject()}}</div>-->
+                  <!--<div> patient_form is {{patient_form.$valid}} </div>-->
+                  <!--<div>{{patient.form}}</div> -->
 
                  <button type="button" class ="btn btn-addPatient" ng-click="tblCtrl.addPatient()"> Add Patient</button> 
                   <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"
@@ -75,6 +65,7 @@
                   <span id="helpblock" class="help-block">
                   If there exists more than three patients. Download this template; fill in the test scores for more patients in each column and upload this file below. Make sure none of the fields are left empty !
                   </span>
+                  <hr>
                 <div class="fileinput fileinput-new" data-provides="fileinput">
                   <span class="btn btn-default btn-file">
                   <input type="file" name="..."></span>
@@ -84,20 +75,19 @@
                   <h3>Advanced Settings</h3>
                   <hr>
                         <label>Statistical significance </label>
-                        <select name="sig" ng-model="patient.sig" class ="form-control" required>
-                          <option value="twoTailed">Two Tailed</option>
+                        <select ng-model="patient.stat.sig" class ="form-control">
+                          <option value="twoTailed">Two Tailed</option>                      
                           <option value="oneTailedRight">One Tailed Right</option> 
                           <option value="oneTailedLeft">One Tailed Left</option>
                         </select>
-                        <span class="has-error" ng-show="patient.form.sig.$error.required">Required</span>
                         <label>Confidence Interval</label>
-                        <select name="conf" ng-model="patient.conf" class ="form-control" required>
+                        <select ng-model="patient.conf.int" class="form-control" >
                           <option value="95">95</option>                      
                           <option value="90">90</option>                      
                           <option value="99">99</option>
                           <option value="99">68</option>
                         </select>
-                        <span class="has-error" ng-show="patient.form.conf.$error.required">Required</span>
+                       <!--<div>{{tblCtrl.createPatientObject()}}</div>-->
                   <hr>
                     <button type="submit" class="btn btn-submit" ng-click="tblCtrl.submit()">Submit</button>
                     <button type="button" class="btn btn-previous" ng-click="panel.previous()"> Previous</button>
@@ -109,7 +99,7 @@
         <div class="panel" ng-show="panel.isSelected(3)">
               <div ng-controller="plotController as plotCtrl" class="col-sm-12">
               <h2>Results Plots</h2>
-                <select ng-model="patient.chart" required ng-change="plotCtrl.lineChart(patient.chart)">
+                <select ng-model="patient.chart" required ng-change="plotCtrl.lineChart(patient.chart)" class="form-control">
                  <option value="line"> Line Chart </option>
                  <option value="radar"> Radar Chart </option>
                 </select>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html ng-app="andiApp">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-tree-control/css/tree-control.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-tree-control/css/tree-control-attribute.css">
+    <link rel="stylesheet" href="bower_components/angular-multi-select-tree/dist/angular-multi-select-tree-0.1.0.css">
+    <link rel="stylesheet" href="bower_components/angular-ivh-treeview/dist/ivh-treeview.css">
+    <link rel="stylesheet" href="bower_components/angular-ivh-treeview/dist/ivh-treeview-theme-basic.css">
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.min.css">
+        <link rel="stylesheet" href="bower_components/angular-bootstrap-grid-tree/src/treeGrid.css">
+
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+
+
+  <body>
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="header">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="#/">andi</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#/about">About Us</a></li>
+              <li class="active"><a href="#/">Diagnosis Tools</a></li>
+              <li class="active"><a href="#/">Contact</a></li>
+              <!--<li><a ng-href="#/about">Contact</a></li>-->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+    <div ng-view=""></div>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p><span class="glyphicon "></span> In collaboration with Netherland eScience Center</p>
+      </div>
+    </div>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jquery-bonsai/jquery.bonsai.js"></script>
+    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
+    <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/opencpu.js/opencpu-0.4.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-ace/ui-ace.js"></script>
+    <script type="text/javascript" src="bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+    <script type="text/javascript" src="bower_components/angular-multi-select-tree/dist/angular-multi-select-tree-0.1.0.js"></script>
+    <script type="text/javascript" src="bower_components/angular-multi-select-tree/dist/angular-multi-select-tree-0.1.0.tpl.js"></script>    
+    <script type="text/javascript" src="bower_components/angular-ivh-treeview/dist/ivh-treeview.js"></script>
+    <script type="text/javascript" src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/build/nv.d3.js"></script> <!-- or use another assembly -->
+    <script type="text/javascript" src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+    <!--  Radar Chart settings-->
+    <script type="text/javascript" src="bower_components/Chart.js/Chart.min.js"></script>
+
+    <script type="text/javascript" src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-bootstrap-grid-tree/src/tree-grid-directive.js"></script>
+    <script type="text/javascript" src="bower_components/ng-table-to-csv/dist/ng-table-to-csv.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/diagnosis.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
