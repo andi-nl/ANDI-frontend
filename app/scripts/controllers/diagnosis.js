@@ -1142,113 +1142,6 @@ app.controller("PanelController",function(){
   };
 });
 
-app.controller('TableController', function($scope) {
-  this.tests=tests;
-  this.tests1 = {'test1':true, 'test2':true, 'test3':false};
-  this.tests2 = {'test1':false, 'test2':true, 'test3':true};
-  this.tabledata= {'0':'Table 0'};
-  this.counter = 2;
-  this.counterlimit = 0;
-  this.patient= pat;
-  var dum={};
-  var tree;
-  this.tree_data = tests;
-  this.submitted = false;
-  this.my_tree = tree = {};
-  this.expanding_property = {
-      field: "label",
-      displayName: "label Name",
-      sortable : true,
-      filterable: true
-  };
-  this.col_defs = [
-      {
-          field: "label",
-          sortable : true,                                        
-          sortingType : "string"
-      },
-  ];
-  this.my_tree_handler = function (branch) {
-      console.log('you clicked on', branch)
-  }
-  this.addPatient=function(){
-      if(this.counter<6){
-        this.counterlimit++;
-        this.tabledata[this.counterlimit] = 'Table '+this.counterlimit;
-        this.counter++;
-      }
-  };
-  // remove the selected column
-  this.removeColumn = function (index) {
-    // remove the column specified in index
-    // you must cycle all the rows and remove the item
-    // row by row
-    //this.tabledata.splice(index, 1);
-    delete this.tabledata[index];
-    delete $scope.patient[index];
-    this.counter--;
-  };
-
-  this.calculateAge = function (birthday) { // birthday is a date
-    //var ageDifMs = Date.now() - birthday.getTime();
-    var ageDifMs = Date.now();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-   };
-
-
-  this.createPatientObject=function(){
-   var age= this.calculateAge();
-   dum= {"patient.id":$scope.patient.id,
-         "patient.age":age,
-         "patient.sex":$scope.patient.sex,
-         "patient.education":$scope.patient.education
-        };
-   return dum;
-  };
-
-  this.createTestObject=function(){
-   return $scope.patient.test.value;
-  };
-
-  this.exportCSV=function(){};
-
-
-  this.getPat=function(){
-    return ($scope.patient.id);
-  };
-
-  this.submit=function(isValid){
-            
-  // check to make sure the form is completely valid
-    if ($scope.patient.form.$invalid) {
-
-    }
-    else{
-      var limit = 1;
-      //for(var i=0;i<(this.counter-1);i++){
-      for (var i in $scope.patient) {
-        if(limit<this.counter){
-          var patientTest = [];
-          for (var key in $scope.patient[i].test) {
-            if ($scope.patient[i].test.hasOwnProperty(key)) {
-              for (var key1 in $scope.patient[i].test[key]) {
-                if ($scope.patient[i].test[key].hasOwnProperty(key1)) {
-                  patientTest.push({id:key,label:key1,value:$scope.patient[i].test[key][key1]});
-                }
-              }
-            }
-          }
-          $scope.patient[i].test= patientTest;
-          limit++;
-        }
-      }
-      console.log($scope.patient);
-    } 
-
-  };
-});
-
 app.controller('treeController', function() {
   this.tests    = tests;
   this.parentchilddata = tests;
@@ -1337,6 +1230,116 @@ app.controller('treeController', function() {
   /////////////////////////////////////////
   // ENDs here make sure you adapt it :-)
 });
+
+app.controller('TableController', function($scope,$http) {
+  this.tests=tests;
+  this.tests1 = {'test1':true, 'test2':true, 'test3':false};
+  this.tests2 = {'test1':false, 'test2':true, 'test3':true};
+  this.tabledata= {'0':'Table 0'};
+  this.counter = 2;
+  this.counterlimit = 0;
+  this.patient= pat;
+  var dum={};
+  var tree;
+  this.tree_data = tests;
+  this.submitted = false;
+  this.my_tree = tree = {};
+  this.expanding_property = {
+      field: "label",
+      displayName: "label Name",
+      sortable : true,
+      filterable: true
+  };
+  this.col_defs = [
+      {
+          field: "label",
+          sortable : true,                                        
+          sortingType : "string"
+      },
+  ];
+  this.my_tree_handler = function (branch) {
+      console.log('you clicked on', branch)
+  }
+  this.addPatient=function(){
+      if(this.counter<6){
+        this.counterlimit++;
+        this.tabledata[this.counterlimit] = 'Table '+this.counterlimit;
+        this.counter++;
+      }
+  };
+  // remove the selected column
+  this.removeColumn = function (index) {
+    // remove the column specified in index
+    // you must cycle all the rows and remove the item
+    // row by row
+    //this.tabledata.splice(index, 1);
+    delete this.tabledata[index];
+    delete $scope.patient[index];
+    this.counter--;
+  };
+
+  this.calculateAge = function (birthday) { // birthday is a date
+    //var ageDifMs = Date.now() - birthday.getTime();
+    var ageDifMs = Date.now();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+   };
+
+
+  this.createPatientObject=function(){
+   var age= this.calculateAge();
+   dum= {"patient.id":$scope.patient.id,
+         "patient.age":age,
+         "patient.sex":$scope.patient.sex,
+         "patient.education":$scope.patient.education
+        };
+   return dum;
+  };
+
+  this.createTestObject=function(){
+   return $scope.patient.test.value;
+  };
+
+  this.exportCSV=function(){};
+
+
+  this.getPat=function(){
+    return ($scope.patient[0]);
+  };
+
+  this.submit=function(isValid){
+            
+  // check to make sure the form is completely valid
+    if ($scope.patient.form.$invalid) {
+
+    }
+    else{
+      var limit = 1;
+      //for(var i=0;i<(this.counter-1);i++){
+      for (var i in $scope.patient) {
+        if(limit<this.counter){
+          var patientTest = [];
+          for (var key in $scope.patient[i].test) {
+            if ($scope.patient[i].test.hasOwnProperty(key)) {
+              for (var key1 in $scope.patient[i].test[key]) {
+                if ($scope.patient[i].test[key].hasOwnProperty(key1)) {
+                  patientTest.push({id:key,label:key1,value:$scope.patient[i].test[key][key1]});
+                }
+              }
+            }
+          }
+          $scope.patient[i].test= patientTest;
+          limit++;
+        }
+      }
+      $http.post("http://127.0.0.1:5000/demoTestScores", $scope.patient)
+      console.log($scope.patient);
+    } 
+
+  };
+});
+
+
 
 
 var pat = [{

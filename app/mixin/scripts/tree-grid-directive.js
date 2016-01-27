@@ -24,7 +24,7 @@ angular
             "           <span class=\"has-error\" ng-show=\"row1.patient.form.id{{row1.treeIndex}}.$error.required\">Required</span> </td>\n"+
             "        </tr>\n" +
             "      <tr>\n" +
-            "        <td>DOB</td>\n" +
+            "        <td>Date of birth</td>\n" +
             "        <td>\n" +
             "        <input type=\"date\" name=\"age{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].age\" required>\n" +
             "           <span class=\"has-error\" ng-show=\"row1.patient.form.age{{row1.treeIndex}}.$error.required\">Required</span> </td>\n" +

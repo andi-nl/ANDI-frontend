@@ -9,7 +9,7 @@ Description of the Files in this directory
 
 4. File tests.json: This file is created by running CSV2JSON.R script. This file is used to display the tree structure within the website.
 
-5. File summaryStatistics.Rdata: This file is created by Nathalie and Joost tobe used within the Statistical algorithm.
+5. File historical.Rdata: This file is created by Nathalie and Joost tobe used within the Statistical algorithm.
 
 
 

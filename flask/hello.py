@@ -1,5 +1,7 @@
 import rpy2
 from flask import Flask
+from flask import request
+from flask import json
 from numpy import *
 import scipy as sp
 from pandas import *
@@ -19,6 +21,11 @@ def run_script():
     ro.r('x[2]=44')
     s = str(ro.r['x'])
     return s
+
+@app.route('/demoTestScores',methods=['POST'])
+def api_demoTestScores():
+    if request.headers['Content-Type']=='application/json':
+        return "JSON Object: " + json.dumps(request.json)
 
 if __name__ == '__main__':
     app.debug=True

@@ -10,6 +10,13 @@
             <div class="tab-pane fade in active" id="tab1">
             <br> <br>
                     <div ng-controller="treeController as treeCtrl " class="col-sm-6">
+                      <h3>Select Nomative data</h3>
+                      <select ng-model="patient.chart" class ="form-control" required ng-change="plotCtrl.lineChart(patient.chart)">
+                      <option value="14-01-2014"> 14-01-2014 </option>
+                      <option value="14-01-2015"> 14-01-2015 </option>
+                      <option value="14-01-2016"> 14-01-2016</option>
+                      </select>
+                      <h3>Search for relevant tests</h3>
                       <input type="text" ng-model="testSearch" class = "form-control" placeholder ="Search for ..."/>
                        <div
                         ivh-treeview-id-attribute="'uuid'"
@@ -63,12 +70,10 @@
                     </td>
                   </tr>
                 </table>
-                  <!--<div> patient_form is {{patient_form.$valid}} </div>
-                  <div>{{tblCtrl.createPatientObject()}}</div>-->
-
+                  <!--<div> patient_form is {{patient_form.$valid}} </div>-->
                  <button type="button" class ="btn btn-addPatient" ng-click="tblCtrl.addPatient()"> Add Patient</button> 
                   <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"
-                     download="myTable.csv">
+                     download="PatientTable.csv">
                     <i class="glyphicon glyphicon-new-window"></i> &#160;Download Template
                   </a>
                   <hr>
@@ -97,6 +102,7 @@
                           <option value="99">99</option>
                           <option value="99">68</option>
                         </select>
+                        <div>{{tblCtrl.getPat()}}</div>
                         <span class="has-error" ng-show="patient.form.conf.$error.required">Required</span>
                   <hr>
                     <button type="submit" class="btn btn-submit" ng-click="tblCtrl.submit()">Submit</button>
@@ -109,8 +115,9 @@
         <div class="panel" ng-show="panel.isSelected(3)">
               <div ng-controller="plotController as plotCtrl" class="col-sm-12">
               <h2>Results Plots</h2>
-                <select ng-model="patient.chart" required ng-change="plotCtrl.lineChart(patient.chart)">
+                <select ng-model="patient.chart" class ="form-control" required ng-change="plotCtrl.lineChart(patient.chart)">
                  <option value="line"> Line Chart </option>
+                 <option value="scatter"> Scatter plot </option>
                  <option value="radar"> Radar Chart </option>
                 </select>
                 <nvd3 options="plotCtrl.options" data="plotCtrl.data"></nvd3>
