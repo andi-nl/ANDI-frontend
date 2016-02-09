@@ -1,0 +1,58 @@
+{
+  "conf":"95",
+  "sig":"twoTailed",
+  "patients":[
+    {
+    "id": "1111",
+    "age": "78",
+    "education": "2",
+    "sex": "0",
+    "test": [
+      {
+        "id": "2-1-5",
+        "value": "",
+        "label": "AVLT total 1-5",
+        "score": "43"
+      },
+      {
+        "id": "6-1-3",
+        "value": "",
+        "label": "Letter Fluency Total Sum 1, 2, 3",
+        "score": "76"
+      },
+      {
+        "id": "5-0-1",
+        "value": "",
+        "label": "Trail Making Test, B",
+        "score": "454"
+      }
+    ]  
+  },
+    {
+    "id": "2222",
+    "age": "75",
+    "education": "1",
+    "sex": "1",
+    "test": [
+      {
+        "id": "2-1-5",
+        "value": "",
+        "label": "AVLT total 1-5",
+        "score": "36"
+      },
+      {
+        "id": "6-1-3",
+        "value": "",
+        "label": "Letter Fluency Total Sum 1, 2, 3",
+        "score": "67"
+      },
+      {
+        "id": "5-0-1",
+        "value": "",
+        "label": "Trail Making Test, B",
+        "score": "54"
+      }
+    ]  
+  }
+]
+}

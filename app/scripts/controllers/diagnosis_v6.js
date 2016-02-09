@@ -232,27 +232,22 @@ app.controller('treeController', function($http,$scope,$timeout) {
                   var data = val.split(',');
                   if(key===1){
                     for(var i=0;i<(data.length-1);i++){
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        jsondata[i] = {}; 
-                        jsondata[i]['test']      = []; 
-                      }
+                      jsondata[i] = {}; 
+                      jsondata[i]['test']      = [];
                     }
                   }
                   if(key<5){
                     for(var i=0;i<(data.length-1);i++){
                       var obj = {};
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        jsondata[i][data[0]] = data[(i+1)];
-                      }
+                      jsondata[i][data[0]] = data[(i+1)];
                     }
                   }
                   else{
                     for(var i=0;i<(data.length-1);i++){
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        var obj = {'label':data[0],'value':data[(i+1)]};
-                        obj.id = findTestId(data[0]);
-                        jsondata[i]['test'].push(obj);
-                      }
+                      var obj = {'label':data[0],'value':data[(i+1)]};
+                      obj.id = findTestId(data[0]);
+
+                      jsondata[i]['test'].push(obj);
                     }
                   }
                 }

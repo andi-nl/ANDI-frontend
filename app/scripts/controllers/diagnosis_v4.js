@@ -8,8 +8,6 @@
  * Controller of the andiApp
  */
 var defaultFolder = '14-01-2016';
-var minval = 0;
-var maxval = 99;
 app.controller("PanelController",function(){
   this.tab=1;
   this.selectTab=function(setTab){
@@ -60,19 +58,18 @@ app.controller('TableController', function($scope) {
 
 app.controller('treeController', function($http,$scope,$timeout) {
   this.tests    = [];
-  this.treeArr  = [];
-  this.rangArr  = {'min':minval,'max':maxval};
+  this.treeArr = [];
   $http.get('data/'+defaultFolder+'/tests.json').success(function (data) 
   {
     $scope.treeCtrl.tests =  data;
-    $scope.patient.nomative = defaultFolder;
+    $scope.patient.normative = defaultFolder;
+    
     $scope.treeCtrl.treeArr = _(data).chain()
                       .zip(_(data).pluck('children'))
                       .flatten()
                       .compact()
                       .value();
   });
-
   $http.get("data/folders.json").then(function(res){
       $scope.folders = {   "type": "select", 
         "value": defaultFolder, 
@@ -105,7 +102,7 @@ app.controller('treeController', function($http,$scope,$timeout) {
     $http.get('data/'+val+'/tests.json').success(function (data) 
     {
       $scope.treeCtrl.tests =  data;
-      $scope.patient.nomative = val;
+      $scope.patient.normative = val;
       $scope.treeCtrl.treeArr = _(data).chain()
                       .zip(_(data).pluck('children'))
                       .flatten()
@@ -225,34 +222,29 @@ app.controller('treeController', function($http,$scope,$timeout) {
               var contents = e.target.result;
               var rows = contents.split('\n');
               var obj = [];
-              var jsondata = {conf:$scope.patient.conf,sig:$scope.patient.sig,nomative:$scope.patient.nomative};
+              var jsondata = {conf:$scope.patient.conf,sig:$scope.patient.sig,normative:$scope.patient.normative};
               var patientIndex;
               angular.forEach(rows, function(val,key) {
                 if(key!==0){
                   var data = val.split(',');
                   if(key===1){
                     for(var i=0;i<(data.length-1);i++){
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        jsondata[i] = {}; 
-                        jsondata[i]['test']      = []; 
-                      }
+                      jsondata[i] = {}; 
+                      jsondata[i]['test']      = [];
                     }
                   }
                   if(key<5){
                     for(var i=0;i<(data.length-1);i++){
                       var obj = {};
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        jsondata[i][data[0]] = data[(i+1)];
-                      }
+                      jsondata[i][data[0]] = data[(i+1)];
                     }
                   }
                   else{
                     for(var i=0;i<(data.length-1);i++){
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        var obj = {'label':data[0],'value':data[(i+1)]};
-                        obj.id = findTestId(data[0]);
-                        jsondata[i]['test'].push(obj);
-                      }
+                      var obj = {'label':data[0],'value':data[(i+1)]};
+                      obj.id = findTestId(data[0]);
+
+                      jsondata[i]['test'].push(obj);
                     }
                   }
                 }
@@ -270,7 +262,7 @@ app.controller('treeController', function($http,$scope,$timeout) {
     else{
       $scope.treeCtrl.submited = true;
       var limit = 1;
-      var patientObj = {conf:$scope.patient.conf,sig:$scope.patient.sig,nomative:$scope.patient.nomative};
+      var patientObj = {conf:$scope.patient.conf,sig:$scope.patient.sig,normative:$scope.patient.normative};
       for (var i in $scope.patient) {
         if(limit<this.counter){
           var patientTest = [];

@@ -66,7 +66,7 @@ angular
             "             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
             "       </td>\n" +
             "       <td ng-repeat=\"col in colDefinitions\">\n" +
-            "         <input ng-disabled=\"isDisabled\" type=\"number\" min=\"{{treeTableControl.rangArr.min}}\" max=\"{{treeTableControl.rangArr.max}}\" name=\"test{{row1.treeIndex}}_{{row.validid}}\"  ng-model=\"row.patient[row1.treeIndex].test[row.branch.id][row.branch.tableId]\" required>\n" +
+            "         <input ng-disabled=\"isDisabled\" type=\"number\" min=\"0\" max=\"99\" name=\"test{{row1.treeIndex}}_{{row.validid}}\"  ng-model=\"row.patient[row1.treeIndex].test[row.branch.id][row.branch.tableId]\" required>\n" +
             "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.validid}}.$error.required && treeTableControl.submited\">Required</span>\n" +
             "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.validid}}.$error.min && treeTableControl.submited\">Enter value between 0 to 99</span>\n" +
             "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.validid}}.$error.max && treeTableControl.submited\">Enter value between 0 to 99</span>\n" +
@@ -346,6 +346,7 @@ angular
               treeTableControl : scope.treeTable,
               treeSubmitted     : scope.treeSubmitted
             }];
+           
             scope.treeTableControl = scope.treeTable;
             scope.treeTableControlIndex  = scope.treeIndex;
 

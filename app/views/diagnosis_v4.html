@@ -69,10 +69,10 @@
                     <table class="">
                     <tr>
                       <td valign="top" ng-repeat="data in treeCtrl.tabledata" class="tableindex{{treeCtrl.counterlimit}}">
-                        <table  ng-attr-export-csv="{{ treeCtrl.counterlimit===0 ? 'csv' : '' }}" separator=","  border="0"   ng-style="{ margin:{{treeCtrl.counterlimit}}===0? '' : '25px 0px 0px 0px' }">
+                        <table  ng-attr-export-csv="{{ treeCtrl.counterlimit===0 ? 'csv' : '' }}" separator=";"  border="0"   ng-style="{ margin:{{treeCtrl.counterlimit}}===0? '' : '25px 0px 0px 0px' }">
                           <tr>
                             <td colspan="2" >
-                                <tree-grid tree-obj="patient" 
+                                <tree-grid tree-obj="patient"
                                  tree-table="treeCtrl" tree-index="treeCtrl.counterlimit" tree-data="treeCtrl.tests" tree-control="treeCtrl.my_tree" col-defs="treeCtrl.col_defs" expand-on="treeCtrl.expanding_property" on-select="treeCtrl.my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon"></tree-grid>
                             </td>
                           </tr>
@@ -88,7 +88,7 @@
                 </a>
                 <button type="button" class ="btn btn-addPatient" ng-click="treeCtrl.addPatient()"> Add Patient</button>
                 <span id="helpblock" class="help-block">
-                "If there exists more than 5 patients. Download this template; fill in the test scores for more patients in each column and upload this file below. Make sure none of the fields are left empty !
+                "If there exists more than three patients. Download this template; fill in the test scores for more patients in each column and upload this file below. Make sure none of the fields are left empty !
                 </span>
                   <div  class="fileinput fileinput-new" data-provides="fileinput">
                     <span class="btn btn-default btn-file">
@@ -99,7 +99,7 @@
                   <h3>Advanced Settings</h3>
                   <hr>
                     <label>Statistical significance </label>
-                    <select name="sig" ng-model="patient.sig"  class ="form-control" required>
+                    <select name="sig" ng-model="patient.sig" required>
                       <option value="twoTailed">Two Tailed</option>
                       <option value="oneTailedRight">One Tailed Right</option> 
                       <option value="oneTailedLeft">One Tailed Left</option>
@@ -107,14 +107,14 @@
                     <span class="has-error" ng-show="treeCtrl.submited && patient.form.sig.$error.required">Required</span>
                     <br><br>
                     <label>Confidence Interval</label>
-                    <select name="conf" ng-model="patient.conf"  class ="form-control" required>
+                    <select name="conf" ng-model="patient.conf" required>
                       <option value="95">95</option>                      
                       <option value="90">90</option>                      
                       <option value="99">99</option>
                       <option value="99">68</option>
                     </select>
 
-                    <input type="hidden"  name="nomative" ng-model="patient.nomative" value="" />
+                    <input type="hidden"  name="normative" ng-model="patient.normative" value="" />
                     <span class="has-error" ng-show="treeCtrl.submited && patient.form.conf.$error.required">Required</span>
                   <hr>
 

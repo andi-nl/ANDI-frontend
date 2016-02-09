@@ -8,8 +8,6 @@
  * Controller of the andiApp
  */
 var defaultFolder = '14-01-2016';
-var minval = 0;
-var maxval = 99;
 app.controller("PanelController",function(){
   this.tab=1;
   this.selectTab=function(setTab){
@@ -60,19 +58,18 @@ app.controller('TableController', function($scope) {
 
 app.controller('treeController', function($http,$scope,$timeout) {
   this.tests    = [];
-  this.treeArr  = [];
-  this.rangArr  = {'min':minval,'max':maxval};
+  this.treeArr = [];
   $http.get('data/'+defaultFolder+'/tests.json').success(function (data) 
   {
     $scope.treeCtrl.tests =  data;
     $scope.patient.nomative = defaultFolder;
+    
     $scope.treeCtrl.treeArr = _(data).chain()
                       .zip(_(data).pluck('children'))
                       .flatten()
                       .compact()
                       .value();
   });
-
   $http.get("data/folders.json").then(function(res){
       $scope.folders = {   "type": "select", 
         "value": defaultFolder, 
@@ -223,36 +220,32 @@ app.controller('treeController', function($http,$scope,$timeout) {
           var r = new FileReader();
           r.onload = function(e) {
               var contents = e.target.result;
+              contents = contents.replace(/,/g, ";");
               var rows = contents.split('\n');
               var obj = [];
               var jsondata = {conf:$scope.patient.conf,sig:$scope.patient.sig,nomative:$scope.patient.nomative};
               var patientIndex;
               angular.forEach(rows, function(val,key) {
                 if(key!==0){
-                  var data = val.split(',');
+                  var data = val.split(';');
                   if(key===1){
                     for(var i=0;i<(data.length-1);i++){
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        jsondata[i] = {}; 
-                        jsondata[i]['test']      = []; 
-                      }
+                      jsondata[i] = {}; 
+                      jsondata[i]['test']      = [];
                     }
                   }
                   if(key<5){
                     for(var i=0;i<(data.length-1);i++){
                       var obj = {};
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        jsondata[i][data[0]] = data[(i+1)];
-                      }
+                      jsondata[i][data[0]] = data[(i+1)];
                     }
                   }
                   else{
                     for(var i=0;i<(data.length-1);i++){
-                      if(data[(i+1)]!==null && data[(i+1)]!==undefined && data[(i+1)]!=='' ){
-                        var obj = {'label':data[0],'value':data[(i+1)]};
-                        obj.id = findTestId(data[0]);
-                        jsondata[i]['test'].push(obj);
-                      }
+                      var obj = {'label':data[0],'value':data[(i+1)]};
+                      obj.id = findTestId(data[0]);
+
+                      jsondata[i]['test'].push(obj);
                     }
                   }
                 }
