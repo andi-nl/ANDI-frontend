@@ -1,0 +1,35 @@
+category.short.name,ID1,ID2
+memory,AVLT,total 1 to 5
+memory,AVLT,delayed recall 1 to 5
+memory,AVLT,recognition 1 to 5
+memory,AVLT,total 1 to 3
+memory,AVLT,delayed recall 1 to 3
+memory,SRT,TR
+memory,SRT,LTR
+memory,SRT,LTS
+memory,SRT,CLTR
+memory,SRT,MCR
+memory,SRT,DR
+memory,RBMT,prose 1 imm recall
+memory,RBMT,prose 1 del rec
+memory,RBMT,prose 2 imm recall
+memory,RBMT,prose 2 del rec
+memory,RBMT,Prose 1 2 imm recall
+memory,RBMT,Prose 1 2 del recall
+attention,TMT,a
+attention,TMT,b
+attention,Stroop,Card I word
+attention,Stroop,Card II color
+attention,Stroop,Card III interference
+Executive,LF,letter 1
+Executive,LF,letter 2
+Executive,LF,letter 3
+Executive,LF,letter 123
+Executive,SF,Animals
+Executive,SF,Occupations
+IQ,RAPM,item shortform
+IQ,DART,raw score
+Cognitive,MMSE,total
+Anxiety,HADS,anxiety
+Anxiety,HADS,depression
+Anxiety,HADS,total

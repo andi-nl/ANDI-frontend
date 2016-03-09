@@ -10,9 +10,9 @@
         <div class="panel" ng-show="panel.isSelected(1)">
             <div class="tab-pane fade in active" id="tab1">
             <br> <br>
-              <div class="col-sm-6">
+              <div class="col-sm-7">
 
-                <h3>Select Normative data</h3>
+                <h3>Normative data</h3>
               
                 <select ng-model="folders.value" 
                         ng-options="v for v in folders.values"
@@ -37,7 +37,7 @@
                   >
                 </div>
               </div>
-              <div class ="col-sm-6">
+              <div class ="col-sm-5">
                 <h3>Selected Tests</h3>
                 <script type="text/ng-template"  id="tree_item_renderer">
                   <span ng-if="data.children.length===0"  ng-click="nodeClicked(data)"  >
@@ -80,13 +80,13 @@
                       </td>
                     </tr>
                   </table>
+                      <button type="button" class ="btn btn-addPatient" ng-click="treeCtrl.addPatient()"> Add Patient</button>
                 </div>
                 </div>
                 <hr>
                 <a class="btn" title="Export Table" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="PatientTable.csv">
                 <i class="glyphicon glyphicon-new-window"></i> Download Template
                 </a>
-                <button type="button" class ="btn btn-addPatient" ng-click="treeCtrl.addPatient()"> Add Patient</button>
                 <span id="helpblock" class="help-block">
                 "If there exists more than 5 patients. Download this template; fill in the test scores for more patients in each column and upload this file below. Make sure none of the fields are left empty !
                 </span>

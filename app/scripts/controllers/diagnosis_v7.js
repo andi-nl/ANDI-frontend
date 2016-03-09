@@ -213,14 +213,6 @@ app.controller('treeController', function($http,$scope,$timeout) {
     this.counter--;
   };
 
-  this.addPatientBtn = function(val){
-    if(val===true){
-        $(".btn-addPatient").show();
-    }
-    else{
-        $(".btn-addPatient").hide();
-    }
-  }
 
   this.submit=function(isValid){
   // check to make sure the form is completely valid

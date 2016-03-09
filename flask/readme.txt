@@ -4,11 +4,13 @@
 # Make sure you install python packages using "conda" using root as login else it does not work !
 
 
+######## For testing purpose ######
 
-Get this paths after starting R
-> R.home(component = "home")
 
-#######################
+# from within Postman use the following url
 
+http://127.0.0.1:5000/formTestScores
+
+Passing the arguments
 
 

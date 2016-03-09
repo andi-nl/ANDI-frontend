@@ -1,0 +1,784 @@
+[
+  {
+    "ID": "mem.AVLT.total_1_to_5",
+    "lowweb": 0,
+    "highweb": 75,
+    "lowborder": 15,
+    "highborder": 75.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "AVLT",
+        "ID2": {
+          "ID2": "total 1 to 5",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Auditory Verbal Learning Test (AVLT)",
+    "Long.name.2": "Total trial 1 to 5",
+    "SPSS.name": "AVLTtotal",
+    "Dataset": "AVLT"
+  },
+  {
+    "ID": "mem.AVLT.delayed_recall_1_to_5",
+    "lowweb": 0,
+    "highweb": 15,
+    "lowborder": 3,
+    "highborder": 15.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "AVLT",
+        "ID2": {
+          "ID2": "delayed recall 1 to 5",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Auditory Verbal Learning Test (AVLT)",
+    "Long.name.2": "Delayed recall 1 to 5",
+    "SPSS.name": "AVLT_delrecal_all",
+    "Dataset": "AVLT"
+  },
+  {
+    "ID": "mem.AVLT.recognition_1_to_5",
+    "lowweb": 0,
+    "highweb": 30,
+    "lowborder": 8,
+    "highborder": 30.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "AVLT",
+        "ID2": {
+          "ID2": "recognition 1 to 5",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Auditory Verbal Learning Test (AVLT)",
+    "Long.name.2": "Recognition 1 to 5",
+    "SPSS.name": "AVLTrecognition",
+    "Dataset": "AVLT"
+  },
+  {
+    "ID": "mem.AVLT.total_1_to_3",
+    "lowweb": 0,
+    "highweb": 45,
+    "lowborder": 8,
+    "highborder": 45.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "AVLT",
+        "ID2": {
+          "ID2": "total 1 to 3",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Auditory Verbal Learning Test (AVLT)",
+    "Long.name.2": "Total trial 1 to 3",
+    "SPSS.name": "AVLT_1_3",
+    "Dataset": "AVLT"
+  },
+  {
+    "ID": "mem.AVLT.del_recall_1_to_3",
+    "lowweb": 0,
+    "highweb": 15,
+    "lowborder": 2,
+    "highborder": 15.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "AVLT",
+        "ID2": {
+          "ID2": "del recall 1 to 3",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Auditory Verbal Learning Test (AVLT)",
+    "Long.name.2": "Delayed recall 1 to 3",
+    "SPSS.name": "AVLTDelayed1_3",
+    "Dataset": "AVLT"
+  },
+  {
+    "ID": "mem.SRT.TR",
+    "lowweb": 0,
+    "highweb": 150,
+    "lowborder": 45,
+    "highborder": 150.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "SRT",
+        "ID2": {
+          "ID2": "TR",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Selective Reminding Test (SRT)",
+    "Long.name.2": "Total recall (TR)",
+    "SPSS.name": "SRT_TR",
+    "Dataset": "SRT"
+  },
+  {
+    "ID": "mem.SRT.LTR",
+    "lowweb": 0,
+    "highweb": 150,
+    "lowborder": 2,
+    "highborder": 150.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "SRT",
+        "ID2": {
+          "ID2": "LTR",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Selective Reminding Test (SRT)",
+    "Long.name.2": "Long Term Retrieval (LTR)",
+    "SPSS.name": "SRT_LTR",
+    "Dataset": "SRT"
+  },
+  {
+    "ID": "mem.SRT.LTS",
+    "lowweb": 0,
+    "highweb": 150,
+    "lowborder": 2,
+    "highborder": 150.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "SRT",
+        "ID2": {
+          "ID2": "LTS",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Selective Reminding Test (SRT)",
+    "Long.name.2": "Long Term Storage (LTS)",
+    "SPSS.name": "SRT_LTS",
+    "Dataset": "SRT"
+  },
+  {
+    "ID": "mem.SRT.CLTR",
+    "lowweb": 0,
+    "highweb": 150,
+    "lowborder": 0,
+    "highborder": 150.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "SRT",
+        "ID2": {
+          "ID2": "CLTR",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Selective Reminding Test (SRT)",
+    "Long.name.2": "Consistent Long Term Retrieval (CLTR)",
+    "SPSS.name": "SRT_CLTR",
+    "Dataset": "SRT"
+  },
+  {
+    "ID": "mem.SRT.MCR",
+    "lowweb": 0,
+    "highweb": 12,
+    "lowborder": 5,
+    "highborder": 12.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "SRT",
+        "ID2": {
+          "ID2": "MCR",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Selective Reminding Test (SRT)",
+    "Long.name.2": "Multiple Choice Recognition (MCR)",
+    "SPSS.name": "SRT_MCR",
+    "Dataset": "SRT"
+  },
+  {
+    "ID": "mem.SRT.DR",
+    "lowweb": 0,
+    "highweb": 12,
+    "lowborder": 1,
+    "highborder": 12.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "SRT",
+        "ID2": {
+          "ID2": "DR",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Selective Reminding Test (SRT)",
+    "Long.name.2": "Delayed Recall (DR)",
+    "SPSS.name": "SRT_DR",
+    "Dataset": "SRT"
+  },
+  {
+    "ID": "mem.RBMT.prose_1_immrec.dummy_var_1",
+    "lowweb": 0,
+    "highweb": 42,
+    "lowborder": 5,
+    "highborder": 42.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "RBMT",
+        "ID2": {
+          "ID2": "prose 1 immrec",
+          "ID3": {
+            "ID3": "dummy var 1"
+          }
+        }
+      }
+    },
+    "Long.name.1": "Rivermead Behaviour Memory Test (RBMT)",
+    "Long.name.2": "prose 1 immediate recall",
+    "SPSS.name": "RBMTpr1immrec",
+    "Dataset": "RBMT"
+  },
+  {
+    "ID": "mem.RBMT.prose_1_delrec",
+    "lowweb": 0,
+    "highweb": 42,
+    "lowborder": 2,
+    "highborder": 42.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "RBMT",
+        "ID2": {
+          "ID2": "prose 1 delrec",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Rivermead Behaviour Memory Test (RBMT)",
+    "Long.name.2": "prose 1 delayed recall",
+    "SPSS.name": "RBMTpr1delrec",
+    "Dataset": "RBMT"
+  },
+  {
+    "ID": "mem.RBMT.prose_2_immrec",
+    "lowweb": 0,
+    "highweb": 42,
+    "lowborder": 5,
+    "highborder": 42.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "RBMT",
+        "ID2": {
+          "ID2": "prose 2 immrec",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Rivermead Behaviour Memory Test (RBMT)",
+    "Long.name.2": "prose 2 immediate recall",
+    "SPSS.name": "RBMTpr2immrec",
+    "Dataset": "RBMT"
+  },
+  {
+    "ID": "mem.RBMT.prose_2_delrec",
+    "lowweb": 0,
+    "highweb": 42,
+    "lowborder": 2,
+    "highborder": 42.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "RBMT",
+        "ID2": {
+          "ID2": "prose 2 delrec",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Rivermead Behaviour Memory Test (RBMT)",
+    "Long.name.2": "prose 2 delayed recall",
+    "SPSS.name": "RBMTpr2delrec",
+    "Dataset": "RBMT"
+  },
+  {
+    "ID": "mem.RBMT.prose_1_plus_pr2_immrec",
+    "lowweb": 0,
+    "highweb": 84,
+    "lowborder": 10,
+    "highborder": 84.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "RBMT",
+        "ID2": {
+          "ID2": "prose 1 plus pr2 immrec",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Rivermead Behaviour Memory Test (RBMT)",
+    "Long.name.2": "prose 1 + 2 immediate recall",
+    "SPSS.name": "RBMTprIMMED",
+    "Dataset": "RBMT"
+  },
+  {
+    "ID": "mem.RBMT.prose_1_plus_pr2_delrec",
+    "lowweb": 0,
+    "highweb": 84,
+    "lowborder": 4,
+    "highborder": 84.001,
+    "category": {
+      "category": "mem",
+      "ID1": {
+        "ID1": "RBMT",
+        "ID2": {
+          "ID2": "prose 1 plus pr2 delrec",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Rivermead Behaviour Memory Test (RBMT)",
+    "Long.name.2": "prose 1 + 2 delayed recall",
+    "SPSS.name": "RBMTprDELAY",
+    "Dataset": "RBMT"
+  },
+  {
+    "ID": "wm.TMT.a",
+    "lowweb": 0,
+    "highweb": 3000,
+    "lowborder": 10,
+    "highborder": 150.001,
+    "category": {
+      "category": "wm",
+      "ID1": {
+        "ID1": "TMT",
+        "ID2": {
+          "ID2": "a",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Trail Making Test",
+    "Long.name.2": "a",
+    "SPSS.name": "TMTa",
+    "Dataset": "TMT"
+  },
+  {
+    "ID": "wm.TMT.b",
+    "lowweb": 0,
+    "highweb": 3000,
+    "lowborder": 10,
+    "highborder": 500.001,
+    "category": {
+      "category": "wm",
+      "ID1": {
+        "ID1": "TMT",
+        "ID2": {
+          "ID2": "b",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Trail Making Test",
+    "Long.name.2": "b",
+    "SPSS.name": "TMTb",
+    "Dataset": "TMT"
+  },
+  {
+    "ID": "wm.Stroop.card_I_word",
+    "lowweb": 0,
+    "highweb": 3000,
+    "lowborder": 30,
+    "highborder": 100.001,
+    "category": {
+      "category": "wm",
+      "ID1": {
+        "ID1": "Stroop",
+        "ID2": {
+          "ID2": "card I word",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Stroop Color - Word Test",
+    "Long.name.2": "Card I word",
+    "SPSS.name": "Stroop_CardI_whole",
+    "Dataset": "Stroop"
+  },
+  {
+    "ID": "wm.Stroop.card_II_color",
+    "lowweb": 0,
+    "highweb": 3000,
+    "lowborder": 30,
+    "highborder": 100.001,
+    "category": {
+      "category": "wm",
+      "ID1": {
+        "ID1": "Stroop",
+        "ID2": {
+          "ID2": "card II color",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Stroop Color - Word Test",
+    "Long.name.2": "Card II color",
+    "SPSS.name": "Stroop_CardII_whole",
+    "Dataset": "Stroop"
+  },
+  {
+    "ID": "wm.Stroop.card_III_interference.dummy_var_2",
+    "lowweb": 0,
+    "highweb": 3000,
+    "lowborder": 30,
+    "highborder": 100.001,
+    "category": {
+      "category": "wm",
+      "ID1": {
+        "ID1": "Stroop",
+        "ID2": {
+          "ID2": "card III interference",
+          "ID3": {
+            "ID3": "dummy var 2"
+          }
+        }
+      }
+    },
+    "Long.name.1": "Stroop Color - Word Test",
+    "Long.name.2": "Card III interference",
+    "SPSS.name": "Stroop_CardIII_whole",
+    "Dataset": "Stroop"
+  },
+  {
+    "ID": "ef.LF.letter_1",
+    "lowweb": 0,
+    "highweb": 60,
+    "lowborder": 3,
+    "highborder": 600.001,
+    "category": {
+      "category": "ef",
+      "ID1": {
+        "ID1": "LF",
+        "ID2": {
+          "ID2": "letter 1",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Letter Fluency",
+    "Long.name.2": "1st letter",
+    "SPSS.name": "LF_letter1",
+    "Dataset": "LF"
+  },
+  {
+    "ID": "ef.LF.letter_2",
+    "lowweb": 0,
+    "highweb": 60,
+    "lowborder": 3,
+    "highborder": 600.001,
+    "category": {
+      "category": "ef",
+      "ID1": {
+        "ID1": "LF",
+        "ID2": {
+          "ID2": "letter 2",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Letter Fluency",
+    "Long.name.2": "2nd letter",
+    "SPSS.name": "LF_letter2",
+    "Dataset": "LF"
+  },
+  {
+    "ID": "ef.LF.letter_3",
+    "lowweb": 0,
+    "highweb": 60,
+    "lowborder": 3,
+    "highborder": 600.001,
+    "category": {
+      "category": "ef",
+      "ID1": {
+        "ID1": "LF",
+        "ID2": {
+          "ID2": "letter 3",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Letter Fluency",
+    "Long.name.2": "3rd letter",
+    "SPSS.name": "LF_letter3",
+    "Dataset": "LF"
+  },
+  {
+    "ID": "ef.LF.total_letter_123",
+    "lowweb": 0,
+    "highweb": 180,
+    "lowborder": 10,
+    "highborder": 180.001,
+    "category": {
+      "category": "ef",
+      "ID1": {
+        "ID1": "LF",
+        "ID2": {
+          "ID2": "total letter 123",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Letter Fluency",
+    "Long.name.2": "total 3 lettters",
+    "SPSS.name": "LF_totalletter123",
+    "Dataset": "LF"
+  },
+  {
+    "ID": "ef.SF.Animals",
+    "lowweb": 0,
+    "highweb": 60,
+    "lowborder": 8,
+    "highborder": 60.001,
+    "category": {
+      "category": "ef",
+      "ID1": {
+        "ID1": "SF",
+        "ID2": {
+          "ID2": "Animals",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Semantic Fluency",
+    "Long.name.2": "total animals 1 minute",
+    "SPSS.name": "Sfanimal",
+    "Dataset": "SF"
+  },
+  {
+    "ID": "ef.SF.Occupations",
+    "lowweb": 0,
+    "highweb": 60,
+    "lowborder": 5,
+    "highborder": 60.001,
+    "category": {
+      "category": "ef",
+      "ID1": {
+        "ID1": "SF",
+        "ID2": {
+          "ID2": "Occupations",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Semantic Fluency",
+    "Long.name.2": "total occupations 1 minute",
+    "SPSS.name": "Sfoccupation",
+    "Dataset": "SF"
+  },
+  {
+    "ID": "iq.RAPM.shortform_12_item",
+    "lowweb": 0,
+    "highweb": 12,
+    "lowborder": 3,
+    "highborder": 120.01,
+    "category": {
+      "category": "iq",
+      "ID1": {
+        "ID1": "RAPM",
+        "ID2": {
+          "ID2": "shortform 12 item",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Raven Advanced Progressive Matrices",
+    "Long.name.2": "12 item short form",
+    "SPSS.name": "RAPM_12itemShort",
+    "Dataset": "Raven"
+  },
+  {
+    "ID": "iq.DART.raw_score",
+    "lowweb": 0,
+    "highweb": 100,
+    "lowborder": 20,
+    "highborder": 100.001,
+    "category": {
+      "category": "iq",
+      "ID1": {
+        "ID1": "DART",
+        "ID2": {
+          "ID2": "raw score",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Dutch Adult Reading Test",
+    "Long.name.2": "raw score",
+    "SPSS.name": "DARTRAW",
+    "Dataset": "DART"
+  },
+  {
+    "ID": "cs.MMSE.total",
+    "lowweb": 0,
+    "highweb": 30,
+    "lowborder": 22,
+    "highborder": 30.001,
+    "category": {
+      "category": "cs",
+      "ID1": {
+        "ID1": "MMSE",
+        "ID2": {
+          "ID2": "total",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Mini-Metal State Examination",
+    "Long.name.2": "total score",
+    "SPSS.name": "MMSETotal",
+    "Dataset": "MMSE"
+  },
+  {
+    "ID": "q.HADS.anxiety",
+    "lowweb": 0,
+    "highweb": 21,
+    "lowborder": 0,
+    "highborder": 9.001,
+    "category": {
+      "category": "q",
+      "ID1": {
+        "ID1": "HADS",
+        "ID2": {
+          "ID2": "anxiety",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Hospital Anxiety Depression Scale",
+    "Long.name.2": "Anxiety scale",
+    "SPSS.name": "HADS_anxiety",
+    "Dataset": "HADS"
+  },
+  {
+    "ID": "q.HADS.depression",
+    "lowweb": 0,
+    "highweb": 21,
+    "lowborder": 0,
+    "highborder": 9.001,
+    "category": {
+      "category": "q",
+      "ID1": {
+        "ID1": "HADS",
+        "ID2": {
+          "ID2": "depression",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Hospital Anxiety Depression Scale",
+    "Long.name.2": "Depression scale",
+    "SPSS.name": "HADS_depression",
+    "Dataset": "HADS"
+  },
+  {
+    "ID": "q.HADS.total",
+    "lowweb": 0,
+    "highweb": 42,
+    "lowborder": 0,
+    "highborder": 13.001,
+    "category": {
+      "category": "q",
+      "ID1": {
+        "ID1": "HADS",
+        "ID2": {
+          "ID2": "total",
+          "ID3": {
+            "ID3": ""
+          }
+        }
+      }
+    },
+    "Long.name.1": "Hospital Anxiety Depression Scale",
+    "Long.name.2": "total score",
+    "SPSS.name": "HADS_total",
+    "Dataset": "HADS"
+  }
+]

@@ -6,8 +6,8 @@ angular
             $templateCache.put('template/treeGrid/treeGrid.html',
             "<div>\n" +
             "<span ng-init=\"pateient_type=1\"  class=\"patientBtn_{{treeTableControlIndex}}\" >\n" +
-            "<label><input type=\"radio\"  ng-change=\"treeTableControl.addPatientBtn(true)\" ng-value=\"true\"/ ng-model=\"pateient_type\" ng-click=\"isDisabled = false;\"  value=\"1\" />Type in data</label>\n" +
-            "<label><input type=\"radio\"  ng-change=\"treeTableControl.addPatientBtn(false)\" ng-value=\"false\"/ ng-model=\"pateient_type\" ng-click=\"isDisabled = true;\"  value=\"2\" />Upload file</label>\n" +
+            "<label><input type=\"radio\" ng-value=\"true\"/ ng-model=\"pateient_type\" ng-click=\"isDisabled = false;\"  value=\"1\" />Patient Form</label>\n" +
+            "<label><input type=\"radio\" ng-value=\"false\"/ ng-model=\"pateient_type\" ng-click=\"isDisabled = true;\"  value=\"2\" />Patient File</label>\n" +
             "</span>\n" +
             "<table ng-style=\"{ width:row1.treeIndex===0? '600px' : '' }\" class=\"table table-bordered\" export-csv=\"csv\" separator=\";\" ng-repeat=\"row1 in tree_field\">\n" +
             "        <tr>\n" +

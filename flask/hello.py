@@ -1,7 +1,7 @@
 import rpy2
 from flask import Flask
 from flask import request
-import json
+import jsonhttp://127.0.0.1:5000/formTestScores
 from numpy import *
 from rpy2.robjects.numpy2ri import numpy2ri
 import scipy as sp
@@ -39,7 +39,7 @@ def api_formTestScores():
         jsonlite=importr('jsonlite')
         mydata= json.dumps(request.json)
         ro.r('mydata <- fromJSON({})'.format(repr(mydata)))
-        ro.r('source("/home/anandgavai/ANDI/flask/functionforANDI5.R")')
+        ro.r('source("/home/anandgavai/ANDI/flask/functionforANDI6.R")')
         # return tobj
         return "ok"
 
