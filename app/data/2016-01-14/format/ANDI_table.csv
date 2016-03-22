@@ -1,0 +1,35 @@
+category short name	ID1	ID2	ID3	category	Long name 1	Long name 2	long name 3	lowweb	highweb	lowborder	highborder	SPSS name	Dataset
+mem	AVLT	total 1 to 5		Memory Tests	Auditory Verbal Learning Test (AVLT)	Total trial 1 to 5		0	75	15	75.001	AVLTtotal	AVLT
+mem	AVLT	delayed recall 1 to 5		Memory Tests	Auditory Verbal Learning Test (AVLT)	Delayed recall 1 to 5		0	15	3	15.001	AVLT_delrecal_all	AVLT
+mem	AVLT	recognition 1 to 5		Memory Tests	Auditory Verbal Learning Test (AVLT)	Recognition 1 to 5		0	30	8	30.001	AVLTrecognition	AVLT
+mem	AVLT	total 1 to 3		Memory Tests	Auditory Verbal Learning Test (AVLT)	Total trial 1 to 3		0	45	8	45.001	AVLT_1_3	AVLT
+mem	AVLT	del recall 1 to 3		Memory Tests	Auditory Verbal Learning Test (AVLT)	Delayed recall 1 to 3		0	15	2	15.001	AVLTDelayed1_3	AVLT
+mem	SRT	TR		Memory Tests	Selective Reminding Test (SRT)	Total recall (TR)		0	150	45	150.001	SRT_TR	SRT
+mem	SRT	LTR		Memory Tests	Selective Reminding Test (SRT)	Long Term Retrieval (LTR)		0	150	2	150.001	SRT_LTR	SRT
+mem	SRT	LTS		Memory Tests	Selective Reminding Test (SRT)	Long Term Storage (LTS)		0	150	2	150.001	SRT_LTS	SRT
+mem	SRT	CLTR		Memory Tests	Selective Reminding Test (SRT)	Consistent Long Term Retrieval (CLTR)		0	150	0	150.001	SRT_CLTR	SRT
+mem	SRT	MCR		Memory Tests	Selective Reminding Test (SRT)	Multiple Choice Recognition (MCR)		0	12	5	12.001	SRT_MCR	SRT
+mem	SRT	DR		Memory Tests	Selective Reminding Test (SRT)	Delayed Recall (DR)		0	12	1	12.001	SRT_DR	SRT
+mem	RBMT	prose 1 immrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 immediate recall		0	42	5	42.001	RBMTpr1immrec	RBMT
+mem	RBMT	prose 1 delrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 delayed recall		0	42	2	42.001	RBMTpr1delrec	RBMT
+mem	RBMT	prose 2 immrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 2 immediate recall		0	42	5	42.001	RBMTpr2immrec	RBMT
+mem	RBMT	prose 2 delrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 2 delayed recall		0	42	2	42.001	RBMTpr2delrec	RBMT
+mem	RBMT	prose 1 plus pr2 immrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 + 2 immediate recall		0	84	10	84.001	RBMTprIMMED	RBMT
+mem	RBMT	prose 1 plus pr2 delrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 + 2 delayed recall		0	84	4	84.001	RBMTprDELAY	RBMT
+wm	TMT	a		Attention and Working Memory	Trail Making Test	a		0	3000	10	150.001	TMTa	TMT
+wm	TMT	b		Attention and Working Memory	Trail Making Test	b		0	3000	10	500.001	TMTa	TMT
+wm	Stroop	card I word		Attention and Working Memory	Stroop Color - Word Test	Card I word		0	3000	30	100.001	Stroop_CardI_whole	Stroop
+wm	Stroop	card II color		Attention and Working Memory	Stroop Color - Word Test	Card II color		0	3000	30	100.001	Stroop_CardII_whole	Stroop
+wm	Stroop	card III interference		Attention and Working Memory	Stroop Color - Word Test	Card III interference		0	3000	30	100.001	Stroop_CardIII_whole	Stroop
+ef	LF	letter 1		Executive Functions	Letter Fluency	1st letter		0	60	3	600.001	LF_letter1	LF
+ef	LF	letter 2		Executive Functions	Letter Fluency	2nd letter		0	60	3	600.001	LF_letter2	LF
+ef	LF	letter 3		Executive Functions	Letter Fluency	3rd letter		0	60	3	600.001	LF_letter3	LF
+ef	LF	total letter 123		Executive Functions	Letter Fluency	total 3 lettters		0	180	10	180.001	LF_totalletter123	LF
+ef	SF	Animals		Executive Functions	Semantic Fluency	total animals 1 minute		0	60	8	60.001	Sfanimal	SF
+ef	SF	Occupations		Executive Functions	Semantic Fluency	total occupations 1 minute		0	60	5	60.001	Sfoccupation	SF
+iq	RAPM	shortform 12 item		(premorbid) IQ tests	Raven Advanced Progressive Matrices	12 item short form		0	12	3	120.01	RAPM_12itemShort	Raven
+iq	DART	raw score		(premorbid) IQ tests	Dutch Adult Reading Test	raw score		0	100	20	100.001	DARTRAW	DART
+cs	MMSE	total		Cognitive screening tools	Mini-Metal State Examination	total score		0	30	22	30.001	MMSETotal	MMSE
+q	HADS	anxiety		Questionnaires depression/anxiety	Hospital Anxiety Depression Scale	Anxiety scale		0	21	0	9.001	HADS_anxiety	HADS
+q	HADS	depression		Questionnaires depression/anxiety	Hospital Anxiety Depression Scale	Depression scale		0	21	0	9.001	HADS_depression	HADS
+q	HADS	total		Questionnaires depression/anxiety	Hospital Anxiety Depression Scale	total score		0	42	0	13.001	HADS_total	HADS

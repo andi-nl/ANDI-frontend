@@ -1,8 +1,9 @@
 #input
 #setwd("C:/Users/jagelin1/Documents/Nan/Non-normality2/RuntheMMNCmodel")
-#library(jsonlite)
+setwd("//home//anandgavai//ANDI//flask")
+library(jsonlite)
 #print(ls())
-#mydata <- fromJSON("2patients.json")
+mydata <- fromJSON("2patients.json")
 
 id <- mydata$patients['id']
 Npatients <- length(id[,1])

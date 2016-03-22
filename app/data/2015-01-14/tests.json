@@ -1,725 +1,297 @@
 [
   {
-    "id": "0",
-    "value": "",
-    "label": "Intelligence tests / premorbid IQ tests",
     "children": [
       {
-        "id": "0-0",
-        "value": "",
-        "label": "Dutch Adult Reading Test (DART/NART)",
-        "children": []
-      },
-      {
-        "id": "0-1",
-        "value": "",
-        "label": "Wechsler Adult Intelligence Scale",
-        "children": []
-      },
-      {
-        "id": "0-2",
-        "value": "",
-        "label": "WAIS-NL (1970)",
         "children": [
           {
-            "id": "0-2-0",
-            "value": "",
-            "label": "WAIS_NL_Digitspan",
-            "children": []
-          },
+            "children": [], 
+            "id": "total 1 to 5", 
+            "label": "Total trial 1 to 5", 
+            "value": ""
+          }, 
           {
-            "id": "0-2-1",
-            "value": "",
-            "label": "WAIS_NL_Information",
-            "children": []
-          },
+            "children": [], 
+            "id": "delayed recall 1 to 5", 
+            "label": "Delayed recall 1 to 5", 
+            "value": ""
+          }, 
           {
-            "id": "0-2-2",
-            "value": "",
-            "label": "WAIS_NL_arithmetic",
-            "children": []
-          },
+            "children": [], 
+            "id": "recognition 1 to 5", 
+            "label": "Recognition 1 to 5", 
+            "value": ""
+          }, 
           {
-            "id": "0-2-3",
-            "value": "",
-            "label": "WAIS_NL_Similarities",
-            "children": []
-          },
+            "children": [], 
+            "id": "total 1 to 3", 
+            "label": "Total trial 1 to 3", 
+            "value": ""
+          }, 
           {
-            "id": "0-2-4",
-            "value": "",
-            "label": "WAIS_NL_Coding",
-            "children": []
-          },
-          {
-            "id": "0-2-5",
-            "value": "",
-            "label": "WAIS_NL_PictureCompletion",
-            "children": []
-          },
-          {
-            "id": "0-2-6",
-            "value": "",
-            "label": "WAIS_NL_BlockDesign",
-            "children": []
+            "children": [], 
+            "id": "del recall 1 to 3", 
+            "label": "Delayed recall 1 to 3", 
+            "value": ""
           }
-        ]
-      },
+        ], 
+        "id": "AVLT", 
+        "label": "Auditory Verbal Learning Test (AVLT)", 
+        "value": ""
+      }, 
       {
-        "id": "0-3",
-        "value": "",
-        "label": "WAIS-R",
         "children": [
           {
-            "id": "0-3-0",
-            "value": "",
-            "label": "WAIS_R_Digitspan",
-            "children": []
-          },
+            "children": [], 
+            "id": "TR", 
+            "label": "Total recall (TR)", 
+            "value": ""
+          }, 
           {
-            "id": "0-3-1",
-            "value": "",
-            "label": "WAIS_R_Coding",
-            "children": []
+            "children": [], 
+            "id": "LTR", 
+            "label": "Long Term Retrieval (LTR)", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "LTS", 
+            "label": "Long Term Storage (LTS)", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "CLTR", 
+            "label": "Consistent Long Term Retrieval (CLTR)", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "MCR", 
+            "label": "Multiple Choice Recognition (MCR)", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "DR", 
+            "label": "Delayed Recall (DR)", 
+            "value": ""
           }
-        ]
-      },
+        ], 
+        "id": "SRT", 
+        "label": "Selective Reminding Test (SRT)", 
+        "value": ""
+      }, 
       {
-        "id": "0-4",
-        "value": "",
-        "label": "WAIS-III_NL",
         "children": [
           {
-            "id": "0-4-0",
-            "value": "",
-            "label": "WAIS_III_NL_VisualPuzzle",
-            "children": []
-          },
+            "children": [], 
+            "id": "prose 1 immrec", 
+            "label": "prose 1 immediate recall", 
+            "value": ""
+          }, 
           {
-            "id": "0-4-1",
-            "value": "",
-            "label": "WAIS_III_NL_Comprehension",
-            "children": []
-          },
+            "children": [], 
+            "id": "prose 1 delrec", 
+            "label": "prose 1 delayed recall", 
+            "value": ""
+          }, 
           {
-            "id": "0-4-2",
-            "value": "",
-            "label": "WAIS_III_NL_SymbolSearch",
-            "children": []
-          },
+            "children": [], 
+            "id": "prose 2 immrec", 
+            "label": "prose 2 immediate recall", 
+            "value": ""
+          }, 
           {
-            "id": "0-4-3",
-            "value": "",
-            "label": "WAIS_III_NL_Information",
-            "children": []
-          },
+            "children": [], 
+            "id": "prose 2 delrec", 
+            "label": "prose 2 delayed recall", 
+            "value": ""
+          }, 
           {
-            "id": "0-4-4",
-            "value": "",
-            "label": "WAIS_III_NL_Arithmetic",
-            "children": []
-          },
+            "children": [], 
+            "id": "prose 1 plus pr2 immrec", 
+            "label": "prose 1 + 2 immediate recall", 
+            "value": ""
+          }, 
           {
-            "id": "0-4-5",
-            "value": "",
-            "label": "WAIS_III_LeNoSeq",
-            "children": []
-          },
-          {
-            "id": "0-4-6",
-            "value": "",
-            "label": "WAIS_III_NL_PictureComplet",
-            "children": []
-          },
-          {
-            "id": "0-4-7",
-            "value": "",
-            "label": "WAIS_III_NL_Similarities",
-            "children": []
-          },
-          {
-            "id": "0-4-8",
-            "value": "",
-            "label": "WAIS_III_NL_Coding",
-            "children": []
-          },
-          {
-            "id": "0-4-9",
-            "value": "",
-            "label": "WAIS_III_NL_Digitspan",
-            "children": []
-          },
-          {
-            "id": "0-4-10",
-            "value": "",
-            "label": "WAIS_III_NL_LetterNumber_Sequencing",
-            "children": []
-          },
-          {
-            "id": "0-4-11",
-            "value": "",
-            "label": "WAIS_III_NL_MatrixReasoning",
-            "children": []
-          },
-          {
-            "id": "0-4-12",
-            "value": "",
-            "label": "WAIS_III_NL_BlockDesign",
-            "children": []
-          },
-          {
-            "id": "0-4-13",
-            "value": "",
-            "label": "WAIS_III_NL_Vocabulary",
-            "children": []
+            "children": [], 
+            "id": "prose 1 plus pr2 delrec", 
+            "label": "prose 1 + 2 delayed recall", 
+            "value": ""
           }
-        ]
-      },
-      {
-        "id": "0-5",
-        "value": "",
-        "label": "WAIS-IV_NL",
-        "children": [
-          {
-            "id": "0-5-0",
-            "value": "",
-            "label": "WAIS-IV_Digitspan",
-            "children": []
-          },
-          {
-            "id": "0-5-1",
-            "value": "",
-            "label": "WAIS-IV Picture Completion",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "0-6",
-        "value": "",
-        "label": "Wechsler Memory Scales",
-        "children": []
-      },
-      {
-        "id": "0-7",
-        "value": "",
-        "label": "WMS-R_NL",
-        "children": [
-          {
-            "id": "0-7-0",
-            "value": "",
-            "label": "WMS_R_NL_WordPairs",
-            "children": []
-          },
-          {
-            "id": "0-7-1",
-            "value": "",
-            "label": "WMS_R_NL_VisualRepro",
-            "children": []
-          },
-          {
-            "id": "0-7-2",
-            "value": "",
-            "label": "WMS_R_NL_Digitspan",
-            "children": []
-          },
-          {
-            "id": "0-7-3",
-            "value": "",
-            "label": "WMS_R_NL_PatternRecognition",
-            "children": []
-          },
-          {
-            "id": "0-7-4",
-            "value": "",
-            "label": "WMS_R_NL_VisualPairedAssociation",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "0-8",
-        "value": "",
-        "label": "WMS-III_NL",
-        "children": [
-          {
-            "id": "0-8-0",
-            "value": "",
-            "label": "WMS_III_NL_SpatialSpan",
-            "children": []
-          },
-          {
-            "id": "0-8-1",
-            "value": "",
-            "label": "WMS_III_NL_FaceRecog",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "0-9",
-        "value": "",
-        "label": "Coding Task",
-        "children": []
-      },
-      {
-        "id": "0-10",
-        "value": "",
-        "label": "Wechsler Intelligence Scale Children",
-        "children": []
-      },
-      {
-        "id": "0-11",
-        "value": "",
-        "label": "WISC_NL",
-        "children": [
-          {
-            "id": "0-11-0",
-            "value": "",
-            "label": "WISC_NL_Mazes",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "0-12",
-        "value": "",
-        "label": "WISC-R_NL",
-        "children": [
-          {
-            "id": "0-12-0",
-            "value": "",
-            "label": "WISC_R_NL_plaatjes",
-            "children": []
-          },
-          {
-            "id": "0-12-1",
-            "value": "",
-            "label": "WISC_R_NL_rekenen",
-            "children": []
-          },
-          {
-            "id": "0-12-2",
-            "value": "",
-            "label": "WISC_R_NL_blokpatronen",
-            "children": []
-          },
-          {
-            "id": "0-12-3",
-            "value": "",
-            "label": "WISC_R_NL_woordenschat",
-            "children": []
-          },
-          {
-            "id": "0-12-4",
-            "value": "",
-            "label": "WISC_R_NL_total",
-            "children": []
-          },
-          {
-            "id": "0-12-5",
-            "value": "",
-            "label": "WISC_R_NL_Mazes",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "0-13",
-        "value": "",
-        "label": "WISC-III_NL",
-        "children": [
-          {
-            "id": "0-13-0",
-            "value": "",
-            "label": "WISC_III_NL_SymbolSubstitution",
-            "children": []
-          },
-          {
-            "id": "0-13-1",
-            "value": "",
-            "label": "WISC_III_NL_plaatjes",
-            "children": []
-          },
-          {
-            "id": "0-13-2",
-            "value": "",
-            "label": "WISC_III_NL_blokpatronen",
-            "children": []
-          },
-          {
-            "id": "0-13-3",
-            "value": "",
-            "label": "WISC_III_NL_rekenen",
-            "children": []
-          },
-          {
-            "id": "0-13-4",
-            "value": "",
-            "label": "WISC_III_NL_woordkennis",
-            "children": []
-          },
-          {
-            "id": "0-13-5",
-            "value": "",
-            "label": "WISC_III_NL_symbolcomparisson",
-            "children": []
-          },
-          {
-            "id": "0-13-6",
-            "value": "",
-            "label": "WISC_III_NL_digitspan",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "0-14",
-        "value": "",
-        "label": "Groninger Intelligentie Test",
-        "children": []
-      },
-      {
-        "id": "0-15",
-        "value": "",
-        "label": "GIT1",
-        "children": [
-          {
-            "id": "0-15-0",
-            "value": "",
-            "label": "GIT1_Legkaarten",
-            "children": []
-          },
-          {
-            "id": "0-15-1",
-            "value": "",
-            "label": "GIT1_Matrijzen",
-            "children": []
-          },
-          {
-            "id": "0-15-2",
-            "value": "",
-            "label": "GIT1_Woordopnoemen",
-            "children": []
-          },
-          {
-            "id": "0-15-3",
-            "value": "",
-            "label": "GIT1_Cijferen",
-            "children": []
-          },
-          {
-            "id": "0-15-4",
-            "value": "",
-            "label": "GIT1_Lijntekeningen",
-            "children": []
-          }
-        ]
-      },
-      {
-        "id": "0-16",
-        "value": "",
-        "label": "Raven Matrices",
-        "children": []
-      },
-      {
-        "id": "0-17",
-        "value": "",
-        "label": "Raven Coloured Progressive Matrices (RCPM)",
-        "children": []
-      },
-      {
-        "id": "0-18",
-        "value": "",
-        "label": "Raven Standard Progressive Matrices (RSPM)",
-        "children": []
-      },
-      {
-        "id": "0-19",
-        "value": "",
-        "label": "Differentiële Aanleg Testserie (DAT):",
-        "children": [
-          {
-            "id": "0-19-0",
-            "value": "",
-            "label": "DAT",
-            "children": []
-          }
-        ]
+        ], 
+        "id": "RBMT", 
+        "label": "Rivermead Behaviour Memory Test (RBMT)", 
+        "value": ""
       }
-    ]
-  },
+    ], 
+    "id": "mem", 
+    "label": "Memory Tests", 
+    "value": ""
+  }, 
   {
-    "id": "5",
-    "value": "",
-    "label": "Attention and Working Memory",
     "children": [
       {
-        "id": "5-0",
-        "value": "",
-        "label": "Trail Making Task (TMT)",
-        "children": []
-      },
+        "children": [
+          {
+            "children": [], 
+            "id": "a", 
+            "label": "a", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "b", 
+            "label": "b", 
+            "value": ""
+          }
+        ], 
+        "id": "TMT", 
+        "label": "Trail Making Test", 
+        "value": ""
+      }, 
       {
-        "id": "5-1",
-        "value": "",
-        "label": "Stroop",
-        "children": []
-      },
-      {
-        "id": "5-2",
-        "value": "",
-        "label": "TestD2",
-        "children": []
-      },
-      {
-        "id": "5-3",
-        "value": "",
-        "label": "Test battery of Attentional Performance (TAP)",
-        "children": []
-      },
-      {
-        "id": "5-4",
-        "value": "",
-        "label": "Paced Auditory Serial Addition Test (PASAT)",
-        "children": []
-      },
-      {
-        "id": "5-5",
-        "value": "",
-        "label": "HQ - Continuous Performance Test (HQ-CPT)",
-        "children": []
+        "children": [
+          {
+            "children": [], 
+            "id": "card I word", 
+            "label": "Card I word", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "card II color", 
+            "label": "Card II color", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "card III interference", 
+            "label": "Card III interference", 
+            "value": ""
+          }
+        ], 
+        "id": "Stroop", 
+        "label": "Stroop Color - Word Test", 
+        "value": ""
       }
-    ]
-  },
+    ], 
+    "id": "wm", 
+    "label": "Attention and Working Memory", 
+    "value": ""
+  }, 
   {
-    "id": "9",
-    "value": "",
-    "label": "Questionnaires depression/anxiety",
     "children": [
       {
-        "id": "9-0",
-        "value": "",
-        "label": "Hospital Anxiety Depression Scale (HADS)",
-        "children": []
-      },
+        "children": [
+          {
+            "children": [], 
+            "id": "letter 1", 
+            "label": "1st letter", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "letter 2", 
+            "label": "2nd letter", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "letter 3", 
+            "label": "3rd letter", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "total letter 123", 
+            "label": "total 3 lettters", 
+            "value": ""
+          }
+        ], 
+        "id": "LF", 
+        "label": "Letter Fluency", 
+        "value": ""
+      }, 
       {
-        "id": "9-1",
-        "value": "",
-        "label": "Inventory of Depressive Symptomatology (IDS)",
-        "children": []
-      },
-      {
-        "id": "9-2",
-        "value": "",
-        "label": "Center for Epidemiological Studies Depression Scale (CES-D)",
-        "children": []
-      },
-      {
-        "id": "9-3",
-        "value": "",
-        "label": "Profile of Mood States (POMS)",
-        "children": []
-      },
-      {
-        "id": "9-4",
-        "value": "",
-        "label": "Rand Mental Health Inventory (MHI)",
-        "children": []
-      },
-      {
-        "id": "9-5",
-        "value": "",
-        "label": "Liebowitz Social Anxiety Scale (LSAL)",
-        "children": []
-      },
-      {
-        "id": "9-6",
-        "value": "",
-        "label": "The AMC Linear Disability Score (ALDS)",
-        "children": []
-      },
-      {
-        "id": "9-7",
-        "value": "",
-        "label": "The Short Form (36) Health Survey (SF-36)",
-        "children": []
-      },
-      {
-        "id": "9-8",
-        "value": "",
-        "label": "Symptom Checklist (SCL-90)",
-        "children": []
-      },
-      {
-        "id": "9-9",
-        "value": "",
-        "label": "NEO Five Factor Inventory (NEO-FFI)",
-        "children": []
-      },
-      {
-        "id": "9-10",
-        "value": "",
-        "label": "Multidimensional fatigue inventory (MFI-20)",
-        "children": []
-      },
-      {
-        "id": "9-11",
-        "value": "",
-        "label": "Utrechtse Coping Lijst (UCL)",
-        "children": []
-      },
-      {
-        "id": "9-12",
-        "value": "",
-        "label": "The World Health Organization Quality of Life (WHOQol)",
-        "children": []
-      },
-      {
-        "id": "9-13",
-        "value": "",
-        "label": "Becks Anxiety Inventory (BAI)",
-        "children": []
-      },
-      {
-        "id": "9-14",
-        "value": "",
-        "label": "Becks Depression Inventory (BDI)",
-        "children": []
-      },
-      {
-        "id": "9-15",
-        "value": "",
-        "label": "Hopkins Symptoms Checklist (HSCL-25)",
-        "children": []
-      },
-      {
-        "id": "9-16",
-        "value": "",
-        "label": "Cognitive Failures Questionnaire (CFQ)",
-        "children": []
-      },
-      {
-        "id": "9-17",
-        "value": "",
-        "label": "Checklist Individual Strength (CIS20r)",
-        "children": []
-      },
-      {
-        "id": "9-18",
-        "value": "",
-        "label": "Assesment of Depression Inventory (ADI)",
-        "children": []
+        "children": [
+          {
+            "children": [], 
+            "id": "Animals", 
+            "label": "total animals 1 minute", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "Occupations", 
+            "label": "total occupations 1 minute", 
+            "value": ""
+          }
+        ], 
+        "id": "SF", 
+        "label": "Semantic Fluency", 
+        "value": ""
       }
-    ]
-  },
+    ], 
+    "id": "ef", 
+    "label": "Executive Functions", 
+    "value": ""
+  }, 
   {
-    "id": "10",
-    "value": "",
-    "label": "ADHD / Children",
     "children": [
       {
-        "id": "10-0",
-        "value": "",
-        "label": "Wender Utah ADHD Rating Scale (WURS)",
-        "children": []
-      },
+        "children": [], 
+        "id": "RAPM", 
+        "label": "Raven Advanced Progressive Matrices", 
+        "value": ""
+      }, 
       {
-        "id": "10-1",
-        "value": "",
-        "label": "Rösler ADHD questionnaire (RAQ)",
-        "children": []
-      },
-      {
-        "id": "10-2",
-        "value": "",
-        "label": "Connors’ Adult ADHD Rating Scale (CAARS)",
-        "children": []
-      },
-      {
-        "id": "10-3",
-        "value": "",
-        "label": "ADHD Vragenlijst (AVL)",
-        "children": []
-      },
-      {
-        "id": "10-4",
-        "value": "",
-        "label": "Vragenlijst voor Inventarisatie van Sociaal Gedrag van Kinderen (VISK)",
-        "children": []
-      },
-      {
-        "id": "10-5",
-        "value": "",
-        "label": "Strengths & Difficulties Questionnaires (SDQ)",
-        "children": []
-      },
-      {
-        "id": "10-6",
-        "value": "",
-        "label": "Child Behaviour Checklist (CBCL)",
-        "children": []
-      },
-      {
-        "id": "10-7",
-        "value": "",
-        "label": "Reynell Developmental Language Scales (RDLS)",
-        "children": []
-      },
-      {
-        "id": "10-8",
-        "value": "",
-        "label": "Behavior Rating Inventory of Executive Function(BRIEF)",
-        "children": []
-      },
-      {
-        "id": "10-9",
-        "value": "",
-        "label": "PedsQLTM 4.0",
-        "children": []
-      },
-      {
-        "id": "10-10",
-        "value": "",
-        "label": "Test of Everyday Attention for Children (TEA-CH)",
-        "children": []
-      },
-      {
-        "id": "10-11",
-        "value": "",
-        "label": "Disruptive Behavior Disorders (DBD)",
-        "children": []
-      },
-      {
-        "id": "10-12",
-        "value": "",
-        "label": "Vragenlijst voor Gedragsproblemen bij Kinderen 6-16 jaar (VVGK-16)",
-        "children": []
-      },
-      {
-        "id": "10-13",
-        "value": "",
-        "label": "Behavior Disorder Scale (BDS)",
-        "children": []
-      },
-      {
-        "id": "10-14",
-        "value": "",
-        "label": "Leidse Diagnostische Test (LDT)",
-        "children": []
-      },
-      {
-        "id": "10-15",
-        "value": "",
-        "label": "Children Communication Checklist (CCC)",
-        "children": []
-      },
-      {
-        "id": "10-16",
-        "value": "",
-        "label": "Gedragsvragenlijst voor Kleuters (GVK)",
-        "children": []
+        "children": [], 
+        "id": "DART", 
+        "label": "Dutch Adult Reading Test", 
+        "value": ""
       }
-    ]
+    ], 
+    "id": "iq", 
+    "label": "(premorbid) IQ tests", 
+    "value": ""
+  }, 
+  {
+    "children": [], 
+    "id": "cs", 
+    "label": "Cognitive screening tools", 
+    "value": ""
+  }, 
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [], 
+            "id": "anxiety", 
+            "label": "Anxiety scale", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "depression", 
+            "label": "Depression scale", 
+            "value": ""
+          }, 
+          {
+            "children": [], 
+            "id": "total", 
+            "label": "total score", 
+            "value": ""
+          }
+        ], 
+        "id": "HADS", 
+        "label": "Hospital Anxiety Depression Scale", 
+        "value": ""
+      }
+    ], 
+    "id": "q", 
+    "label": "Questionnaires depression/anxiety", 
+    "value": ""
   }
 ]

@@ -1,0 +1,35 @@
+category short name,ID1,ID2,ID3,ID4,lowweb,highweb,lowborder,highborder,category,Long name 1,Long name 2,Long name 3,Long name 4,SPSS name,Dataset
+m,AVLT,total 1 to 5,,,0,75,15,75.001,Memory Tests,Auditory Verbal Learning Test (AVLT),Total trial 1 to 5,,,AVLTtotal,AVLT
+m,AVLT,delayed recall 1 to 5,,,0,15,3,15.001,Memory Tests,Auditory Verbal Learning Test (AVLT),Delayed recall 1 to 5,,,AVLT_delrecal_all,AVLT
+m,AVLT,recognition 1 to 5,,,0,30,8,30.001,Memory Tests,Auditory Verbal Learning Test (AVLT),Recognition 1 to 5,,,AVLTrecognition,AVLT
+m,AVLT,total 1 to 3,,,0,45,8,45.001,Memory Tests,Auditory Verbal Learning Test (AVLT),Total trial 1 to 3,,,AVLT_1_3,AVLT
+m,AVLT,del recall 1 to 3,default value 3,default value 4,0,15,2,15.001,Memory Tests,Auditory Verbal Learning Test (AVLT),Delayed recall 1 to 3,,,AVLTDelayed1_3,AVLT
+m,SRT,TR,,,0,150,45,150.001,Memory Tests,Selective Reminding Test (SRT),Total recall (TR),,,SRT_TR,SRT
+m,SRT,LTR,,,0,150,2,150.001,Memory Tests,Selective Reminding Test (SRT),Long Term Retrieval (LTR),,,SRT_LTR,SRT
+m,SRT,LTS,,,0,150,2,150.001,Memory Tests,Selective Reminding Test (SRT),Long Term Storage (LTS),,,SRT_LTS,SRT
+m,SRT,CLTR,,,0,150,0,150.001,Memory Tests,Selective Reminding Test (SRT),Consistent Long Term Retrieval (CLTR),,,SRT_CLTR,SRT
+m,SRT,MCR,,,0,12,5,12.001,Memory Tests,Selective Reminding Test (SRT),Multiple Choice Recognition (MCR),,,SRT_MCR,SRT
+m,SRT,DR,,,0,12,1,12.001,Memory Tests,Selective Reminding Test (SRT),Delayed Recall (DR),,,SRT_DR,SRT
+m,RBMT,prose 1 immrec,,,0,42,5,42.001,Memory Tests,Rivermead Behaviour Memory Test (RBMT),prose 1 immediate recall,,,RBMTpr1immrec,RBMT
+m,RBMT,prose 1 delrec,,,0,42,2,42.001,Memory Tests,Rivermead Behaviour Memory Test (RBMT),prose 1 delayed recall,,,RBMTpr1delrec,RBMT
+m,RBMT,prose 2 immrec,,,0,42,5,42.001,Memory Tests,Rivermead Behaviour Memory Test (RBMT),prose 2 immediate recall,,,RBMTpr2immrec,RBMT
+m,RBMT,prose 2 delrec,,,0,42,2,42.001,Memory Tests,Rivermead Behaviour Memory Test (RBMT),prose 2 delayed recall,,,RBMTpr2delrec,RBMT
+m,RBMT,prose 1 plus pr2 immrec,,,0,84,10,84.001,Memory Tests,Rivermead Behaviour Memory Test (RBMT),prose 1 + 2 immediate recall,,,RBMTprIMMED,RBMT
+m,RBMT,prose 1 plus pr2 delrec,,,0,84,4,84.001,Memory Tests,Rivermead Behaviour Memory Test (RBMT),prose 1 + 2 delayed recall,,,RBMTprDELAY,RBMT
+wm,TMT,a,,,0,3000,10,150.001,Attention and Working Memory,Trail Making Test,a,,,TMTa,TMT
+wm,TMT,b,,,0,3000,10,500.001,Attention and Working Memory,Trail Making Test,b,,,TMTb,TMT
+wm,Stroop,card I word,,,0,3000,30,100.001,Attention and Working Memory,Stroop Color - Word Test,Card I word,,,Stroop_CardI_whole,Stroop
+wm,Stroop,card II color,,,0,3000,30,100.001,Attention and Working Memory,Stroop Color - Word Test,Card II color,,,Stroop_CardII_whole,Stroop
+wm,Stroop,card III interference,,,0,3000,30,100.001,Attention and Working Memory,Stroop Color - Word Test,Card III interference,,,Stroop_CardIII_whole,Stroop
+ef,LF,letter 1,,,0,60,3,600.001,Executive Functions,Letter Fluency,1st letter,,,LF_letter1,LF
+ef,LF,letter 2,default value 7,default value 8,0,60,3,600.001,Executive Functions,Letter Fluency,2nd letter,,,LF_letter2,LF
+ef,LF,letter 3,,,0,60,3,600.001,Executive Functions,Letter Fluency,3rd letter,,,LF_letter3,LF
+ef,LF,total letter 123,,,0,180,10,180.001,Executive Functions,Letter Fluency,total 3 lettters,,,LF_totalletter123,LF
+ef,SF,Animals,,,0,60,8,60.001,Executive Functions,Semantic Fluency,total animals 1 minute,,,Sfanimal,SF
+ef,SF,Occupations,,,0,60,5,60.001,Executive Functions,Semantic Fluency,total occupations 1 minute,,,Sfoccupation,SF
+iq,RAPM,shortform 12 item,,,0,12,3,120.01,(premorbid) IQ tests,Raven Advanced Progressive Matrices,12 item short form,,,RAPM_12itemShort,Raven
+iq,DART,raw score,,,0,100,20,100.001,(premorbid) IQ tests,Dutch Adult Reading Test,raw score,,,DARTRAW,DART
+cs,MMSE,total,,,0,30,22,30.001,Cognitive screening tools,Mini-Metal State Examination,total score,,,MMSETotal,MMSE
+q,HADS,anxiety,,,0,21,0,9.001,Questionnaires depression/anxiety,Hospital Anxiety Depression Scale,Anxiety scale,,,HADS_anxiety,HADS
+q,HADS,depression,,,0,21,0,9.001,Questionnaires depression/anxiety,Hospital Anxiety Depression Scale,Depression scale,,,HADS_depression,HADS
+q,HADS,total,,,0,42,0,13.001,Questionnaires depression/anxiety,Hospital Anxiety Depression Scale,total score,,,HADS_total,HADS
