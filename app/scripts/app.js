@@ -15,7 +15,6 @@ var app =angular.module('andiApp', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'xeditable',
     'ui.bootstrap',
     'ivh.treeview',
     'ui.ace',
@@ -42,8 +41,5 @@ var app =angular.module('andiApp', [
       .otherwise({
         redirectTo: '/'
       });
-      
+
   });
-
-
-
