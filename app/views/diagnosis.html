@@ -1,10 +1,10 @@
 <section ng-controller="PanelController as panel">
-    <ul class="nav nav-pills">
-        <li ng-class="{acive:panel.isSelected(1)}"> <a href ng-click="panel.selectTab(1)">Test Selection</a></li>
+    <ul class="nav nav-tabs">
+        <li ng-class="{acive:panel.isSelected(1)}" class="active"> <a href ng-click="panel.selectTab(1)" data-toggle="tab">Test Selection</a></li>
 
-        <li ng-class="{acive:panel.isSelected(2)}"><a href ng-click="panel.selectTab(2)">Demographics and Data Entry</a></li>
+        <li ng-class="{acive:panel.isSelected(2)}"><a href ng-click="panel.selectTab(2)" data-toggle="tab" >Demographics and Data Entry</a></li>
         
-        <li ng-class="{acive:panel.isSelected(3)}"><a href ng-click="panel.selectTab(3)">Results</a></li>
+        <li ng-class="{acive:panel.isSelected(3)}"><a href ng-click="panel.selectTab(3)" data-toggle="tab">Results</a></li>
 
       <div  ng-controller="treeController as treeCtrl">
         <div class="panel" ng-show="panel.isSelected(1)">
@@ -24,7 +24,8 @@
                 </select> -->
 
                 <h3>Search for relevant tests</h3>
-                <input type="text" ng-model="testSearch" class = "form-control" placeholder ="Search for ..."/>
+                <input type="text" ng-model="testSearch" class = "form-control" 
+                ng-keyup="treeCtrl.treeExpanded()" placeholder ="Search for ..."/>
                  <div
                   ivh-treeview-id-attribute="'uuid'"
                   ivh-treeview="treeCtrl.tests"
@@ -61,18 +62,27 @@
             </div>
         </div>
 
-        <div class="panel col-sm-12 col-xs-12 col-lg-12" ng-show="panel.isSelected(2)">
+        <div class="panel col-sm-12 col-xs-12 col-lg-12" ng-show="panel.isSelected(2)" class="tab-pane fade in active">
             <form name="patient.form" ng-model="fields" ng-submit="treeCtrl.submit()" novalidate angular-validator>  
               <div class="table-responsive" >
+                
+                <span ng-init="pateient_type=1"  class="" >
+                  <label><input type="radio"  ng-change="btnAddPatient=false" ng-value="true" ng-model="pateient_type" ng-click="isDisabled = false;"  value="1" />Do you want to type in data</label>
+
+                  <label><input type="radio"  ng-change="btnAddPatient=true" ng-value="false" ng-model="pateient_type" ng-click="isDisabled = true;"  value="2" />Do you want to upload file</label>
+                </span>
+
                 <div>
                   <div style="width:auto;overflow:auto;">
                     <table class="">
+
                     <tr>
                       <td valign="top" ng-repeat="data in treeCtrl.tabledata" class="tableindex{{treeCtrl.counterlimit}}">
-                        <table  ng-attr-export-csv="{{ treeCtrl.counterlimit===0 ? 'csv' : '' }}" separator=","  border="0"   ng-style="{ margin:{{treeCtrl.counterlimit}}===0? '' : '25px 0px 0px 0px' }">
+                        <table  ng-attr-export-csv="{{ treeCtrl.counterlimit===0 ? 'csv' : '' }}" separator=","  border="0">
                           <tr>
                             <td colspan="2" >
                                 <tree-grid tree-obj="patient" 
+                                tree-disable="isDisabled"
                                  tree-table="treeCtrl" tree-index="treeCtrl.counterlimit" tree-data="treeCtrl.tests" tree-control="treeCtrl.my_tree" col-defs="treeCtrl.col_defs" expand-on="treeCtrl.expanding_property" on-select="treeCtrl.my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon"></tree-grid>
                             </td>
                           </tr>
@@ -80,21 +90,28 @@
                       </td>
                     </tr>
                   </table>
-                      <button type="button" class ="btn btn-addPatient" ng-click="treeCtrl.addPatient()"> Add Patient</button>
+                     
                 </div>
+                 <button type="button"  ng-hide="btnAddPatient" class ="btn" ng-click="treeCtrl.addPatient()"> Add Patient</button>
                 </div>
                 <hr>
                 <a class="btn" title="Export Table" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="PatientTable.csv">
-                <i class="glyphicon glyphicon-new-window"></i> Download Template
+                <i class="glyphicon glyphicon-download-alt"></i> Download Template
                 </a>
-                <span id="helpblock" class="help-block">
-                "If there exists more than 5 patients. Download this template; fill in the test scores for more patients in each column and upload this file below. Make sure none of the fields are left empty !
-                </span>
+                <div class="alert alert-info">
+                  <strong>Information!</strong> If there exists more than 5 patients. Download this template; fill in the test scores for more patients in each column and upload this file. Make sure none of the fields are left empty !
+                </div>
+
                   <div  class="fileinput fileinput-new" data-provides="fileinput">
                     <span class="btn btn-default btn-file">
                     <input type="file" name="..." id="fileContent" ></span>
                     <span class="fileinput-filename"></span>
+                    <a class="btn" title="Upload to Table" ng-click="treeCtrl.uploadCsv()">
+                      <i class="glyphicon glyphicon-upload"></i> Upload data
+                    </a>
                   </div>
+
+
                   <br><br>
                   <h3>Advanced Settings</h3>
                   <hr>
