@@ -5,37 +5,34 @@ angular
       function ($templateCache) {
             $templateCache.put('template/treeGrid/treeGrid.html',
             "<div>\n" +
-            "<span ng-init=\"pateient_type=1\"  class=\"patientBtn_{{treeTableControlIndex}}\" >\n" +
-            "<label><input type=\"radio\"  ng-change=\"treeTableControl.addPatientBtn(true)\" ng-value=\"true\"/ ng-model=\"pateient_type\" ng-click=\"isDisabled = false;\"  value=\"1\" />Type in data</label>\n" +
-            "<label><input type=\"radio\"  ng-change=\"treeTableControl.addPatientBtn(false)\" ng-value=\"false\"/ ng-model=\"pateient_type\" ng-click=\"isDisabled = true;\"  value=\"2\" />Upload file</label>\n" +
-            "</span>\n" +
             "<table ng-style=\"{ width:row1.treeIndex===0? '600px' : '' }\" class=\"table table-bordered\" export-csv=\"csv\" separator=\";\" ng-repeat=\"row1 in tree_field\">\n" +
             "        <tr>\n" +
             "         <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\">Demographics</td>\n" +
             "         <td ng-if=\"row1.treeIndex === 0\">Patient</td>\n" +
             "         <td ng-if=\"row1.treeIndex !== 0\">\n" +
             "           <div ng-if=\"row1.treeIndex !== 0\">\n" +
-            "             <button class=\"remBtn\"  ng-click=\"row1.treeTableControl.removeColumn(row1.treeIndex)\">Remove</button>\n" +
+            "           <span ng-show=\"treeDisable\" >Patient</span>\n" +
+            "             <button ng-hide=\"treeDisable\" class=\"remBtn\"  ng-click=\"row1.treeTableControl.removeColumn(row1.treeIndex)\">Remove</button>\n" +
             "           </div>\n" +
             "         </td>\n" +
             "        </tr>\n" +
             "        <tr>\n" +
             "          <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\">id</td>\n" +
             "          <td>\n" +
-            "          <input ng-disabled=\"isDisabled\"  type=\"text\" name=\"id{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].id\" required>\n" +
+            "          <input ng-disabled=\"treeDisable\"  type=\"text\" name=\"id{{row1.treeIndex}}\" id=\"id{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].id\" required>\n" +
             "           <span class=\"has-error\" ng-show=\"row1.patient.form.id{{row1.treeIndex}}.$error.required && treeTableControl.submited\">Required</span> </td>\n"+
             "        </tr>\n" +
             "      <tr>\n" +
             "        <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\">age</td>\n" +
             "        <td>\n" +
-            "        <input ng-disabled=\"isDisabled\" type=\"date\" name=\"age{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].age\" required>\n" +
+            "        <input ng-disabled=\"treeDisable\" type=\"date\" name=\"age{{row1.treeIndex}}\" id=\"age{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].age\" required>\n" +
             "           <span class=\"has-error\" ng-show=\"row1.patient.form.age{{row1.treeIndex}}.$error.required && treeTableControl.submited\">Required</span> </td>\n" +
             "        </td>\n" +
             "      </tr>\n" +
             "      <tr>\n" +
             "        <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\">sex</td>\n" +
             "        <td>\n" +
-            "          <select ng-disabled=\"isDisabled\" name=\"sex{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].sex\" required>\n" +
+            "          <select ng-disabled=\"treeDisable\" name=\"sex{{row1.treeIndex}}\" id=\"sex{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].sex\" required>\n" +
             "                  <option value=\"0\"> Male </option>\n" +
             "                  <option value=\"1\"> Female</option> \n" +
             "                </select>\n" +
@@ -45,7 +42,7 @@ angular
             "      <tr>\n" +
             "          <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\">education</td>\n" +
             "          <td>\n" +
-            "            <select ng-disabled=\"isDisabled\" name=\"education{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].education\" required>\n" +
+            "            <select ng-disabled=\"treeDisable\" name=\"education{{row1.treeIndex}}\" id=\"education{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].education\" required>\n" +
             "              <option value=\"1\"> Verhage 1 </option>\n" +
             "              <option value=\"2\"> Verhage 2 </option>\n" +
             "              <option value=\"3\"> Verhage 3</option> \n" +
@@ -59,18 +56,15 @@ angular
             "      </tr>\n" +
             "     <tr ng-repeat=\"row in tree_rows | searchFor:$parent.filterString:expandingProperty:colDefinitions track by row.branch.uid\"\n" +
             "      ng-if=\"row.branch.isSelected && row.branch.level!==1\"  ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? 'active':'')\" class=\"tree-grid-row\">\n" +
-            "       <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\" colspan=\"{{row.colspan}}\" ><a class=\"myselector{{ row.level }}\" ng-click=\"user_clicks_branch(row.branch);  $event.stopPropagation();\"><i ng-class=\"row.tree_icon\"\n" +
-            "              ng-click=\"row.branch.expanded = !row.branch.expanded\"\n" +
-            "              class=\"indented tree-icon\"></i>\n" +
-            "           </a><span class=\"indented tree-label\" ng-click=\"on_user_click(row.branch)\">\n" +
+            "       <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\" colspan=\"{{row.colspan}}\" ><span class=\"indented tree-label\" ng-click=\"on_user_click(row.branch)\">\n" +
             "             {{row.branch[expandingProperty.field] || row.branch[expandingProperty]}}</span>\n" +
             "       </td>\n" +
             "       <td ng-repeat=\"col in colDefinitions\">\n" +
-            "         <input ng-disabled=\"isDisabled\" type=\"number\" min=\"{{treeTableControl.rangArr.min}}\" max=\"{{treeTableControl.rangArr.max}}\" name=\"test{{row1.treeIndex}}_{{row.validid}}\"  ng-model=\"row.patient[row1.treeIndex].test[row.branch.id][row.branch.tableId]\" required>\n" +
-            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.validid}}.$error.required && treeTableControl.submited\">Required</span>\n" +
-            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.validid}}.$error.min && treeTableControl.submited\">Enter value between 0 to 99</span>\n" +
-            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.validid}}.$error.max && treeTableControl.submited\">Enter value between 0 to 99</span>\n" +
-            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.validid}}.$error.number && treeTableControl.submited\">Not valid number!</span> </td>\n" +
+            "         <input ng-model=\"row1.patient[row1.treeIndex].test[row.id]\" name=\"test{{row1.treeIndex}}_{{row.id}}\" id=\"test{{row1.treeIndex}}_{{row.id}}\"  ng-disabled=\"treeDisable\" type=\"number\" min=\"{{row.branch.lowweb}}\" max=\"{{row.branch.highweb}}\" required>\n" +
+            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.id}}.$error.required && treeTableControl.submited\">Required</span>\n" +
+            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.id}}.$error.min && treeTableControl.submited\">Enter value between {{row.branch.lowweb}} to {{row.branch.highweb}}</span>\n" +
+            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.id}}.$error.max && treeTableControl.submited\">Enter value between {{row.branch.lowweb}} to {{row.branch.highweb}}</span>\n" +
+            "          <span class=\"has-error\" ng-show=\"row1.patient.form.test{{row1.treeIndex}}_{{row.id}}.$error.number && treeTableControl.submited\">Not valid number!</span> </td>\n" +
             "       </td>\n" +
             "     </tr>\n" +
             " </table>\n" +
@@ -122,6 +116,7 @@ angular
             treeIndex       : '=',
             treeData        : '=',
             treeObj         : '=',
+            treeDisable         : '=',
             treeTable       : '=',
             colDefs         : '=',
             expandOn        : '=',
@@ -339,7 +334,6 @@ angular
             };
 
             scope.tree_rows = [];
-
             scope.tree_field = [{
               treeIndex: scope.treeIndex,
               patient  : scope.treeObj,
@@ -363,7 +357,7 @@ angular
                 return b.tableId = (b.label).replace(/ /g,"_");
               });
               for_each_branch(function (b) {
-                return b.validid = (b.id).replace("-","");
+                return b.validid = (b.id).replace(/ /g,"");
               });
 
               for_each_branch(function (b) {
@@ -426,7 +420,7 @@ angular
                 branch.level = level;
                 if(branch.isSelected && branch.children.length===0 ){
                   scope.tree_rows.push({
-                    id       : (branch.id).replace("-", ""),
+                    id       : (branch.id).replace(/ /g,"_"),
                     level    : level,
                     branch   : branch,
                     label    : branch.label,
@@ -435,7 +429,7 @@ angular
                     treeIndex: scope.treeIndex,
                     patient  : scope.treeObj,
                     colspan   : (branch.children.length>0)?2:1,
-                    validid : (branch.id).replace(/-/g,""),
+                    validid : (branch.id).replace(/ /g,""),
                   });
                 }
                 if (branch.children != null) {
