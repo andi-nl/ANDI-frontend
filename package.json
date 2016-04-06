@@ -2,6 +2,7 @@
   "name": "andi",
   "private": true,
   "devDependencies": {
+    "connect": "^3.4.1",
     "grunt": "^1.0.1",
     "grunt-angular-templates": "^1.0.3",
     "grunt-autoprefixer": "^3.0.4",
@@ -31,6 +32,7 @@
     "karma-jasmine": "*",
     "karma-phantomjs-launcher": "*",
     "phantomjs-prebuilt": "^2.1.7",
+    "serve-static": "^1.10.2",
     "time-grunt": "^1.0.0"
   },
   "engines": {
