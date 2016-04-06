@@ -37,11 +37,13 @@ def api_demoTestScores():
 def api_formTestScores():
     if request.headers['Content-Type']=='application/json':
         jsonlite=importr('jsonlite')
-        mydata= json.dumps(request.json)
-        ro.r('mydata <- fromJSON({})'.format(repr(mydata)))
-        ro.r('source("/home/anandgavai/ANDI/flask/functionforANDI6.R")')
-        # return tobj
-        return "ok"
+        myJSON= json.dumps(request.json)
+        ro.r('myJSON <- fromJSON({})'.format(repr(myJSON)))
+        ro.r('source("/home/anandgavai/ANDI/flask/functionforANDIthatgivesbacktestindex.R")')
+        t = json.dumps(ro.r('myFunc(myJSON)'))
+        #return ro.r('whichtestindexes')
+        print t
+        return t
 
 if __name__ == '__main__':
     app.debug=True
