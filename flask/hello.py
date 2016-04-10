@@ -39,11 +39,11 @@ def api_formTestScores():
         jsonlite=importr('jsonlite')
         myJSON= json.dumps(request.json)
         ro.r('myJSON <- fromJSON({})'.format(repr(myJSON)))
-        ro.r('source("/home/anandgavai/ANDI/flask/functionforANDIthatgivesbacktestindex.R")')
-        t = json.dumps(ro.r('myFunc(myJSON)'))
+        ro.r('source("/home/anandgavai/ANDI/flask/functionforANDIscriptfullyfunctional.R")')
+        t = json.dumps(ro.r('prettify(myFunc(myJSON))'))
         #return ro.r('whichtestindexes')
         print t
-        return t
+        return 'OK'
 
 if __name__ == '__main__':
     app.debug=True
