@@ -3,3 +3,9 @@
 /.tmp
 /.sass-cache
 /bower_components
+
+# vim temp files
+*.*~
+
+# R related files
+.Rhistory
