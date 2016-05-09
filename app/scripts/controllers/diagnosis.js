@@ -56,22 +56,22 @@ app.controller('TableController', function($scope) {
   };
 });
 
-app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
+app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q) {
   this.tests    = [];
   this.treeArr  = [];
   this.txtvalue = '';
   this.txtReplace = '';
   this.isExpanded = false;
-  $http.get('data/'+defaultFolder+'/tests.json').success(function (data) 
+  $http.get('data/'+defaultFolder+'/tests.json').success(function (data)
   {
     $scope.treeCtrl.tests =  data;
     $scope.patient.nomative = defaultFolder;
   });
 
   $http.get("data/folders.json").then(function(res){
-      $scope.folders = {   "type": "select", 
-        "value": defaultFolder, 
-        "values": res.data 
+      $scope.folders = {   "type": "select",
+        "value": defaultFolder,
+        "values": res.data
       };
   });
 
@@ -83,7 +83,7 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
   this.col_defs = [
       {
           field: "label",
-          sortable : true,                                        
+          sortable : true,
           sortingType : "string"
       },
   ];
@@ -95,13 +95,13 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
   };
   this.submited = false;
   this.selectedNode = {'total1to5': "", 'delayedrecall1to5': "", 'recognition1to5': "", 'total1to3': "", 'delrecall1to3': ""};
-  
+
 
   this.my_tree_handler = function (branch) {
       console.log('you clicked on', branch)
   }
   this.getTreeData = function(val){
-    $http.get('data/'+val+'/tests.json').success(function (data) 
+    $http.get('data/'+val+'/tests.json').success(function (data)
     {
       $scope.treeCtrl.tests =  data;
       $scope.patient.nomative = val;
@@ -147,14 +147,14 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
       return node.id;
     };
   };
-  /// Important function for tree traversal 
+  /// Important function for tree traversal
   var arr=[];
   this.process = function(key,value) {
       arr.push(key + " : "+value);
   };
   this.traverse = function(o,func) {
       for (var i in o) {
-          func.apply(this,[i,o[i]]);  
+          func.apply(this,[i,o[i]]);
           if (o[i] !== null && typeof(o[i])=="object") {
               //going on step down in the object tree!!
               traverse(o[i],func);
@@ -165,7 +165,7 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
     for (var i in tests){
       if (tests[i] !==null && typeof(tests[i]=="object")){
        for (j in tests.children){
-       }   
+       }
       }
     }
   };
@@ -277,10 +277,10 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
           console.log(data);
       })
       .error(function (data, status, header, config) {
-        console.log(data);  
+        console.log(data);
       });
 
-    } 
+    }
   };
 
   this.uploadCsv = function(){
@@ -298,7 +298,7 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
       $scope.opts.resolve.item = function() {
         return angular.copy({name:$scope.name}); // pass name to Dialog
       }
-      var modalInstance = $modal.open($scope.opts);
+      var modalInstance = $uibModal.open($scope.opts);
       modalInstance.result.then(function(obj){
         $scope.treeCtrl.txtvalue = obj.txtvalue;
         var replacearr = obj.txtvalue.split(",");
@@ -354,17 +354,17 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
                         $scope.patient[j-1][data[0]] = fieldVal;
                         $('#'+data[0]+(j-1)).val(data[j]);
                       }
-                    } 
+                    }
                   }
                   $('.remBtn').parent().html('Patient');
-                  $("#fileContent").val(''); 
+                  $("#fileContent").val('');
                 }, 50);
               }
 
             });
         };
-        r.readAsText(files[0]);  
-            //on ok button press 
+        r.readAsText(files[0]);
+            //on ok button press
       },function(){
             //on cancel button press
             console.log("Modal Closed");
@@ -398,7 +398,7 @@ app.controller('treeController', function($http,$scope,$timeout,$modal,$q) {
     });
   }
 
-  var ModalInstanceCtrl = function($scope, $modalInstance, $modal) {
+  var ModalInstanceCtrl = function($scope, $modalInstance, $uibModal) {
     $scope.ok = function () {
       $modalInstance.close({txtvalue:$('#txtvalue').val()});
     };
@@ -497,5 +497,5 @@ app.controller('plotController', function($scope){
       ];
     }
   };
-  
+
 });
