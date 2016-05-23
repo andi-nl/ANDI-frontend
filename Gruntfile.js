@@ -1,12 +1,10 @@
 // Generated on 2015-09-21 using generator-angular 0.12.1
 'use strict';
-
 // # Globbing
 // for performance reasons we're only matching one level down:
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
-
 module.exports = function (grunt) {
 
   // need serve-static, static is not part of connect any more
@@ -14,26 +12,21 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
-
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn'
   });
-
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
     dist: 'dist'
   };
-
   // Define the configuration for all the tasks
   grunt.initConfig({
-
     // Project settings
     yeoman: appConfig,
-
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       bower: {
@@ -69,7 +62,6 @@ module.exports = function (grunt) {
         ]
       }
     },
-
     // The actual grunt server settings
     connect: {
       options: {
@@ -120,7 +112,6 @@ module.exports = function (grunt) {
         }
       }
     },
-
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
@@ -376,6 +367,11 @@ module.exports = function (grunt) {
           expand: true,
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
+          dest: '<%= yeoman.dist %>'
+        },{
+          expand: true,
+          cwd: 'app',
+          src: 'data/{,*/}*.*',
           dest: '<%= yeoman.dist %>'
         }]
       },
