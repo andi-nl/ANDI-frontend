@@ -15,12 +15,13 @@ var app = angular.module('andiApp', [
   'ngRoute',
   'ngSanitize',
   'ngTouch',
+  'xeditable',
   'ui.bootstrap',
   'ivh.treeview',
   'ui.ace',
-  'treeGrid'
+  'treeGrid',
+  'ngTableToCsv'
 ]);
-
 //Setting for RCtrl
 
 app.config(function($routeProvider) {

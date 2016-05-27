@@ -1,7 +1,49 @@
-app.factory('diagnosisService', ['$window', function(win) {
+'use strict';
+app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q) {
    
    var factory = {};
    
+   factory.getTest = function(defaultFolder){
+      return $q(function (resolve, reject)
+        {
+          $http.get('data/'+defaultFolder+'/tests.json')
+          .success(function (data) 
+          {
+            var dataObj = {};
+            dataObj.data = data;
+            dataObj.defaultFolder = defaultFolder;
+            resolve(dataObj);
+          })
+          .error(function (data, status) {
+              if (status == 403)
+              {
+                  reject("wrong token");
+              }
+          });
+        });
+   }
+
+   factory.getRelease = function(defaultFolder){
+      return $q(function (resolve, reject)
+        {
+          $http.get("data/release.json")
+          .success(function(res){
+              resolve( {   
+                "type": "select", 
+                "value": defaultFolder, 
+                "values": res 
+              });
+          })
+          .error(function (data, status) {
+              if (status == 403)
+              {
+                  reject("wrong token");
+              }
+          });
+
+        });
+   }
+
    factory.lineChart = function(patientStats) {
    		$('#lines-graph').html('');
       	var margin = {
@@ -13,7 +55,6 @@ app.factory('diagnosisService', ['$window', function(win) {
         var width = 1000 - margin.left - margin.right;
         var height = 550 - margin.top - margin.bottom;
         var color = d3.scale.category10();
-		// patients array
         var patients = _.map(patientStats, function(patient) {
           return patient.id;
         });
@@ -202,7 +243,6 @@ app.factory('diagnosisService', ['$window', function(win) {
           var subp = _.pick(p, multiVarCols);
           return Object.values(subp);
         });
-
         // add tables
         $("#uni-var-table").dataTable({
           bFilter: false,
@@ -230,6 +270,5 @@ app.factory('diagnosisService', ['$window', function(win) {
    return factory;
 
 }]);
-
 
 
