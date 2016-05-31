@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
   <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
   <link rel="stylesheet" href="bower_components/mocha/mocha.css" />
-  <link rel="stylesheet" href="bower_components/angular-bootstrap-grid-tree/src/treeGrid.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -46,6 +45,7 @@
           </a>
           <a class="navbar-brand" href="#/"></a>
         </div>
+
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
         </div>
       </div>
@@ -63,6 +63,8 @@
   </div>
   <!-- build:js(.) scripts/vendor.js -->
   <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -70,8 +72,6 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
   <script src="bower_components/angular-touch/angular-touch.js"></script>
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/jquery-bonsai/jquery.bonsai.js"></script>
   <script src="bower_components/angular-ui-ace/ui-ace.js"></script>
   <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
@@ -86,17 +86,15 @@
   <script src="bower_components/tg-angular-validator/dist/angular-validator.js"></script>
   <script src="bower_components/mocha/mocha.js"></script>
   <script src="bower_components/chai/chai.js"></script>
-  <script src="bower_components/angular-bootstrap-grid-tree/src/tree-grid-directive.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/app.js"></script>
   <script src="scripts/controllers/diagnosis.js"></script>
-    <script src="scripts/service/diagnosisService.js"></script>
+  <script src="scripts/service/diagnosisService.js"></script>  
+  <script src="scripts/directive/ng-table-to-csv.js"></script>
+  <script type="text/javascript" src="scripts/directive/tree-grid-directive.js"></script>
   <!-- endbuild -->
-    <script type="text/javascript" src="scripts/directive/tree-grid-directive.js"></script>
-     <script src="scripts/directive/ng-table-to-csv.js"></script>
-    
 </body>
 
 </html>
