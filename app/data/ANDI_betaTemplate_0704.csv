@@ -1,0 +1,24 @@
+category short name	ID1	ID2	ID3	category	Long name 1	Long name 2	long name 3	lowweb	highweb	lowborder	highborder	SPSS name	Dataset	computed_variable_arguments	dutch_alias	description
+m	AVLT	total 1 to 5		Memory Tests	Auditory Verbal Learning Test (AVLT)	Total trial 1 to 5		0	75	15	75.001	AVLTtotal	AVLT		15WT	totaal van trial 1 tot en met 5
+m	AVLT	delayed recall 1 to 5		Memory Tests	Auditory Verbal Learning Test (AVLT)	Delayed recall 1 to 5		0	15	3	15.001	AVLT_delrecal_all	AVLT		15WT	uitgestelde recall 
+m	AVLT	recognition 1 to 5		Memory Tests	Auditory Verbal Learning Test (AVLT)	Recognition 1 to 5		0	30	8	30.001	AVLTrecognition	AVLT		15WT	herkenning
+m	RBMT	prose 1 immrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 immediate recall		0	42	5	42.001	RBMTpr1immrec	RBMT		RBMT	Verhaal 1 onmiddelijke reproductie
+m	RBMT	prose 1 delrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 delayed recall		0	42	2	42.001	RBMTpr1delrec	RBMT		RBMT	Verhaal 1 uitgestelde reproductie
+m	RBMT	prose 2 immrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 2 immediate recall		0	42	5	42.001	RBMTpr2immrec	RBMT		RBMT	Verhaal 2 onmiddelijke reproductie
+m	RBMT	prose 2 delrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 2 delayed recall		0	42	2	42.001	RBMTpr2delrec	RBMT		RBMT	Verhaal 2 uitgestelde reproductie
+m	RBMT	prose 1 plus pr2 immrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 + 2 immediate recall		0	84	10	84.001	RBMTprIMMED	RBMT			
+m	RBMT	prose 1 plus pr2 delrec		Memory Tests	Rivermead Behaviour Memory Test (RBMT)	prose 1 + 2 delayed recall		0	84	4	84.001	RBMTprDELAY	RBMT			
+wm	TMT	a		Attention and Working Memory	Trail Making Test	a		0	3000	10	150.001	TMTa	TMT		TMT	trial A in seconden
+wm	TMT	b		Attention and Working Memory	Trail Making Test	b		0	3000	10	500.001	TMTb	TMT		TMT	trial B in seconden
+wm	Stroop	card I word		Attention and Working Memory	Stroop Color - Word Test	Card I word		0	3000	30	100.001	Stroop_CardI_whole	Stroop		Stroop	Kaart I woorden in seconden
+wm	Stroop	card II color		Attention and Working Memory	Stroop Color - Word Test	Card II color		0	3000	30	100.001	Stroop_CardII_whole	Stroop		Stroop	Kaart II kleur in seconden
+wm	Stroop	card III interference		Attention and Working Memory	Stroop Color - Word Test	Card III interference		0	3000	30	500.001	Stroop_CardIII_whole	Stroop		Stroop	Kaart III inteferentie
+ef	LF	letter 1		Executive Functions	Letter Fluency	1st letter		0	60	3	600.001	LF_letter1	LF		Letter vloeiendheid	eerste letter in 60 sec
+ef	LF	letter 2		Executive Functions	Letter Fluency	2nd letter		0	60	3	600.001	LF_letter2	LF		Letter vloeiendheid	tweede letter in 60 sec
+ef	LF	letter 3		Executive Functions	Letter Fluency	3rd letter		0	60	3	600.001	LF_letter3	LF		Letter vloeiendheid	derde letter in 60 sec
+ef	LF	total letter 123		Executive Functions	Letter Fluency	total 3 letters		0	180	10	180.001	LF_totalletter123	LF		Letter vloeiendheid	Totaal 3 letters
+ef	SF	Animals		Executive Functions	Semantic Fluency	total animals 1 minute		0	60	8	60.001	Sfanimal	SF		semantische vloeiendheid	aantal dieren in 60 sec
+iq	DART	raw score		(premorbid) IQ tests	Dutch Adult Reading Test	raw score		0	100	20	100.001	DARTRAW	DART		NLV	ruwe score
+q	HADS	anxiety		Questionnaires depression/anxiety	Hospital Anxiety Depression Scale	Anxiety scale		0	21	0	9.001	HADS_anxiety	HADS		HADS	Angst schaal
+q	HADS	depression		Questionnaires depression/anxiety	Hospital Anxiety Depression Scale	Depression scale		0	21	0	9.001	HADS_depression	HADS		HADS	Depressie schaal
+q	HADS	total		Questionnaires depression/anxiety	Hospital Anxiety Depression Scale	total score		0	42	0	13.001	HADS_total	HADS		HADS	totaal angst en depressie
