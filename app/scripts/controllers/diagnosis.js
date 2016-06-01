@@ -179,26 +179,17 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       return [a, b];
   };
   this.addPatient=function(){
-     // if(this.counter<6){
         this.counterlimit++;
         this.tabledata[this.counterlimit] = 'Table '+this.counterlimit;
         this.counter++;
         
-      /*}
-      else{
-        $(".alertMessage").show(); 
-        this.alertMessage = 'You Have Not Enter More Than 5 Patient';
-        $timeout(function () { 
-          $(".alertMessage").hide(); 
-        }, 5000); 
-      }*/
   };
   // remove the selected column
   this.removeColumn = function (index) {
     // remove the column specified in index
     // you must cycle all the rows and remove the item
     // row by row
-    //this.tabledata.splice(index, 1);
+
     delete this.tabledata[index];
     delete $scope.patient[index];
     this.counter--;
@@ -418,20 +409,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       }
     });
   };
-/*
 
-  var ModalInstanceCtrl = ['$scope', '$uibModalInstance', 'items', function ($scope, $modalInstance, items) { 
-    $scope.ok = function () {
-      $modalInstance.close({txtvalue:$('#txtvalue').val()});
-    };
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-  }];*/
-  //////////////////////////////////////////////////
-  ////////////////////////////////////////////
-  /////////////////////////////////////////
-  // ENDs here make sure you adapt it :-)
 });
 
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
@@ -459,12 +437,6 @@ app.controller('plotController', function($scope,$http,diagnosisService){
     }
     else{
       var patientObj = $scope.$parent.submitData;
-      /*$http.get('data/patientoutput2.json').success(function (data) 
-      {
-        diagnosisService.lineChart(data);
-      });*/
-
-
       var config = {
           headers: {
             'Content-Type': 'application/json;'
