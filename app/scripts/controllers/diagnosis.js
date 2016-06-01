@@ -179,46 +179,34 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       return [a, b];
   };
   this.addPatient=function(){
-      if(this.counter<6){
         this.counterlimit++;
         this.tabledata[this.counterlimit] = 'Table '+this.counterlimit;
         this.counter++;
-      }
-      else{
-        $(".alertMessage").show(); 
-        this.alertMessage = 'You Have Not Enter More Than 5 Patient';
-        $timeout(function () { 
-          $(".alertMessage").hide(); 
-        }, 5000); 
-      }
+        
   };
   // remove the selected column
   this.removeColumn = function (index) {
     // remove the column specified in index
     // you must cycle all the rows and remove the item
     // row by row
-    //this.tabledata.splice(index, 1);
+
     delete this.tabledata[index];
     delete $scope.patient[index];
     this.counter--;
   };
 
   this.disableDate = function(index){
-    if($scope.patient.form.age0.$viewValue!==''){
+    if($scope.patient.form['age'+index].$viewValue!==''){
       $('#birthdate'+index).attr('disabled',true);
       $('#testdate'+index).attr('disabled',true);
-      $scope.patient.form['birthdate'+index].$setValidity('required',false);
-      $scope.patient.form['testdate'+index].$setValidity('required',false);
-      $scope.patient.form.birthdate0.$setViewValue('1992-05-06');
-      $scope.patient.form.testdate0.$setViewValue('1992-05-06');
+      $scope.patient.form['birthdate'+index].$setViewValue('1992-05-06');
+      $scope.patient.form['testdate'+index].$setViewValue('1992-05-06');
     }
     else{
       $('#birthdate'+index).attr('disabled',false);
       $('#testdate'+index).attr('disabled',false); 
-      $scope.patient.form['birthdate'+index].$setValidity('required',true);
-      $scope.patient.form['testdate'+index].$setValidity('required',true);
-      $scope.patient.form.birthdate0.$setViewValue('');
-      $scope.patient.form.testdate0.$setViewValue('');
+      $scope.patient.form['birthdate'+index].$setViewValue('');
+      $scope.patient.form['testdate'+index].$setViewValue('');
     }
   };
 
@@ -310,19 +298,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                   size: '',
                   resolve: {
                   }
-              };/*{
-        backdrop: true,
-        backdropClick: true,
-        dialogFade: false,
-        keyboard: true,
-        templateUrl : 'views/replaceViewDialog.html',
-        controller : ModalInstanceCtrl,
-        resolve: {} // empty storage
-      };*/
-      /*$scope.opts.resolve.item = function() {
-        return angular.copy({name:$scope.name}); // pass name to Dialog
-      };*/
-      //var modalInstance = $uibModal.open($scope.opts);
+              };
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'views/replaceViewDialog.html',
@@ -331,7 +307,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         resolve: {
         }
       });
-
       modalInstance.result.then(function (obj) {
         $scope.treeCtrl.txtvalue = obj.txtvalue;
         var replacearr = obj.txtvalue.split(",");
@@ -363,7 +338,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                   for(var j=0;j<data.length;j++){
                     var fieldVal = '';
                     if(data[j]!=='' && j!==0){
-                      if(key>6){
+                      if(key>4){
                         var field = data[0];//data[0].replace(/ /g,"_");//'#test'+j+'_'+data[0].replace(/ /g,"");
                         fieldVal = data[j];//parseInt(data[j]);
                         if ($.inArray(fieldVal, replacearr) >= 0) {
@@ -379,11 +354,15 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                       else{
                         $scope.patient.form[data[0]+(j-1)].$setViewValue(data[j]);
                         fieldVal = data[j];
-                        if(data[0]==='birthdate' || data[0]==='testdate'){
-                          $scope.patient[j-1][data[0]] = new Date(data[j]);
+                        if(data[0]==='age'){
+                          $('#birthdate'+(j-1)).attr('disabled',true);
+                          $('#testdate'+(j-1)).attr('disabled',true);
+                          $scope.patient.form['birthdate'+(j-1)].$setViewValue('1992-05-06');
+                          $scope.patient.form['testdate'+(j-1)].$setViewValue('1992-05-06');
+                          fieldVal = parseInt(fieldVal);
                         }
-                        else{
-                          $scope.patient[j-1][data[0]] = fieldVal;
+                        if(data[0]==='sex' || data[0]==='education'){
+                          fieldVal = parseInt(fieldVal);
                         }
                         document.getElementById(data[0]+(j-1)).value = fieldVal;
                         //$('#'+data[0]+(j-1)).val(data[j]);
@@ -400,7 +379,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         r.readAsText(files[0]);  
         $('.fileinput').hide();
       }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
+        console.log('Modal dismissed at: ' + new Date());
       });
 
     }
@@ -430,20 +409,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       }
     });
   };
-/*
 
-  var ModalInstanceCtrl = ['$scope', '$uibModalInstance', 'items', function ($scope, $modalInstance, items) { 
-    $scope.ok = function () {
-      $modalInstance.close({txtvalue:$('#txtvalue').val()});
-    };
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-  }];*/
-  //////////////////////////////////////////////////
-  ////////////////////////////////////////////
-  /////////////////////////////////////////
-  // ENDs here make sure you adapt it :-)
 });
 
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
@@ -471,12 +437,6 @@ app.controller('plotController', function($scope,$http,diagnosisService){
     }
     else{
       var patientObj = $scope.$parent.submitData;
-      /*$http.get('data/patientoutput2.json').success(function (data) 
-      {
-        diagnosisService.lineChart(data);
-      });*/
-
-
       var config = {
           headers: {
             'Content-Type': 'application/json;'

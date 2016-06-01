@@ -34,46 +34,51 @@
           restrict : 'A',
           scope    : false,
           link     : function (scope, element, attrs) {
-            var data = '';
-            var separator = attrs.separator ? attrs.separator : ',';
-            var ignoreSelector = attrs.exportCsvIgnore || '.ng-table-filters';
-            var csv = {
-              stringify : function (str) {
-                return '"' +
-                  str.replace(/^\s\s*/, '').replace(/\s*\s$/, '') // trim spaces
-                    .replace(/"/g, '""') + // replace quotes with double quotes
-                  '"';
-              },
-              generate  : function () {
-                data = '';
-                var rows = element.find('tr');
-                angular.forEach(rows, function (row, i) {
-                  var tr = angular.element(row),
-                    tds = tr.find('th'),
-                    rowData = '';
-                  if (tr.is(ignoreSelector)) {
-                    return;
-                  }
-                  if (tds.length === 0) {
-                    tds = tr.find('td');
-                  }
-                  angular.forEach(tds, function (td, i) {
-                    var value = '';
-                    td = angular.element(td);
-                    if (!td.is(ignoreSelector)) {
-                      value = angular.element(td).text();
+            if(attrs.exportCsv!==undefined && attrs.exportCsv!==null && attrs.exportCsv!=='')
+            {
+              var data = '';
+              var separator = attrs.separator ? attrs.separator : ';';
+              var ignoreSelector = attrs.exportCsvIgnore || '.ng-table-filters';
+              var csv = {
+                stringify : function (str) {
+                  return '"' +
+                    str.replace(/^\s\s*/, '').replace(/\s*\s$/, '') // trim spaces
+                      .replace(/"/g, '""') + // replace quotes with double quotes
+                    '"';
+                },
+                generate  : function () {
+                  data = '';
+                  var rows = element.find('tr');
+                  angular.forEach(rows, function (row, i) {
+                    var tr = angular.element(row),
+                      tds = tr.find('th'),
+                      rowData = '';
+                    if (tr.is(ignoreSelector)) {
+                      return;
                     }
-                    rowData += csv.stringify(value) + separator;
+                    if (tds.length === 0) {
+                      tds = tr.find('td');
+                    }
+                    angular.forEach(tds, function (td, j) {
+                      var value = '';
+                      td = angular.element(td);
+                      if (!td.is(ignoreSelector) && (i===1 || j===0)) {
+                        value = angular.element(td).text();
+                      }
+                      rowData += csv.stringify(value) + separator;
+                    });
+                    rowData = rowData.slice(0, rowData.length - 1); //remove last separator
+                    if(i>0 && i!==4 && i!==5){
+                      data += rowData + '\n';
+                    }
                   });
-                  rowData = rowData.slice(0, rowData.length - 1); //remove last separator
-                  data += rowData + '\n';
-                });
-              },
-              link      : function () {
-                return 'data:text/csv;charset=UTF-8,' + encodeURIComponent(data);
-              }
-            };
-            $parse(attrs.exportCsv).assign(scope.$parent, csv);
+                },
+                link      : function () {
+                  return 'data:text/csv;charset=UTF-8,' + encodeURIComponent(data);
+                }
+              };
+              $parse(attrs.exportCsv).assign(scope.$parent, csv);
+            }
           }
         };
       }
