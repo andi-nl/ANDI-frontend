@@ -11,7 +11,7 @@ Run `npm install` to install node modules
 
 Run `bower install` to install bower componnets
 
-Run `grunt` for building and `grunt serve` for preview.
+Run `grunt serve` for preview.
 
 ## Testing
 
