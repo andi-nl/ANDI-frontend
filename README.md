@@ -5,6 +5,12 @@ version 0.12.1.
 
 ## Build & development
 
+After cloning this repository
+
+Run `npm install` to install node modules
+
+Run `bower install` to install bower componnets
+
 Run `grunt` for building and `grunt serve` for preview.
 
 ## Testing
