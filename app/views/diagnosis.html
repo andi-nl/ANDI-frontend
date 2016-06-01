@@ -11,6 +11,11 @@
             <div class="tab-pane fade in active" id="tab1">
             <br> <br>
               <div class="col-sm-7">
+                 <div class="alert alert-info">
+Welcome to the ANDI portal. On this page you can select the neuropsychological tests you have administered and which you want to analyze. You can browse the tests by category, or search for the tests by using the ‘search for…’ function. Clicking the ‘+’ icon will expand each section. Ticking the boxes will add the tests to the ‘Selected tests’ list, and from here you can arrange the order of your variables.
+Your data will automatically be compared to the latest version of ANDI. In case you wish to select an older version you can click ‘older version’. Note that we highly recommend always using the latest version.
+When you have completed the test selection, press Next to go to the next step.
+                </div>
 
                 <h3>Normative data</h3>
               
@@ -64,16 +69,11 @@
         <div class="panel col-sm-12 col-xs-12 col-lg-12" ng-show="panel.isSelected(2)" class="tab-pane fade in active">
             <form name="patient.form" ng-model="fields" ng-submit="treeCtrl.submit()" novalidate angular-validator>  
 
-              <div class="table borderless" >
-                <div class="alert alertMessage">
-                  <strong>Message : </strong>{{treeCtrl.alertMessage}}
+              <div class="col-sm-12" >
+                 <div class="alert alert-info">
+                    On this screen you can add the test values and demographic information for your patients. You can either fill out the table below, or select "I wish to upload data". If you wish to upload your data you can download the .csv template in which the test scores can be filled out.    After you have saved the file you can upload it to the page by clicking "choose file". Once the file has been uploaded the screen will ask you to define your missing values. When you submit this page, the website will fill out the table with your information and you can check whether it has done so correctly. Note that all patients need to have a unique ID. At the bottom of the page under "Advanced settings" you can change statistical settings.
                 </div>
-                
-              <!--   <span ng-init="pateient_type=1"  class="" >
-                  <label><input type="radio"  ng-change="btnAddPatient=false" ng-value="true" ng-model="pateient_type" ng-click="isDisabled = false;"  value="1" />Do you want to type in data</label>
 
-                  <label><input type="radio"  ng-change="btnAddPatient=true" ng-value="false" ng-model="pateient_type" ng-click="isDisabled = true;"  value="2" />Do you want to upload file</label>
-                </span> -->
 
                 <div>
                   <div style="width:auto;overflow:auto;">
