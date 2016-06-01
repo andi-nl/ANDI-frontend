@@ -21,7 +21,7 @@ angular
             "          <td>\n" +
             "          <input ng-disabled=\"treeDisable\"  type=\"text\" name=\"id{{row1.treeIndex}}\" id=\"id{{row1.treeIndex}}\" ng-model=\"row1.patient[row1.treeIndex].id\" ng-change=\"treeTableControl.verifyId()\" required>\n" +
             "           <span class=\"has-error\" ng-show=\"row1.patient.form.id{{row1.treeIndex}}.$error.required && treeTableControl.submited\">Required<br/></span>\n"+
-            "           <span class=\"has-error\" ng-show=\"row1.patient.form.id{{row1.treeIndex}}.$error.duplicate\">Duplicate</span> </td>\n"+
+            "           <span class=\"has-error\" ng-show=\"row1.patient.form.id{{row1.treeIndex}}.$error.duplicate\">Patient ids should be unique!</span> </td>\n"+
             "        </tr>\n" +
             "      <tr>\n" +
             "        <td class=\"left-td\" ng-if=\"row1.treeIndex === 0\">age</td>\n" +
