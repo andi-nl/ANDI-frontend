@@ -309,7 +309,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       });
       modalInstance.result.then(function (obj) {
         $scope.treeCtrl.txtvalue = obj.txtvalue;
-        var replacearr = obj.txtvalue.split(",");
+        var replacearr = obj.txtvalue.split(";");
         var r = new FileReader();
         r.onload = function(e) {
             var contents = e.target.result;
@@ -317,7 +317,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
             $scope.patient[0] = {'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}};
             
             angular.forEach(rows, function(val,key) {
-              var data = val.split(',');
+              var data = val.split(';');
               if(key===1){
                 var k = 1;
                 for(var i=0;i<data.length;i++){
