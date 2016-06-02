@@ -97,12 +97,12 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   };
 
   this.treeExpanded = function(){
-    $scope.$$postDigest( function () {
-      if($scope.testSearch===''){
+  $scope.$$postDigest( function () {
+      if($scope.testSearch==='' && $scope.treeCtrl.isExpanded===true){
           $('.ivh-treeview-node-label').trigger('click');
           $scope.treeCtrl.isExpanded = false;
         }
-        if($scope.testSearch.length===1 && $scope.treeCtrl.isExpanded===false){
+         if($scope.testSearch!=='' && $scope.testSearch.length>0 && $scope.treeCtrl.isExpanded===false){
           $('.ivh-treeview-node-label').trigger('click');
           $scope.treeCtrl.isExpanded = true;
         }
