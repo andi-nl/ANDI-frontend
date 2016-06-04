@@ -41,9 +41,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.txtReplace = '';
   this.isExpanded = false;
   this.alertMessage = '';
-  this.counter = 2;
+  this.counter = 1;
   var tree;
   this.tabledata= {'0':'Table 0'};
+  this.ageCalculate = true;
   this.my_tree = tree = {};
   this.counterlimit = 0;
   this.col_defs = [
@@ -60,11 +61,13 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       filterable: true
   };
   this.submited = false;
+  this.selectedTest = {};
+  this.patient  = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
   
   diagnosisService.getTest(defaultFolder)
     .then(function goToHome(dataObj) {
       $scope.treeCtrl.tests =  dataObj.data;
-      $scope.patient.nomative = dataObj.defaultFolder;
+      $scope.patientData.nomative = dataObj.defaultFolder;
     })
     .catch(function showerror(msg) {
         //show error
@@ -97,12 +100,12 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   };
 
   this.treeExpanded = function(){
-  $scope.$$postDigest( function () {
+    $scope.$$postDigest( function () {
       if($scope.testSearch==='' && $scope.treeCtrl.isExpanded===true){
           $('.ivh-treeview-node-label').trigger('click');
           $scope.treeCtrl.isExpanded = false;
         }
-         if($scope.testSearch!=='' && $scope.testSearch.length>0 && $scope.treeCtrl.isExpanded===false){
+        if($scope.testSearch!=='' && $scope.testSearch.length>0 && $scope.treeCtrl.isExpanded===false){
           $('.ivh-treeview-node-label').trigger('click');
           $scope.treeCtrl.isExpanded = true;
         }
@@ -117,6 +120,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   };
   this.getSelectedNodes=function(node){
     //return node.label;
+    if (node.isSelected===true && node.children.length===0) {
+      this.selectedTest[node.id] = node;
+      this.patient[0].test = this.selectedTest;
+    }
     if (node.isSelected===true || node.children.length>0) {
       return node.id;
     }
@@ -179,28 +186,49 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       return [a, b];
   };
   this.addPatient=function(){
-        this.counterlimit++;
-        this.tabledata[this.counterlimit] = 'Table '+this.counterlimit;
-        this.counter++;
-        
+    $scope;
+    this.patient.push({'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':this.selectedTest});
+    this.counter++;
+    /*  this.counterlimit++;
+      this.tabledata[this.counterlimit] = 'Table '+this.counterlimit;
+      */
   };
   // remove the selected column
-  this.removeColumn = function (index) {
+  this.removeColumn = function (index,event) {
     // remove the column specified in index
     // you must cycle all the rows and remove the item
     // row by row
-
-    delete this.tabledata[index];
+    if(this.patient.length>1){
+      this.patient.splice(index, 1);
+      var formObj = $scope.patient.form;
+      delete $scope.patient['form'];
+      var x=[];
+      $.each($scope.patient, function(i,n) {
+          x.push(n);
+      });
+      x.splice(index, 1);
+      $scope.patient = x.reduce(function(o, v, i) {
+        o[i] = v;
+        return o;
+      }, {});
+      $scope.patient.form = formObj;
+      this.counter--;
+    }
+    else{
+      alert('Atleast Enter one patient');
+      event.preventDefault();
+    }
+   /* delete this.tabledata[index];
     delete $scope.patient[index];
-    this.counter--;
+    this.counter--;*/
   };
 
   this.disableDate = function(index){
     if($scope.patient.form['age'+index].$viewValue!==''){
       $('#birthdate'+index).attr('disabled',true);
       $('#testdate'+index).attr('disabled',true);
-      $scope.patient.form['birthdate'+index].$setViewValue('1992-05-06');
-      $scope.patient.form['testdate'+index].$setViewValue('1992-05-06');
+      $scope.patient.form['birthdate'+index].$setViewValue('1992-13-13');
+      $scope.patient.form['testdate'+index].$setViewValue('1992-13-13');
     }
     else{
       $('#birthdate'+index).attr('disabled',false);
@@ -211,15 +239,17 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   };
 
   this.calculateAge = function(index){
+    if(this.ageCalculate){
       var birthDate = $scope.patient.form['birthdate'+index].$viewValue;
       var testDate = $scope.patient.form['testdate'+index].$viewValue;
-      if(testDate!=='' && birthDate!==''){
+      if(testDate!=='' && birthDate!=='' && testDate!=='1992-13-13' && birthDate!=='1992-13-13'){
         var d1 = moment(birthDate);
         var d2 = moment(testDate);
         var years = moment.duration(d2.diff(d1)).asYears();
         $scope.patient.form['age'+index].$setViewValue(years);
         $('#age'+index).val(years);
       }
+    }
   };
 
   this.submit=function(isValid){
@@ -230,8 +260,11 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     }
     else{
       $scope.treeCtrl.submited = true;
-      var limit = 1;
-      var patientObj = {conf:$scope.patient.conf,sig:$scope.patient.sig,nomative:$scope.patient.nomative};
+      var limit = 0;
+      var patientObj = {conf:$scope.patientData.conf,
+                        sig:$scope.patientData.sig,
+                        nomative:$scope.patientData.nomative,
+                        chart : $scope.patientData.chart};
       for (var i in $scope.patient) {
         if(limit<this.counter){
           var patientTest = [];
@@ -264,6 +297,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       }
       $scope.submitData1 = JSON.stringify(patientObj);     
       $scope.submitData = patientObj;
+      console.log(patientObj);
       $scope.submitData = $scope.submitData1.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
       $scope.$parent.panel.next();
       $scope.$broadcast("MoveToChart"); 
@@ -273,7 +307,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.verifyId = function() {
     var sorted = [];
     for (var i in $scope.patient) {
-      if($scope.patient[i].id!==null && $scope.patient[i].id!==undefined)
+      if($scope.patient[i].id!==null && $scope.patient[i].id!==undefined )
       {
         if ($.inArray($scope.patient[i].id, sorted) >= 0) {
           $scope.patient.form['id'+i].$setValidity('duplicate',!true);
@@ -315,7 +349,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
             var contents = e.target.result;
             var rows = contents.split('\n');
             $scope.patient[0] = {'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}};
-            
             angular.forEach(rows, function(val,key) {
               var data = val.split(';');
               if(key===1){
@@ -323,18 +356,28 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                 for(var i=0;i<data.length;i++){
                   if(data[i]!=='' && i>1){
                     $scope.patient[k] = {'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}};
-                    $timeout(function() {
-                      $scope.treeCtrl.counterlimit++;
-                      $scope.treeCtrl.tabledata[$scope.treeCtrl.counterlimit] = 'Table '+$scope.treeCtrl.counterlimit;
-                      $scope.treeCtrl.counter++;
-                    }, 50);
+                    $scope.treeCtrl.counter++;
                     k++;
                   }
                 }
               }
-
-              if(key>0){
-                $timeout(function() {
+              if(key>4){
+                if(parseInt(data[0])=='NaN')
+                {
+                  $scope.treeCtrl.selectedTest[data[0]] = '';
+                }
+              }
+            });
+            angular.forEach($scope.patient, function(val,key) {
+              if(parseInt(key))
+              {
+                $scope.treeCtrl.patient[key] = val;
+              }
+            });
+            $timeout(function() {
+              angular.forEach(rows, function(val,key) {
+                var data = val.split(';');
+                if(key>0){
                   for(var j=0;j<data.length;j++){
                     var fieldVal = '';
                     if(data[j]!=='' && j!==0){
@@ -357,8 +400,8 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                         if(data[0]==='age'){
                           $('#birthdate'+(j-1)).attr('disabled',true);
                           $('#testdate'+(j-1)).attr('disabled',true);
-                          $scope.patient.form['birthdate'+(j-1)].$setViewValue('1992-05-06');
-                          $scope.patient.form['testdate'+(j-1)].$setViewValue('1992-05-06');
+                          $scope.patient.form['birthdate'+(j-1)].$setViewValue('1992-13-13');
+                          $scope.patient.form['testdate'+(j-1)].$setViewValue('1992-13-13');
                           fieldVal = parseInt(fieldVal);
                         }
                         if(data[0]==='sex' || data[0]==='education'){
@@ -369,12 +412,11 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                       }
                     } 
                   }
-                  $('.remBtn').parent().html('Patient');
+                 // $('.remBtn').parent().html('Patient');
                   $("#fileContent").val(''); 
-                }, 50);
-              }
-
-            });
+                }
+              });
+            }, 1000);
         };
         r.readAsText(files[0]);  
         $('.fileinput').hide();
