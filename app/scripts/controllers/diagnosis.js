@@ -362,7 +362,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                 }
               }
               if(key>4){
-                if(parseInt(data[0])=='NaN')
+                if(isNaN(parseInt(data[0])) && data[0]!=='')
                 {
                   $scope.treeCtrl.selectedTest[data[0]] = '';
                 }

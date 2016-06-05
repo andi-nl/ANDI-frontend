@@ -35,7 +35,7 @@
           scope    : false,
           link     : function (scope, element, attrs) {
             var data = '';
-            var separator = attrs.separator ? attrs.separator : ',';
+            var separator = attrs.separator ? attrs.separator : ';';
             var ignoreSelector = attrs.exportCsvIgnore || '.ng-table-filters';
             var csv = {
               stringify : function (str) {

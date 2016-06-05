@@ -153,11 +153,11 @@ When you have completed the test selection, press Next to go to the next step.
                                   </td></tr>
                                   <tr ng-repeat="(key, value) in treeCtrl.selectedTest">
                                     <td class="right-td">
-                                      <input class="textField" ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"  ng-disabled="treeDisable" type="number" min="{{value.branch.lowweb}}" max="{{value.branch.highweb}}" required>
+                                      <input class="textField" ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"  ng-disabled="treeDisable" type="number" min="{{value.lowweb}}" max="{{value.highweb}}" required>
 
                                       <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.required && treeCtrl.submited">Required</span>
-                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.min">Enter value between {{row.branch.lowweb}} to {{row.branch.highweb}}</span>
-                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.max">Enter value between {{row.branch.lowweb}} to {{row.branch.highweb}}</span>
+                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
+                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.max">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
                                       <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.number">Not valid number!</span>
                                     </td>
                                   </tr>
