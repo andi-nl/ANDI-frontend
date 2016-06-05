@@ -215,7 +215,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       this.counter--;
     }
     else{
-      alert('Atleast Enter one patient');
+      alert('Data for atleast one patient needs to be filled in !');
       event.preventDefault();
     }
    /* delete this.tabledata[index];
