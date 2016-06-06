@@ -21,7 +21,7 @@ When you have completed the test selection, press Next to go to the next step.
               <div class="col-sm-7">
                 <h3>Normative data</h3>
               
-                <select ng-model="folders.value" 
+                <select ng-readonly="" ng-model="folders.value" 
                         ng-options="v for v in folders.values"
                         ng-change="treeCtrl.getTreeData(folders.value)"
                         class ="form-control" required>
@@ -83,7 +83,7 @@ When you have completed the test selection, press Next to go to the next step.
                     <tr>
                       <td>
                         <table export-csv="csv" separator=";" style="width:250px;" class="table table-bordered">
-                          <tr><td class="right-td">Demographics</td></tr>
+                          <tr><td class="right-td"></td></tr>
                           <tr><td class="right-td">id</td></tr>
                           <tr><td class="right-td">age</td></tr>
                           <tr><td class="right-td">birthdate</td></tr>
