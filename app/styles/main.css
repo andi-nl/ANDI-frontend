@@ -1,5 +1,5 @@
 .left-td{
-  width: 450px;
+  width: 400px;
 }
 .remBtn{
   margin-top: -3px;
@@ -218,4 +218,21 @@ pre {
 #output{
   width: 100%;
   height: 500px;
+}
+.textField{
+ height:20px;
+ width: 126px;
+}
+.right-td{
+  width: 143px;
+  height: 50px;
+}
+.tblscroll{
+  width:500px;overflow-y:hidden;
+}
+.tblscrollpadding{
+  width:400px;overflow-y:hidden;padding-top: 10px;
+}
+.rightBtn{
+  float:right;
 }
