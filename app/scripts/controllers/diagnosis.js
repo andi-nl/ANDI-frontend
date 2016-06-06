@@ -245,7 +245,8 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       if(testDate!=='' && birthDate!=='' && testDate!=='1992-13-13' && birthDate!=='1992-13-13'){
         var d1 = moment(birthDate);
         var d2 = moment(testDate);
-        var years = moment.duration(d2.diff(d1)).asYears();
+        var yrs = moment.duration(d2.diff(d1)).asYears();
+        var years = Math.round(yrs)
         $scope.patient.form['age'+index].$setViewValue(years);
         $('#age'+index).val(years);
       }
