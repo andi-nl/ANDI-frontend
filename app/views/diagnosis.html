@@ -59,6 +59,17 @@ When you have completed the test selection, press Next to go to the next step.
                     <div ng-if="treeCtrl.getSelectedNodes(data)" ng-repeat="data in treeCtrl.tests"  ng-include="'tree_item_renderer'"></div>
                 </div>
                 <hr>
+                <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"  download="PatientTable.csv">
+                  <i class="glyphicon glyphicon-new-window"></i>Download Template
+                </a>
+                <div class="alert alert-info">
+                  <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient has their own column.
+                </div>
+
+                  <div  class="fileinput fileinput-new" data-provides="fileinput">
+                    <span class="btn btn-default btn-file">
+                    <input type="file" ng-model="fileContent" id="fileContent"  custom-on-change="treeCtrl.uploadCsv"></span>
+                  </div>
               </div>
             </div>
             </div>
@@ -172,18 +183,6 @@ When you have completed the test selection, press Next to go to the next step.
                    <tree-grid tree-obj="patient" 
                     tree-disable="isDisabled"
                      tree-table="treeCtrl" tree-index="treeCtrl.counterlimit" tree-data="treeCtrl.tests" tree-control="treeCtrl.my_tree" col-defs="treeCtrl.col_defs" expand-on="treeCtrl.expanding_property" on-select="treeCtrl.my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon"></tree-grid>
-                <hr>
-                <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"  download="PatientTable.csv">
-                  <i class="glyphicon glyphicon-new-window"></i>Download Template
-                </a>
-                <div class="alert alert-info">
-                  <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient has their own column.
-                </div>
-
-                  <div  class="fileinput fileinput-new" data-provides="fileinput">
-                    <span class="btn btn-default btn-file">
-                    <input type="file" ng-model="fileContent" id="fileContent"  custom-on-change="treeCtrl.uploadCsv"></span>
-                  </div>
 
 
                   <br><br>
