@@ -21,7 +21,7 @@ When you have completed the test selection, press Next to go to the next step.
               <div class="col-sm-7">
                 <h3>Normative data</h3>
               
-                <select ng-model="folders.value" 
+                <select ng-readonly="" ng-model="folders.value" 
                         ng-options="v for v in folders.values"
                         ng-change="treeCtrl.getTreeData(folders.value)"
                         class ="form-control" required>
@@ -59,6 +59,17 @@ When you have completed the test selection, press Next to go to the next step.
                     <div ng-if="treeCtrl.getSelectedNodes(data)" ng-repeat="data in treeCtrl.tests"  ng-include="'tree_item_renderer'"></div>
                 </div>
                 <hr>
+                <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"  download="PatientTable.csv">
+                  <i class="glyphicon glyphicon-new-window"></i>Download Template
+                </a>
+                <div class="alert alert-info">
+                  <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient has their own column.
+                </div>
+
+                  <div  class="fileinput fileinput-new" data-provides="fileinput">
+                    <span class="btn btn-default btn-file">
+                    <input type="file" ng-model="fileContent" id="fileContent"  custom-on-change="treeCtrl.uploadCsv"></span>
+                  </div>
               </div>
             </div>
             </div>
@@ -83,7 +94,7 @@ When you have completed the test selection, press Next to go to the next step.
                     <tr>
                       <td>
                         <table export-csv="csv" separator=";" style="width:250px;" class="table table-bordered">
-                          <tr><td class="right-td">Demographics</td></tr>
+                          <tr><td class="right-td"></td></tr>
                           <tr><td class="right-td">id</td></tr>
                           <tr><td class="right-td">age</td></tr>
                           <tr><td class="right-td">birthdate</td></tr>
@@ -172,18 +183,6 @@ When you have completed the test selection, press Next to go to the next step.
                    <tree-grid tree-obj="patient" 
                     tree-disable="isDisabled"
                      tree-table="treeCtrl" tree-index="treeCtrl.counterlimit" tree-data="treeCtrl.tests" tree-control="treeCtrl.my_tree" col-defs="treeCtrl.col_defs" expand-on="treeCtrl.expanding_property" on-select="treeCtrl.my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon"></tree-grid>
-                <hr>
-                <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"  download="PatientTable.csv">
-                  <i class="glyphicon glyphicon-new-window"></i>Download Template
-                </a>
-                <div class="alert alert-info">
-                  <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient has their own column.
-                </div>
-
-                  <div  class="fileinput fileinput-new" data-provides="fileinput">
-                    <span class="btn btn-default btn-file">
-                    <input type="file" ng-model="fileContent" id="fileContent"  custom-on-change="treeCtrl.uploadCsv"></span>
-                  </div>
 
 
                   <br><br>
@@ -209,9 +208,8 @@ When you have completed the test selection, press Next to go to the next step.
                     <span class="has-error" ng-show="treeCtrl.submited && patientData.form.conf.$error.required">Required</span>
                   <hr>
 
-
-                  <button type="submit" class="btn btn-submit"  id="submit">Submit</button>
                   <button type="button" class="btn btn-previous" ng-click="panel.previous()"> Previous</button>
+                  <button type="submit" class="btn btn-submit"  id="submit">Next</button>
                  <!--  <button type="button" class ="btn btn-next" ng-click="panel.next()"> Next</button>  -->
              </div>
             </form>
