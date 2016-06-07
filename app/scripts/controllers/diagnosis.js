@@ -63,7 +63,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   /*Patient List*/
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
   $scope.patientData= {};
-
+  $scope.message    = 'Data Uploaded successfully.';
   /*get selected Normative Date test List*/
   diagnosisService.getTest(defaultFolder)
     .then(function goToHome(dataObj) { 
@@ -364,7 +364,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
    upload csv file and make form based on csv file
   */
   this.uploadCsv = function(){
-    var files = $("#fileContent")[0].files; //get file content
+    var files = $("#files")[0].files; //get file content
     var sorted = [];
     if (files.length) {
       // open model popup for replace constant value
@@ -407,6 +407,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                   var IdAvailability = findTest(data[0],'id');
                   if(IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined ){
                       $scope.treeCtrl.selectedTest[data[0]] = '';
+                  }
+                  else{
+                    $scope.message    = 'Not All Data Uploaded successfully.';
                   }
                 }
               }
@@ -460,9 +463,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                     } 
                   }
                  // $('.remBtn').parent().html('Patient');
-                  $("#fileContent").val(''); 
+                  $("#files").val(''); 
                 }
               });
+              alert($scope.message);
             }, 1000);
         };
         r.readAsText(files[0]);  
