@@ -3,7 +3,6 @@
   // Create all modules and define dependencies to make sure they exist
   // and are loaded in the correct order to satisfy dependency injection
   // before all nested files are concatenated by Gulp
-
   // Config
   angular.module('ngTableToCsv.config', [])
     .config(['$compileProvider', function ($compileProvider) {
@@ -35,6 +34,7 @@
           scope    : false,
           link     : function (scope, element, attrs) {
             var data = '';
+            //file seprator symbol
             var separator = attrs.separator ? attrs.separator : ';';
             var ignoreSelector = attrs.exportCsvIgnore || '.ng-table-filters';
             var csv = {
@@ -45,6 +45,7 @@
                   '"';
               },
               generate  : function () {
+                //take table content
                 data = '';
                 var rows = element.find('tr');
                 angular.forEach(rows, function (row, i) {
@@ -63,9 +64,10 @@
                     if (!td.hasClass(ignoreSelector)) {
                       value = angular.element(td).text();
                     }
-                    rowData += csv.stringify(value) + separator;
+                    rowData += csv.stringify(value) + separator; // csv content
                   });
                   rowData = rowData.slice(0, rowData.length - 1); //remove last separator
+                  // ignoring 3rd and 4rd ( birthdate and testdate) field 
                   if(i!==4 && i!==3){
                      data += rowData + '\n';
                   }

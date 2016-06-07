@@ -7,46 +7,44 @@
  * # MainCtrl
  * Controller of the andiApp
  */
-var defaultFolder = '2016-01-14';
+
+var defaultFolder = '2016-01-14';  //default folder name when we take test data
+/*
+  @name andiApp.controller:PanelCtrl
+  @description : change tab code made in this controller
+*/
 app.controller("PanelController",function(){
-  this.tab=1;
+  this.tab=1; // Default Active Tab
+  /*Tab Click Event*/
   this.selectTab=function(setTab){
     this.tab=setTab;
   };
+  /*show the clicked tab panel*/
   this.isSelected=function(checkTab){
     return this.tab === checkTab;
   };
+  /*previous button click event to backward one tab*/
   this.previous =function(){
     return this.tab= this.tab-1;
   };
+  /*next button click event to move on tab forward*/
   this.next=function(){
     return this.tab = this.tab+1;
   };
 });
-
-app.controller('TableController', function($scope) {
-  var dum={};
-  this.tree_data = [];
-  this.exportCSV=function(){};
-  this.getPat=function(){
-     return ($scope.patient[0]);
-  };
-  this.changeEnvironment = function(val){
-  };
-});
+/*
+  @name andiApp.controller:treeController
+  @description : we put form submit and csv upload code here
+*/
 app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,diagnosisService,$window) {
   this.tests    = [];
-  this.treeArr  = [];
+  var arr=[];
   this.txtvalue = '';
   this.txtReplace = '';
   this.isExpanded = false;
   this.alertMessage = '';
   this.counter = 1;
-  var tree;
-  this.tabledata= {'0':'Table 0'};
   this.ageCalculate = true;
-  this.my_tree = tree = {};
-  this.counterlimit = 0;
   this.col_defs = [
       {
           field: "label",
@@ -60,22 +58,31 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       sortable : true,
       filterable: true
   };
-  this.submited = false;
-  this.selectedTest = {};
-  this.patient  = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
-  
+  this.submited     = false; // for custom validation flag
+  this.selectedTest = {};     // Make selected test object
+  /*Patient List*/
+  this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
+  $scope.patientData= {};
+
+  /*get selected Normative Date test List*/
   diagnosisService.getTest(defaultFolder)
-    .then(function goToHome(dataObj) {
+    .then(function goToHome(dataObj) { 
+      //show success
       $scope.treeCtrl.tests =  dataObj.data;
       $scope.patientData.nomative = dataObj.defaultFolder;
     })
     .catch(function showerror(msg) {
-        //show error
+        //show  error
         $window.alert(msg);
     });
 
+  /*
+    get Normative Date  Dropdown List and pass defaultFolder value
+    to select by default date
+  */
   diagnosisService.getRelease(defaultFolder)
     .then(function goToHome(folderObj) {
+      //show success
       $scope.folders = folderObj;
     })
     .catch(function showerror(msg) {
@@ -86,12 +93,13 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.my_tree_handler = function (branch) {
       console.log('you clicked on', branch);
   };
-
+  /*Normative Date Change Time load new selected date test data*/
   this.getTreeData = function(val){
     diagnosisService.getTest(val)
     .then(function goToHome(dataObj) {
-      $scope.treeCtrl.tests =  dataObj.data;
-      $scope.patient.nomative = dataObj.defaultFolder;
+      //show success
+      $scope.treeCtrl.tests       =  dataObj.data;
+      $scope.patientData.nomative = dataObj.defaultFolder;
     })
     .catch(function showerror(msg) {
         //show error
@@ -99,6 +107,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     });
   };
 
+  /*
+    In tab1 test search textbox time expand all tree data and 
+    textbox clear time collapse all tree data
+  */
   this.treeExpanded = function(){
     $scope.$$postDigest( function () {
       if($scope.testSearch==='' && $scope.treeCtrl.isExpanded===true){
@@ -112,12 +124,14 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     });
   };
 
-  this.awesomeCallback = function(node, tree) {
-    // Do something with node or tree
-  };
   this.otherAwesomeCallback = function(node, isSelected, tree) {
     // Do soemthing with node or tree based on isSelected
   };
+
+  /*
+  get Selected test list object , when user click any test that time this 
+  event called
+  */
   this.getSelectedNodes=function(node){
     //return node.label;
     if (node.isSelected===true && node.children.length===0) {
@@ -128,6 +142,8 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       return node.id;
     }
   };
+
+  /*Return JSON Data*/
   this.getjson=function (tests) {
      var k =JSON.stringify(tests);
      return k;
@@ -138,7 +154,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     }
   };
   /// Important function for tree traversal 
-  var arr=[];
   this.process = function(key,value) {
       arr.push(key + " : "+value);
   };
@@ -170,7 +185,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       this.traverse(tests,this.process);
       return(arr);
   };
-  // This function counts the number of occurance of each element in the array
+  /* This function counts the number of occurance of each element
+   in the array
+  */
   this.countArrElements = function (arr) {
       var a = [], b = [], prev;
       arr.sort();
@@ -185,15 +202,20 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       }
       return [a, b];
   };
+
+   /* 
+    Add Patient button event , when user click add patient button
+    that time push new object in patient array
+  */
   this.addPatient=function(){
-    $scope;
     this.patient.push({'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':this.selectedTest});
     this.counter++;
-    /*  this.counterlimit++;
-      this.tabledata[this.counterlimit] = 'Table '+this.counterlimit;
-      */
   };
-  // remove the selected column
+
+  /*
+   remove patient inside form and also check atleast one patient data
+    needed to process further 
+  */
   this.removeColumn = function (index,event) {
     // remove the column specified in index
     // you must cycle all the rows and remove the item
@@ -218,11 +240,12 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       alert('Data for atleast one patient needs to be filled in !');
       event.preventDefault();
     }
-   /* delete this.tabledata[index];
-    delete $scope.patient[index];
-    this.counter--;*/
   };
 
+  /*
+    patient form age enter time disable particular column
+    birthdate and testdate field
+  */
   this.disableDate = function(index){
     if($scope.patient.form['age'+index].$viewValue!==''){
       $('#birthdate'+index).attr('disabled',true);
@@ -238,6 +261,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     }
   };
 
+  /*
+    age field calculation on birthdate and testdate filed
+  */
   this.calculateAge = function(index){
     if(this.ageCalculate){
       var birthDate = $scope.patient.form['birthdate'+index].$viewValue;
@@ -253,25 +279,30 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     }
   };
 
+  /*
+   Submit form event to create patient object and move to next tab
+  */
   this.submit=function(isValid){
-  // check to make sure the form is completely valid
+    // check to make sure the form is completely valid
     if ($scope.patient.form.$invalid) {
         console.log($scope.patient.form.$error);
         $scope.treeCtrl.submited = true;
     }
     else{
-      $scope.treeCtrl.submited = true;
-      var limit = 0;
-      var patientObj = {conf:$scope.patientData.conf,
-                        sig:$scope.patientData.sig,
-                        nomative:$scope.patientData.nomative,
-                        chart : $scope.patientData.chart};
+      $scope.treeCtrl.submited  = true;
+      var limit                 = 0;
+      //make Patient Object
+      var patientObj            = {conf:$scope.patientData.conf,
+                                    sig:$scope.patientData.sig,
+                                    nomative:$scope.patientData.nomative,
+                                    chart : $scope.patientData.chart};
       for (var i in $scope.patient) {
         if(limit<this.counter){
           var patientTest = [];
           for (var key in $scope.patient[i].test) {
             if ($scope.patient[i].test.hasOwnProperty(key)) {
-              var idField =  key;//(key).replace(/_/g," ");
+              var idField =  key;
+              //find test detail on id field
               var labelField =  findTest(idField,'id');
               patientTest.push({
                                 id:idField,
@@ -300,11 +331,14 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       $scope.submitData = patientObj;
       console.log(patientObj);
       $scope.submitData = $scope.submitData1.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
-      $scope.$parent.panel.next();
+      $scope.$parent.panel.next();       // move to next tab event
       $scope.$broadcast("MoveToChart"); 
     } 
   };
 
+  /*
+   form id field unique validation check
+  */
   this.verifyId = function() {
     var sorted = [];
     for (var i in $scope.patient) {
@@ -321,19 +355,14 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     }
   };
 
+  /*
+   upload csv file and make form based on csv file
+  */
   this.uploadCsv = function(){
-    var files = $("#fileContent")[0].files;
+    var files = $("#fileContent")[0].files; //get file content
     var sorted = [];
-
     if (files.length) {
-      $scope.opts =  {
-                  animation: $scope.animationsEnabled,
-                  templateUrl: 'views/replaceViewDialog.html',
-                  controller: 'ModalInstanceCtrl',
-                  size: '',
-                  resolve: {
-                  }
-              };
+      // open model popup for replace constant value
       var modalInstance = $uibModal.open({
         animation: true,
         templateUrl: 'views/replaceViewDialog.html',
@@ -342,10 +371,15 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         resolve: {
         }
       });
+
+      // modal popup success
       modalInstance.result.then(function (obj) {
         $scope.treeCtrl.txtvalue = obj.txtvalue;
         var replacearr = obj.txtvalue.split(";");
         var r = new FileReader();
+        /*
+        read csv file and make daynamic form
+        */
         r.onload = function(e) {
             var contents = e.target.result;
             var rows = contents.split('\n');
@@ -365,7 +399,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
               if(key>4){
                 if(isNaN(parseInt(data[0])) && data[0]!=='')
                 {
-                  $scope.treeCtrl.selectedTest[data[0]] = '';
+                  var IdAvailability = findTest(data[0],'id');
+                  if(IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined ){
+                      $scope.treeCtrl.selectedTest[data[0]] = '';
+                  }
                 }
               }
             });
@@ -383,17 +420,21 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                     var fieldVal = '';
                     if(data[j]!=='' && j!==0){
                       if(key>4){
-                        var field = data[0];//data[0].replace(/ /g,"_");//'#test'+j+'_'+data[0].replace(/ /g,"");
-                        fieldVal = data[j];//parseInt(data[j]);
-                        if ($.inArray(fieldVal, replacearr) >= 0) {
-                          fieldVal = 999999999;
+
+                        var IdAvailability = findTest(data[0],'id');
+                        if(IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined ){
+                          var field = data[0];//data[0].replace(/ /g,"_");//'#test'+j+'_'+data[0].replace(/ /g,"");
+                          fieldVal = data[j];//parseInt(data[j]);
+                          if ($.inArray(fieldVal, replacearr) >= 0) {
+                            fieldVal = 999999999;
+                          }
+                          else{
+                            fieldVal = parseInt(fieldVal);
+                          }
+                          $scope.patient.form['test'+(j-1)+'_'+field].$setViewValue(fieldVal);
+                          $scope.patient[j-1].test[field] = fieldVal;
+                          $('#test'+(j-1)+'_'+field.replace(/ /g,"_")).val(fieldVal);
                         }
-                        else{
-                          fieldVal = parseInt(fieldVal);
-                        }
-                        $scope.patient.form['test'+(j-1)+'_'+field].$setViewValue(fieldVal);
-                        $scope.patient[j-1].test[field] = fieldVal;
-                        $('#test'+(j-1)+'_'+field.replace(/ /g,"_")).val(fieldVal);
                       }
                       else{
                         $scope.patient.form[data[0]+(j-1)].$setViewValue(data[j]);
@@ -420,19 +461,23 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
             }, 1000);
         };
         r.readAsText(files[0]);  
-        $('.fileinput').hide();
+        $('.fileinput').hide(); // hide the file field
       }, function () {
+        //show errors
         console.log('Modal dismissed at: ' + new Date());
       });
-
     }
   };
 
+
+  /*
+  based on findField find particular test and return test object
+  */
   var findTest = function(value,findField){
-    $scope.testid = {};
-    $scope.keepgoing = true;
-    childTest($scope.treeCtrl.tests,value,findField);
-    $scope.keepgoing = true;
+    $scope.testid   = {};
+    $scope.keepgoing = true; //flag set false when test successfully finf
+    childTest($scope.treeCtrl.tests,value,findField); // check on child test
+    $scope.keepgoing = true; 
     return $scope.testid;
   };
 
@@ -453,8 +498,13 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     });
   };
 
+
 });
 
+/*
+  @name andiApp.controller:ModalInstanceCtrl
+  @description : modal popup controller to put ok and cancel popup event
+*/
 app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
   $scope.ok = function () {
     $uibModalInstance.close({txtvalue:$('#txtvalue').val()});
@@ -465,20 +515,24 @@ app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
 });
 
 
+/*
+  @name andiApp.controller:plotController
+  @description : put third tab chart event
+*/
 app.controller('plotController', function($scope,$http,diagnosisService){
-
+  //call during secont tab next button click time
   $scope.$on('MoveToChart', function(e) {  
     $scope.plotCtrl.FormChart();
   });
   /* Chart options */
   this.FormChart=function(){
-    if($scope.patient.chart==="scatter"){
+    if($scope.patient.chart==="scatter"){ // scatter chart load
 
     }
-    else if($scope.patient.chart==="radar"){
+    else if($scope.patient.chart==="radar"){ // radar chart load
 
     }
-    else{
+    else{ // defaut chart load
       var patientObj = $scope.$parent.submitData;
       var config = {
           headers: {
@@ -495,7 +549,6 @@ app.controller('plotController', function($scope,$http,diagnosisService){
       });
     }
   };
-  
 });
 
 

@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * @ngdoc overview
  * @name andiApp
@@ -22,14 +21,13 @@ var app = angular.module('andiApp', [
   'treeGrid',
   'ngTableToCsv'
 ]);
-//Setting for RCtrl
-
+//Setting Routing Url
 app.config(function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'views/diagnosis.html',
-      controller: 'TableController',
-      controllerAs: 'diagnosis'
+      controller: 'treeController',
+      controllerAs: 'treeCtrl'
     })
     .when('/about', {
       templateUrl: 'views/about.html',
@@ -39,5 +37,4 @@ app.config(function($routeProvider) {
     .otherwise({
       redirectTo: '/'
     });
-
 });
