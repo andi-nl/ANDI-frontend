@@ -37,6 +37,7 @@ app.controller("PanelController",function(){
   @description : we put form submit and csv upload code here
 */
 app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,diagnosisService,$window) {
+  
   this.tests    = [];
   var arr=[];
   this.txtvalue = '';
@@ -64,6 +65,54 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
   $scope.patientData= {};
   $scope.message    = 'Data Uploaded successfully.';
+
+  /*Datepicker code*/
+
+  $scope.inlineOptions = {
+    customClass: getDayClass,
+    minDate: new Date(),
+    showWeeks: true
+  };
+
+  $scope.dateOptions = {
+    dateDisabled: false,
+    formatYear: 'yy',
+    maxDate: new Date(2020, 5, 22),
+    minDate: new Date(),
+    startingDay: 1
+  };
+  $scope.open2 = function() {
+    $scope.popup2.opened = true;
+  };
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.popup2 = {
+    opened: false
+  };
+  $scope.popup1 = {
+    opened: false
+  };
+  function getDayClass(data) {
+    var date = data.date,
+      mode = data.mode;
+    if (mode === 'day') {
+      var dayToCheck = new Date(date).setHours(0,0,0,0);
+
+      for (var i = 0; i < $scope.events.length; i++) {
+        var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+
+        if (dayToCheck === currentDay) {
+          return $scope.events[i].status;
+        }
+      }
+    }
+
+    return '';
+  }
+    /*End Datepicker code*/
+
   /*get selected Normative Date test List*/
   diagnosisService.getTest(defaultFolder)
     .then(function goToHome(dataObj) { 

@@ -2,15 +2,15 @@
     <ul class="nav nav-tabs">
       <!-- Start Tab -->
         <li ng-class="{active:panel.tab===1}" class="active"> 
-          <a href ng-click="panel.selectTab(1)" data-toggle="tab">Test Selection</a>
+          <a>Test Selection</a>
         </li>
 
         <li ng-class="{active:panel.tab===2}">
-          <a href ng-click="panel.selectTab(2)" data-toggle="tab" >Data Entry</a>
+          <a>Data Entry</a>
         </li>
         
         <li ng-class="{active:panel.tab===3}">
-          <a href ng-click="panel.selectTab(3)" data-toggle="tab">Results</a>
+          <a>Results</a>
         </li>
       <!-- end Tab -->
       <div  ng-controller="treeController as treeCtrl">
@@ -116,12 +116,12 @@
                           <!-- export csv Table structure -->
                         <table export-csv="csv" separator=";" style="width:250px;" class="table table-bordered">
                           <tr><td class="right-td"></td></tr>
-                          <tr><td class="right-td">id</td></tr>
-                          <tr><td class="right-td">age</td></tr>
-                          <tr><td class="right-td">birthdate</td></tr>
-                          <tr><td class="right-td">testdate</td></tr>
-                          <tr><td class="right-td">sex</td></tr>
-                          <tr><td class="right-td">education</td></tr>
+                          <tr><td class="main-td ">id</td></tr>
+                          <tr><td class="main-td">age</td></tr>
+                          <tr><td class="main-td">birthdate</td></tr>
+                          <tr><td class="main-td">testdate</td></tr>
+                          <tr><td class="main-td">sex</td></tr>
+                          <tr><td class="main-td">education</td></tr>
                           <tr ng-repeat="(key, value) in treeCtrl.selectedTest">
                             <td class="right-td"> {{key}} </td>
                           </tr>
@@ -142,7 +142,7 @@
                                   <tr>
                                     <td class="right-td">
                                       <input type="text" name="id{{$index}}" id="id{{$index}}" ng-model="patient[$index].id" ng-change="treeCtrl.verifyId()" required>
-                                      <span class="has-error" ng-show="patient.form.id{{$index}}.$error.required && treeCtrl.submited">Required<br/>
+                                      <span class="has-error" ng-show="patient.form.id{{$index}}.$error.required  && treeCtrl.submited">Required<br/>
                                       </span>
                                        <span class="has-error" ng-show="patient.form.id{{$index}}.$error.duplicate">Patient ids should be unique!</span> 
                                     </td>
@@ -150,15 +150,21 @@
                                   <tr><td class="right-td">
                                     <input ng-disabled="isDisabled" min="0"  ng-keyup="treeCtrl.disableDate($index)"  type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
                                   </td></tr>
-                                  <tr><td class="right-td">
-                                    <input class="textField" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)" type="date" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" required>
+                                  <tr>
+                                    <td class="right-td">
+                                    
+
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" ng-click="open1()" required/>
 
                                   <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
 
                                   </td></tr>
                                   <tr><td class="right-td">
-                                    <input class="textField" ng-disabled="isDisabled" ng-change="treeCtrl.calculateAge($index)" type="date" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']" required>
 
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']" ng-click="open2()" required/>
+
+
+                                 
                                     <span class="has-error" ng-show="patient.form.testdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
 
                                   </td></tr>
