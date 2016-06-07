@@ -138,6 +138,11 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       this.selectedTest[node.id] = node;
       this.patient[0].test = this.selectedTest;
     }
+    if (node.isSelected===false && node.children.length===0) {
+      if(this.selectedTest[node.id]!==undefined){
+        delete this.selectedTest[node.id];
+      }
+    }
     if (node.isSelected===true || node.children.length>0) {
       return node.id;
     }
