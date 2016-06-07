@@ -46,7 +46,6 @@
               },
               generate  : function () {
                 //take table content
-                data = '';
                 var rows = element.find('tr');
                 angular.forEach(rows, function (row, i) {
                   var tr = angular.element(row),
@@ -58,7 +57,7 @@
                   if (tds.length === 0) {
                     tds = tr.find('td');
                   }
-                  angular.forEach(tds, function (td, i) {
+                  angular.forEach(tds, function (td, j) {
                     var value = '';
                     td = angular.element(td);
                     if (!td.hasClass(ignoreSelector)) {
@@ -68,6 +67,10 @@
                   });
                   rowData = rowData.slice(0, rowData.length - 1); //remove last separator
                   // ignoring 3rd and 4rd ( birthdate and testdate) field 
+                  if(i===0){
+                   rowData = '"Demograpy";"pateint"';
+                  }
+
                   if(i!==4 && i!==3){
                      data += rowData + '\n';
                   }
