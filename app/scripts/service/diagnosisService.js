@@ -1,8 +1,9 @@
 'use strict';
 app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q) {
-   
    var factory = {};
-   
+   /*
+    return selected Normative date folder test data
+   */
    factory.getTest = function(defaultFolder){
       return $q(function (resolve, reject)
         {
@@ -23,6 +24,9 @@ app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q)
         });
    }
 
+   /*
+    return selected Normative date List
+   */
    factory.getRelease = function(defaultFolder){
       return $q(function (resolve, reject)
         {
@@ -40,10 +44,11 @@ app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q)
                   reject("wrong token");
               }
           });
-
         });
    }
-
+   /*
+    after form submit make line chart 
+   */
    factory.lineChart = function(patientStats) {
    		$('#lines-graph').html('');
       	var margin = {
@@ -261,10 +266,6 @@ app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q)
             $(nRow).css('color', color(aData[0]))
           }
         });
-   }
-
-   factory.piechart = function(){
-
    }
 
    return factory;

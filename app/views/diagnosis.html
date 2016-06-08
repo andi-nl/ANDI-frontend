@@ -1,36 +1,45 @@
 <section ng-controller="PanelController as panel">
     <ul class="nav nav-tabs">
-        <li ng-class="{active:panel.tab===1}" class="active"> <a href ng-click="panel.selectTab(1)" data-toggle="tab">Test Selection</a></li>
+      <!-- Start Tab -->
+        <li ng-class="{active:panel.tab===1}" class="active"> 
+          <a>Test Selection</a>
+        </li>
 
-        <li ng-class="{active:panel.tab===2}"><a href ng-click="panel.selectTab(2)" data-toggle="tab" >Data Entry</a></li>
+        <li ng-class="{active:panel.tab===2}">
+          <a>Data Entry</a>
+        </li>
         
-        <li ng-class="{active:panel.tab===3}"><a href ng-click="panel.selectTab(3)" data-toggle="tab">Results</a></li>
-
+        <li ng-class="{active:panel.tab===3}">
+          <a>Results</a>
+        </li>
+      <!-- end Tab -->
       <div  ng-controller="treeController as treeCtrl">
+        <!-- Tab1 -->
         <div class="panel" ng-show="panel.isSelected(1)">
             <div class="tab-pane fade in active" id="tab1">
             <br> <br>
             <div class="col-sm-12">
               <div class="alert alert-info">
-Welcome to the ANDI portal. On this page you can select the neuropsychological tests you have administered and which you want to analyze. You can browse the tests by category, or search for the tests by using the ‘search for…’ function. Clicking the ‘+’ icon will expand each section. Ticking the boxes will add the tests to the ‘Selected tests’ list, and from here you can arrange the order of your variables.
-Your data will automatically be compared to the latest version of ANDI. In case you wish to select an older version you can click ‘older version’. Note that we highly recommend always using the latest version.
-When you have completed the test selection, press Next to go to the next step.
+                Welcome to the ANDI portal. On this page you can select the neuropsychological tests you have administered and which you want to analyze. You can browse the tests by category, or search for the tests by using the ‘search for…’ function. Clicking the ‘+’ icon will expand each section. Ticking the boxes will add the tests to the ‘Selected tests’ list, and from here you can arrange the order of your variables.
+                Your data will automatically be compared to the latest version of ANDI. In case you wish to select an older version you can click ‘older version’. Note that we highly recommend always using the latest version.
+                When you have completed the test selection, press Next to go to the next step.
               </div>
             </div>
             <div class="col-sm-12">
               <div class="col-sm-7">
-                <h3>Normative data</h3>
-              
+                <h3>Normative date</h3>
+                <!-- Normative date dropdown --> 
                 <select ng-readonly="" ng-model="folders.value" 
                         ng-options="v for v in folders.values"
                         ng-change="treeCtrl.getTreeData(folders.value)"
                         class ="form-control" required>
                 </select>
-              
+                <!-- Search textbox field --> 
                 <h3>Search for neuropsychological tests</h3>
                 <input type="text" ng-model="testSearch" class="form-control" 
                 ng-keyup="treeCtrl.treeExpanded()" placeholder ="Search for ..."/>
 
+                <!-- parent child wise test directive--> 
                 <div
                   ivh-treeview-id-attribute="'uuid'"
                   ivh-treeview="treeCtrl.tests"
@@ -45,9 +54,10 @@ When you have completed the test selection, press Next to go to the next step.
               </div>
               <div class ="col-sm-5">
                 <h3>Selected Tests</h3>
+
+                <!-- selected node template --> 
                 <script type="text/ng-template"  id="tree_item_renderer">
                   <span ng-if="data.children.length===0"  ng-click="nodeClicked(data)"  >
-                    <!-- /*<i class="glyphicon-plus"></i> */-->
                     {{treeCtrl.getSelectedNodes(data)}}
                   </span>
                   <div ng-if="data.children" class="some">    
@@ -55,29 +65,39 @@ When you have completed the test selection, press Next to go to the next step.
                       </div>
                   </div>
                 </script>
+
+                <!-- vertical scrollbar --> 
                 <div class="tree" style="max-height:330px; overflow-y:auto;">
                     <div ng-if="treeCtrl.getSelectedNodes(data)" ng-repeat="data in treeCtrl.tests"  ng-include="'tree_item_renderer'"></div>
                 </div>
                 <hr>
+
+                <!-- csv genrate button --> 
                 <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"  download="PatientTable.csv">
                   <i class="glyphicon glyphicon-new-window"></i>Download Template
                 </a>
+                <!--End csv genrate button --> 
                 <div class="alert alert-info">
                   <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient has their own column.
                 </div>
-
-                  <div  class="fileinput fileinput-new" data-provides="fileinput">
-                    <span class="btn btn-default btn-file">
-                    <input type="file" ng-model="fileContent" id="fileContent"  custom-on-change="treeCtrl.uploadCsv"></span>
-                  </div>
+                <!-- upload csv --> 
+                    <div class="fileinput fileinput-new" data-provides="fileinput" style="display:block;">
+                      <label for="files"> 
+                        <span class="btn btn-default btn-file">Upload Data</span>
+                      </label>
+                      <input style="visibility: hidden; position: absolute;" id="files" ng-model="fileContent" custom-on-change="treeCtrl.uploadCsv" class="form-control" type="file" name="files">
+                    </div>
+                <!-- end upload csv --> 
               </div>
             </div>
             </div>
             <div class="col-sm-12">
+              <!-- Tab Change Button -->
               <button type="button" class ="btn btn-next" ng-click="panel.next()"> Next</button> 
             </div>
         </div>
-
+        <!-- End Tab1 -->
+        <!-- Tab2 -->
         <div class="panel col-sm-12 col-xs-12 col-lg-12" ng-show="panel.isSelected(2)" class="tab-pane fade in active">
             <form name="patient.form" ng-model="fields" ng-submit="treeCtrl.submit()" novalidate angular-validator>  
 
@@ -86,27 +106,29 @@ When you have completed the test selection, press Next to go to the next step.
                     On this screen you can add the test values and demographic information for your patients. You can either fill out the table below, or select "I wish to upload data". If you wish to upload your data you can download the .csv template in which the test scores can be filled out.    After you have saved the file you can upload it to the page by clicking "choose file". Once the file has been uploaded the screen will ask you to define your missing values. When you submit this page, the website will fill out the table with your information and you can check whether it has done so correctly. Note that all patients need to have a unique ID. At the bottom of the page under "Advanced settings" you can change statistical settings.
                 </div>
                 <div>
+                  <!-- add patient Button -->
                   <button type="button"  ng-hide="btnAddPatient" class ="btn rightBtn" ng-click="treeCtrl.addPatient()"> Add Patient</button>
                 </div>
-
-                
+                 <!-- Table structure -->
                   <table class="">
                     <tr>
                       <td>
+                          <!-- export csv Table structure -->
                         <table export-csv="csv" separator=";" style="width:250px;" class="table table-bordered">
                           <tr><td class="right-td"></td></tr>
-                          <tr><td class="right-td">id</td></tr>
-                          <tr><td class="right-td">age</td></tr>
-                          <tr><td class="right-td">birthdate</td></tr>
-                          <tr><td class="right-td">testdate</td></tr>
-                          <tr><td class="right-td">sex</td></tr>
-                          <tr><td class="right-td">education</td></tr>
+                          <tr><td class="main-td ">id</td></tr>
+                          <tr><td class="main-td">age</td></tr>
+                          <tr><td class="main-td">birthdate</td></tr>
+                          <tr><td class="main-td">testdate</td></tr>
+                          <tr><td class="main-td">sex</td></tr>
+                          <tr><td class="main-td">education</td></tr>
                           <tr ng-repeat="(key, value) in treeCtrl.selectedTest">
                             <td class="right-td"> {{key}} </td>
                           </tr>
                         </table>
                       </td>
                       <td>
+                          <!-- patient array wise create column -->
                         <div  ng-class="treeCtrl.counter>3? 'tblscrollpadding' : 'tblscroll'" >
                           <table>
                             <tr>
@@ -120,7 +142,7 @@ When you have completed the test selection, press Next to go to the next step.
                                   <tr>
                                     <td class="right-td">
                                       <input type="text" name="id{{$index}}" id="id{{$index}}" ng-model="patient[$index].id" ng-change="treeCtrl.verifyId()" required>
-                                      <span class="has-error" ng-show="patient.form.id{{$index}}.$error.required && treeCtrl.submited">Required<br/>
+                                      <span class="has-error" ng-show="patient.form.id{{$index}}.$error.required  && treeCtrl.submited">Required<br/>
                                       </span>
                                        <span class="has-error" ng-show="patient.form.id{{$index}}.$error.duplicate">Patient ids should be unique!</span> 
                                     </td>
@@ -128,15 +150,21 @@ When you have completed the test selection, press Next to go to the next step.
                                   <tr><td class="right-td">
                                     <input ng-disabled="isDisabled" min="0"  ng-keyup="treeCtrl.disableDate($index)"  type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
                                   </td></tr>
-                                  <tr><td class="right-td">
-                                    <input class="textField" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)" type="date" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" required>
+                                  <tr>
+                                    <td class="right-td">
+                                    
+
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" ng-click="open1()" required/>
 
                                   <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
 
                                   </td></tr>
                                   <tr><td class="right-td">
-                                    <input class="textField" ng-disabled="isDisabled" ng-change="treeCtrl.calculateAge($index)" type="date" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']" required>
 
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']" ng-click="open2()" required/>
+
+
+                                 
                                     <span class="has-error" ng-show="patient.form.testdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
 
                                   </td></tr>
@@ -183,8 +211,6 @@ When you have completed the test selection, press Next to go to the next step.
                    <tree-grid tree-obj="patient" 
                     tree-disable="isDisabled"
                      tree-table="treeCtrl" tree-index="treeCtrl.counterlimit" tree-data="treeCtrl.tests" tree-control="treeCtrl.my_tree" col-defs="treeCtrl.col_defs" expand-on="treeCtrl.expanding_property" on-select="treeCtrl.my_tree_handler(branch)" expand-level="2" icon-leaf= "glyphicon"></tree-grid>
-
-
                   <br><br>
                   <h3>Advanced Settings</h3>
                   <hr>
@@ -207,26 +233,26 @@ When you have completed the test selection, press Next to go to the next step.
                     <input type="hidden"  name="nomative" ng-model="patientData.nomative" value="" />
                     <span class="has-error" ng-show="treeCtrl.submited && patientData.form.conf.$error.required">Required</span>
                   <hr>
-
                   <button type="button" class="btn btn-previous" ng-click="panel.previous()"> Previous</button>
                   <button type="submit" class="btn btn-submit"  id="submit">Next</button>
-                 <!--  <button type="button" class ="btn btn-next" ng-click="panel.next()"> Next</button>  -->
              </div>
             </form>
         </div>
-
+        <!-- End Tab2 -->
+        <!-- Tab3 -->
         <div class="panel" ng-show="panel.isSelected(3)">
           <div ng-controller="plotController as plotCtrl" class="col-sm-12">
           <h2>Results Plots</h2>
+             <!-- Graphs dropdown --> 
             <select ng-init="patientData.chart='line'" ng-model="patientData.chart" class ="form-control" required ng-change="plotCtrl.FormChart(patientData.chart)">
              <option value="line"> Line Chart </option>
              <option value="scatter"> Scatter plot </option>
              <option value="radar"> Radar Chart </option>
             </select>
             <div id="lines-graph" class="lines-graph"></div>
-            <!-- <nvd3 options="plotCtrl.options" data="plotCtrl.data"></nvd3> -->
           </div>
-        </div>  
+        </div> 
+        <!-- End Tab3 --> 
       </div>
     </ul>
 </section>
