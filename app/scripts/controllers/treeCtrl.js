@@ -43,15 +43,12 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
   $scope.patientData= {};
   $scope.message    = 'Data Uploaded successfully.';
-
   /*Datepicker code*/
-
   $scope.inlineOptions = {
     customClass: getDayClass,
     minDate: new Date(),
     showWeeks: true
   };
-
   $scope.dateOptions = {
     dateDisabled: false,
     formatYear: 'yy',
@@ -89,7 +86,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
 
     return '';
   }
-    /*End Datepicker code*/
+  /*End Datepicker code*/
 
   /*get selected Normative Date test List*/
   diagnosisService.getTest(defaultFolder)
@@ -498,6 +495,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         };
         r.readAsText(files[0]);  
         $('.fileinput').hide(); // hide the file field
+        $scope.$parent.panel.next();
       }, function () {
         //show errors
         console.log('Modal dismissed at: ' + new Date());
