@@ -39,10 +39,9 @@
             var ignoreSelector = attrs.exportCsvIgnore || '.ng-table-filters';
             var csv = {
               stringify : function (str) {
-                return '"' +
-                  str.replace(/^\s\s*/, '').replace(/\s*\s$/, '') // trim spaces
-                    .replace(/"/g, '""') + // replace quotes with double quotes
-                  '"';
+                return str.replace(/^\s\s*/, '').replace(/\s*\s$/, '') // trim spaces
+                    .replace(/"/g, '""')  // replace quotes with double quotes
+                  ;
               },
               generate  : function () {
                 //take table content
@@ -64,11 +63,12 @@
                       value = angular.element(td).text();
                     }
                     rowData += csv.stringify(value) + separator; // csv content
+                    
                   });
                   rowData = rowData.slice(0, rowData.length - 1); //remove last separator
                   // ignoring 3rd and 4rd ( birthdate and testdate) field 
                   if(i===0){
-                   rowData = '"Demographics";"Patient 1"';
+                   rowData = ';Patient 1';
                   }
 
                   if(i!==4 && i!==3){
