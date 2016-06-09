@@ -68,7 +68,7 @@
                   rowData = rowData.slice(0, rowData.length - 1); //remove last separator
                   // ignoring 3rd and 4rd ( birthdate and testdate) field 
                   if(i===0){
-                   rowData = '"Demograpy";"pateint"';
+                   rowData = '"Demographics";"Patient 1"';
                   }
 
                   if(i!==4 && i!==3){
