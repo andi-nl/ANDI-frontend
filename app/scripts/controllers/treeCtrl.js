@@ -432,7 +432,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                       $scope.treeCtrl.selectedTest[data[0]] = '';
                   }
                   else{
-                    $scope.message    = 'Not All Data Uploaded successfully.';
+                    $scope.message    = 'WARNING: Not all data was imported !';
                   }
                 }
               }
