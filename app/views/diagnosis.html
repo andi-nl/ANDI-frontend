@@ -29,11 +29,17 @@
               <div class="col-sm-7">
                 <h3>Normative date</h3>
                 <!-- Normative date dropdown --> 
-                <select ng-readonly="" ng-model="folders.value" 
-                        ng-options="v for v in folders.values"
-                        ng-change="treeCtrl.getTreeData(folders.value)"
-                        class ="form-control" required>
-                </select>
+                <div ng-if="normativedatalabel==true">
+                  <span style="font-size:14px">{{patientData.nomative}}</h4>
+                  <input type="button" ng-click="treeCtrl.selectDate();" value="change">
+                </div>
+                <div ng-if="normativedatalabel==false">
+                  <select  ng-model="folders.value" 
+                          ng-options="v for v in folders.values"
+                          ng-change="treeCtrl.getTreeData(folders.value)"
+                          class ="form-control" required>
+                  </select>
+                </div>
                 <!-- Search textbox field --> 
                 <h3>Search for neuropsychological tests</h3>
                 <input type="text" ng-model="testSearch" class="form-control" 
@@ -73,7 +79,7 @@
                 <hr>
 
                 <!-- csv genrate button --> 
-                <a class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"  download="PatientTable.csv">
+                <a ng-if="downloadtemplate==true" class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}"  download="PatientTable.csv">
                   <i class="glyphicon glyphicon-new-window"></i>Download Template
                 </a>
                 <!--End csv genrate button --> 
@@ -156,7 +162,7 @@
 
                                     <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" ng-click="open1()" required/>
 
-                                  <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
+                                    <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
 
                                   </td></tr>
                                   <tr><td class="right-td">

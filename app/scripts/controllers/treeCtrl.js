@@ -7,9 +7,7 @@
  * # MainCtrl
  * Controller of the andiApp
  */
-
 var defaultFolder = '2016-01-14';  //default folder name when we take test data
-
 /*
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
@@ -43,12 +41,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
   $scope.patientData= {};
   $scope.message    = 'Data Uploaded successfully.';
+  $scope.normativedatalabel = true;
+  $scope.downloadtemplate   = false;
   /*Datepicker code*/
-  $scope.inlineOptions = {
-    customClass: getDayClass,
-    minDate: new Date(),
-    showWeeks: true
-  };
   $scope.dateOptions = {
     dateDisabled: false,
     formatYear: 'yy',
@@ -62,7 +57,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   $scope.open1 = function() {
     $scope.popup1.opened = true;
   };
-
   $scope.popup2 = {
     opened: false
   };
@@ -83,7 +77,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         }
       }
     }
-
     return '';
   }
   /*End Datepicker code*/
@@ -114,6 +107,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         $window.alert(msg);
     });
 
+  this.selectDate = function(){
+    $scope.normativedatalabel = false;
+  };
+
   this.my_tree_handler = function (branch) {
       console.log('you clicked on', branch);
   };
@@ -122,6 +119,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     diagnosisService.getTest(val)
     .then(function goToHome(dataObj) {
       //show success
+      $scope.normativedatalabel   = true;
       $scope.treeCtrl.tests       =  dataObj.data;
       $scope.patientData.nomative = dataObj.defaultFolder;
     })
@@ -167,6 +165,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         delete this.selectedTest[node.id];
       }
     }
+    $scope.downloadtemplate = !(_.isEmpty(this.selectedTest));
     if (node.isSelected===true || node.children.length>0) {
       return node.id;
     }
