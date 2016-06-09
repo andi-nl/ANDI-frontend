@@ -96,6 +96,10 @@ body {
   }
 }
 
+/*navbar*/
+.navbar {
+    margin-bottom: 0;
+}
 
 
 /* Settings for Radar chart */
