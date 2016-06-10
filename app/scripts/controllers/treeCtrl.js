@@ -367,12 +367,12 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   /*
    form id field unique validation check
   */
-  this.verifyId = function() {
+this.verifyId = function() {
     var sorted = [];
     for (var i in $scope.patient) {
       if($scope.patient[i].id!==null && $scope.patient[i].id!==undefined )
       {
-        if ($.inArray($scope.patient[i].id, sorted) >= 0) {
+        if (sorted.indexOf($scope.patient[0].id) >= 0) {
           $scope.patient.form['id'+i].$setValidity('duplicate',!true);
         }
         else{
@@ -382,7 +382,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       } 
     }
   };
-
   /*
    upload csv file and make form based on csv file
   */
