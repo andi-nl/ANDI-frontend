@@ -368,12 +368,14 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
    form id field unique validation check
   */
 this.verifyId = function() {
+
     var sorted = [];
     for (var i in $scope.patient) {
-      if($scope.patient[i].id!==null && $scope.patient[i].id!==undefined )
+      if($scope.patient[i].id!==null && $scope.patient[i].id!=='' && $scope.patient[i].id!==undefined )
       {
-        if (sorted.indexOf($scope.patient[0].id) >= 0) {
+        if (sorted.indexOf($scope.patient[i].id) >= 0) {
           $scope.patient.form['id'+i].$setValidity('duplicate',!true);
+          //$scope.patient.form['id0'].$setValidity('duplicate',!true);
         }
         else{
           sorted.push($scope.patient[i].id);
@@ -490,6 +492,9 @@ this.verifyId = function() {
               });
               alert($scope.message);
             }, 1000);
+            $timeout(function() {
+              $('#id1').trigger('change');
+            },1000);
         };
         r.readAsText(files[0]);  
         $('.fileinput').hide(); // hide the file field
@@ -500,8 +505,6 @@ this.verifyId = function() {
       });
     }
   };
-
-
   /*
   based on findField find particular test and return test object
   */
