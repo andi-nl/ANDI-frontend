@@ -7,9 +7,7 @@
  * # MainCtrl
  * Controller of the andiApp
  */
-
 var defaultFolder = '2016-01-14';  //default folder name when we take test data
-
 /*
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
@@ -43,15 +41,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
   $scope.patientData= {};
   $scope.message    = 'Data Uploaded successfully.';
-
+  $scope.normativedatalabel = true;
+  $scope.downloadtemplate   = false;
   /*Datepicker code*/
-
-  $scope.inlineOptions = {
-    customClass: getDayClass,
-    minDate: new Date(),
-    showWeeks: true
-  };
-
   $scope.dateOptions = {
     dateDisabled: false,
     formatYear: 'yy',
@@ -65,7 +57,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   $scope.open1 = function() {
     $scope.popup1.opened = true;
   };
-
   $scope.popup2 = {
     opened: false
   };
@@ -86,10 +77,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         }
       }
     }
-
     return '';
   }
-    /*End Datepicker code*/
+  /*End Datepicker code*/
 
   /*get selected Normative Date test List*/
   diagnosisService.getTest(defaultFolder)
@@ -117,6 +107,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         $window.alert(msg);
     });
 
+  this.selectDate = function(){
+    $scope.normativedatalabel = false;
+  };
+
   this.my_tree_handler = function (branch) {
       console.log('you clicked on', branch);
   };
@@ -125,6 +119,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     diagnosisService.getTest(val)
     .then(function goToHome(dataObj) {
       //show success
+      $scope.normativedatalabel   = true;
       $scope.treeCtrl.tests       =  dataObj.data;
       $scope.patientData.nomative = dataObj.defaultFolder;
     })
@@ -170,6 +165,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         delete this.selectedTest[node.id];
       }
     }
+    $scope.downloadtemplate = !(_.isEmpty(this.selectedTest));
     if (node.isSelected===true || node.children.length>0) {
       return node.id;
     }
@@ -371,13 +367,15 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   /*
    form id field unique validation check
   */
-  this.verifyId = function() {
+this.verifyId = function() {
+
     var sorted = [];
     for (var i in $scope.patient) {
-      if($scope.patient[i].id!==null && $scope.patient[i].id!==undefined )
+      if($scope.patient[i].id!==null && $scope.patient[i].id!=='' && $scope.patient[i].id!==undefined )
       {
-        if ($.inArray($scope.patient[i].id, sorted) >= 0) {
+        if (sorted.indexOf($scope.patient[i].id) >= 0) {
           $scope.patient.form['id'+i].$setValidity('duplicate',!true);
+          //$scope.patient.form['id0'].$setValidity('duplicate',!true);
         }
         else{
           sorted.push($scope.patient[i].id);
@@ -386,7 +384,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       } 
     }
   };
-
   /*
    upload csv file and make form based on csv file
   */
@@ -436,7 +433,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                       $scope.treeCtrl.selectedTest[data[0]] = '';
                   }
                   else{
-                    $scope.message    = 'Not All Data Uploaded successfully.';
+                    $scope.message    = 'WARNING: Not all data was imported !';
                   }
                 }
               }
@@ -495,17 +492,19 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
               });
               alert($scope.message);
             }, 1000);
+            $timeout(function() {
+              $('#id1').trigger('change');
+            },1000);
         };
         r.readAsText(files[0]);  
         $('.fileinput').hide(); // hide the file field
+        $scope.$parent.panel.next();
       }, function () {
         //show errors
         console.log('Modal dismissed at: ' + new Date());
       });
     }
   };
-
-
   /*
   based on findField find particular test and return test object
   */
