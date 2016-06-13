@@ -14,11 +14,7 @@
 */
 app.controller("PanelController",function(){
   this.tab=1; // Default Active Tab
-  /*Tab Click Event*/
-  this.selectTab=function(setTab){
-    this.tab=setTab;
-  };
-  /*show the clicked tab panel*/
+  /*show and hide the clicked tab panel*/
   this.isSelected=function(checkTab){
     return this.tab === checkTab;
   };

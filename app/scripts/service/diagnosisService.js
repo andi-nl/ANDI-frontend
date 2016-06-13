@@ -1,10 +1,10 @@
 'use strict';
 app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q) {
-   var factory = {};
+   var diagnosisService = {};
    /*
     return selected Normative date folder test data
    */
-   factory.getTest = function(defaultFolder){
+   diagnosisService.getTest = function(defaultFolder){
       return $q(function (resolve, reject)
         {
           $http.get('data/'+defaultFolder+'/tests.json')
@@ -27,7 +27,7 @@ app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q)
    /*
     return selected Normative date List
    */
-   factory.getRelease = function(defaultFolder){
+   diagnosisService.getRelease = function(defaultFolder){
       return $q(function (resolve, reject)
         {
           $http.get("data/release.json")
@@ -49,7 +49,7 @@ app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q)
    /*
     after form submit make line chart 
    */
-   factory.lineChart = function(patientStats) {
+   diagnosisService.lineChart = function(patientStats) {
    		$('#lines-graph').html('');
       	var margin = {
           top: 75,
@@ -267,8 +267,7 @@ app.factory('diagnosisService', ['$window','$http', '$q', function(win,$http,$q)
           }
         });
    }
-
-   return factory;
+   return diagnosisService;
 
 }]);
 
