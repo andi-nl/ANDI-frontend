@@ -158,16 +158,14 @@
                                     <td class="right-td">
                                     
 
-                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup1.opened"  ng-required="true" close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" ng-click="popup1.opened = true" required/>
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup1.opened"  close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" ng-click="popup1.opened = true"  ng-required="!patient[$index].age"/>
 
                                     <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
 
                                   </td></tr>
                                   <tr><td class="right-td">
 
-                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup2.opened"  ng-required="true" close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']" ng-click="popup2.opened = true" required/>
-
-
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="treeCtrl.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup2.opened" close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']" ng-click="popup2.opened = true"  ng-required="!patient[$index].age"/>
                                  
                                     <span class="has-error" ng-show="patient.form.testdate{{$index}}.$error.required && treeCtrl.submited">Required</span>
 
@@ -196,9 +194,9 @@
                                   </td></tr>
                                   <tr ng-repeat="(key, value) in treeCtrl.selectedTest">
                                     <td class="right-td">
-                                      <input class="textField" ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"  ng-disabled="treeDisable" type="number" min="{{value.lowweb}}" max="{{value.highweb}}" required>
+                                      <input class="textField" ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"  ng-disabled="treeDisable" type="number" min="{{value.lowweb}}" max="{{value.highweb}}" >
 
-                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.required && treeCtrl.submited">Required</span>
+                                    <!--   <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.required && treeCtrl.submited">Required</span> -->
                                       <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
                                       <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.max">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
                                       <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.number">Not valid number!</span>

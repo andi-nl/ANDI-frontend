@@ -22,6 +22,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   /*Patient List*/
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
   $scope.patientData= {};
+  $scope.nodeArr    = [];
   $scope.message    = 'Data Uploaded successfully.';
   $scope.normativedatalabel = true;
   $scope.downloadtemplate   = false;
@@ -82,6 +83,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   */
   this.getSelectedNodes=function(node){
     if (node.isSelected===true && (node.children!==undefined && node.children.length===0)) {
+      if($scope.nodeArr.indexOf(node.id)<0){
+        $scope.nodeArr.push(node.id);
+      };
       this.selectedTest[node.id] = node;
       this.patient[0].test = this.selectedTest;
     }
@@ -140,14 +144,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     if($scope.patient.form['age'+index].$viewValue!==''){
       $('#birthdate'+index).attr('disabled',true);
       $('#testdate'+index).attr('disabled',true);
-      $scope.patient.form['birthdate'+index].$setViewValue('1992-12-12');
-      $scope.patient.form['testdate'+index].$setViewValue('1992-12-12');
     }
     else{
       $('#birthdate'+index).attr('disabled',false);
       $('#testdate'+index).attr('disabled',false); 
-      $scope.patient.form['birthdate'+index].$setViewValue('');
-      $scope.patient.form['testdate'+index].$setViewValue('');
     }
   };
   /*
@@ -205,31 +205,43 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       for (var i in $scope.patient) {
         if(limit<this.counter){
           var patientTest = [];
-          for (var key in $scope.patient[i].test) {
-            if ($scope.patient[i].test.hasOwnProperty(key)) {
-              var idField =  key;
-              //find test detail on id field
-              var labelField =  findTest(idField,'id');
-              patientTest.push({
-                                id:idField,
-                                label:labelField.label,
-                                Dataset:labelField.Dataset,
-                                'SPSS name':labelField['SPSS name'],
-                                highborder:labelField.highborder,
-                                highweb:labelField.highweb,
-                                lowborder:labelField.lowborder,
-                                lowweb:labelField.lowweb,
-                                value:$scope.patient[i].test[key]
-                              });
-            }
-            patientObj[i] = {id:$scope.patient[i].id,
-                            age:$scope.patient[i].age,
-                            'birthdate':$scope.patient[i].birthdate,
-                            'testdate':$scope.patient[i].testdate,
-                            sex:$scope.patient[i].sex,
-                            education:$scope.patient[i].education,
-                            test:patientTest};
-          }
+            
+            angular.forEach($scope.nodeArr,function(nodeval,nodekey){
+              var labelField =  findTest(nodeval,'id');
+              if($scope.patient[i].test!==undefined && $scope.patient[i].test[nodeval]!==undefined){
+                patientTest.push({
+                                  id:nodeval,
+                                  label:labelField.label,
+                                  Dataset:labelField.Dataset,
+                                  'SPSS name':labelField['SPSS name'],
+                                  highborder:labelField.highborder,
+                                  highweb:labelField.highweb,
+                                  lowborder:labelField.lowborder,
+                                  lowweb:labelField.lowweb,
+                                  value:$scope.patient[i].test[nodeval]
+                                });
+              }
+              else{
+                patientTest.push({
+                                  id:nodeval,
+                                  label:labelField.label,
+                                  Dataset:labelField.Dataset,
+                                  'SPSS name':labelField['SPSS name'],
+                                  highborder:labelField.highborder,
+                                  highweb:labelField.highweb,
+                                  lowborder:labelField.lowborder,
+                                  lowweb:labelField.lowweb,
+                                  value:999999999
+                                });
+              }
+              patientObj[i] = {id:$scope.patient[i].id,
+                              age:$scope.patient[i].age,
+                              'birthdate':$scope.patient[i].birthdate,
+                              'testdate':$scope.patient[i].testdate,
+                              sex:$scope.patient[i].sex,
+                              education:$scope.patient[i].education,
+                              test:patientTest};
+            });
           limit++;
         }
       }
@@ -281,6 +293,9 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                 }
               }
               if(key>4){
+                if(data[0]!=='' && $scope.nodeArr.indexOf(data[0])<0){
+                  $scope.nodeArr.push(data[0]);
+                };
                 if(isNaN(parseInt(data[0])) && data[0]!=='')
                 {
                   var IdAvailability = findTest(data[0],'id');
@@ -329,8 +344,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
                         if(data[0]==='age'){
                           $('#birthdate'+(j-1)).attr('disabled',true);
                           $('#testdate'+(j-1)).attr('disabled',true);
-                          $scope.patient.form['birthdate'+(j-1)].$setViewValue('1992-12-12');
-                          $scope.patient.form['testdate'+(j-1)].$setViewValue('1992-12-12');
                           fieldVal = parseInt(fieldVal);
                         }
                         if(data[0]==='sex' || data[0]==='education'){
