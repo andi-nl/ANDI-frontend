@@ -10,7 +10,7 @@
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
 */
-app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,diagnosisService,$window,ivhTreeviewMgr,defaultFolder) {
+app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibModal,$q,diagnosisService,$window,ivhTreeviewMgr,defaultFolder) {
   this.tests        = [];
   this.txtvalue     = '';
   this.txtReplace   = '';
@@ -21,6 +21,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
   this.selectedTest = {};     // Make selected test object
   /*Patient List*/
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
+  $rootScope.filebutton = true;
   $scope.patientData= {};
   $scope.nodeArr    = [];
   $scope.message    = 'Data Uploaded successfully.';
@@ -276,10 +277,12 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         /*
         read csv file and make daynamic form
         */
-        r.onload = function(e) {
-            var contents = e.target.result;
-            var rows = contents.split('\n');
+        r.onload              = function(e) {
+            var contents      = e.target.result;
+            var rows          = contents.split('\n');
             $scope.patient[0] = {'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}};
+            $scope.nodeArr    = [];
+            $scope.treeCtrl.selectedTest = {}; 
             angular.forEach(rows, function(val,key) {
               var data = val.split(';');
               if(key===1){
@@ -365,7 +368,8 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
 
         };
         r.readAsText(files[0]);  
-        $('.fileinput').hide(); // hide the file field
+        $rootScope.filebutton = false;// hide the file field
+        $('.fileinput').hide(); 
         $scope.$parent.panel.next();
       }, function () {
         //show errors

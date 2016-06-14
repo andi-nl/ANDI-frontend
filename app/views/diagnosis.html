@@ -85,7 +85,7 @@
                     <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient has their own column.
                   </div>
                   <!-- upload csv --> 
-                      <div class="fileinput fileinput-new" data-provides="fileinput" style="display:block;">
+                      <div ng-if="filebutton==true" class="fileinput fileinput-new" data-provides="fileinput">
                         <label for="files"> 
                           <span class="btn btn-default btn-file">Upload Data</span>
                         </label>
