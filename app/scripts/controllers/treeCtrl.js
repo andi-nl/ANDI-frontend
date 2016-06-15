@@ -10,7 +10,7 @@
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
 */
-app.controller('treeController', function ($http, $rootScope, $scope, $timeout, $uibModal, $q, diagnosisService, $window, ivhTreeviewMgr, defaultFolder) {
+app.controller('treeController', function ($http, $rootScope, $scope, $timeout, $uibModal, $q, $location, diagnosisService, $window, ivhTreeviewMgr, defaultFolder) {
   this.tests = [];
   this.txtvalue = '';
   this.txtReplace = '';
@@ -19,6 +19,12 @@ app.controller('treeController', function ($http, $rootScope, $scope, $timeout, 
   this.ageCalculate = true;
   this.submited = false; // for custom validation flag
   this.selectedTest = {};     // Make selected test object
+
+  // this should be available for controllers in each root #FIXIT
+  $scope.go = function (path) {
+    $location.path(path);
+  };
+
   /*Patient List*/
   this.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} }];
   $rootScope.filebutton = true;
