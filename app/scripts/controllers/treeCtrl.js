@@ -10,7 +10,7 @@
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
 */
-app.controller('treeController', function ($http, $rootScope, $scope, $timeout, $uibModal, $q, $location, diagnosisService, $window, ivhTreeviewMgr, defaultFolder) {
+app.controller('treeController', function ($http, $scope, $timeout, $uibModal, $q, $location, diagnosisService, $window, ivhTreeviewMgr, defaultFolder) {
   this.tests = [];
   this.txtvalue = '';
   this.txtReplace = '';
@@ -27,7 +27,7 @@ app.controller('treeController', function ($http, $rootScope, $scope, $timeout, 
 
   /*Patient List*/
   this.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} }];
-  $rootScope.filebutton = true;
+  $scope.filebutton = true;
   $scope.patientData = {};
   $scope.nodeArr = [];
   $scope.message = 'Data Uploaded successfully.';
@@ -378,7 +378,7 @@ app.controller('treeController', function ($http, $rootScope, $scope, $timeout, 
 
         };
         r.readAsText(files[0]);
-        $rootScope.filebutton = false;// hide the file field
+        $scope.filebutton = false;// hide the file field
         $('.fileinput').hide();
         // here we need to move to 'data-entry'
         // it used to be $scope.$parent.panel.next();
