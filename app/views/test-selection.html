@@ -1,0 +1,91 @@
+<div>
+  <br> <br>
+  <div class="col-sm-12">
+    <div class="alert alert-info">
+      Welcome to the ANDI portal. On this page you can select the neuropsychological tests you have administered and which you
+      want to analyze. You can browse the tests by category, or search for the tests by using the ‘search for…’ function.
+      Clicking the ‘+’ icon will expand each section. Ticking the boxes will add the tests to the ‘Selected tests’ list,
+      and from here you can arrange the order of your variables. Your data will automatically be compared to the latest version
+      of ANDI. In case you wish to select an older version you can click ‘older version’. Note that we highly recommend always
+      using the latest version. When you have completed the test selection, press Next to go to the next step.
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="col-sm-7">
+      <h3>Normative date</h3>
+      <!-- Normative date dropdown -->
+      <div ng-if="normativedatalabel==true">
+        <span style="font-size:14px">{{patientData.nomative}}</h4>
+                    <input type="button" ng-click="treeCtrl.selectDate();" value="change">
+                  </div>
+                  <div ng-if="normativedatalabel==false">
+                    <select  ng-model="folders.value"
+                            ng-options="v for v in folders.values"
+                            ng-change="treeCtrl.getTreeData(folders.value)"
+                            class ="form-control" required>
+                    </select>
+                  </div>
+                  <!-- Search textbox field -->
+                  <h3>Search for neuropsychological tests</h3>
+                  <input type="text" ng-model="testSearch" class="form-control"
+                  ng-keyup="treeCtrl.treeExpanded()" placeholder ="Search for ..."/>
+                  <!-- parent child wise test directive-->
+                  <div
+                    ivh-treeview-id-attribute="'uuid'"
+                    ivh-treeview="treeCtrl.tests"
+                    ivh-treeview-expand-to-depth="0"
+                    ivh-treeview-default-selected-state="false"
+                    ivh-treeview-filter="testSearch"
+                    ivh-treeview-validate="true"
+                    ivh-treeview-selected-attribute="'isSelected'"
+                    ivh-treeview-on-cb-change="fancy.otherAwesomeCallback(ivhNode, ivhIsSelected, ivhTree)"
+                    >
+                  </div>
+                </div>
+                <div class ="col-sm-5">
+                  <h3>Selected Tests</h3>
+
+                  <!-- selected node template -->
+                  <script type="text/ng-template"  id="tree_item_renderer">
+                    <span ng-if="data.children.length===0"  ng-click="nodeClicked(data)"  >
+                      {{treeCtrl.getSelectedNodes(data)}}
+                    </span>
+        <div ng-if="data.children" class="some">
+          <div ng-if="treeCtrl.getSelectedNodes(data)" ng-repeat="data in data.children" class="parent_li" ng-include="'tree_item_renderer'"
+            tree-node>
+          </div>
+        </div>
+        </script>
+        <tree-grid tree-data="treeCtrl.tests"></tree-grid>
+        <!-- vertical scrollbar -->
+        <div class="tree" style="max-height:330px;overflow-y:auto;">
+          <div ng-if="treeCtrl.getSelectedNodes(data)" ng-repeat="data in treeCtrl.tests" ng-include="'tree_item_renderer'"></div>
+        </div>
+        <hr>
+        <!-- csv genrate button -->
+        <a ng-if="downloadtemplate==true" class="btn" title="Export Table" ng-click='csv.generate()' ng-href="{{ csv.link() }}" download="PatientTable.csv">
+          <i class="glyphicon glyphicon-new-window"></i>Download Template
+        </a>
+        <!--End csv genrate button -->
+        <div class="alert alert-info">
+          <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each
+          patient has their own column.
+        </div>
+        <!-- upload csv -->
+        <div ng-if="filebutton==true" class="fileinput fileinput-new" data-provides="fileinput">
+          <label for="files">
+                          <span class="btn btn-default btn-file">Upload Data</span>
+                        </label>
+          <input style="visibility: hidden; position: absolute;" id="files" ng-model="fileContent" custom-on-change="treeCtrl.uploadCsv"
+            class="form-control" type="file" name="files">
+        </div>
+        <!-- end upload csv -->
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <!-- Tab Change Button -->
+      <button type="button" class="btn btn-next" ng-click="panel.next()"> Next</button>
+    </div>
+  </div>
+  <!-- End Tab1 -->
+  <!-- Tab2 -->
