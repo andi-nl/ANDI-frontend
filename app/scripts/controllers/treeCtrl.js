@@ -259,7 +259,10 @@ app.controller('treeController', function ($http, $rootScope, $scope, $timeout, 
       $scope.submitData = patientObj;
       console.log(patientObj);
       //$scope.submitData = $scope.submitData1.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
-      $scope.$parent.panel.next();       // move to next tab event
+
+      // here we need to move to 'data-entry'
+      // it used to be $scope.$parent.panel.next();
+      // #FIXME
       $scope.$broadcast("MoveToChart");
     }
   };
@@ -377,7 +380,9 @@ app.controller('treeController', function ($http, $rootScope, $scope, $timeout, 
         r.readAsText(files[0]);
         $rootScope.filebutton = false;// hide the file field
         $('.fileinput').hide();
-        $scope.$parent.panel.next();
+        // here we need to move to 'data-entry'
+        // it used to be $scope.$parent.panel.next();
+        // #FIXME
       }, function () {
         //show errors
         console.log('Modal dismissed at: ' + new Date());
