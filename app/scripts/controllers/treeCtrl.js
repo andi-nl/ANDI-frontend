@@ -1,5 +1,4 @@
 'use strict';
-//test data goes here
 /**
  * @ngdoc function
  * @name andiApp.controller:MainCtrl
@@ -7,92 +6,50 @@
  * # MainCtrl
  * Controller of the andiApp
  */
-var defaultFolder = '2016-01-14';  //default folder name when we take test data
 /*
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
 */
-app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,diagnosisService,$window) {
-  
-  this.tests    = [];
-  var arr=[];
-  this.txtvalue = '';
-  this.txtReplace = '';
-  this.isExpanded = false;
+app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibModal,$q,diagnosisService,$window,ivhTreeviewMgr,defaultFolder) {
+  this.tests        = [];
+  this.txtvalue     = '';
+  this.txtReplace   = '';
   this.alertMessage = '';
-  this.counter = 1;
+  this.counter      = 1;
   this.ageCalculate = true;
-  this.col_defs = [
-      {
-          field: "label",
-          sortable : true,                                        
-          sortingType : "string"
-      },
-  ];
-  this.expanding_property = {
-      field: "id",
-      displayName: "id Name",
-      sortable : true,
-      filterable: true
-  };
   this.submited     = false; // for custom validation flag
   this.selectedTest = {};     // Make selected test object
   /*Patient List*/
   this.patient      = [{'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}}];
+  $rootScope.filebutton = true;
   $scope.patientData= {};
+  $scope.nodeArr    = [];
   $scope.message    = 'Data Uploaded successfully.';
   $scope.normativedatalabel = true;
   $scope.downloadtemplate   = false;
   /*Datepicker code*/
-  $scope.dateOptions = {
-    dateDisabled: false,
-    formatYear: 'yy',
-    maxDate: new Date(2020, 5, 22),
-    minDate: new Date(),
-    startingDay: 1
-  };
-  $scope.open2 = function() {
-    $scope.popup2.opened = true;
-  };
-  $scope.open1 = function() {
-    $scope.popup1.opened = true;
-  };
-  $scope.popup2 = {
-    opened: false
-  };
-  $scope.popup1 = {
-    opened: false
-  };
-  function getDayClass(data) {
-    var date = data.date,
-      mode = data.mode;
-    if (mode === 'day') {
-      var dayToCheck = new Date(date).setHours(0,0,0,0);
-
-      for (var i = 0; i < $scope.events.length; i++) {
-        var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-        if (dayToCheck === currentDay) {
-          return $scope.events[i].status;
-        }
-      }
-    }
-    return '';
-  }
+  $scope.popup2     = { opened: false };
+  $scope.popup1     = { opened: false };
   /*End Datepicker code*/
-
-  /*get selected Normative Date test List*/
-  diagnosisService.getTest(defaultFolder)
-    .then(function goToHome(dataObj) { 
+  /*Normative Date Change Time load new selected date test data*/
+  this.getTreeData = function(val){
+    diagnosisService.getTest(val)
+    .then(function goToHome(dataObj) {
       //show success
-      $scope.treeCtrl.tests =  dataObj.data;
+      $scope.normativedatalabel   = true;
+      $scope.treeCtrl.tests       =  dataObj.data;
       $scope.patientData.nomative = dataObj.defaultFolder;
+      $timeout(function(){
+         ivhTreeviewMgr.selectEach($scope.treeCtrl.tests, ['m']);
+      },1000);
     })
     .catch(function showerror(msg) {
-        //show  error
+        //show error
         $window.alert(msg);
     });
-
+  };
+  /*get selected Normative Date test List*/
+  this.getTreeData(defaultFolder);
   /*
     get Normative Date  Dropdown List and pass defaultFolder value
     to select by default date
@@ -106,132 +63,44 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
         //show error
         $window.alert(msg);
     });
-
   this.selectDate = function(){
     $scope.normativedatalabel = false;
   };
-
-  this.my_tree_handler = function (branch) {
-      console.log('you clicked on', branch);
-  };
-  /*Normative Date Change Time load new selected date test data*/
-  this.getTreeData = function(val){
-    diagnosisService.getTest(val)
-    .then(function goToHome(dataObj) {
-      //show success
-      $scope.normativedatalabel   = true;
-      $scope.treeCtrl.tests       =  dataObj.data;
-      $scope.patientData.nomative = dataObj.defaultFolder;
-    })
-    .catch(function showerror(msg) {
-        //show error
-        $window.alert(msg);
-    });
-  };
-
   /*
     In tab1 test search textbox time expand all tree data and 
     textbox clear time collapse all tree data
   */
   this.treeExpanded = function(){
-    $scope.$$postDigest( function () {
-      if($scope.testSearch==='' && $scope.treeCtrl.isExpanded===true){
-          $('.ivh-treeview-node-label').trigger('click');
-          $scope.treeCtrl.isExpanded = false;
-        }
-        if($scope.testSearch!=='' && $scope.testSearch.length>0 && $scope.treeCtrl.isExpanded===false){
-          $('.ivh-treeview-node-label').trigger('click');
-          $scope.treeCtrl.isExpanded = true;
-        }
-    });
+    if($scope.testSearch===''){
+      ivhTreeviewMgr.collapseRecursive($scope.treeCtrl.tests, $scope.treeCtrl.tests);
+    }
+    if($scope.testSearch!=='' && $scope.testSearch.length>0){
+      ivhTreeviewMgr.expandRecursive($scope.treeCtrl.tests, $scope.treeCtrl.tests);
+    }
   };
-
-  this.otherAwesomeCallback = function(node, isSelected, tree) {
-    // Do soemthing with node or tree based on isSelected
-  };
-
   /*
   get Selected test list object , when user click any test that time this 
   event called
   */
   this.getSelectedNodes=function(node){
-    //return node.label;
-    if (node.isSelected===true && node.children.length===0) {
+    if (node.isSelected===true && (node.children!==undefined && node.children.length===0)) {
+      if($scope.nodeArr.indexOf(node.id)<0){
+        $scope.nodeArr.push(node.id);
+      };
       this.selectedTest[node.id] = node;
       this.patient[0].test = this.selectedTest;
     }
-    if (node.isSelected===false && node.children.length===0) {
+    if (node.isSelected===false && (node.children!==undefined && node.children.length===0)) {
       if(this.selectedTest[node.id]!==undefined){
         delete this.selectedTest[node.id];
       }
     }
     $scope.downloadtemplate = !(_.isEmpty(this.selectedTest));
-    if (node.isSelected===true || node.children.length>0) {
+    if (node.isSelected===true || (node.children!==undefined && node.children.length>0)) {
       return node.id;
     }
   };
-
-  /*Return JSON Data*/
-  this.getjson=function (tests) {
-     var k =JSON.stringify(tests);
-     return k;
-  };
-  this.isActive = function(node) {
-    if (node.isSelected===true) {
-      return node.id;
-    }
-  };
-  /// Important function for tree traversal 
-  this.process = function(key,value) {
-      arr.push(key + " : "+value);
-  };
-  this.traverse = function(o,func) {
-      for (var i in o) {
-          func.apply(this,[i,o[i]]);  
-          if (o[i] !== null && typeof(o[i])==="object") {
-              //going on step down in the object tree!!
-              traverse(o[i],func);
-          }
-      }
-  };
-  //that's all... no magic, no bloated framework
-  this.fun=function(tests){
-      var arr=[];
-      var coll=[];
-      this.process = function(key,value) {
-          arr.push(key + " : "+value);
-      };
-      this.traverse = function(o,func) {
-          for (var i in o) {
-              func.apply(this,[i,o[i]]);
-              if (o[i] !== null && typeof(o[i])==="object" && o[i].isSelected) {
-                  console.log(o[i].id);
-                  this.traverse(o[i],func);
-              }
-          }
-      };
-      this.traverse(tests,this.process);
-      return(arr);
-  };
-  /* This function counts the number of occurance of each element
-   in the array
-  */
-  this.countArrElements = function (arr) {
-      var a = [], b = [], prev;
-      arr.sort();
-      for ( var i = 0; i < arr.length; i++ ) {
-          if ( arr[i] !== prev ) {
-              a.push(arr[i]);
-              b.push(1);
-          } else {
-              b[b.length-1]++;
-          }
-          prev = arr[i];
-      }
-      return [a, b];
-  };
-
-   /* 
+  /* 
     Add Patient button event , when user click add patient button
     that time push new object in patient array
   */
@@ -239,7 +108,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     this.patient.push({'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':this.selectedTest});
     this.counter++;
   };
-
   /*
    remove patient inside form and also check atleast one patient data
     needed to process further 
@@ -269,7 +137,6 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       event.preventDefault();
     }
   };
-
   /*
     patient form age enter time disable particular column
     birthdate and testdate field
@@ -278,17 +145,12 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     if($scope.patient.form['age'+index].$viewValue!==''){
       $('#birthdate'+index).attr('disabled',true);
       $('#testdate'+index).attr('disabled',true);
-      $scope.patient.form['birthdate'+index].$setViewValue('1992-13-13');
-      $scope.patient.form['testdate'+index].$setViewValue('1992-13-13');
     }
     else{
       $('#birthdate'+index).attr('disabled',false);
       $('#testdate'+index).attr('disabled',false); 
-      $scope.patient.form['birthdate'+index].$setViewValue('');
-      $scope.patient.form['testdate'+index].$setViewValue('');
     }
   };
-
   /*
     age field calculation on birthdate and testdate filed
   */
@@ -296,7 +158,7 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
     if(this.ageCalculate){
       var birthDate = $scope.patient.form['birthdate'+index].$viewValue;
       var testDate = $scope.patient.form['testdate'+index].$viewValue;
-      if(testDate!=='' && birthDate!=='' && testDate!=='1992-13-13' && birthDate!=='1992-13-13'){
+      if(testDate!=='' && birthDate!==''){
         var d1 = moment(birthDate);
         var d2 = moment(testDate);
         var yrs = moment.duration(d2.diff(d1)).asYears();
@@ -306,69 +168,10 @@ app.controller('treeController', function($http,$scope,$timeout,$uibModal,$q,dia
       }
     }
   };
-
-  /*
-   Submit form event to create patient object and move to next tab
-  */
-  this.submit=function(isValid){
-    // check to make sure the form is completely valid
-    if ($scope.patient.form.$invalid) {
-        console.log($scope.patient.form.$error);
-        $scope.treeCtrl.submited = true;
-    }
-    else{
-      $scope.treeCtrl.submited  = true;
-      var limit                 = 0;
-      //make Patient Object
-      var patientObj            = {conf:$scope.patientData.conf,
-                                    sig:$scope.patientData.sig,
-                                    nomative:$scope.patientData.nomative,
-                                    chart : $scope.patientData.chart};
-      for (var i in $scope.patient) {
-        if(limit<this.counter){
-          var patientTest = [];
-          for (var key in $scope.patient[i].test) {
-            if ($scope.patient[i].test.hasOwnProperty(key)) {
-              var idField =  key;
-              //find test detail on id field
-              var labelField =  findTest(idField,'id');
-              patientTest.push({
-                                id:idField,
-                                label:labelField.label,
-                                Dataset:labelField.Dataset,
-                                'SPSS name':labelField['SPSS name'],
-                                highborder:labelField.highborder,
-                                highweb:labelField.highweb,
-                                lowborder:labelField.lowborder,
-                                lowweb:labelField.lowweb,
-                                value:$scope.patient[i].test[key]
-                              });
-            }
-            patientObj[i] = {id:$scope.patient[i].id,
-                            age:$scope.patient[i].age,
-                            'birthdate':$scope.patient[i].birthdate,
-                            'testdate':$scope.patient[i].testdate,
-                            sex:$scope.patient[i].sex,
-                            education:$scope.patient[i].education,
-                            test:patientTest};
-          }
-          limit++;
-        }
-      }
-      $scope.submitData1 = JSON.stringify(patientObj);     
-      $scope.submitData = patientObj;
-      console.log(patientObj);
-      $scope.submitData = $scope.submitData1.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
-      $scope.$parent.panel.next();       // move to next tab event
-      $scope.$broadcast("MoveToChart"); 
-    } 
-  };
-
   /*
    form id field unique validation check
   */
-this.verifyId = function() {
-
+  this.verifyId = function() {
     var sorted = [];
     for (var i in $scope.patient) {
       if($scope.patient[i].id!==null && $scope.patient[i].id!=='' && $scope.patient[i].id!==undefined )
@@ -385,6 +188,73 @@ this.verifyId = function() {
     }
   };
   /*
+   Submit form event to create patient object and move to next tab
+  */
+  this.submit   = function(isValid){
+    // check to make sure the form is completely valid
+    if ($scope.patient.form.$invalid) {
+        $scope.treeCtrl.submited = true;
+    }
+    else{
+      $scope.treeCtrl.submited  = true;
+      var limit                 = 0;
+      //make Patient Object
+      var patientObj            = {conf:$scope.patientData.conf,
+                                    sig:$scope.patientData.sig,
+                                    nomative:$scope.patientData.nomative,
+                                    chart : $scope.patientData.chart};
+      for (var i in $scope.patient) {
+        if(limit<this.counter){
+          var patientTest = [];
+            
+            angular.forEach($scope.nodeArr,function(nodeval,nodekey){
+              var labelField =  findTest(nodeval,'id');
+              if($scope.patient[i].test!==undefined && $scope.patient[i].test[nodeval]!==undefined){
+                patientTest.push({
+                                  id:nodeval,
+                                  label:labelField.label,
+                                  Dataset:labelField.Dataset,
+                                  'SPSS name':labelField['SPSS name'],
+                                  highborder:labelField.highborder,
+                                  highweb:labelField.highweb,
+                                  lowborder:labelField.lowborder,
+                                  lowweb:labelField.lowweb,
+                                  value:$scope.patient[i].test[nodeval]
+                                });
+              }
+              else{
+                patientTest.push({
+                                  id:nodeval,
+                                  label:labelField.label,
+                                  Dataset:labelField.Dataset,
+                                  'SPSS name':labelField['SPSS name'],
+                                  highborder:labelField.highborder,
+                                  highweb:labelField.highweb,
+                                  lowborder:labelField.lowborder,
+                                  lowweb:labelField.lowweb,
+                                  value:999999999
+                                });
+              }
+              patientObj[i] = {id:$scope.patient[i].id,
+                              age:$scope.patient[i].age,
+                              'birthdate':$scope.patient[i].birthdate,
+                              'testdate':$scope.patient[i].testdate,
+                              sex:$scope.patient[i].sex,
+                              education:$scope.patient[i].education,
+                              test:patientTest};
+            });
+          limit++;
+        }
+      }
+     // $scope.submitData1 = JSON.stringify(patientObj);     
+      $scope.submitData = patientObj;
+      console.log(patientObj);
+      //$scope.submitData = $scope.submitData1.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
+      $scope.$parent.panel.next();       // move to next tab event
+      $scope.$broadcast("MoveToChart"); 
+    } 
+  };
+  /*
    upload csv file and make form based on csv file
   */
   this.uploadCsv = function(){
@@ -396,11 +266,9 @@ this.verifyId = function() {
         animation: true,
         templateUrl: 'views/replaceViewDialog.html',
         controller: 'ModalInstanceCtrl',
-        size: '',
         resolve: {
         }
       });
-
       // modal popup success
       modalInstance.result.then(function (obj) {
         $scope.treeCtrl.txtvalue = obj.txtvalue;
@@ -409,10 +277,12 @@ this.verifyId = function() {
         /*
         read csv file and make daynamic form
         */
-        r.onload = function(e) {
-            var contents = e.target.result;
-            var rows = contents.split('\n');
+        r.onload              = function(e) {
+            var contents      = e.target.result;
+            var rows          = contents.split('\n');
             $scope.patient[0] = {'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}};
+            $scope.nodeArr    = [];
+            $scope.treeCtrl.selectedTest = {}; 
             angular.forEach(rows, function(val,key) {
               var data = val.split(';');
               if(key===1){
@@ -426,6 +296,9 @@ this.verifyId = function() {
                 }
               }
               if(key>4){
+                if(data[0]!=='' && $scope.nodeArr.indexOf(data[0])<0){
+                  $scope.nodeArr.push(data[0]);
+                };
                 if(isNaN(parseInt(data[0])) && data[0]!=='')
                 {
                   var IdAvailability = findTest(data[0],'id');
@@ -452,8 +325,8 @@ this.verifyId = function() {
                     var fieldVal = '';
                     if(data[j]!=='' && j!==0){
                       if(key>4){
-
                         var IdAvailability = findTest(data[0],'id');
+                       
                         if(IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined ){
                           var field = data[0];//data[0].replace(/ /g,"_");//'#test'+j+'_'+data[0].replace(/ /g,"");
                           fieldVal = data[j];//parseInt(data[j]);
@@ -474,30 +347,29 @@ this.verifyId = function() {
                         if(data[0]==='age'){
                           $('#birthdate'+(j-1)).attr('disabled',true);
                           $('#testdate'+(j-1)).attr('disabled',true);
-                          $scope.patient.form['birthdate'+(j-1)].$setViewValue('1992-13-13');
-                          $scope.patient.form['testdate'+(j-1)].$setViewValue('1992-13-13');
                           fieldVal = parseInt(fieldVal);
                         }
                         if(data[0]==='sex' || data[0]==='education'){
                           fieldVal = parseInt(fieldVal);
                         }
                         document.getElementById(data[0]+(j-1)).value = fieldVal;
-                        //$('#'+data[0]+(j-1)).val(data[j]);
                       }
                     } 
                   }
-                 // $('.remBtn').parent().html('Patient');
                   $("#files").val(''); 
                 }
               });
               alert($scope.message);
-            }, 1000);
+
+            }, 100);
             $timeout(function() {
               $('#id1').trigger('change');
             },1000);
+
         };
         r.readAsText(files[0]);  
-        $('.fileinput').hide(); // hide the file field
+        $rootScope.filebutton = false;// hide the file field
+        $('.fileinput').hide(); 
         $scope.$parent.panel.next();
       }, function () {
         //show errors
@@ -515,7 +387,6 @@ this.verifyId = function() {
     $scope.keepgoing = true; 
     return $scope.testid;
   };
-
   var childTest = function(scope,value,findField){
     angular.forEach(scope, function(childVal,childKey) {
       if($scope.keepgoing) {
@@ -525,6 +396,7 @@ this.verifyId = function() {
         else
         {
           if(childVal[findField]===value){
+            ivhTreeviewMgr.select($scope.treeCtrl.tests,$scope.treeCtrl.tests[3].children[0]);
             $scope.testid = childVal;
             $scope.keepgoing = false;
           }
@@ -533,20 +405,3 @@ this.verifyId = function() {
     });
   };
 });
-
-/*
-  @name andiApp.controller:ModalInstanceCtrl
-  @description : modal popup controller to put ok and cancel popup event
-*/
-app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance) {
-  $scope.ok = function () {
-    $uibModalInstance.close({txtvalue:$('#txtvalue').val()});
-  };
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-});
-
-
-
-

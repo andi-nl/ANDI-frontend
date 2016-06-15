@@ -21,6 +21,7 @@ var app = angular.module('andiApp', [
   'treeGrid',
   'ngTableToCsv'
 ]);
+app.constant('defaultFolder', '2016-01-14');
 //Setting Routing Url
 app.config(function($routeProvider) {
   $routeProvider

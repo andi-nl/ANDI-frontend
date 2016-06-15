@@ -66,15 +66,14 @@
                     
                   });
                   rowData = rowData.slice(0, rowData.length - 1); //remove last separator
-                  // ignoring 3rd and 4rd ( birthdate and testdate) field 
+                  //first default column
                   if(i===0){
                    rowData = ';Patient 1';
                   }
-
+                  // ignoring 3rd and 4rd ( birthdate and testdate) field 
                   if(i!==4 && i!==3){
                      data += rowData + '\n';
                   }
-
                 });
               },
               link      : function () {
