@@ -18,14 +18,16 @@ angular
 treeController.$inject = ['$scope', '$timeout', '$uibModal', '$location', '$window', 'diagnosisService', 'ivhTreeviewMgr', 'defaultFolder'];
 
 function treeController($scope, $timeout, $uibModal, $location, $window, diagnosisService, ivhTreeviewMgr, defaultFolder) {
-  this.tests = [];
-  this.txtvalue = '';
-  this.txtReplace = '';
-  this.alertMessage = '';
-  this.counter = 1;
-  this.ageCalculate = true;
-  this.submited = false; // for custom validation flag
-  this.selectedTest = {};     // Make selected test object
+  var treeCtrl = this;
+
+  treeCtrl.tests = [];
+  treeCtrl.txtvalue = '';
+  treeCtrl.counter = 1;
+  treeCtrl.ageCalculate = true;
+  treeCtrl.submited = false; // for custom validation flag
+  treeCtrl.selectedTest = {};     // Make selected test object
+                                  // selectedTest, should be selectedTests and
+                                  // should be an array not an object
 
   // this should be available for controllers in each root #FIXIT
   $scope.go = function (path) {
@@ -33,7 +35,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
   };
 
   /*Patient List*/
-  this.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} }];
+  treeCtrl.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} }];
   $scope.filebutton = true;
   $scope.patientData = {};
   $scope.nodeArr = [];
@@ -100,15 +102,15 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
       if ($scope.nodeArr.indexOf(node.id) < 0) {
         $scope.nodeArr.push(node.id);
       };
-      this.selectedTest[node.id] = node;
+      treeCtrl.selectedTest[node.id] = node;
       this.patient[0].test = this.selectedTest;
     }
     if (node.isSelected === false && (node.children !== undefined && node.children.length === 0)) {
-      if (this.selectedTest[node.id] !== undefined) {
-        delete this.selectedTest[node.id];
+      if (treeCtrl.selectedTest[node.id] !== undefined) {
+        delete treeCtrl.selectedTest[node.id];
       }
     }
-    $scope.downloadtemplate = !(_.isEmpty(this.selectedTest));
+    $scope.downloadtemplate = !(_.isEmpty(treeCtrl.selectedTest));
     if (node.isSelected === true || (node.children !== undefined && node.children.length > 0)) {
       return node.id;
     }
@@ -118,7 +120,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
     that time push new object in patient array
   */
   this.addPatient = function () {
-    this.patient.push({ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': this.selectedTest });
+    treeCtrl.patient.push({ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': this.selectedTest });
     this.counter++;
   };
   /*
@@ -126,23 +128,28 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
     needed to process further
   */
   this.removeColumn = function (index, event) {
+    // this function does sth different
+    // than it says it does
+    // #FIXIT
     // remove the column specified in index
     // you must cycle all the rows and remove the item
     // row by row
-    if (this.patient.length > 1) {
-      this.patient.splice(index, 1);
-      var formObj = $scope.patient.form;
-      delete $scope.patient['form'];
+    if (treeCtrl.patient.length > 1) {
+      treeCtrl.patient.splice(index, 1); // patient is an array so this may
+                                         // behave very strange
+                                         // #FIXIT
+      var formObj = treeCtrl.patient.form;
+      delete treeCtrl.patient['form'];
       var x = [];
-      $.each($scope.patient, function (i, n) {
+      $.each(treeCtrl.patient, function (i, n) {
         x.push(n);
       });
       x.splice(index, 1);
-      $scope.patient = x.reduce(function (o, v, i) {
+      treeCtrl.patient = x.reduce(function (o, v, i) {
         o[i] = v;
         return o;
       }, {});
-      $scope.patient.form = formObj;
+      treeCtrl.patient.form = formObj;
       this.counter--;
     }
     else {
@@ -155,7 +162,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
     birthdate and testdate field
   */
   this.disableDate = function (index) {
-    if ($scope.patient.form['age' + index].$viewValue !== '') {
+    if (treeCtrl.patient.form['age' + index].$viewValue !== '') {
       $('#birthdate' + index).attr('disabled', true);
       $('#testdate' + index).attr('disabled', true);
     }
@@ -168,15 +175,15 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
     age field calculation on birthdate and testdate filed
   */
   this.calculateAge = function (index) {
-    if (this.ageCalculate) {
-      var birthDate = $scope.patient.form['birthdate' + index].$viewValue;
-      var testDate = $scope.patient.form['testdate' + index].$viewValue;
+    if (treeCtrl.ageCalculate) {
+      var birthDate = treeCtrl.patient.form['birthdate' + index].$viewValue;
+      var testDate = treeCtrl.patient.form['testdate' + index].$viewValue;
       if (testDate !== '' && birthDate !== '') {
         var d1 = moment(birthDate);
         var d2 = moment(testDate);
         var yrs = moment.duration(d2.diff(d1)).asYears();
         var years = Math.round(yrs)
-        $scope.patient.form['age' + index].$setViewValue(years);
+        treeCtrl.patient.form['age' + index].$setViewValue(years);
         $('#age' + index).val(years);
       }
     }
@@ -186,15 +193,14 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
   */
   this.verifyId = function () {
     var sorted = [];
-    for (var i in $scope.patient) {
-      if ($scope.patient[i].id !== null && $scope.patient[i].id !== '' && $scope.patient[i].id !== undefined) {
-        if (sorted.indexOf($scope.patient[i].id) >= 0) {
-          $scope.patient.form['id' + i].$setValidity('duplicate', !true);
-          //$scope.patient.form['id0'].$setValidity('duplicate',!true);
+    for (var i in treeCtrl.patient) {
+      if (treeCtrl.patient[i].id !== null && treeCtrl.patient[i].id !== '' && treeCtrl.patient[i].id !== undefined) {
+        if (sorted.indexOf(treeCtrl.patient[i].id) >= 0) {
+          treeCtrl.patient.form['id' + i].$setValidity('duplicate', !true);
         }
         else {
-          sorted.push($scope.patient[i].id);
-          $scope.patient.form['id' + i].$setValidity('duplicate', !false);
+          sorted.push(treeCtrl.patient[i].id);
+          treeCtrl.patient.form['id' + i].$setValidity('duplicate', !false);
         }
       }
     }
@@ -204,7 +210,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
   */
   this.submit = function (isValid) {
     // check to make sure the form is completely valid
-    if ($scope.patient.form.$invalid) {
+    if (treeCtrl.patient.form.$invalid) {
       $scope.treeCtrl.submited = true;
     }
     else {
@@ -217,13 +223,13 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
         nomative: $scope.patientData.nomative,
         chart: $scope.patientData.chart
       };
-      for (var i in $scope.patient) {
+      for (var i in treeCtrl.patient) {
         if (limit < this.counter) {
           var patientTest = [];
 
           angular.forEach($scope.nodeArr, function (nodeval, nodekey) {
             var labelField = findTest(nodeval, 'id');
-            if ($scope.patient[i].test !== undefined && $scope.patient[i].test[nodeval] !== undefined) {
+            if (treeCtrl.patient[i].test !== undefined && treeCtrl.patient[i].test[nodeval] !== undefined) {
               patientTest.push({
                 id: nodeval,
                 label: labelField.label,
@@ -233,7 +239,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
                 highweb: labelField.highweb,
                 lowborder: labelField.lowborder,
                 lowweb: labelField.lowweb,
-                value: $scope.patient[i].test[nodeval]
+                value: treeCtrl.patient[i].test[nodeval]
               });
             }
             else {
@@ -250,12 +256,12 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
               });
             }
             patientObj[i] = {
-              id: $scope.patient[i].id,
-              age: $scope.patient[i].age,
-              'birthdate': $scope.patient[i].birthdate,
-              'testdate': $scope.patient[i].testdate,
-              sex: $scope.patient[i].sex,
-              education: $scope.patient[i].education,
+              id: treeCtrl.patient[i].id,
+              age: treeCtrl.patient[i].age,
+              'birthdate': treeCtrl.patient[i].birthdate,
+              'testdate': treeCtrl.patient[i].testdate,
+              sex: treeCtrl.patient[i].sex,
+              education: treeCtrl.patient[i].education,
               test: patientTest
             };
           });
@@ -299,7 +305,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
         r.onload = function (e) {
           var contents = e.target.result;
           var rows = contents.split('\n');
-          $scope.patient[0] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
+          treeCtrl.patient[0] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
           $scope.nodeArr = [];
           $scope.treeCtrl.selectedTest = {};
           angular.forEach(rows, function (val, key) {
@@ -308,7 +314,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
               var k = 1;
               for (var i = 0; i < data.length; i++) {
                 if (data[i] !== '' && i > 1) {
-                  $scope.patient[k] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
+                  treeCtrl.patient[k] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
                   $scope.treeCtrl.counter++;
                   k++;
                 }
@@ -329,7 +335,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
               }
             }
           });
-          angular.forEach($scope.patient, function (val, key) {
+          angular.forEach(treeCtrl.patient, function (val, key) {
             if (parseInt(key)) {
               $scope.treeCtrl.patient[key] = val;
             }
@@ -353,13 +359,13 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
                         else {
                           fieldVal = parseInt(fieldVal);
                         }
-                        $scope.patient.form['test' + (j - 1) + '_' + field].$setViewValue(fieldVal);
-                        $scope.patient[j - 1].test[field] = fieldVal;
+                        treeCtrl.patient.form['test' + (j - 1) + '_' + field].$setViewValue(fieldVal);
+                        treeCtrl.patient[j - 1].test[field] = fieldVal;
                         $('#test' + (j - 1) + '_' + field.replace(/ /g, "_")).val(fieldVal);
                       }
                     }
                     else {
-                      $scope.patient.form[data[0] + (j - 1)].$setViewValue(data[j]);
+                      treeCtrl.patient.form[data[0] + (j - 1)].$setViewValue(data[j]);
                       fieldVal = data[j];
                       if (data[0] === 'age') {
                         $('#birthdate' + (j - 1)).attr('disabled', true);
