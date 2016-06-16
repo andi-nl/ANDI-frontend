@@ -52,10 +52,10 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
       .then(function goToHome(dataObj) {
         //show success
         $scope.normativedatalabel = true;
-        $scope.treeCtrl.tests = dataObj.data;
+        treeCtrl.tests = dataObj.data;
         $scope.patientData.nomative = dataObj.defaultFolder;
         $timeout(function () {
-          ivhTreeviewMgr.selectEach($scope.treeCtrl.tests, ['m']);
+          ivhTreeviewMgr.selectEach(treeCtrl.tests, ['m']);
         }, 1000);
       })
       .catch(function showerror(msg) {
@@ -87,10 +87,10 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
   */
   this.treeExpanded = function () {
     if ($scope.testSearch === '') {
-      ivhTreeviewMgr.collapseRecursive($scope.treeCtrl.tests, $scope.treeCtrl.tests);
+      ivhTreeviewMgr.collapseRecursive(treeCtrl.tests, treeCtrl.tests);
     }
     if ($scope.testSearch !== '' && $scope.testSearch.length > 0) {
-      ivhTreeviewMgr.expandRecursive($scope.treeCtrl.tests, $scope.treeCtrl.tests);
+      ivhTreeviewMgr.expandRecursive(treeCtrl.tests, treeCtrl.tests);
     }
   };
   /*
@@ -211,10 +211,10 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
   this.submit = function (isValid) {
     // check to make sure the form is completely valid
     if (treeCtrl.patient.form.$invalid) {
-      $scope.treeCtrl.submited = true;
+      treeCtrl.submited = true;
     }
     else {
-      $scope.treeCtrl.submited = true;
+      treeCtrl.submited = true;
       var limit = 0;
       //make Patient Object
       var patientObj = {
@@ -296,7 +296,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
       });
       // modal popup success
       modalInstance.result.then(function (obj) {
-        $scope.treeCtrl.txtvalue = obj.txtvalue;
+        treeCtrl.txtvalue = obj.txtvalue;
         var replacearr = obj.txtvalue.split(";");
         var r = new FileReader();
         /*
@@ -307,7 +307,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
           var rows = contents.split('\n');
           treeCtrl.patient[0] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
           $scope.nodeArr = [];
-          $scope.treeCtrl.selectedTest = {};
+          treeCtrl.selectedTest = {};
           angular.forEach(rows, function (val, key) {
             var data = val.split(';');
             if (key === 1) {
@@ -315,7 +315,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
               for (var i = 0; i < data.length; i++) {
                 if (data[i] !== '' && i > 1) {
                   treeCtrl.patient[k] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
-                  $scope.treeCtrl.counter++;
+                  treeCtrl.counter++;
                   k++;
                 }
               }
@@ -327,7 +327,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
               if (isNaN(parseInt(data[0])) && data[0] !== '') {
                 var IdAvailability = findTest(data[0], 'id');
                 if (IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined) {
-                  $scope.treeCtrl.selectedTest[data[0]] = '';
+                  treeCtrl.selectedTest[data[0]] = '';
                 }
                 else {
                   $scope.message = 'WARNING: Not all data was imported !';
@@ -337,7 +337,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
           });
           angular.forEach(treeCtrl.patient, function (val, key) {
             if (parseInt(key)) {
-              $scope.treeCtrl.patient[key] = val;
+              treeCtrl.patient[key] = val;
             }
           });
           $timeout(function () {
@@ -408,7 +408,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
   var findTest = function (value, findField) {
     $scope.testid = {};
     $scope.keepgoing = true; //flag set false when test successfully finf
-    childTest($scope.treeCtrl.tests, value, findField); // check on child test
+    childTest(treeCtrl.tests, value, findField); // check on child test
     $scope.keepgoing = true;
     return $scope.testid;
   };
@@ -420,7 +420,7 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
         }
         else {
           if (childVal[findField] === value) {
-            ivhTreeviewMgr.select($scope.treeCtrl.tests, $scope.treeCtrl.tests[3].children[0]);
+            ivhTreeviewMgr.select(treeCtrl.tests, treeCtrl.tests[3].children[0]);
             $scope.testid = childVal;
             $scope.keepgoing = false;
           }
