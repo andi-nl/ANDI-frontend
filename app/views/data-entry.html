@@ -164,7 +164,7 @@
     <input type="hidden" name="nomative" ng-model="patientData.nomative" value="" />
     <span class="has-error" ng-show="treeCtrl.submited && patientData.form.conf.$error.required">Required</span>
     <hr>
-      <button class="btn btn-primary" ng-click="go('/test-selection')">Test selection</button>
-      <button class="btn btn-primary" ng-click="go('/results')">results</button>
+    <button type="button" class="btn btn-previous" ng-click="panel.previous()"> Previous</button>
+    <button type="submit" class="btn btn-submit" id="submit">Next</button>
   </div>
 </form>
