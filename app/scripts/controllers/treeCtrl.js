@@ -10,14 +10,7 @@
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
 */
-
-angular
-  .module('andiApp')
-  .controller('treeController', treeController);
-
-treeController.$inject = ['$scope', '$timeout', '$uibModal', '$location', '$window', 'diagnosisService', 'ivhTreeviewMgr', 'defaultFolder'];
-
-function treeController($scope, $timeout, $uibModal, $location, $window, diagnosisService, ivhTreeviewMgr, defaultFolder) {
+app.controller('treeController', function ($http, $scope, $timeout, $uibModal, $q, $location, diagnosisService, $window, ivhTreeviewMgr, defaultFolder) {
   this.tests = [];
   this.txtvalue = '';
   this.txtReplace = '';
@@ -422,4 +415,4 @@ function treeController($scope, $timeout, $uibModal, $location, $window, diagnos
       }
     });
   };
-};
+});
