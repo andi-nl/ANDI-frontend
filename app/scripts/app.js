@@ -21,29 +21,19 @@ var app = angular.module('andiApp', [
   'treeGrid',
   'ngTableToCsv'
 ]);
-
 app.constant('defaultFolder', '2016-01-14');
-
 //Setting Routing Url
 app.config(function ($routeProvider) {
   $routeProvider
     .when('/', {
-      redirectTo: '/test-selection'
-    })
-    .when('/test-selection', {
-      templateUrl: 'views/test-selection.html',
+      templateUrl: 'views/diagnosis.html',
       controller: 'treeController',
       controllerAs: 'treeCtrl'
     })
-    .when('/data-entry', {
-      templateUrl: 'views/data-entry.html',
-      controller: 'treeController',
-      controllerAs: 'treeCtrl'
-    })
-    .when('/results', {
-      templateUrl: 'views/results.html',
-      controller: 'treeController',
-      controllerAs: 'treeCtrl'
+    .when('/about', {
+      templateUrl: 'views/about.html',
+      controller: 'AboutCtrl',
+      controllerAs: 'about'
     })
     .otherwise({
       redirectTo: '/'
