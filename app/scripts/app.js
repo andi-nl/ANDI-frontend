@@ -23,7 +23,7 @@ var app = angular.module('andiApp', [
 ]);
 app.constant('defaultFolder', '2016-01-14');
 //Setting Routing Url
-app.config(function ($routeProvider) {
+app.config(function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'views/diagnosis.html',
