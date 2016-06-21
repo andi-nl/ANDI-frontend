@@ -5,7 +5,7 @@ angular
 opencpu.$inject = ['$http']
 
 function opencpu($http) {
-  var url = '192.168.99.100'
+  var url = 'http://192.168.99.100'
   var port = '8004'
   var normcompPath = '/ocpu/library/andistats/R/normcomp/json'
   var service = {
@@ -13,9 +13,9 @@ function opencpu($http) {
   };
   return service;
 
-  function normcomp(data){
+  function normcomp(input){
     var normcompURL = url + ':' + port + normcompPath;
-    return $http.post(norcompURL, data).then(function(result){
+    return $http.post(normcompURL, input).then(function(result){
       return result.data;
     });
   };

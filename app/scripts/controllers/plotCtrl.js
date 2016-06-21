@@ -11,9 +11,11 @@
   @name andiApp.controller:plotController
   @description : put third tab chart event
 */
-app.controller('plotController', function($scope,$http,diagnosisService){
+app.controller('plotController',
+  function($scope, opencpu, diagnosisService){
+
   //call during secont tab next button click time
-  $scope.$on('MoveToChart', function(e) {  
+  $scope.$on('MoveToChart', function(e) {
     $scope.plotCtrl.FormChart();
   });
   /* Chart options */
@@ -31,14 +33,11 @@ app.controller('plotController', function($scope,$http,diagnosisService){
             'Content-Type': 'application/json;'
           }
       };
-      $http.post('http://145.100.58.103:5000/formTestScores',patientObj, config)
-      .success(function (data) {
+      opencpu.normcomp(patientObj, config)
+        .then(function (data) {
           console.log(data);
           diagnosisService.lineChart(data);
-      })
-      .error(function (data) {
-        console.log(data);  
-      });
+        });
     }
   };
 });
