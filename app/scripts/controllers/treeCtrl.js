@@ -10,7 +10,8 @@
   @name andiApp.controller:treeController
   @description : we put form submit and csv upload code here
 */
-app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibModal,$q,diagnosisService,$window,ivhTreeviewMgr,defaultFolder) {
+app.controller('treeController', function($http,$rootScope,$scope,$timeout,
+  $uibModal,$q,diagnosisService,$window,ivhTreeviewMgr,defaultFolder) {
   this.tests        = [];
   this.txtvalue     = '';
   this.txtReplace   = '';
@@ -67,7 +68,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
     $scope.normativedatalabel = false;
   };
   /*
-    In tab1 test search textbox time expand all tree data and 
+    In tab1 test search textbox time expand all tree data and
     textbox clear time collapse all tree data
   */
   this.treeExpanded = function(){
@@ -79,7 +80,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
     }
   };
   /*
-  get Selected test list object , when user click any test that time this 
+  get Selected test list object , when user click any test that time this
   event called
   */
   this.getSelectedNodes=function(node){
@@ -100,7 +101,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
       return node.id;
     }
   };
-  /* 
+  /*
     Add Patient button event , when user click add patient button
     that time push new object in patient array
   */
@@ -110,7 +111,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
   };
   /*
    remove patient inside form and also check atleast one patient data
-    needed to process further 
+    needed to process further
   */
   this.removeColumn = function (index,event) {
     // remove the column specified in index
@@ -148,7 +149,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
     }
     else{
       $('#birthdate'+index).attr('disabled',false);
-      $('#testdate'+index).attr('disabled',false); 
+      $('#testdate'+index).attr('disabled',false);
     }
   };
   /*
@@ -184,9 +185,10 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
           sorted.push($scope.patient[i].id);
           $scope.patient.form['id'+i].$setValidity('duplicate',!false);
         }
-      } 
+      }
     }
   };
+
   /*
    Submit form event to create patient object and move to next tab
   */
@@ -206,7 +208,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
       for (var i in $scope.patient) {
         if(limit<this.counter){
           var patientTest = [];
-            
+
             angular.forEach($scope.nodeArr,function(nodeval,nodekey){
               var labelField =  findTest(nodeval,'id');
               if($scope.patient[i].test!==undefined && $scope.patient[i].test[nodeval]!==undefined){
@@ -246,14 +248,15 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
           limit++;
         }
       }
-     // $scope.submitData1 = JSON.stringify(patientObj);     
+     // $scope.submitData1 = JSON.stringify(patientObj);
       $scope.submitData = patientObj;
       console.log(patientObj);
       //$scope.submitData = $scope.submitData1.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
       $scope.$parent.panel.next();       // move to next tab event
-      $scope.$broadcast("MoveToChart"); 
-    } 
+      $scope.$broadcast("MoveToChart");
+    }
   };
+
   /*
    upload csv file and make form based on csv file
   */
@@ -282,7 +285,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
             var rows          = contents.split('\n');
             $scope.patient[0] = {'id':'','age':'','birthdate':'','testdate':'','sex':'','education':'','test':{}};
             $scope.nodeArr    = [];
-            $scope.treeCtrl.selectedTest = {}; 
+            $scope.treeCtrl.selectedTest = {};
             angular.forEach(rows, function(val,key) {
               var data = val.split(';');
               if(key===1){
@@ -326,7 +329,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
                     if(data[j]!=='' && j!==0){
                       if(key>4){
                         var IdAvailability = findTest(data[0],'id');
-                       
+
                         if(IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined ){
                           var field = data[0];//data[0].replace(/ /g,"_");//'#test'+j+'_'+data[0].replace(/ /g,"");
                           fieldVal = data[j];//parseInt(data[j]);
@@ -354,9 +357,9 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
                         }
                         document.getElementById(data[0]+(j-1)).value = fieldVal;
                       }
-                    } 
+                    }
                   }
-                  $("#files").val(''); 
+                  $("#files").val('');
                 }
               });
               alert($scope.message);
@@ -367,9 +370,9 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
             },1000);
 
         };
-        r.readAsText(files[0]);  
+        r.readAsText(files[0]);
         $rootScope.filebutton = false;// hide the file field
-        $('.fileinput').hide(); 
+        $('.fileinput').hide();
         $scope.$parent.panel.next();
       }, function () {
         //show errors
@@ -377,6 +380,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
       });
     }
   };
+
   /*
   based on findField find particular test and return test object
   */
@@ -384,7 +388,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,$uibM
     $scope.testid   = {};
     $scope.keepgoing = true; //flag set false when test successfully finf
     childTest($scope.treeCtrl.tests,value,findField); // check on child test
-    $scope.keepgoing = true; 
+    $scope.keepgoing = true;
     return $scope.testid;
   };
   var childTest = function(scope,value,findField){
