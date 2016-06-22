@@ -1,0 +1,133 @@
+<form name="patient.form" ng-model="fields" ng-submit="dataEntry.submit()" novalidate angular-validator>  
+
+              <div class="col-sm-12" >
+                 <div class="alert alert-info">
+                    On this screen you can add the test values and demographic information for your patients. You can either fill out the table below, or select "I wish to upload data". If you wish to upload your data you can download the .csv template in which the test scores can be filled out.    After you have saved the file you can upload it to the page by clicking "choose file". Once the file has been uploaded the screen will ask you to define your missing values. When you submit this page, the website will fill out the table with your information and you can check whether it has done so correctly. Note that all patients need to have a unique ID. At the bottom of the page under "Advanced settings" you can change statistical settings.
+                </div>
+                <div>
+                  <!-- add patient Button -->
+                  <button type="button"  ng-hide="btnAddPatient" class ="btn rightBtn" ng-click="dataEntry.addPatient()"> Add Patient</button>
+                </div>
+                 <!-- Table structure -->
+                  <table class="">
+                    <tr>
+                      <td>
+                          <!-- export csv Table structure -->
+                        <table  style="width:250px;" class="table table-bordered">
+                          <tr><td class="right-td"></td></tr>
+                          <tr><td class="main-td ">id</td></tr>
+                          <tr><td class="main-td">age</td></tr>
+                          <tr><td class="main-td">birthdate</td></tr>
+                          <tr><td class="main-td">testdate</td></tr>
+                          <tr><td class="main-td">sex</td></tr>
+                          <tr><td class="main-td">education</td></tr>
+                          <tr ng-repeat="(key, value) in selectedTest">
+                            <td class="right-td"> {{key}} </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>
+                          <!-- patient array wise create column -->
+                        <div  ng-class="dataEntry.counter>3? 'tblscrollpadding' : 'tblscroll'" >
+                          <table>
+                            <tr>
+                              <td ng-repeat="patientData in dataEntry.patient">
+                                <table   border="0" class="table table-bordered">
+                                  <tr>
+                                    <td class="right-td">
+                                      <button class="remBtn"  ng-click="dataEntry.removeColumn($index,$event);">Remove</button>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="right-td">
+                                      <input type="text" name="id{{$index}}" id="id{{$index}}" ng-model="patient[$index].id" ng-change="dataEntry.verifyId()" required>
+                                      <span class="has-error" ng-show="patient.form.id{{$index}}.$error.required  && dataEntry.submited">Required<br/>
+                                      </span>
+                                       <span class="has-error" ng-show="patient.form.id{{$index}}.$error.duplicate">Patient ids should be unique!</span> 
+                                    </td>
+                                  </tr>
+                                  <tr><td class="right-td">
+                                    <input ng-disabled="isDisabled" min="0"  ng-keyup="dataEntry.disableDate($index)"  type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
+                                  </td></tr>
+                                  <tr>
+                                    <td class="right-td">
+                                    
+
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="dataEntry.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup1.opened"  close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']" ng-click="popup1.opened = true"  ng-required="!patient[$index].age"/>
+
+                                    <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && dataEntry.submited">Required</span>
+
+                                  </td></tr>
+                                  <tr><td class="right-td">
+
+                                    <input type="text" ng-disabled="isDisabled"  ng-change="dataEntry.calculateAge($index)"  class="textField" uib-datepicker-popup is-open="popup2.opened" close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']" ng-click="popup2.opened = true"  ng-required="!patient[$index].age"/>
+                                 
+                                    <span class="has-error" ng-show="patient.form.testdate{{$index}}.$error.required && dataEntry.submited">Required</span>
+
+                                  </td></tr>
+                                  <tr><td class="right-td">
+                                     <select class="textField" ng-disabled="isDisabled" name="sex{{$index}}" id="sex{{$index}}" ng-model="patient[$index].sex" required>
+                                      <option value="0"> Male </option>
+                                      <option value="1"> Female</option> 
+                                    </select>
+
+                                    <span class="has-error" ng-show="patient.form.sex{{$index}}.$error.required && dataEntry.submited">Required</span>
+
+                                  </td></tr>
+                                  <tr><td  class="right-td">
+                                    <select class="textField" ng-disabled="isDisabled" name="education{{$index}}" id="education{{$index}}" ng-model="patient[$index].education" required>
+                                      <option value="1"> Verhage 1 </option>
+                                      <option value="2"> Verhage 2 </option>
+                                      <option value="3"> Verhage 3</option> 
+                                      <option value="4"> Verhage 4</option> 
+                                      <option value="5"> Verhage 5</option> 
+                                      <option value="6"> Verhage 6</option> 
+                                      <option value="7"> Verhage 7</option> 
+                                      </select>
+
+                                      <span class="has-error" ng-show="patient.form.education{{$index}}.$error.required && dataEntry.submited">Required</span>
+                                  </td></tr>
+                                  <tr ng-repeat="(key, value) in selectedTest">
+                                    <td class="right-td">
+                                      <input class="textField" ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"  ng-disabled="treeDisable" type="number" min="{{value.lowweb}}" max="{{value.highweb}}" >
+
+                                    <!--   <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.required && dataEntry.submited">Required</span> -->
+                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
+                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.max">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
+                                      <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.number">Not valid number!</span>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                  <br><br>
+                  <h3>Advanced Settings</h3>
+                  <hr>
+                    <label>One tailed or two tailed </label>
+                    <select ng-init="patientData.sig='twoTailed'" name="sig" ng-model="patientData.sig"  class ="form-control"  required>
+                      <option value="twoTailed">Two Tailed</option>
+                      <option value="oneTailedRight">One Tailed Right</option> 
+                      <option value="oneTailedLeft">One Tailed Left</option>
+                    </select>
+                    <span class="has-error" ng-show="dataEntry.submited && patientData.form.sig.$error.required">Required</span>
+                    <br><br>
+                    <label>Confidence Interval</label>
+                    <select ng-init="patientData.conf='95'" name="conf" ng-model="patientData.conf"  class ="form-control" required>
+                      <option value="95">95</option>                      
+                      <option value="90">90</option>                      
+                      <option value="99">99</option>
+                      <option value="99">68</option>
+                    </select>
+
+                    <input type="hidden"  name="nomative" ng-model="patientData.nomative" value="" />
+                    <span class="has-error" ng-show="dataEntry.submited && patientData.form.conf.$error.required">Required</span>
+                  <hr>
+                  <button type="button" class="btn btn-previous" ng-click="dataEntry.go('/test-selection');"> Previous</button>
+                  <button type="submit" class="btn btn-submit"  id="submit">Next</button>
+             </div>
+            </form>
