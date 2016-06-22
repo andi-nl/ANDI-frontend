@@ -12,7 +12,7 @@
   @description : put third tab chart event
 */
 app.controller('plotController',
-  function($scope, opencpu, diagnosisService){
+  function($scope, ocpuService, diagnosisService){
 
   //call during secont tab next button click time
   $scope.$on('MoveToChart', function(e) {
@@ -33,11 +33,7 @@ app.controller('plotController',
             'Content-Type': 'application/json;'
           }
       };
-      opencpu.normcomp(patientObj, config)
-        .then(function (data) {
-          console.log(data);
-          diagnosisService.lineChart(data);
-        });
+      ocpuService.normcomp(patientObj)
     }
   };
 });

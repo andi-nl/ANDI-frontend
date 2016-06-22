@@ -250,7 +250,6 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,
       }
      // $scope.submitData1 = JSON.stringify(patientObj);
       $scope.submitData = patientObj;
-      console.log(patientObj);
       //$scope.submitData = $scope.submitData1.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
       $scope.$parent.panel.next();       // move to next tab event
       $scope.$broadcast("MoveToChart");
