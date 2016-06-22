@@ -201,18 +201,30 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,
       $scope.treeCtrl.submited  = true;
       var limit                 = 0;
       //make Patient Object
-      var patientObj            = {conf:$scope.patientData.conf,
-                                    sig:$scope.patientData.sig,
-                                    nomative:$scope.patientData.nomative,
-                                    chart : $scope.patientData.chart};
+      var patientObj = {};
+      patientObj.settings = {
+        conf: $scope.patientData.conf,
+        sig: $scope.patientData.sig,
+        nomative: $scope.patientData.nomative,
+        chart: $scope.patientData.chart
+      };
+      patientObj.patientScores = [];
+
       for (var i in $scope.patient) {
         if(limit<this.counter){
-          var patientTest = [];
+          var patientTest = {id: $scope.patient[i].id,
+                              age: $scope.patient[i].age,
+                              'birthdate': $scope.patient[i].birthdate,
+                              'testdate': $scope.patient[i].testdate,
+                              sex: $scope.patient[i].sex,
+                              education: $scope.patient[i].education,
+                              test: []};
 
             angular.forEach($scope.nodeArr,function(nodeval,nodekey){
               var labelField =  findTest(nodeval,'id');
               if($scope.patient[i].test!==undefined && $scope.patient[i].test[nodeval]!==undefined){
-                patientTest.push({
+
+                patientTest.test.push({
                                   id:nodeval,
                                   label:labelField.label,
                                   Dataset:labelField.Dataset,
@@ -225,7 +237,7 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,
                                 });
               }
               else{
-                patientTest.push({
+                patientTest.test.push({
                                   id:nodeval,
                                   label:labelField.label,
                                   Dataset:labelField.Dataset,
@@ -237,14 +249,9 @@ app.controller('treeController', function($http,$rootScope,$scope,$timeout,
                                   value:999999999
                                 });
               }
-              patientObj[i] = {id:$scope.patient[i].id,
-                              age:$scope.patient[i].age,
-                              'birthdate':$scope.patient[i].birthdate,
-                              'testdate':$scope.patient[i].testdate,
-                              sex:$scope.patient[i].sex,
-                              education:$scope.patient[i].education,
-                              test:patientTest};
+
             });
+            patientObj.patientScores.push(patientTest);
           limit++;
         }
       }
