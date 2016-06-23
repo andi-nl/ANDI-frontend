@@ -11,34 +11,15 @@
   @name andiApp.controller:plotController
   @description : put third tab chart event
 */
-app.controller('plotController', function ($scope, $http, testTableService) {
+app.controller('plotController', function ($scope, ocpuService) {
   //call during secont tab next button click time
   $scope.$on('MoveToChart', function (e) {
-    $scope.plotCtrl.FormChart();
+    $scope.plotCtrl.draw();
   });
   /* Chart options */
-  this.FormChart = function () {
-    if ($scope.patient.chart === "scatter") { // scatter chart load
+  this.draw = function () {
 
-    }
-    else if ($scope.patient.chart === "radar") { // radar chart load
-
-    }
-    else { // defaut chart load
-      var patientObj = $scope.$parent.submitData;
-      var config = {
-        headers: {
-          'Content-Type': 'application/json;'
-        }
-      };
-      $http.post('http://145.100.58.103:5000/formTestScores', patientObj, config)
-        .success(function (data) {
-          console.log(data);
-          testTableService.lineChart(data);
-        })
-        .error(function (data) {
-          console.log(data);
-        });
-    }
+    var patientObj = $scope.$parent.submitData;
+    ocpuService.normcomp(patientObj)
   };
 });
