@@ -1,6 +1,6 @@
 angular
-    .module('andiApp')
-    .factory('ocpuService', ocpuService);
+  .module('andiApp')
+  .factory('ocpuService', ocpuService);
 
 ocpuService.$inject = ['$http']
 
@@ -14,10 +14,10 @@ function ocpuService($http) {
   };
   return service;
 
-  function normcomp(input){
+  function normcomp(input) {
     ocpu.seturl(ocpuPath);
-    var request = ocpu.call("normcomp", {"myJSON": JSON.stringify(input)}, function(session){
-      session.getObject(function(data){
+    var request = ocpu.call("normcomp", { "myJSON": JSON.stringify(input) }, function (session) {
+      session.getObject(function (data) {
         console.log("ocpu says: " + data)
       })
     })

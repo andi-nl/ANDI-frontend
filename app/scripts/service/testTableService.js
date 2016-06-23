@@ -1,73 +1,72 @@
 'use strict';
 angular
   .module('andiApp')
-    .factory('testTableService', testTableService);
-testTableService.$inject = ['$http','ivhTreeviewMgr','$rootScope'];
+  .factory('testTableService', testTableService);
+testTableService.$inject = ['$http', 'ivhTreeviewMgr', '$rootScope'];
 
-function testTableService($http,ivhTreeviewMgr,$rootScope) {
+function testTableService($http, ivhTreeviewMgr, $rootScope) {
   var releasePath = "data/release.json";
   var dataPath = "data/";
   var tableFile = "/tests.json";
-  var testData  = [];
-  var testid   = {};
+  var testData = [];
+  var testid = {};
   var keepgoing = true;
   return {
-      getTest    : getTest,
-      getRelease : getRelease,
-      expandCollapseTree:expandCollapseTree,
-      findTest: findTest,
-      lineChart   : lineChart
+    getTest: getTest,
+    getRelease: getRelease,
+    expandCollapseTree: expandCollapseTree,
+    findTest: findTest,
+    lineChart: lineChart
   };
-  function getRelease(defaultFolder,callback){
+  function getRelease(defaultFolder, callback) {
     $http.get(releasePath)
-    .then(function(response){
-      callback({   
-              "type": "select", 
-              "value": defaultFolder, 
-              "values": response.data
-            });
-    }, function(response){
-      return(response);
-    })
+      .then(function (response) {
+        callback({
+          "type": "select",
+          "value": defaultFolder,
+          "values": response.data
+        });
+      }, function (response) {
+        return (response);
+      })
   }
-  function getTest(defaultFolder,callback) {
+  function getTest(defaultFolder, callback) {
     $http.get(dataPath + defaultFolder + tableFile)
-    .then(function(response){
-      testData  = response.data;
-      var dataObj = {};
-      dataObj.data = response.data;
-      dataObj.defaultFolder = defaultFolder;
-      callback(dataObj);
-    },
-    function(response){
-      return(response);
-    });
+      .then(function (response) {
+        testData = response.data;
+        var dataObj = {};
+        dataObj.data = response.data;
+        dataObj.defaultFolder = defaultFolder;
+        callback(dataObj);
+      },
+      function (response) {
+        return (response);
+      });
   }
-  function expandCollapseTree(testSearch){
-    if(testSearch===''){
-      ivhTreeviewMgr.collapseRecursive(testData,testData);
+  function expandCollapseTree(testSearch) {
+    if (testSearch === '') {
+      ivhTreeviewMgr.collapseRecursive(testData, testData);
     }
-    if(testSearch!=='' && testSearch.length>0){
-      ivhTreeviewMgr.expandRecursive(testData,testData);
+    if (testSearch !== '' && testSearch.length > 0) {
+      ivhTreeviewMgr.expandRecursive(testData, testData);
     }
   }
   /*
   based on findField find particular test and return test object
   */
-  function findTest(value,findField){
-    childTest($rootScope.tests,value,findField); // check on child test
-    keepgoing = true; 
+  function findTest(value, findField) {
+    childTest($rootScope.tests, value, findField); // check on child test
+    keepgoing = true;
     return testid;
   };
-  function childTest(treedata,value,findField){
-    angular.forEach(treedata, function(childVal,childKey) {
-      if(keepgoing) {
-        if(childVal.children!==undefined && childVal.children.length>0){
-          childTest(childVal.children,value,findField);
+  function childTest(treedata, value, findField) {
+    angular.forEach(treedata, function (childVal, childKey) {
+      if (keepgoing) {
+        if (childVal.children !== undefined && childVal.children.length > 0) {
+          childTest(childVal.children, value, findField);
         }
-        else
-        {
-          if(childVal[findField]===value){
+        else {
+          if (childVal[findField] === value) {
             testid = childVal;
             keepgoing = false;
           }
@@ -76,7 +75,7 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
     });
   };
 
-  function lineChart(patientStats){
+  function lineChart(patientStats) {
     $('#lines-graph').html('');
     var margin = {
       top: 75,
@@ -87,30 +86,30 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
     var width = 1000 - margin.left - margin.right;
     var height = 550 - margin.top - margin.bottom;
     var color = d3.scale.category10();
-    var patients = _.map(patientStats, function(patient) {
+    var patients = _.map(patientStats, function (patient) {
       return patient.id;
     });
     patients = _.union(patients);
     // scales
     var scalePadding = 0.5;
-    var minScore = d3.min([d3.min(patientStats, function(d) {
-        return d.inneredge;
-      }),
-      d3.min(patientStats, function(d) {
+    var minScore = d3.min([d3.min(patientStats, function (d) {
+      return d.inneredge;
+    }),
+      d3.min(patientStats, function (d) {
         return d.univariateT;
       })
     ]);
     minScore = minScore - scalePadding;
-    var maxScore = d3.max([d3.max(patientStats, function(d) {
-        return d.outeredge;
-      }),
-      d3.max(patientStats, function(d) {
+    var maxScore = d3.max([d3.max(patientStats, function (d) {
+      return d.outeredge;
+    }),
+      d3.max(patientStats, function (d) {
         return d.univariateT;
       })
     ]);
     maxScore = maxScore + scalePadding;
     // for x need to translate test name to number
-    var testnames = patientStats.map(function(t) {
+    var testnames = patientStats.map(function (t) {
       return t.plotname;
     });
     testnames = _.union(testnames);
@@ -125,29 +124,29 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
 
     // define lines
     var outerLine = d3.svg.line()
-      .x(function(d) {
+      .x(function (d) {
         return xScale(testnames.indexOf(d['plotname']));
       })
-      .y(function(d) {
+      .y(function (d) {
         return yScale(d.outeredge)
       })
 
     var innerLine = d3.svg.line()
-      .x(function(d) {
+      .x(function (d) {
         return xScale(testnames.indexOf(d['plotname']));
       })
-      .y(function(d) {
+      .y(function (d) {
         return yScale(d.inneredge)
       })
 
     // lines connecting tests for single patients
     var patientLine = d3.svg.line()
-      .x(function(d) {
+      .x(function (d) {
         var xCoord = xScale(testnames.indexOf(d['plotname']));
         console.log(xCoord);
         return xCoord;
       })
-      .y(function(d) {
+      .y(function (d) {
         return yScale(d['univariateT']);
       });
 
@@ -157,7 +156,7 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+      "translate(" + margin.left + "," + margin.top + ")");
 
     // define axes
 
@@ -172,7 +171,7 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
       .scale(xScale)
       .orient("top")
       .tickValues(d3.range(testnames.length))
-      .tickFormat(function(t) {
+      .tickFormat(function (t) {
         return testnames[t];
       });
     linesGraph.append("g")
@@ -187,20 +186,20 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
       .data(patientStats)
       .enter()
       .append("circle")
-      .attr("cx", function(d) {
+      .attr("cx", function (d) {
         return xScale(testnames.indexOf(d['plotname']));
       })
-      .attr("cy", function(d) {
+      .attr("cy", function (d) {
         return yScale(d['univariateT']);
       })
       .attr("r", 4)
-      .style("fill", function(d) {
+      .style("fill", function (d) {
         return color(d.id);
       });
 
     // add legend for patient
     var legendSpace = 20;
-    patients.forEach(function(d, i) {
+    patients.forEach(function (d, i) {
       linesGraph.append("text")
         .attr("x", width + margin.right / 2)
         .attr("y", i * (legendSpace))
@@ -210,7 +209,7 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
 
 
     // connect patient tests
-    patients.forEach(function(patient) {
+    patients.forEach(function (patient) {
       var onePatientStats = _.filter(patientStats, ["id", patient]);
       linesGraph.append("path")
         .style("stroke", color(onePatientStats[0].id))
@@ -252,26 +251,26 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
       "patient", "sum of differences", "multivariate statistic",
       "degrees of freedom", "p-value"
     ];
-    var dtUniVarCols = uniVarColNames.map(function(column) {
+    var dtUniVarCols = uniVarColNames.map(function (column) {
       return {
         "title": column
       }
     });
-    var dtUniVarData = patientStats.map(function(p) {
+    var dtUniVarData = patientStats.map(function (p) {
       var subp = _.pick(p, uniVarCols);
       return Object.values(subp);
     });
-    var dtMultiVarCols = multiVarColNames.map(function(column) {
+    var dtMultiVarCols = multiVarColNames.map(function (column) {
       return {
         "title": column
       }
     });
     // for multivariate only one row per patient
-    var multiVarData = patients.map(function(patient) {
+    var multiVarData = patients.map(function (patient) {
       return _.find(patientStats, ["id", patient]);
     });
 
-    var dtMultiVarData = multiVarData.map(function(p) {
+    var dtMultiVarData = multiVarData.map(function (p) {
       var subp = _.pick(p, multiVarCols);
       return Object.values(subp);
     });
@@ -280,7 +279,7 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
       bFilter: false,
       data: dtUniVarData,
       columns: dtUniVarCols,
-      fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndesFull) {
+      fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndesFull) {
         $(nRow).css('color', color(aData[0]))
       }
     });
@@ -289,7 +288,7 @@ function testTableService($http,ivhTreeviewMgr,$rootScope) {
       bFilter: false,
       data: dtMultiVarData,
       columns: dtMultiVarCols,
-      fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndesFull) {
+      fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndesFull) {
         $(nRow).css('color', color(aData[0]))
       }
     });

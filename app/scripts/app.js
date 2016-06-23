@@ -46,4 +46,4 @@ app.config(function ($routeProvider) {
       redirectTo: '/'
     });
 })
-.constant('defaultFolder', '2016-01-14');
+  .constant('defaultFolder', '2016-01-14');
