@@ -55,6 +55,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
   based on findField find particular test and return test object
   */
   function findTest(value, findField) {
+    testid = {};
     childTest($rootScope.tests, value, findField); // check on child test
     keepgoing = true;
     return testid;

@@ -73,24 +73,20 @@
                       </td>
                     </tr>
                     <tr>
-                      <td class="right-td">
-
-
-                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup
-                          is-open="popup1.opened" close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}" ng-model="patient[$index]['birthdate']"
-                          ng-click="popup1.opened = true" ng-required="!patient[$index].age" />
-
+                      <td class="right-td" ng-init='this["birthdate"+$index] = false'>
+                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup="{{format}}"
+                          is-open='this["birthdate"+$index]' close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}"
+                          ng-model="patient[$index]['birthdate']" ng-click='this["birthdate"+$index]=true' ng-required="!patient[$index].age"
+                        />
                         <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && dataEntry.submited">Required</span>
-
                       </td>
                     </tr>
                     <tr>
-                      <td class="right-td">
-
-                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup
-                          is-open="popup2.opened" close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}" ng-model="patient[$index]['testdate']"
-                          ng-click="popup2.opened = true" ng-required="!patient[$index].age" />
-
+                      <td class="right-td" ng-init='this["testdate"+$index] = false'>
+                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup="{{format}}"
+                          is-open='this["testdate"+$index]' close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}"
+                          ng-model="patient[$index]['testdate']" ng-click='this["testdate"+$index] = true' ng-required="!patient[$index].age"
+                        />
                         <span class="has-error" ng-show="patient.form.testdate{{$index}}.$error.required && dataEntry.submited">Required</span>
 
                       </td>

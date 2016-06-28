@@ -1,8 +1,8 @@
 angular
   .module('andiApp')
   .controller('dataEntryController', dataEntryController);
-dataEntryController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr', 'defaultFolder'];
-function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr, defaultFolder) {
+dataEntryController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr', 'defaultFolder', 'DATEFORMAT'];
+function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr, defaultFolder, DATEFORMAT) {
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.txtvalue = ($rootScope.txtvalue !== undefined) ? $rootScope.txtvalue : '';
   this.alertMessage = '';
@@ -14,10 +14,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
   this.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.message = 'Data Uploaded successfully.';
-  /*Datepicker code*/
-  $scope.popup2 = { opened: false };
-  $scope.popup1 = { opened: false };
-
+  $scope.format = DATEFORMAT;
 	/*
 	    Add Patient button event , when user click add patient button
 	    that time push new object in patient array
@@ -56,10 +53,10 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       event.preventDefault();
     }
   };
-  /*
-    patient form age enter time disable particular column
-    birthdate and testdate field
-  */
+	/*
+		patient form age enter time disable particular column
+		birthdate and testdate field
+	*/
   this.disableDate = function (index) {
     if ($scope.patient.form['age' + index].$viewValue !== '') {
       $('#birthdate' + index).attr('disabled', true);
@@ -70,23 +67,23 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       $('#testdate' + index).attr('disabled', false);
     }
   };
-  /*
-    age field calculation on birthdate and testdate filed
-  */
+	/*
+		age field calculation on birthdate and testdate filed
+	*/
   this.calculateAge = function (index) {
     if (this.ageCalculate) {
       var birthDate = $scope.patient.form['birthdate' + index].$viewValue;
       var testDate = $scope.patient.form['testdate' + index].$viewValue;
-      if (testDate !== '' && birthDate !== '') {
+      if (testDate !== undefined && birthDate !== undefined) {
         var years = patientDataservice.calculateAge(birthDate, testDate);
         $scope.patient.form['age' + index].$setViewValue(years);
         $('#age' + index).val(years);
       }
     }
   };
-  /*
-   form id field unique validation check
-  */
+	/*
+	 form id field unique validation check
+	*/
   this.verifyId = function () {
     var sorted = [];
     for (var i in $scope.patient) {
@@ -102,9 +99,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       }
     }
   };
-  /*
-   Submit form event to create patient object and move to next tab
-  */
+	/*
+	 Submit form event to create patient object and move to next tab
+	*/
   this.submit = function (isValid) {
     // check to make sure the form is completely valid
     if ($scope.patient.form.$invalid) {
@@ -121,9 +118,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
     var replacearr = $rootScope.txtvalue.split(";");
     var files = $rootScope.fileData;
     var r = new FileReader();
-    /*
-    read csv file and make daynamic form
-    */
+		/*
+		read csv file and make daynamic form
+		*/
     r.onload = function (e) {
       var contents = e.target.result;
       var rows = contents.split('\n');
@@ -149,10 +146,10 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
           if (isNaN(parseInt(data[0])) && data[0] !== '') {
             var IdAvailability = testTableService.findTest(data[0], 'id');
             if (IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined) {
-              $rootScope.selectedTest[data[0]] = '';
+              $rootScope.selectedTest[data[0]] = IdAvailability;
             }
             else {
-              $scope.message = 'WARNING: Not all data was imported !';
+              $scope.message = 'WARNING: Please upload only those data files that have been downloaded and filled from this website !';
             }
           }
         }
@@ -175,7 +172,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
                     var field = data[0];//data[0].replace(/ /g,"_");//'#test'+j+'_'+data[0].replace(/ /g,"");
                     fieldVal = data[j];//parseInt(data[j]);
                     if ($.inArray(fieldVal, replacearr) >= 0) {
-                      fieldVal = 999999999;
+                      fieldVal = '';
                     }
                     else {
                       fieldVal = parseInt(fieldVal);
