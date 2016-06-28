@@ -12,24 +12,24 @@
 </div>
 <div class="col-sm-12">
   <div class="col-sm-7">
-    <h3>Normative date</h3>
+    <h3>Normative data</h3>
     <!-- Normative date dropdown -->
     <div ng-if="normativedatalabel==true">
       <span style="font-size:14px">{{patientData.nomative}}</h4>
                     <input type="button" ng-click="testSelection.selectDate();" value="change">
                   </div>
                   <div ng-if="normativedatalabel==false">
-                    <select  ng-model="folders.value" 
+                    <select  ng-model="folders.value"
                             ng-options="v for v in folders.values"
                             ng-change="testSelection.getTreeData(folders.value)"
                             class ="form-control" required>
                     </select>
                   </div>
-                  <!-- Search textbox field --> 
+                  <!-- Search textbox field -->
                   <h3>Search for neuropsychological tests</h3>
-                  <input type="text" ng-model="testSearch" class="form-control" 
+                  <input type="text" ng-model="testSearch" class="form-control"
                   ng-keyup="testSelection.treeExpanded(testSearch)" placeholder ="Search for ..."/>
-                  <!-- parent child wise test directive--> 
+                  <!-- parent child wise test directive-->
                   <div
                     ivh-treeview-id-attribute="'uuid'"
                     ivh-treeview="tests"
@@ -43,7 +43,7 @@
                 </div>
                 <div class ="col-sm-5">
                   <h3>Selected Tests</h3>
-                  <!-- selected node template --> 
+                  <!-- selected node template -->
                   <script type="text/ng-template"  id="tree_item_renderer">
                     <span ng-if="data.children.length===0"  ng-click="nodeClicked(data)"  >
                       {{testSelection.getSelectedNodes(data)}}
@@ -71,7 +71,7 @@
       </div>
       <!-- upload csv -->
       <div ng-if="filebutton==true" class="fileinput fileinput-new" data-provides="fileinput">
-        <label for="files"> 
+        <label for="files">
                           <span class="btn btn-default btn-file">Upload Data</span>
                         </label>
         <input style="visibility: hidden; position: absolute;" id="files" ng-model="fileContent" custom-on-change="testSelection.uploadCsv"
