@@ -13,12 +13,18 @@
 */
 app.controller('plotController', function ($scope, ocpuService) {
 
-  this.draw = function () {
-
+  this.render = function () {
     var patientObj = $scope.$parent.submitData;
-    ocpuService.normcomp(patientObj);
+    ocpuService.normcomp(patientObj).then(function (data) {
+      var normcompData = JSON.parse(data);
+      plot(normcompData);
+    });
+  };
+
+  this.plot = function (normcompData) {
 
   };
 
-  this.draw();
+  this.render();
+
 });
