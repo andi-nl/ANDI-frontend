@@ -28,7 +28,7 @@ function patientDataservice(testTableService, $rootScope) {
       conf: $scope.patientData.conf,
       sig: $scope.patientData.sig,
       nomative: $rootScope.nomative,
-      chart: $rootScope.chart
+      chart: ''
     };
     patientObj.patientScores = [];
     for (var i in $scope.patient) {
@@ -36,8 +36,8 @@ function patientDataservice(testTableService, $rootScope) {
         var patientTest = {
           id: $scope.patient[i].id,
           age: $scope.patient[i].age,
-          'birthdate': $scope.patient[i].birthdate,
-          'testdate': $scope.patient[i].testdate,
+          'birthdate': ($scope.patient[i].birthdate !== undefined && $scope.patient[i].birthdate !== null) ? $scope.patient[i].birthdate : '',
+          'testdate': ($scope.patient[i].testdate !== undefined && $scope.patient[i].testdate !== null) ? $scope.patient[i].testdate : '',
           sex: $scope.patient[i].sex,
           education: $scope.patient[i].education,
           test: []

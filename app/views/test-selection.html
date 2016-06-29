@@ -87,12 +87,15 @@
   <table ng-hide="true" export-csv="csv" separator=";" style="width:250px;" class="table table-bordered">
     <tr>
       <td class="right-td"></td>
+      <td></td>
     </tr>
     <tr>
       <td class="main-td ">id</td>
+      <td>(alphanumeric)</td>
     </tr>
     <tr>
       <td class="main-td">age</td>
+      <td>(in years)</td>
     </tr>
     <tr>
       <td class="main-td">birthdate</td>
@@ -102,11 +105,14 @@
     </tr>
     <tr>
       <td class="main-td">sex</td>
+      <td>(M-0 F-1)</td>
     </tr>
     <tr>
       <td class="main-td">education</td>
+      <td>(1 - 7)</td>
     </tr>
     <tr ng-repeat="(key, value) in selectedTest">
       <td class="right-td"> {{key}} </td>
+      <td>(Enter Value Between {{value.lowweb}} to {{value.highweb}} )</td>
     </tr>
   </table>

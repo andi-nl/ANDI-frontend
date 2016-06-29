@@ -69,7 +69,7 @@
                   //first default column
                   if (i === 0) {
                     data = '';
-                    rowData = ';Patient 1';
+                    rowData = ';Information;Patient 1';
                   }
                   // ignoring 3rd and 4rd ( birthdate and testdate) field
                   if (i !== 4 && i !== 3) {

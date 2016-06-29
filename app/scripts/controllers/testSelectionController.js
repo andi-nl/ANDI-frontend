@@ -11,6 +11,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.normativedatalabel = true;
   $scope.downloadtemplate = false;
+  $rootScope.fileData = '';
   /*Normative Date Change Time load new selected date test data*/
   testTableService.getRelease(function (response) {
     $scope.folders = response;
