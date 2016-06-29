@@ -1,8 +1,8 @@
 angular
   .module('andiApp')
   .controller('testSelectionController', testSelectionController);
-testSelectionController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr', 'defaultFolder'];
-function testSelectionController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr, defaultFolder) {
+testSelectionController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr'];
+function testSelectionController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr) {
   var testArr = [];
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};     // Make selected test object
@@ -12,11 +12,14 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   $scope.normativedatalabel = true;
   $scope.downloadtemplate = false;
   /*Normative Date Change Time load new selected date test data*/
-
-  testTableService.getRelease(defaultFolder, function (response) {
-  		$scope.folders = response;
+  testTableService.getRelease(function (response) {
+    $scope.folders = response;
+    treeData($scope.folders.value);
   });
   this.getTreeData = function (val) {
+    treeData(val);
+  }
+  var treeData = function (val) {
     testTableService.getTest(val, function (dataObj) {
       $scope.normativedatalabel = true;
       $rootScope.tests = dataObj.data;
@@ -33,25 +36,25 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
     $location.path(path);
   };
   /*get selected Normative Date test List*/
-  this.getTreeData(defaultFolder);
-	/*
-		get Normative Date  Dropdown List and pass defaultFolder value
-		to select by default date
-	*/
+  // this.getTreeData();
+  /*
+    get Normative Date  Dropdown List and pass defaultFolder value
+    to select by default date
+  */
   this.selectDate = function () {
     $scope.normativedatalabel = false;
   };
-	/*
-		In tab1 test search textbox time expand all tree data and
-		textbox clear time collapse all tree data
-	*/
+  /*
+    In tab1 test search textbox time expand all tree data and
+    textbox clear time collapse all tree data
+  */
   this.treeExpanded = function (val) {
     testTableService.expandCollapseTree(val);
   };
-	/*
-	get Selected test list object , when user click any test that time this
-	event called
-	*/
+  /*
+  get Selected test list object , when user click any test that time this
+  event called
+  */
   this.getSelectedNodes = function (node) {
     if (node.selected === true && (node.children !== undefined && node.children.length === 0)) {
       if ($rootScope.nodeArr.indexOf(node.id) < 0) {
@@ -69,9 +72,9 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
       return node.id;
     }
   };
-	/*
-	 upload csv file and make form based on csv file
-	*/
+  /*
+   upload csv file and make form based on csv file
+  */
   this.uploadCsv = function () {
     var files = $("#files")[0].files; //get file content
     $rootScope.fileData = files;

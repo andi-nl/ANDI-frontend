@@ -18,17 +18,17 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     findTest: findTest,
     lineChart: lineChart
   };
-  function getRelease(defaultFolder, callback) {
+  function getRelease(callback) {
     $http.get(releasePath)
       .then(function (response) {
         callback({
           "type": "select",
-          "value": defaultFolder,
-          "values": response.data
+          "value": response.data.default,
+          "values": response.data.datasets
         });
       }, function (response) {
         return (response);
-      })
+      });
   }
   function getTest(defaultFolder, callback) {
     $http.get(dataPath + defaultFolder + tableFile)
