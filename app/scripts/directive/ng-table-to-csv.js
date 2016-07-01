@@ -68,7 +68,8 @@
                   rowData = rowData.slice(0, rowData.length - 1); //remove last separator
                   //first default column
                   if (i === 0) {
-                    rowData = ';Patient 1';
+                    data = '';
+                    rowData = ';Information;Patient 1';
                   }
                   // ignoring 3rd and 4rd ( birthdate and testdate) field
                   if (i !== 4 && i !== 3) {

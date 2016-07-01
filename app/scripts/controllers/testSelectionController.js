@@ -1,8 +1,8 @@
 angular
   .module('andiApp')
   .controller('testSelectionController', testSelectionController);
-testSelectionController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr', 'defaultFolder'];
-function testSelectionController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr, defaultFolder) {
+testSelectionController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr'];
+function testSelectionController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr) {
   var testArr = [];
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};     // Make selected test object
@@ -11,12 +11,16 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.normativedatalabel = true;
   $scope.downloadtemplate = false;
+  $rootScope.fileData = '';
   /*Normative Date Change Time load new selected date test data*/
-
-  testTableService.getRelease(defaultFolder, function (response) {
-  		$scope.folders = response;
+  testTableService.getRelease(function (response) {
+    $scope.folders = response;
+    treeData($scope.folders.value);
   });
   this.getTreeData = function (val) {
+    treeData(val);
+  }
+  var treeData = function (val) {
     testTableService.getTest(val, function (dataObj) {
       $scope.normativedatalabel = true;
       $rootScope.tests = dataObj.data;
@@ -33,7 +37,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
     $location.path(path);
   };
   /*get selected Normative Date test List*/
-  this.getTreeData(defaultFolder);
+  // this.getTreeData();
   /*
     get Normative Date  Dropdown List and pass defaultFolder value
     to select by default date

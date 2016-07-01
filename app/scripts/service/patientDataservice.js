@@ -8,8 +8,8 @@ patientDataservice.$inject = ['testTableService', '$rootScope'];
 function patientDataservice(testTableService, $rootScope) {
   var limit = 0;
   var patientObj = {};
- 	var patientTest = {};
- 	var d1 = '';
+  var patientTest = {};
+  var d1 = '';
   var d2 = '';
   var yrs = '';
   var years = '';
@@ -19,7 +19,7 @@ function patientDataservice(testTableService, $rootScope) {
     calculateAge: calculateAge
   };
   function addPatient(selectedTest) {
-		  return { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': selectedTest };
+    return { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': selectedTest };
   }
   function submitPatient($scope) {
     //make Patient Object
@@ -28,7 +28,7 @@ function patientDataservice(testTableService, $rootScope) {
       conf: $scope.patientData.conf,
       sig: $scope.patientData.sig,
       nomative: $rootScope.nomative,
-      chart: $rootScope.chart
+      chart: ''
     };
     patientObj.patientScores = [];
     for (var i in $scope.patient) {
@@ -36,42 +36,25 @@ function patientDataservice(testTableService, $rootScope) {
         var patientTest = {
           id: $scope.patient[i].id,
           age: $scope.patient[i].age,
-          'birthdate': $scope.patient[i].birthdate,
-          'testdate': $scope.patient[i].testdate,
+          'birthdate': ($scope.patient[i].birthdate !== undefined && $scope.patient[i].birthdate !== null) ? $scope.patient[i].birthdate : '',
+          'testdate': ($scope.patient[i].testdate !== undefined && $scope.patient[i].testdate !== null) ? $scope.patient[i].testdate : '',
           sex: $scope.patient[i].sex,
           education: $scope.patient[i].education,
           test: []
         };
-
         angular.forEach($scope.nodeArr, function (nodeval, nodekey) {
           var labelField = testTableService.findTest(nodeval, 'id');
-          if ($scope.patient[i].test !== undefined && $scope.patient[i].test[nodeval] !== undefined) {
-            patientTest.test.push({
-              id: nodeval,
-              label: labelField.label,
-              Dataset: labelField.Dataset,
-              'SPSS name': labelField['SPSS name'],
-              highborder: labelField.highborder,
-              highweb: labelField.highweb,
-              lowborder: labelField.lowborder,
-              lowweb: labelField.lowweb,
-              value: $scope.patient[i].test[nodeval]
-            });
-          }
-          else {
-            patientTest.test.push({
-              id: nodeval,
-              label: labelField.label,
-              Dataset: labelField.Dataset,
-              'SPSS name': labelField['SPSS name'],
-              highborder: labelField.highborder,
-              highweb: labelField.highweb,
-              lowborder: labelField.lowborder,
-              lowweb: labelField.lowweb,
-              value: 999999999
-            });
-          }
-
+          patientTest.test.push({
+            id: nodeval,
+            label: labelField.label,
+            Dataset: labelField.Dataset,
+            'SPSS name': labelField['SPSS name'],
+            highborder: labelField.highborder,
+            highweb: labelField.highweb,
+            lowborder: labelField.lowborder,
+            lowweb: labelField.lowweb,
+            value: ($scope.patient[i].test !== undefined && $scope.patient[i].test[nodeval] !== undefined && $scope.patient[i].test[nodeval] !== null && $scope.patient[i].test[nodeval] !== '') ? $scope.patient[i].test[nodeval] : 999999999
+          });
         });
         patientObj.patientScores.push(patientTest);
         limit++;
@@ -79,9 +62,14 @@ function patientDataservice(testTableService, $rootScope) {
     }
     return patientObj;
   }
+
   function calculateAge(birthDate, testDate) {
-  		d1 = moment(birthDate);
-    d2 = moment(testDate);
+    var parts1 = birthDate.split("-");
+    var parts2 = testDate.split("-");
+    var date1 = parts1[2] + "-" + parts1[1] + "-" + parts1[0];
+    var date2 = parts2[2] + "-" + parts2[1] + "-" + parts2[0];
+    d1 = moment(date1);
+    d2 = moment(date2);
     yrs = moment.duration(d2.diff(d1)).asYears();
     years = Math.round(yrs);
     return years;
