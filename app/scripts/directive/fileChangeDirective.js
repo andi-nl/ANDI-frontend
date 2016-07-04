@@ -5,8 +5,8 @@ app.directive('customOnChange', function () {
   return {
     restrict: 'A', // attribute
     link: function (scope, element, attrs) {
-      var onChangeFunc = scope.$eval(attrs.customOnChange); //event name
-      element.bind('change', onChangeFunc); //bind event
+      var onChangeFunc = scope.$eval(attrs.customOnChange); // event name
+      element.bind('change', onChangeFunc); // bind event
     }
   };
 });

@@ -1,5 +1,4 @@
 (function (angular) {
-
   // Create all modules and define dependencies to make sure they exist
   // and are loaded in the correct order to satisfy dependency injection
   // before all nested files are concatenated by Gulp
@@ -20,7 +19,6 @@
       'ngTableToCsv.config',
       'ngTableToCsv.directives'
     ]);
-
 })(angular);
 
 (function (angular) {
@@ -34,7 +32,7 @@
           scope: false,
           link: function (scope, element, attrs) {
             var data = '';
-            //file seprator symbol
+            // file seprator symbol
             var separator = attrs.separator ? attrs.separator : ';';
             var ignoreSelector = attrs.exportCsvIgnore || '.ng-table-filters';
             var csv = {
@@ -44,18 +42,20 @@
                   ;
               },
               generate: function () {
-                //take table content
+                // take table content
                 var rows = element.find('tr');
                 angular.forEach(rows, function (row, i) {
-                  var tr = angular.element(row),
-                    tds = tr.find('th'),
-                    rowData = '';
+                  var tr = angular.element(row);
+                  var tds = tr.find('th');
+                  var rowData = '';
+
                   if (tr.hasClass(ignoreSelector)) {
                     return;
                   }
                   if (tds.length === 0) {
                     tds = tr.find('td');
-                  }
+                  };
+
                   angular.forEach(tds, function (td, j) {
                     var value = '';
                     td = angular.element(td);
@@ -63,10 +63,10 @@
                       value = angular.element(td).text();
                     }
                     rowData += csv.stringify(value) + separator; // csv content
-
                   });
-                  rowData = rowData.slice(0, rowData.length - 1); //remove last separator
-                  //first default column
+
+                  rowData = rowData.slice(0, rowData.length - 1); // remove last separator
+                  // first default column
                   if (i === 0) {
                     data = '';
                     rowData = ';Information;Patient 1';

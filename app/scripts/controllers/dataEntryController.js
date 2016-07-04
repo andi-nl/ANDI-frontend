@@ -10,7 +10,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
   this.ageCalculate = true;
   this.submited = false; // for custom validation flag
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};     // Make selected test object
-  /*Patient List*/
+  /* Patient List*/
   this.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.message = 'Data Uploaded successfully.';
@@ -93,7 +93,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       if ($scope.patient[i].id !== null && $scope.patient[i].id !== '' && $scope.patient[i].id !== undefined) {
         if (sorted.indexOf($scope.patient[i].id) >= 0) {
           $scope.patient.form['id' + i].$setValidity('duplicate', !true);
-          //$scope.patient.form['id0'].$setValidity('duplicate',!true);
+          // $scope.patient.form['id0'].$setValidity('duplicate',!true);
         }
         else {
           sorted.push($scope.patient[i].id);
@@ -118,7 +118,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
     }
   };
   if ($rootScope.fileData !== undefined && $rootScope.fileData !== null && $rootScope.fileData !== '') {
-    var replacearr = $rootScope.txtvalue.split(";");
+    var replacearr = $rootScope.txtvalue.split(';');
     var files = $rootScope.fileData;
     var r = new FileReader();
     /*
@@ -143,7 +143,6 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
           }
         }
         if (key > 4) {
-
           if (isNaN(parseInt(data[0])) && data[0] !== '') {
             var IdAvailability = testTableService.findTest(data[0], 'id');
             if (IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined) {
@@ -183,7 +182,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
                     }
                     $scope.patient.form['test' + (j - 2) + '_' + field].$setViewValue(fieldVal);
                     $scope.patient[j - 2].test[field] = fieldVal;
-                    $('#test' + (j - 2) + '_' + field.replace(/ /g, "_")).val(fieldVal);
+                    $('#test' + (j - 2) + '_' + field.replace(/ /g, '_')).val(fieldVal);
                   }
                 }
                 else {
@@ -201,7 +200,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
                 }
               }
             }
-            $("#files").val('');
+            $('#files').val('');
           }
         });
         alert($scope.message);

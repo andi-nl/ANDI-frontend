@@ -8,7 +8,6 @@ patientDataservice.$inject = ['testTableService', '$rootScope'];
 function patientDataservice(testTableService, $rootScope) {
   var limit = 0;
   var patientObj = {};
-  var patientTest = {};
   var d1 = '';
   var d2 = '';
   var yrs = '';
@@ -22,7 +21,7 @@ function patientDataservice(testTableService, $rootScope) {
     return { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': selectedTest };
   }
   function submitPatient($scope) {
-    //make Patient Object
+    // make Patient Object
     limit = 0;
     patientObj.settings = {
       conf: $scope.patientData.conf,
@@ -64,10 +63,10 @@ function patientDataservice(testTableService, $rootScope) {
   }
 
   function calculateAge(birthDate, testDate) {
-    var parts1 = birthDate.split("-");
-    var parts2 = testDate.split("-");
-    var date1 = parts1[2] + "-" + parts1[1] + "-" + parts1[0];
-    var date2 = parts2[2] + "-" + parts2[1] + "-" + parts2[0];
+    var parts1 = birthDate.split('-');
+    var parts2 = testDate.split('-');
+    var date1 = parts1[2] + '-' + parts1[1] + '-' + parts1[0];
+    var date2 = parts2[2] + '-' + parts2[1] + '-' + parts2[0];
     d1 = moment(date1);
     d2 = moment(date2);
     yrs = moment.duration(d2.diff(d1)).asYears();

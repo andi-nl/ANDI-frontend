@@ -1,5 +1,5 @@
 'use strict';
-//test data goes here
+// test data goes here
 /**
  * @ngdoc function
  * @name andiApp.controller:MainCtrl
@@ -12,7 +12,6 @@
   @description : put third tab chart event
 */
 app.controller('plotController', function ($scope, ocpuService) {
-
   var plotCtrl = this;
 
   plotCtrl.render = function () {
@@ -24,7 +23,6 @@ app.controller('plotController', function ($scope, ocpuService) {
   };
 
   plotCtrl.plot = function (normcompData) {
-
     var margin = {
       top: 80,
       right: 180,
@@ -47,9 +45,9 @@ app.controller('plotController', function ($scope, ocpuService) {
     patients = _.union(patients);
 
     // tooltip
-    var div = d3.select("body").append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
+    var div = d3.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
 
     // scales
     var scalePadding = 0.5;
@@ -112,95 +110,94 @@ app.controller('plotController', function ($scope, ocpuService) {
       });
 
     // define scatter plot
-    var linesGraph = d3.select("#lines-graph")
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .attr("transform",
-      "translate(" + margin.left + "," + margin.top + ")");
+    var linesGraph = d3.select('#lines-graph')
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .attr('transform',
+      'translate(' + margin.left + ',' + margin.top + ')');
 
     // define axes
 
     var yAxis = d3.svg.axis()
       .scale(yScale)
-      .orient("left");
-    linesGraph.append("g")
-      .attr("class", "axis")
+      .orient('left');
+    linesGraph.append('g')
+      .attr('class', 'axis')
       .call(yAxis);
 
     var xAxis = d3.svg.axis()
       .scale(xScale)
-      .orient("top");
+      .orient('top');
 
-    linesGraph.append("g")
-      .attr("class", "axis")
+    linesGraph.append('g')
+      .attr('class', 'axis')
       .call(xAxis)
-      .selectAll("text")
-      .attr("dy", "-0.3em")
-      .attr("transform", "rotate(45)");
+      .selectAll('text')
+      .attr('dy', '-0.3em')
+      .attr('transform', 'rotate(45)');
 
     // add 'scatterplot' elements
-    linesGraph.selectAll("circle")
+    linesGraph.selectAll('circle')
       .data(normcompData)
       .enter()
-      .append("circle")
-      .attr("cx", function (d) {
+      .append('circle')
+      .attr('cx', function (d) {
         return xScale(d.plotname);
       })
-      .attr("cy", function (d) {
+      .attr('cy', function (d) {
         return yScale(d['univariateT']);
       })
-      .attr("r", 4)
-      .style("fill", function (d) {
+      .attr('r', 4)
+      .style('fill', function (d) {
         return color(d.id);
       })
-      .on("mouseover", function (d) {
+      .on('mouseover', function (d) {
         div.transition()
           .duration(200)
-          .style("opacity", .8);
-        div.html("<span style='color:" + color(d.id) + "'>" + "patient: " + d.id + "<br/>" + d.shortestname + "<br/>" + d.univariateT + "</span")
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
+          .style('opacity', 0.8);
+        div.html("<span style='color:" + color(d.id) + "'>" + 'patient: ' + d.id + '<br/>' + d.shortestname + '<br/>' + d.univariateT + '</span')
+          .style('left', (d3.event.pageX) + 'px')
+          .style('top', (d3.event.pageY - 28) + 'px');
       })
-      .on("mouseout", function (d) {
+      .on('mouseout', function (d) {
         div.transition()
           .duration(500)
-          .style("opacity", 0);
+          .style('opacity', 0);
       });
 
     // add legend for patient
     var legendSpace = 20;
 
     patients.forEach(function (p, i) {
-      linesGraph.append("text")
-        .attr("x", width + margin.right / 2)
-        .attr("y", i * (legendSpace))
-        .style("fill", color(p))
-        .on("click", function (el) {
-          var active = this.active ? false : true;
+      linesGraph.append('text')
+        .attr('x', width + margin.right / 2)
+        .attr('y', i * (legendSpace))
+        .style('fill', color(p))
+        .on('click', function (el) {
+          var active = this.active !== true;
           var newOpacity = active ? 0 : 0.5;
-          d3.select("#tag" + p.replace(/\s+/g, ""))
+          d3.select('#tag' + p.replace(/\s+/g, ''))
             .transition().duration(100)
-            .style("opacity", newOpacity);
+            .style('opacity', newOpacity);
           this.active = active;
         })
-        .text("patient: " + p);
+        .text('patient: ' + p);
     });
-
 
     // connect patient tests
     patients.forEach(function (p) {
-      var onePatientStats = _.filter(normcompData, ["id", p]);
-      linesGraph.append("path")
-        .attr("class", "patient-line")
-        .attr("d", patientLine(onePatientStats))
-        .attr("id", "tag" + p.replace(/\s+/g, ""))
-        .style("stroke", color(onePatientStats[0].id))
-        .style("fill", "none");;
+      var onePatientStats = _.filter(normcompData, ['id', p]);
+      linesGraph.append('path')
+        .attr('class', 'patient-line')
+        .attr('d', patientLine(onePatientStats))
+        .attr('id', 'tag' + p.replace(/\s+/g, ''))
+        .style('stroke', color(onePatientStats[0].id))
+        .style('fill', 'none');
     })
 
     // add mean line
-    linesGraph.append("line")
+    linesGraph.append('line')
       .attr({
         x1: xScale(tests[tests.length]),
         y1: yScale(0),
@@ -209,38 +206,37 @@ app.controller('plotController', function ($scope, ocpuService) {
       });
 
     // add upper and lower bounds
-    linesGraph.append("path")
-      .attr("class", "line")
-      .attr("d", outerLine(normcompData));
-    linesGraph.append("path")
-      .attr("class", "line")
-      .attr("d", innerLine(normcompData));
-
+    linesGraph.append('path')
+      .attr('class', 'line')
+      .attr('d', outerLine(normcompData));
+    linesGraph.append('path')
+      .attr('class', 'line')
+      .attr('d', innerLine(normcompData));
 
     // tables
 
     // columns
     var uniVarCols = [
-      "id", "plotname", "univariatedifferences", "univariateT",
-      "univariatedf", "univariatep"
+      'id', 'plotname', 'univariatedifferences', 'univariateT',
+      'univariatedf', 'univariatep'
     ];
     var uniVarColNames = [
-      "patient", "test variable", "difference", "t-value",
-      "degrees of freedom", "p-value"
+      'patient', 'test variable', 'difference', 't-value',
+      'degrees of freedom', 'p-value'
     ];
 
     var multiVarCols = [
-      "id", "multivariatedifference", "multivariateT",
-      "multivariatedf", "multivariatep"
+      'id', 'multivariatedifference', 'multivariateT',
+      'multivariatedf', 'multivariatep'
     ];
     var multiVarColNames = [
-      "patient", "sum of differences", "multivariate statistic",
-      "degrees of freedom", "p-value"
+      'patient', 'sum of differences', 'multivariate statistic',
+      'degrees of freedom', 'p-value'
     ];
 
     var dtUniVarCols = uniVarColNames.map(function (column) {
       return {
-        "title": column
+        'title': column
       }
     });
 
@@ -255,14 +251,14 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     var dtMultiVarCols = multiVarColNames.map(function (column) {
       return {
-        "title": column
+        'title': column
       }
     });
 
     // for multivariate only one row per patient
 
     var multiVarData = patients.map(function (patient) {
-      return _.find(normcompData, ["id", patient]);
+      return _.find(normcompData, ['id', patient]);
     });
 
     var dtMultiVarData = multiVarData.map(function (p) {
@@ -275,7 +271,7 @@ app.controller('plotController', function ($scope, ocpuService) {
     });
 
     // add tables
-    $("#uni-var-table").dataTable({
+    $('#uni-var-table').dataTable({
       bFilter: false,
       data: dtUniVarData,
       columns: dtUniVarCols,
@@ -284,7 +280,7 @@ app.controller('plotController', function ($scope, ocpuService) {
       }
     });
 
-    $("#multi-var-table").dataTable({
+    $('#multi-var-table').dataTable({
       bFilter: false,
       data: dtMultiVarData,
       columns: dtMultiVarCols,
@@ -295,5 +291,4 @@ app.controller('plotController', function ($scope, ocpuService) {
   };
 
   plotCtrl.render();
-
 });

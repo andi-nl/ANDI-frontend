@@ -29,12 +29,12 @@ app.config(function ($routeProvider) {
     })
     .when('/test-selection', {
       templateUrl: 'views/test-selection.html',
-      controller: 'testSelectionController',//'treeController',
+      controller: 'testSelectionController', // 'treeController',
       controllerAs: 'testSelection'
     })
     .when('/data-entry', {
       templateUrl: 'views/data-entry.html',
-      controller: 'dataEntryController',//'treeController',
+      controller: 'dataEntryController', // 'treeController',
       controllerAs: 'dataEntry'
     })
     .when('/results', {

@@ -12,7 +12,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   $scope.normativedatalabel = true;
   $scope.downloadtemplate = false;
   $rootScope.fileData = '';
-  /*Normative Date Change Time load new selected date test data*/
+  /* Normative Date Change Time load new selected date test data*/
   testTableService.getRelease(function (response) {
     $scope.folders = response;
     treeData($scope.folders.value);
@@ -36,7 +36,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   this.go = function (path) {
     $location.path(path);
   };
-  /*get selected Normative Date test List*/
+  /* get selected Normative Date test List*/
   // this.getTreeData();
   /*
     get Normative Date  Dropdown List and pass defaultFolder value
@@ -77,9 +77,8 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
    upload csv file and make form based on csv file
   */
   this.uploadCsv = function () {
-    var files = $("#files")[0].files; //get file content
+    var files = $('#files')[0].files; // get file content
     $rootScope.fileData = files;
-    var sorted = [];
     if (files.length) {
       // open model popup for replace constant value
       var modalInstance = $uibModal.open({
@@ -96,7 +95,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
         $rootScope.filebutton = false;
         $location.path('/data-entry');
       }, function () {
-        //show errors
+        // show errors
         console.log('Modal dismissed at: ' + new Date());
       });
     }
