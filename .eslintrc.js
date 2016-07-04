@@ -6,6 +6,7 @@ module.exports = {
     "rules" : {
       "semi": 0,
       "no-undef": 0,
-      "brace-style": ["error", "stroustrup"]
+      "brace-style": ["error", "stroustrup"],
+      "space-before-function-paren": ["error", { "anonymous": "always", "named": "never" }]
     }
 };
