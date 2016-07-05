@@ -15,13 +15,13 @@
     <h3>Normative data</h3>
     <!-- Normative date dropdown -->
     <div ng-if="normativedatalabel==true">
-      <span style="font-size:14px">{{patientData.nomative}}</h4>
+      <span style="font-size:14px">{{nomative}}</h4>
                     <input type="button" ng-click="testSelection.selectDate();" value="change">
                   </div>
                   <div ng-if="normativedatalabel==false">
-                    <select  ng-model="folders.value"
+                    <select  ng-model="nomative"
                             ng-options="v for v in folders.values"
-                            ng-change="testSelection.getTreeData(folders.value)"
+                            ng-change="testSelection.getTreeData(nomative)"
                             class ="form-control" required>
                     </select>
                   </div>

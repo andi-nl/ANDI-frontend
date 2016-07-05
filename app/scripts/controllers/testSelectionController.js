@@ -7,7 +7,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};     // Make selected test object
   $rootScope.filebutton = true;
-  $rootScope.nomative = '';
+  $rootScope.nomative = ($rootScope.nomative!==undefined)?$rootScope.nomative:'';
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.normativedatalabel = true;
   $scope.downloadtemplate = false;
@@ -15,7 +15,8 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   /* Normative Date Change Time load new selected date test data*/
   testTableService.getRelease(function (response) {
     $scope.folders = response;
-    treeData($scope.folders.value);
+    var val = ($rootScope.nomative!=='')?$rootScope.nomative:$scope.folders.value;
+    treeData(val);
   });
   this.getTreeData = function (val) {
     treeData(val);
