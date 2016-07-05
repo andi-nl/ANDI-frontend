@@ -68,15 +68,17 @@
                     </tr>
                     <tr>
                       <td class="right-td">
-                        <input ng-disabled="isDisabled" min="0" ng-keyup="dataEntry.disableDate($index)" type="number" name="age{{$index}}" id="age{{$index}}"
-                          ng-model="patient[$index].age">
+                        <input ng-disabled="isDisabled" min="0" ng-keyup="dataEntry.disableDate($index)" ng-required="!dataEntry.dateRequired($index);"
+                          type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
+                        <span class="has-error" ng-show="patient.form.age{{$index}}.$error.required && dataEntry.submited">Required.</span>
+                        <span class="has-error" ng-show="patient.form.age{{$index}}.$error.min">Enter valid age in years</span>
                       </td>
                     </tr>
                     <tr>
                       <td class="right-td" ng-init='this["birthdate"+$index] = false'>
                         <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup="{{format}}"
                           is-open='this["birthdate"+$index]' close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}"
-                          ng-model="patient[$index]['birthdate']" ng-click='this["birthdate"+$index]=true' ng-required="!patient[$index].age"
+                          ng-model="patient[$index]['birthdate']" ng-click='this["birthdate"+$index]=true' ng-required="dataEntry.dateRequired($index);"
                         />
                         <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && dataEntry.submited">Required</span>
                       </td>
@@ -85,7 +87,7 @@
                       <td class="right-td" ng-init='this["testdate"+$index] = false'>
                         <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup="{{format}}"
                           is-open='this["testdate"+$index]' close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}"
-                          ng-model="patient[$index]['testdate']" ng-click='this["testdate"+$index] = true' ng-required="!patient[$index].age"
+                          ng-model="patient[$index]['testdate']" ng-click='this["testdate"+$index] = true' ng-required="dataEntry.dateRequired($index);"
                         />
                         <span class="has-error" ng-show="patient.form.testdate{{$index}}.$error.required && dataEntry.submited">Required</span>
 

@@ -56,6 +56,22 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       event.preventDefault();
     }
   };
+  this.dateRequired = function (index) {
+    var valid = false;
+    if (($rootScope.fileData == undefined || $rootScope.fileData == null || $rootScope.fileData == '')) {
+      if ($scope.patient[index] != undefined && $scope.patient[index].age != undefined && $scope.patient[index].age != '') {
+        valid = false;
+      } else {
+        valid = true;
+      }
+    }
+    else {
+      if ($scope.patient[index] !== undefined && $scope.patient[index].age == undefined) {
+        valid = false;
+      }
+    }
+    return valid;
+  };
   /*
     patient form age enter time disable particular column
     birthdate and testdate field
@@ -168,7 +184,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
           if (key > 0) {
             for (var j = 0; j < data.length; j++) {
               var fieldVal = '';
-              if (data[j] !== '' && j !== 0 && j !== 1) {
+              if (j !== 0 && j !== 1) {
                 if (key > 4) {
                   var IdAvailability = testTableService.findTest(data[0], 'id');
                   if (IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined) {
@@ -186,7 +202,13 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
                   }
                 }
                 else {
-                  $scope.patient.form[data[0] + (j - 2)].$setViewValue(data[j]);
+                  if (data[j] !== '') {
+                    $scope.patient.form[data[0] + (j - 2)].$setViewValue(data[j]);
+                  }
+                  else {
+                    delete $scope.patient[(j - 2)][data[0]];
+                    debugger;
+                  }
                   fieldVal = data[j];
                   if (data[0] === 'age') {
                     $('#birthdate' + (j - 2)).attr('disabled', true);
