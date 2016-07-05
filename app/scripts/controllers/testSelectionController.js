@@ -67,6 +67,13 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
     if (node.selected === false && (node.children !== undefined && node.children.length === 0)) {
       if ($rootScope.selectedTest[node.id] !== undefined) {
         delete $rootScope.selectedTest[node.id];
+        var arr =[]
+        angular.forEach($rootScope.nodeArr,function(nodeval,nodekey){
+          if(nodeval!=node.id){
+            this.push(nodeval);
+          }
+        },arr);
+        $rootScope.nodeArr = arr;
       }
     }
     $scope.downloadtemplate = !(_.isEmpty($rootScope.selectedTest));
