@@ -7,7 +7,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};     // Make selected test object
   $rootScope.filebutton = true;
-  $rootScope.nomative = ($rootScope.nomative!==undefined)?$rootScope.nomative:'';
+  $rootScope.nomative = ($rootScope.nomative !== undefined) ? $rootScope.nomative : '';
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.normativedatalabel = true;
   $scope.downloadtemplate = false;
@@ -15,7 +15,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
   /* Normative Date Change Time load new selected date test data*/
   testTableService.getRelease(function (response) {
     $scope.folders = response;
-    var val = ($rootScope.nomative!=='')?$rootScope.nomative:$scope.folders.value;
+    var val = ($rootScope.nomative !== '') ? $rootScope.nomative : $scope.folders.value;
     treeData(val);
   });
   this.getTreeData = function (val) {
@@ -67,12 +67,12 @@ function testSelectionController($rootScope, $scope, $location, $timeout, $uibMo
     if (node.selected === false && (node.children !== undefined && node.children.length === 0)) {
       if ($rootScope.selectedTest[node.id] !== undefined) {
         delete $rootScope.selectedTest[node.id];
-        var arr =[]
-        angular.forEach($rootScope.nodeArr,function(nodeval,nodekey){
-          if(nodeval!=node.id){
+        var arr = [];
+        angular.forEach($rootScope.nodeArr, function (nodeval, nodekey) {
+          if (nodeval !== node.id) {
             this.push(nodeval);
           }
-        },arr);
+        }, arr);
         $rootScope.nodeArr = arr;
       }
     }

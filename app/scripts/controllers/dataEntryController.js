@@ -61,15 +61,16 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
   };
   this.dateRequired = function (index) {
     var valid = false;
-    if (($rootScope.fileData == undefined || $rootScope.fileData == null || $rootScope.fileData == '')) {
-      if ($scope.patient[index] != undefined && $scope.patient[index].age != undefined && $scope.patient[index].age != '') {
+    if (($rootScope.fileData === undefined || $rootScope.fileData === null || $rootScope.fileData === '')) {
+      if ($scope.patient[index] !== undefined && $scope.patient[index].age !== undefined && $scope.patient[index].age !== '') {
         valid = false;
-      } else {
+      }
+      else {
         valid = true;
       }
     }
     else {
-      if ($scope.patient[index] !== undefined && $scope.patient[index].age == undefined) {
+      if ($scope.patient[index] !== undefined && $scope.patient[index].age === undefined) {
         valid = false;
       }
     }
@@ -152,7 +153,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
 
       angular.forEach(rows, function (fval, fkey) {
         var data = fval.split(';');
-        if (data[1] == 'Information') {
+        if (data[1] === 'Information') {
           $scope.validfile = true;
         }
       });
@@ -218,7 +219,6 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
                     }
                     else {
                       delete $scope.patient[(j - 2)][data[0]];
-                      debugger;
                     }
                     fieldVal = data[j];
                     if (data[0] === 'age') {
