@@ -15,7 +15,7 @@
 </div>
 <div class="col-sm-12">
   <div class="col-sm-7">
-    <h3>Normative data</h3>
+    <h4>Normative data</h4>
     <!-- Normative date dropdown -->
     <div ng-if="normativedatalabel==true">
       <span style="font-size:14px">{{nomative}}</h4>
@@ -29,7 +29,7 @@
                     </select>
                   </div>
                   <!-- Search textbox field -->
-                  <h3>Search for neuropsychological tests</h3>
+                  <h4>Search for neuropsychological tests</h4>
                   <input type="text" ng-model="testSearch" class="form-control"
                   ng-keyup="testSelection.treeExpanded(testSearch)" placeholder ="Search for ..."/>
                   <!-- parent child wise test directive-->
@@ -45,7 +45,7 @@
                   </div>
                 </div>
                 <div class ="col-sm-5">
-                  <h3>Selected Tests</h3>
+                  <h4>Selected Tests</h4>
                   <!-- selected node template -->
                   <script type="text/ng-template"  id="tree_item_renderer">
                     <span ng-if="data.children.length===0"  ng-click="nodeClicked(data)"  >
