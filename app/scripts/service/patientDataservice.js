@@ -70,7 +70,7 @@ function patientDataservice(testTableService, $rootScope) {
     d1 = moment(date1);
     d2 = moment(date2);
     yrs = moment.duration(d2.diff(d1)).asYears();
-    years = Math.round(yrs);
+    years = Math.floor(yrs);
     return years;
   }
 };
