@@ -9,19 +9,22 @@
     In case you wish to select an older version you can click ‘older version’. Note that we highly recommend always using
     the latest version. When you have completed the test selection, press Next to go to the next step.
   </div>
+  <div ng-if="fileErr" class="alert alert-warning">
+    <span>Please upload only the file downloaded from this portal !</span>
+  </div>
 </div>
 <div class="col-sm-12">
   <div class="col-sm-7">
     <h3>Normative data</h3>
     <!-- Normative date dropdown -->
     <div ng-if="normativedatalabel==true">
-      <span style="font-size:14px">{{patientData.nomative}}</h4>
+      <span style="font-size:14px">{{nomative}}</h4>
                     <input type="button" ng-click="testSelection.selectDate();" value="change">
                   </div>
                   <div ng-if="normativedatalabel==false">
-                    <select  ng-model="folders.value"
+                    <select  ng-model="nomative"
                             ng-options="v for v in folders.values"
-                            ng-change="testSelection.getTreeData(folders.value)"
+                            ng-change="testSelection.getTreeData(nomative)"
                             class ="form-control" required>
                     </select>
                   </div>
