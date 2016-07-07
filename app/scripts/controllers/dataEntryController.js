@@ -1,16 +1,28 @@
 angular
   .module('andiApp')
   .controller('dataEntryController', dataEntryController);
-dataEntryController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr', 'DATEFORMAT'];
-function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr, DATEFORMAT) {
+
+dataEntryController.$inject = [
+  '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
+  'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr',
+  'DATEFORMAT'
+];
+
+function dataEntryController($rootScope, $scope, $location, $timeout,
+  $uibModal, $q, patientDataservice, testTableService,
+  $window, ivhTreeviewMgr, DATEFORMAT) {
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.txtvalue = ($rootScope.txtvalue !== undefined) ? $rootScope.txtvalue : '';
+
   this.alertMessage = '';
   this.counter = 1;
-  this.ageCalculate = true;
+  this.shouldCalcAge = true;
   this.submited = false; // for custom validation flag
-  $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};     // Make selected test object
-  /* Patient List*/
+
+  // Make selected test object
+  $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};
+
+  // Patient List
   this.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
 
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
@@ -18,20 +30,24 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
   $scope.validfile = false;
   $rootScope.fileErr = false;
   $scope.format = DATEFORMAT;
+
   /*
-      Add Patient button event , when user click add patient button
-      that time push new object in patient array
-    */
+  *Add Patient* button event
+  When user clicks *Add patient* button
+  new object is being pushed to the patient array
+  */
   this.go = function (path) {
     $location.path(path);
   };
+
   this.addPatient = function () {
     this.patient.push(patientDataservice.addPatient($rootScope.selectedTest));
     this.counter++;
   };
+
   /*
-     remove patient inside form and also check atleast one patient data
-      needed to process further
+     Remove patient from the table.
+     Check that at least one patient is present.
   */
   this.removeColumn = function (index, event) {
     // remove the column specified in index
@@ -59,6 +75,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       event.preventDefault();
     }
   };
+
   this.dateRequired = function (index) {
     var valid = false;
     if (($rootScope.fileData === undefined || $rootScope.fileData === null || $rootScope.fileData === '')) {
@@ -76,9 +93,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
     }
     return valid;
   };
+
   /*
-    patient form age enter time disable particular column
-    birthdate and testdate field
+  Disable birthdate and testdate input when age input is filled in.
   */
   this.disableDate = function (index) {
     if ($scope.patient.form['age' + index].$viewValue !== '' && $scope.patient.form['age' + index].$viewValue !== undefined && $scope.patient.form['age' + index].$viewValue !== null) {
@@ -90,11 +107,12 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       $('#testdate' + index).attr('disabled', false);
     }
   };
+
   /*
-    age field calculation on birthdate and testdate filed
+  Calculate age based on birthdate and testdate.
   */
   this.calculateAge = function (index) {
-    if (this.ageCalculate) {
+    if (this.shouldCalcAge) {
       var birthDate = $scope.patient.form['birthdate' + index].$viewValue;
       var testDate = $scope.patient.form['testdate' + index].$viewValue;
       if (testDate !== undefined && birthDate !== undefined) {
@@ -104,8 +122,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       }
     }
   };
+
   /*
-   form id field unique validation check
+  Verify if patient IDs are unique.
   */
   this.verifyId = function () {
     var sorted = [];
@@ -113,7 +132,6 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       if ($scope.patient[i].id !== null && $scope.patient[i].id !== '' && $scope.patient[i].id !== undefined) {
         if (sorted.indexOf($scope.patient[i].id) >= 0) {
           $scope.patient.form['id' + i].$setValidity('duplicate', !true);
-          // $scope.patient.form['id0'].$setValidity('duplicate',!true);
         }
         else {
           sorted.push($scope.patient[i].id);
@@ -122,27 +140,33 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       }
     }
   };
+
   /*
-   Submit form event to create patient object and move to next tab
+  Submit form and move to results page.
   */
   this.submit = function (isValid) {
-    // check to make sure the form is completely valid
+    // check if form is valid
     if ($scope.patient.form.$invalid) {
       $scope.dataEntry.submited = true;
     }
     else {
       $scope.dataEntry.submited = true;
       $rootScope.submitData = patientDataservice.submitPatient($scope);
-      console.log($rootScope.submitData);
       $location.path('/results');
     }
   };
+
+  // Code executed by the controller.
+  // FIXIT: this code is about importing ata from the uploaded file.
+  // FIXIT: shoudl get it's own controller / service
   if ($rootScope.fileData !== undefined && $rootScope.fileData !== null && $rootScope.fileData !== '') {
     var replacearr = $rootScope.txtvalue.split(';');
     var files = $rootScope.fileData;
     var r = new FileReader();
+
     /*
-    read csv file and make daynamic form
+    Read csv file and make daynamic form.
+    FIXIT: Parsing should be done by csv parsing package not home made solution.
     */
     r.onload = function (e) {
       var contents = e.target.result;
@@ -180,6 +204,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
                 };
               }
               else {
+                // FIXIT: use toastr instead and improve the message.
                 $scope.message = 'WARNING: Please upload only those data files that have been downloaded and filled from this website !';
               }
             }
