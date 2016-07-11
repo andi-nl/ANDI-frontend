@@ -2,6 +2,7 @@
 angular
   .module('andiApp')
   .factory('testTableService', testTableService);
+
 testTableService.$inject = ['$http', 'ivhTreeviewMgr', '$rootScope'];
 
 function testTableService($http, ivhTreeviewMgr, $rootScope) {
@@ -23,7 +24,8 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
       }, function (response) {
         return (response);
       });
-  }
+  };
+
   function getTest(defaultFolder, callback) {
     $http.get(dataPath + defaultFolder + tableFile)
       .then(function (response) {
@@ -36,7 +38,8 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
       function (response) {
         return (response);
       });
-  }
+  };
+
   function expandCollapseTree(testSearch) {
     if (testSearch === '') {
       ivhTreeviewMgr.collapseRecursive(testData, testData);
@@ -44,7 +47,8 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     if (testSearch !== '' && testSearch.length > 0) {
       ivhTreeviewMgr.expandRecursive(testData, testData);
     }
-  }
+  };
+
   /*
   based on findField find particular test and return test object
   */
