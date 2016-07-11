@@ -9,3 +9,7 @@
 
 # R related files
 .Rhistory
+
+# Python / Django
+*.pyc
+db.sqlite3
