@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'userena',
+    'guardian',
+    'easy_thumbnails',
     'accounts',
 ]
 
@@ -54,6 +58,12 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'ANDI.urls'
+
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 TEMPLATES = [
     {
@@ -126,3 +136,21 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+
+# e-mail settings (required for userena)
+# Run dummy smtp server with: python -m smtpd -n -c DebuggingServer localhost:1025
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
+
+# userena
+
+ANONYMOUS_USER_ID = -1
+
+AUTH_PROFILE_MODULE = 'accounts.AndiUserProfile'
+
+USERENA_SIGNIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'
