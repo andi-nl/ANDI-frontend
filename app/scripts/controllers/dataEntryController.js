@@ -11,21 +11,21 @@ dataEntryController.$inject = [
 function dataEntryController($rootScope, $scope, $location, $timeout,
   $uibModal, $q, patientDataservice, testTableService,
   $window, ivhTreeviewMgr, DATEFORMAT) {
-  var vm = this;
+  var dataEntry = this;
 
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.txtvalue = ($rootScope.txtvalue !== undefined) ? $rootScope.txtvalue : '';
 
-  vm.alertMessage = '';
-  vm.counter = 1;
-  vm.shouldCalcAge = true;
-  vm.submited = false; // for custom validation flag
+  dataEntry.alertMessage = '';
+  dataEntry.counter = 1;
+  dataEntry.shouldCalcAge = true;
+  dataEntry.submited = false; // for custom validation flag
 
   // Make selected test object
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};
 
   // Patient List
-  vm.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
+  dataEntry.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
 
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.message = 'Data Uploaded successfully.';
@@ -38,25 +38,25 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   When user clicks *Add patient* button
   new object is being pushed to the patient array
   */
-  vm.go = function (path) {
+  dataEntry.go = function (path) {
     $location.path(path);
   };
 
-  vm.addPatient = function () {
-    vm.patient.push(patientDataservice.addPatient($rootScope.selectedTest));
-    vm.counter++;
+  dataEntry.addPatient = function () {
+    dataEntry.patient.push(patientDataservice.addPatient($rootScope.selectedTest));
+    dataEntry.counter++;
   };
 
   /*
      Remove patient from the table.
      Check that at least one patient is present.
   */
-  vm.removeColumn = function (index, event) {
+  dataEntry.removeColumn = function (index, event) {
     // remove the column specified in index
     // you must cycle all the rows and remove the item
     // row by row
-    if (vm.patient.length > 1) {
-      vm.patient.splice(index, 1);
+    if (dataEntry.patient.length > 1) {
+      dataEntry.patient.splice(index, 1);
       var formObj = $scope.patient.form;
       delete $scope.patient['form'];
       var x = [];
@@ -69,7 +69,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
         return o;
       }, {});
       $scope.patient.form = formObj;
-      vm.counter--;
+      dataEntry.counter--;
       event.preventDefault();
     }
     else {
@@ -78,7 +78,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     }
   };
 
-  vm.dateRequired = function (index) {
+  dataEntry.dateRequired = function (index) {
     var valid = false;
     if (($rootScope.fileData === undefined || $rootScope.fileData === null || $rootScope.fileData === '')) {
       if ($scope.patient[index] !== undefined && $scope.patient[index].age !== undefined && $scope.patient[index].age !== '') {
@@ -99,7 +99,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
   Disable birthdate and testdate input when age input is filled in.
   */
-  vm.disableDate = function (index) {
+  dataEntry.disableDate = function (index) {
     if ($scope.patient.form['age' + index].$viewValue !== '' && $scope.patient.form['age' + index].$viewValue !== undefined && $scope.patient.form['age' + index].$viewValue !== null) {
       $('#birthdate' + index).attr('disabled', true);
       $('#testdate' + index).attr('disabled', true);
@@ -113,8 +113,8 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
   Calculate age based on birthdate and testdate.
   */
-  vm.calculateAge = function (index) {
-    if (vm.shouldCalcAge) {
+  dataEntry.calculateAge = function (index) {
+    if (dataEntry.shouldCalcAge) {
       var birthDate = $scope.patient.form['birthdate' + index].$viewValue;
       var testDate = $scope.patient.form['testdate' + index].$viewValue;
       if (testDate !== undefined && birthDate !== undefined) {
@@ -128,7 +128,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
   Verify if patient IDs are unique.
   */
-  vm.verifyId = function () {
+  dataEntry.verifyId = function () {
     var sorted = [];
     for (var i in $scope.patient) {
       if ($scope.patient[i].id !== null && $scope.patient[i].id !== '' && $scope.patient[i].id !== undefined) {
@@ -146,7 +146,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
   Submit form and move to results page.
   */
-  vm.submit = function (isValid) {
+  dataEntry.submit = function (isValid) {
     // check if form is valid
     if ($scope.patient.form.$invalid) {
       $scope.dataEntry.submited = true;
