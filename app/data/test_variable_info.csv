@@ -149,7 +149,7 @@ m;LLT;tds;;LLT__tds;0;500;0;122.001;Memory Tests;Location Learning Test;total di
 m;LLT;dr_ds;;LLT__dr_ds;0;100;0;76.001;Memory Tests;Location Learning Test;delayed recall displacement score;;LLT_dr_ds;LLT;;;Delayed recall displacement score
 m;LLT;delayedrecall;;LLT__delayedrecall;-55;55;-20;20;Memory Tests;Location Learning Test;delayed recall;;LLT_delayedrecall;LLT;LLT__trial5,LLT__dr_ds;;Delayed recall (trial 5 - delayed recal displacement)
 m;LLT;learningindex;;LLT__learningindex;0;1;0;1.001;Memory Tests;Location Learning Test;learning index;;LLT_leerindex;LLT;LLT__trial1,LLT__trial2,LLT__trial3,LLT__trial4,LLT__trial5;;Learning index
-wm;BVRT;total_mc;;BVRT__total_mc;0;15;6;15.001;Memory Tests;Benton Visual Retention Test;total multiple choice;;BVRT_MC_correct;BVRT;;;Total multiple choice
+wm;BVRT;total_mc;;BVRT__total_mc;0;15;6;15.001;Attention and Working Memory;Benton Visual Retention Test;total multiple choice;;BVRT_MC_correct;BVRT;;;Total multiple choice
 l;PPVT_III;rawscore;;PPVT_III__rawscore;0;204;10;204.001;Language tests;Peabody Picture Vocabulary Test-Third Edition;raw score;;PPVTruw;PPVT_III;;;Total raw score
 m;WMS_III;visualrepro;Immrec;WMS_III__visualrepro__Immrec;0;110;5;110;Memory Tests;Wechsler Memory Scale III;Visual Reproduction;immediate recall;WMS_III_VisualRepro_imm;WMS_III;;Visuele reproductie;NL: Visuele reproductie. Raw score on immediate recall of visual reproduction test
 m;WMS_III;visualrepro;Delrec;WMS_III__visualrepro__Delrec;0;110;0;110;Memory Tests;Wechsler Memory Scale III;Visual Reproduction;delayed recall;WMS_III_VisualRepro_del;WMS_III;;Visuele reproductie;NL: Visuele reproductie. Raw score on delayed recall of visual reproduction test
