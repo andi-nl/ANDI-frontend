@@ -51,9 +51,8 @@
       </div>
     </div>
   </div>
-  <div class="container" ng-app="andiApp">
-    <div ng-view=""></div>
-  </div>
+  {% block content %}
+  {% endblock %}
   <div class="footer">
     <div class="container">
       <a href="http://www.esciencecenter.nl">
