@@ -45,6 +45,11 @@
           <a href="http://www.andi.nl/home/">
             <img src="{% static 'app/images/logonobackcolour.png' %}" alt="ANDI logo" style="width:500px;">
           </a>
+          {% if user.is_authenticated %}
+            {{ user.username }} is signed in | <a href="{% url 'userena_signout' %}">sign out</a>
+          {% else %}
+            <a href="{% url 'userena_signin' %}">sign in</a> | <a href="{% url 'userena_signup' %}">sign up</a>
+          {% endif %}
         </div>
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
         </div>
