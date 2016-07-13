@@ -16,7 +16,7 @@ var _ = require('lodash');
 function checksum(str) {
   return crypto
     .createHash('md5')
-    .update('utf8')
+    .update(str)
     .digest('hex')
 }
 
@@ -176,7 +176,7 @@ else if (csvFiles.length > 1) {
 
 // check if there are any md5 files
 var md5Files = files.filter(function (file) {
-  var isMd5 = path.extname(file) === 'md5';
+  var isMd5 = path.extname(file) === '.md5';
   return isMd5;
 })
 
@@ -188,16 +188,26 @@ if (md5Files.length === 0) {
   }
   var csv = parsed.data;
   var csvIsValid = validateCsv(csv);
-  // generate checksum
-  var csvString = fs.readFileSync(path.join(dir, csvFiles[0]), 'utf8');
-  var md5 = checksum(csvString);
-  console.log(md5);
+  if (csvIsValid) { // generate checksum
+    // generate checksum
+    var csvString = fs.readFileSync(path.join(dir, csvFiles[0]), 'utf8');
+    var md5 = checksum(csvString);
+    // write checksum in the file with same name but .md5 extension
+    var fname = path.basename(csvFiles[0], '.csv') + '.md5'
+    fs.writeFileSync(path.join(dir, fname), md5);
+  }
+  else {
+    console.log("There are errors in test variable information csv file");
+  }
 }
 else if (md5Files.length > 1) {
   console.log("More than one .md5 file avaliable at provided path.")
-
 }
 else {
   // check if checksum is valid for provided .csv file
-  var fileString = fs.readFileSync(path.join(dir, csvFiles[0]));
+  var csvString = fs.readFileSync(path.join(dir, csvFiles[0]), 'utf8');
+  var md5 = checksum(csvString);
+  var md5old = fs.readFileSync(path.join(dir, md5Files[0]), 'utf8');
+  var same = (md5 === md5old);
+  var a;
 }
