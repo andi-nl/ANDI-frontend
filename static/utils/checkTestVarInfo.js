@@ -153,6 +153,29 @@ function validateCsv(csv) {
   return valid;
 };
 
+function validateAndChecksum() {
+  // validate csv
+  var parsed = baby.parseFiles(path.join(dir, csvFiles[0]), { header: true });
+  if (parsed.errors.length > 0) {
+    console.log("There were errors while reading in the csv file:\n", parsed.errors);
+  }
+  var csv = parsed.data;
+  var csvIsValid = validateCsv(csv);
+  if (csvIsValid) { // generate checksum
+    console.log('Test variable information is valid.');
+    // generate checksum
+    var csvString = fs.readFileSync(path.join(dir, csvFiles[0]), 'utf8');
+    var md5 = checksum(csvString);
+    // write checksum in the file with same name but .md5 extension
+    var fname = path.basename(csvFiles[0], '.csv') + '.md5'
+    fs.writeFileSync(path.join(dir, fname), md5);
+    console.log('Checksum has been calculated and writen to .md5 file.')
+  }
+  else {
+    console.log("There are errors in test variable information csv file");
+  }
+}
+
 // check directory provided on the commmand line
 var dir = process.argv[2];
 var files = fs.readdirSync(dir);
@@ -181,33 +204,25 @@ var md5Files = files.filter(function (file) {
 })
 
 if (md5Files.length === 0) {
-  // validate csv
-  var parsed = baby.parseFiles(path.join(dir, csvFiles[0]), { header: true });
-  if (parsed.errors.length > 0) {
-    console.log("There were errors while reading in the csv file:\n", parsed.errors);
-  }
-  var csv = parsed.data;
-  var csvIsValid = validateCsv(csv);
-  if (csvIsValid) { // generate checksum
-    // generate checksum
-    var csvString = fs.readFileSync(path.join(dir, csvFiles[0]), 'utf8');
-    var md5 = checksum(csvString);
-    // write checksum in the file with same name but .md5 extension
-    var fname = path.basename(csvFiles[0], '.csv') + '.md5'
-    fs.writeFileSync(path.join(dir, fname), md5);
-  }
-  else {
-    console.log("There are errors in test variable information csv file");
-  }
+  validateAndChecksum();
 }
 else if (md5Files.length > 1) {
-  console.log("More than one .md5 file avaliable at provided path.")
+  console.log('More than one .md5 file avaliable at provided path.')
 }
 else {
   // check if checksum is valid for provided .csv file
   var csvString = fs.readFileSync(path.join(dir, csvFiles[0]), 'utf8');
   var md5 = checksum(csvString);
   var md5old = fs.readFileSync(path.join(dir, md5Files[0]), 'utf8');
-  var same = (md5 === md5old);
+  if (md5 === md5old) { // all fine checksum matches one calculate before
+    console.log('Test variable info is valid and checksum is up to date.')
+  }
+  else {
+    console.log('Checksums do not match, file will be validated and new ' +
+      'checksum has been calculated and writen to .md5 file.')
+    // delete the checksum, validate the file and generate new checksum
+    fs.unlinkSync(path.join(dir, md5Files[0]));
+    validateAndChecksum();
+  }
   var a;
 }
