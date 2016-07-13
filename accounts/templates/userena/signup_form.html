@@ -4,6 +4,16 @@
 {% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
+<div>
+  <h2>Terms of Service</h2>
+  <p>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi scelerisque eleifend diam, vitae congue neque euismod sit amet. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce sed fringilla ligula. Nam augue justo, efficitur nec pretium pulvinar, dictum sed sem. Nam vitae ligula ornare, ultrices justo sit amet, sagittis mi. Sed aliquam sem vestibulum enim varius, a congue dolor vestibulum. Suspendisse eu ligula leo. Vestibulum feugiat eros in magna laoreet, condimentum porta turpis tempus. Maecenas nibh felis, tincidunt sit amet scelerisque et, sollicitudin ac ex. Pellentesque sit amet nulla non risus vehicula finibus aliquam quis sapien.
+  </p>
+  <p>
+  Pellentesque eleifend nisi id iaculis condimentum. Donec interdum, dui nec mattis maximus, sapien leo iaculis justo, eget lobortis lorem orci et est. Aliquam et blandit lacus, id euismod est. In ut mattis erat. Mauris at pretium ante. Etiam in volutpat eros, sit amet finibus mauris. Praesent sodales dapibus dui, ut accumsan diam ornare vel. Etiam consectetur interdum pellentesque. Nullam laoreet ullamcorper pharetra. Duis tincidunt varius tristique. Proin sollicitudin, dui aliquet rutrum faucibus, velit felis pulvinar felis, sed pharetra orci libero ac risus. Integer vel imperdiet felis. Nam a tellus nisi. Phasellus sit amet ipsum leo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+  </p>
+</div>
+
 <form action="" method="post">
   {% csrf_token %}
   <fieldset>
@@ -18,7 +28,7 @@
     </p>
     {% else %}
     <p>
-    {{ field.label_tag }} 
+    {{ field.label_tag }}
     {{ field }}
     </p>
     {% endif %}
