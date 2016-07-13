@@ -25,17 +25,22 @@ Running `grunt test` will run the unit tests with karma.
 ## Installation
 
 ```
-# install requirements
+# install requirements (in virtual environment if desired)
 pip install -r requirements.py
 
 # initialize database
 python manage.py migrate
 
-# create admin user
+# add userena permissions
+python manage.py check_permissions
+
+# run dummy mailserver for activation email (the email is not really send, but printed in the terminal)
+python -m smtpd -n -c DebuggingServer localhost:1025
+
+# create admin user (optional)
 python manage.py createsuperuser
 
 ```
-
 
 ## Run (development mode)
 
