@@ -106,7 +106,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
       // open model popup for replace constant value
       var modalInstance = $uibModal.open({
         animation: true,
-        templateUrl: 'views/replaceViewDialog.html',
+        templateUrl: 'static/app/views/replaceViewDialog.html',
         controller: 'ModalInstanceCtrl',
         resolve: {
         }
