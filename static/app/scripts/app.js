@@ -28,17 +28,17 @@ app.config(function ($routeProvider) {
       redirectTo: '/test-selection'
     })
     .when('/test-selection', {
-      templateUrl: 'views/test-selection.html',
+      templateUrl: 'static/app/views/test-selection.html',
       controller: 'testSelectionController', // 'treeController',
       controllerAs: 'testSelection'
     })
     .when('/data-entry', {
-      templateUrl: 'views/data-entry.html',
+      templateUrl: 'static/app/views/data-entry.html',
       controller: 'dataEntryController', // 'treeController',
       controllerAs: 'dataEntry'
     })
     .when('/results', {
-      templateUrl: 'views/results.html',
+      templateUrl: 'static/app/views/results.html',
       controller: 'plotController',
       controllerAs: 'plotCtrl'
     })

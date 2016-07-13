@@ -6,8 +6,8 @@ angular
 testTableService.$inject = ['$http', 'ivhTreeviewMgr', '$rootScope'];
 
 function testTableService($http, ivhTreeviewMgr, $rootScope) {
-  var releasePath = 'data/release.json';
-  var dataPath = 'data/';
+  var releasePath = 'static/app/data/release.json';
+  var dataPath = 'static/app/data/';
   var tableFile = '/tests.json';
   var testData = [];
   var testid = {};

@@ -19,3 +19,31 @@ Running `grunt test` will run the unit tests with karma.
 # ANDI-frontend
 
 [![Build Status](https://travis-ci.org/NLeSC/ANDI-frontend.svg)](https://travis-ci.org/NLeSC/ANDI-frontend)
+
+# Django
+
+## Installation
+
+```
+# install requirements (in virtual environment if desired)
+pip install -r requirements.txt
+
+# initialize database
+python manage.py migrate
+
+# add userena permissions
+python manage.py check_permissions
+
+# run dummy mailserver for activation email (the email is not really send, but printed in the terminal)
+python -m smtpd -n -c DebuggingServer localhost:1025
+
+# create admin user (optional)
+python manage.py createsuperuser
+
+```
+
+## Run (development mode)
+
+```python manage.py runserver```
+
+Admin module can be found at http://localhost:8000/admin/

@@ -46,6 +46,7 @@ module.exports = function(config) {
       'bower_components/mocha/mocha.js',
       'bower_components/chai/chai.js',
       'bower_components/opencpu.js/opencpu-0.5.js',
+      'bower_components/d3/d3.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",
