@@ -26,7 +26,7 @@ Running `grunt test` will run the unit tests with karma.
 
 ```
 # install requirements (in virtual environment if desired)
-pip install -r requirements.py
+pip install -r requirements.txt
 
 # initialize database
 python manage.py migrate
