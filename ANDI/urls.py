@@ -18,10 +18,15 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 
+import userena.views
+from userena.forms import SignupFormTos
+
 from accounts import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/signup/$', userena.views.signup,
+        {'signup_form': SignupFormTos}),
     url(r'^accounts/', include('userena.urls')),
 ]
