@@ -40,6 +40,10 @@ python -m smtpd -n -c DebuggingServer localhost:1025
 # create admin user (optional)
 python manage.py createsuperuser
 
+# load list of allowed email domains
+# (this list needs to be updated with correct domains)
+python manage.py loaddata fixtures/maildomains.json
+
 ```
 
 ## Run (development mode)
