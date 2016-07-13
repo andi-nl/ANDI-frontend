@@ -1,44 +1,62 @@
 angular
   .module('andiApp')
   .controller('dataEntryController', dataEntryController);
-dataEntryController.$inject = ['$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q', 'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr', 'DATEFORMAT'];
-function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal, $q, patientDataservice, testTableService, $window, ivhTreeviewMgr, DATEFORMAT) {
+
+dataEntryController.$inject = [
+  '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
+  'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr',
+  'DATEFORMAT'
+];
+
+function dataEntryController($rootScope, $scope, $location, $timeout,
+  $uibModal, $q, patientDataservice, testTableService,
+  $window, ivhTreeviewMgr, DATEFORMAT) {
+  var dataEntry = this;
+
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.txtvalue = ($rootScope.txtvalue !== undefined) ? $rootScope.txtvalue : '';
-  this.alertMessage = '';
-  this.counter = 1;
-  this.ageCalculate = true;
-  this.submited = false; // for custom validation flag
-  $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};     // Make selected test object
-  /* Patient List*/
-  this.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
+
+  dataEntry.alertMessage = '';
+  dataEntry.counter = 1;
+  dataEntry.shouldCalcAge = true;
+  dataEntry.submited = false; // for custom validation flag
+
+  // Make selected test object
+  $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};
+
+  // Patient List
+  dataEntry.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
 
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.message = 'Data Uploaded successfully.';
   $scope.validfile = false;
   $rootScope.fileErr = false;
   $scope.format = DATEFORMAT;
+
   /*
-      Add Patient button event , when user click add patient button
-      that time push new object in patient array
-    */
-  this.go = function (path) {
+  *Add Patient* button event
+  When user clicks *Add patient* button
+  new object is being pushed to the patient array
+  */
+  dataEntry.go = function (path) {
     $location.path(path);
   };
-  this.addPatient = function () {
-    this.patient.push(patientDataservice.addPatient($rootScope.selectedTest));
-    this.counter++;
+
+  dataEntry.addPatient = function () {
+    dataEntry.patient.push(patientDataservice.addPatient($rootScope.selectedTest));
+    dataEntry.counter++;
   };
+
   /*
-     remove patient inside form and also check atleast one patient data
-      needed to process further
+     Remove patient from the table.
+     Check that at least one patient is present.
   */
-  this.removeColumn = function (index, event) {
+  dataEntry.removeColumn = function (index, event) {
     // remove the column specified in index
     // you must cycle all the rows and remove the item
     // row by row
-    if (this.patient.length > 1) {
-      this.patient.splice(index, 1);
+    if (dataEntry.patient.length > 1) {
+      dataEntry.patient.splice(index, 1);
       var formObj = $scope.patient.form;
       delete $scope.patient['form'];
       var x = [];
@@ -51,7 +69,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
         return o;
       }, {});
       $scope.patient.form = formObj;
-      this.counter--;
+      dataEntry.counter--;
       event.preventDefault();
     }
     else {
@@ -59,7 +77,8 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       event.preventDefault();
     }
   };
-  this.dateRequired = function (index) {
+
+  dataEntry.dateRequired = function (index) {
     var valid = false;
     if (($rootScope.fileData === undefined || $rootScope.fileData === null || $rootScope.fileData === '')) {
       if ($scope.patient[index] !== undefined && $scope.patient[index].age !== undefined && $scope.patient[index].age !== '') {
@@ -76,11 +95,11 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
     }
     return valid;
   };
+
   /*
-    patient form age enter time disable particular column
-    birthdate and testdate field
+  Disable birthdate and testdate input when age input is filled in.
   */
-  this.disableDate = function (index) {
+  dataEntry.disableDate = function (index) {
     if ($scope.patient.form['age' + index].$viewValue !== '' && $scope.patient.form['age' + index].$viewValue !== undefined && $scope.patient.form['age' + index].$viewValue !== null) {
       $('#birthdate' + index).attr('disabled', true);
       $('#testdate' + index).attr('disabled', true);
@@ -90,11 +109,12 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       $('#testdate' + index).attr('disabled', false);
     }
   };
+
   /*
-    age field calculation on birthdate and testdate filed
+  Calculate age based on birthdate and testdate.
   */
-  this.calculateAge = function (index) {
-    if (this.ageCalculate) {
+  dataEntry.calculateAge = function (index) {
+    if (dataEntry.shouldCalcAge) {
       var birthDate = $scope.patient.form['birthdate' + index].$viewValue;
       var testDate = $scope.patient.form['testdate' + index].$viewValue;
       if (testDate !== undefined && birthDate !== undefined) {
@@ -104,16 +124,16 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       }
     }
   };
+
   /*
-   form id field unique validation check
+  Verify if patient IDs are unique.
   */
-  this.verifyId = function () {
+  dataEntry.verifyId = function () {
     var sorted = [];
     for (var i in $scope.patient) {
       if ($scope.patient[i].id !== null && $scope.patient[i].id !== '' && $scope.patient[i].id !== undefined) {
         if (sorted.indexOf($scope.patient[i].id) >= 0) {
           $scope.patient.form['id' + i].$setValidity('duplicate', !true);
-          // $scope.patient.form['id0'].$setValidity('duplicate',!true);
         }
         else {
           sorted.push($scope.patient[i].id);
@@ -122,27 +142,33 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
       }
     }
   };
+
   /*
-   Submit form event to create patient object and move to next tab
+  Submit form and move to results page.
   */
-  this.submit = function (isValid) {
-    // check to make sure the form is completely valid
+  dataEntry.submit = function (isValid) {
+    // check if form is valid
     if ($scope.patient.form.$invalid) {
       $scope.dataEntry.submited = true;
     }
     else {
       $scope.dataEntry.submited = true;
       $rootScope.submitData = patientDataservice.submitPatient($scope);
-      console.log($rootScope.submitData);
       $location.path('/results');
     }
   };
+
+  // Code executed by the controller.
+  // FIXIT: this code is about importing ata from the uploaded file.
+  // FIXIT: shoudl get it's own controller / service
   if ($rootScope.fileData !== undefined && $rootScope.fileData !== null && $rootScope.fileData !== '') {
     var replacearr = $rootScope.txtvalue.split(';');
     var files = $rootScope.fileData;
     var r = new FileReader();
+
     /*
-    read csv file and make daynamic form
+    Read csv file and make daynamic form.
+    FIXIT: Parsing should be done by csv parsing package not home made solution.
     */
     r.onload = function (e) {
       var contents = e.target.result;
@@ -180,6 +206,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
                 };
               }
               else {
+                // FIXIT: use toastr instead and improve the message.
                 $scope.message = 'WARNING: Please upload only those data files that have been downloaded and filled from this website !';
               }
             }
@@ -236,6 +263,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout, $uibModal,
               $('#files').val('');
             }
           });
+          // FIXIT: use toastr for communicating status
           alert($scope.message);
         }, 100);
         $timeout(function () {
