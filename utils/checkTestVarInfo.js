@@ -140,7 +140,7 @@ function validateCsv(csv) {
   // one to one relationship between category.short.name and category
   var categoriesValid = checkCategories(csv);
 
-  // particular Long.name.1 can only belong to one category but one category
+  // particular long.name.1 can only belong to one category but one category
   // can contain multiple Long.name.1
   var longNameCategoriesValid = checkLongNameCategories(csv);
 
@@ -164,7 +164,7 @@ var csvFiles = files.filter(function (file) {
 });
 
 // if there is no .csv files or there is more than one,
-// inform the user
+// inform the user and quit
 if (csvFiles.length === 0) {
   console.log('Provided path does not contain .csv files.');
   process.exit(1);
@@ -174,26 +174,30 @@ else if (csvFiles.length > 1) {
   process.exit(1);
 }
 
-var validMd5 = false;
+// check if there are any md5 files
 var md5Files = files.filter(function (file) {
   var isMd5 = path.extname(file) === 'md5';
   return isMd5;
 })
 
 if (md5Files.length === 0) {
-  // validate csv and generate checksum
+  // validate csv
   var parsed = baby.parseFiles(path.join(dir, csvFiles[0]), { header: true });
   if (parsed.errors.length > 0) {
     console.log("There were errors while reading in the csv file:\n", parsed.errors);
   }
   var csv = parsed.data;
   var csvIsValid = validateCsv(csv);
+  // generate checksum
+  var csvString = fs.readFileSync(path.join(dir, csvFiles[0]), 'utf8');
+  var md5 = checksum(csvString);
+  console.log(md5);
 }
 else if (md5Files.length > 1) {
   console.log("More than one .md5 file avaliable at provided path.")
-  process.exit(1);
+
 }
 else {
   // check if checksum is valid for provided .csv file
-  var fileString = fs.readFileSync(csvFiles[0]);
+  var fileString = fs.readFileSync(path.join(dir, csvFiles[0]));
 }
