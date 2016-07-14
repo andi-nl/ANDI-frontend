@@ -22,11 +22,12 @@ import userena.views
 from userena.forms import SignupFormTos
 
 from accounts import views
+from accounts.forms import MailDomainValidationForm
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/signup/$', userena.views.signup,
-        {'signup_form': SignupFormTos}),
+        {'signup_form': MailDomainValidationForm}),
     url(r'^accounts/', include('userena.urls')),
 ]
