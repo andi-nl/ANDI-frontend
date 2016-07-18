@@ -4,7 +4,8 @@ from django.utils.translation import ugettext as _
 
 from userena.forms import SignupFormTos
 
-from .models import AllowedMailDomain
+from .models import AllowedMailDomain, AllowedEMailAddress
+
 
 class MailDomainValidationForm(SignupFormTos):
     def __init__(self, *args, **kwargs):
@@ -18,13 +19,18 @@ class MailDomainValidationForm(SignupFormTos):
 
         data = self.cleaned_data['email']
 
-        whitelist = [d.domain for d in AllowedMailDomain.objects.all()]
+        domain_whitelist = [d.domain for d in AllowedMailDomain.objects.all()]
         domain = data.split('@')[1]
-        if not domain in whitelist:
-            raise ValidationError(
-                _('Registration not allowed for email addresses from domain "%(domain)s".'),
-                code='invalid',
-                params={'domain': domain},
-            )
+        if not domain in domain_whitelist:
+            email_whitelist = [e.email
+                               for e in AllowedEMailAddress.objects.all()]
+            if not data in email_whitelist:
+                msg = 'Registration not allowed for "%(email)s".\n' + \
+                      'Please send an email to ... to request an account ' \
+                      'for the ANDI application.'
+                raise ValidationError(
+                    _(msg), code='invalid',
+                    params={'email': data},
+                )
 
         return data
