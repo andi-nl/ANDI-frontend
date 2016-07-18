@@ -16,3 +16,10 @@ class AllowedMailDomain(models.Model):
 
     def __str__(self):
         return self.domain
+
+
+class AllowedEMailAddress(models.Model):
+    email = models.CharField(max_length=75)
+
+    def __str__(self):
+        return self.email
