@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import AllowedMailDomain, AllowedEMailAddress
+
+admin.site.register(AllowedMailDomain)
+admin.site.register(AllowedEMailAddress)

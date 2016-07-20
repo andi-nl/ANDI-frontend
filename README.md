@@ -25,7 +25,12 @@ Running `grunt test` will run the unit tests with karma.
 ## Installation
 
 ```
-# install requirements (in virtual environment if desired)
+# clone repository
+# make and activate virtual environment
+# using a virtual environment is required!
+# if you get the `no module named Image` error, you're not using a (clean) virtual environment
+
+# install requirements
 pip install -r requirements.txt
 
 # initialize database
@@ -39,6 +44,10 @@ python -m smtpd -n -c DebuggingServer localhost:1025
 
 # create admin user (optional)
 python manage.py createsuperuser
+
+# load list of allowed email domains
+# (this list needs to be updated with correct domains)
+python manage.py loaddata fixtures/maildomains.json
 
 ```
 

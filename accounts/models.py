@@ -10,3 +10,16 @@ class AndiUserProfile(UserenaBaseProfile):
                                 unique=True,
                                 verbose_name=_('user'),
                                 related_name='andi_user_profile')
+
+class AllowedMailDomain(models.Model):
+    domain = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.domain
+
+
+class AllowedEMailAddress(models.Model):
+    email = models.CharField(max_length=75)
+
+    def __str__(self):
+        return self.email
