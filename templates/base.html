@@ -57,6 +57,13 @@
     </div>
   </div>
   <div class="container" ng-app="andiApp">
+    {% if messages %}
+      {% for msg in messages %}
+        <div class="alert alert-{{msg.level_tag}}">
+          {{ msg.message }}
+        </div>
+      {% endfor %}
+    {% endif %}
     {% block content %}
     {% endblock %}
   </div>
