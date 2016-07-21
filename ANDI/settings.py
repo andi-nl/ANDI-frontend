@@ -86,6 +86,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ANDI.wsgi.application'
 
+MIGRATION_MODULES = {
+    'sites': 'ANDI.fixtures.sites_migrations',
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
