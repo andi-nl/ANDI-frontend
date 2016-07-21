@@ -161,6 +161,8 @@ USERENA_SIGNIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
+USERENA_DISABLE_PROFILE_LIST = True
+
 try:
     from local_settings import *
 except ImportError:
