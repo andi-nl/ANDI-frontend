@@ -158,6 +158,7 @@ ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.AndiUserProfile'
 
 USERENA_SIGNIN_REDIRECT_URL = '/'
+USERENA_REDIRECT_ON_SIGNOUT = '/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
