@@ -39,8 +39,10 @@ python manage.py migrate
 # add userena permissions
 python manage.py check_permissions
 
-# run dummy mailserver for activation email (the email is not really send, but printed in the terminal)
-python -m smtpd -n -c DebuggingServer localhost:1025
+# change local settings
+cp ANDI/local_settings.example.py ANDI/local_settings.py
+
+# adjust this file according to your local settings
 
 # create admin user (optional)
 python manage.py createsuperuser
@@ -48,6 +50,10 @@ python manage.py createsuperuser
 # load list of allowed email domains
 # (this list needs to be updated with correct domains)
 python manage.py loaddata fixtures/maildomains.json
+
+# For development
+# run dummy mailserver for activation email (the email is not really send, but printed in the terminal)
+python -m smtpd -n -c DebuggingServer localhost:1025
 
 ```
 

@@ -157,3 +157,8 @@ AUTH_PROFILE_MODULE = 'accounts.AndiUserProfile'
 USERENA_SIGNIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
