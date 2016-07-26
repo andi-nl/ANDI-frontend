@@ -1,0 +1,22 @@
+#!/bin/bash
+
+NAME="andi_app"                                  # Name of the application
+DJANGODIR=/webapps/andi_app/andi-frontend/        # Django project directory
+ADDRESS=0.0.0.0:8000                             # communicate on port 8000
+USER=andi                                        # the user to run as
+GROUP=webapps                                    # the group to run as
+NUM_WORKERS=3                                    # how many worker processes should Gunicorn spawn
+DJANGO_SETTINGS_MODULE=ANDI.settings             # which settings file should Django use
+DJANGO_WSGI_MODULE=ANDI.wsgi                     # WSGI module name
+
+echo "Starting $NAME as `whoami`"
+
+# Start your Django Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+exec gunicorn ${DJANGO_WSGI_MODULE}:application \
+  --name $NAME \
+  --workers $NUM_WORKERS \
+  --user=$USER --group=$GROUP \
+  --bind=$ADDRESS \
+  --log-level=debug \
+  --log-file=-
