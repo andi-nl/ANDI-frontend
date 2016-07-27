@@ -1,0 +1,21 @@
+web:
+  restart: always
+  build: .
+  expose:
+    - "8000"
+  volumes:
+    - /usr/src/app
+    - /usr/src/static
+  command: /usr/local/bin/gunicorn ANDI.wsgi:application -w 3 -b :8000
+
+nginx:
+  restart: always
+  build: ./Docker/nginx/
+  ports:
+    - "80:80"
+  volumes:
+    - /www/static
+  volumes_from:
+    - web
+  links:
+    - web:web
