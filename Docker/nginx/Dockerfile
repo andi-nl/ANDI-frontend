@@ -1,6 +1,6 @@
-FROM tutum/nginx
+FROM nginx
 
 MAINTAINER Mateusz Kuzak <mateusz.kuzak@gmail.com>
 
-RUN rm /etc/nginx/sites-enabled/default
+COPY nginx.conf /etc/nginx/nginx.conf
 ADD sites-enabled/ /etc/nginx/sites-enabled
