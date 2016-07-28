@@ -48,10 +48,11 @@ app.controller('plotController', function ($scope, $http) {
       return p;
     });
     // patients array
-    var patients = _.map(normcompData, function (patient) {
-      return patient.id;
-    });
-    patients = _.union(patients);
+    var patients = d3.nest()
+      .key(function (p) { return p.id; })
+      .entries(normcompData);
+
+    console.log(patients)
 
     // tooltip
     var div = d3.select('body').append('div')
@@ -182,26 +183,26 @@ app.controller('plotController', function ($scope, $http) {
       linesGraph.append('text')
         .attr('x', width + margin.right / 2)
         .attr('y', i * (legendSpace))
-        .style('fill', color(p))
+        .attr('class', 'legend')
+        .style('fill', color(p.key))
         .on('click', function (el) {
           var active = this.active !== true;
           var newOpacity = active ? 0 : 0.5;
-          d3.select('#tag' + p.replace(/\s+/g, ''))
+          d3.select('#tag' + p.key.replace(/\s+/g, ''))
             .transition().duration(100)
             .style('opacity', newOpacity);
           this.active = active;
         })
-        .text('patient: ' + p);
+        .text('patient: ' + p.key);
     });
 
     // connect patient tests
     patients.forEach(function (p) {
-      var onePatientStats = _.filter(normcompData, ['id', p]);
       linesGraph.append('path')
         .attr('class', 'patient-line')
-        .attr('d', patientLine(onePatientStats))
-        .attr('id', 'tag' + p.replace(/\s+/g, ''))
-        .style('stroke', color(onePatientStats[0].id))
+        .attr('d', patientLine(p.values))
+        .attr('id', 'tag' + p.key.replace(/\s+/g, ''))
+        .style('stroke', color(p.key))
         .style('fill', 'none');
     })
 
@@ -265,17 +266,17 @@ app.controller('plotController', function ($scope, $http) {
     });
 
     // for multivariate only one row per patient
+    var dtMultiVarData = patients.map(function (p) {
+      var values = [];
+      p.values.forEach(function(element) {
+        var subp = _.pick(element, multiVarCols);
+        for (var key in subp) {
+          values.push(subp[key]);
+        }
+      });
 
-    var multiVarData = patients.map(function (patient) {
-      return _.find(normcompData, ['id', patient]);
-    });
 
-    var dtMultiVarData = multiVarData.map(function (p) {
-      var subp = _.pick(p, multiVarCols);
-      var values = []
-      for (var key in subp) {
-        values.push(subp[key]);
-      };
+
       return values;
     });
 
