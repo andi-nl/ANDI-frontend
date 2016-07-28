@@ -147,8 +147,24 @@ app.controller('plotController', function ($scope, $http) {
       .attr('dy', '-0.3em')
       .attr('transform', 'rotate(45)');
 
+    // Add unselected (grey) dots and lines to graph
+    linesGraph.selectAll('circle.background')
+      .data(normcompData)
+      .enter()
+      .append('circle')
+      .attr('cx', function (d) {
+        return xScale(d.plotname);
+      })
+      .attr('cy', function (d) {
+        return yScale(d['univariateT']);
+      })
+      .attr('r', 4)
+      .attr('class', 'background')
+      .style('fill', '#ddd');
+
+
     // add 'scatterplot' elements
-    linesGraph.selectAll('circle')
+    linesGraph.selectAll('circle.foreground')
       .data(normcompData)
       .enter()
       .append('circle')
@@ -163,7 +179,7 @@ app.controller('plotController', function ($scope, $http) {
         return color(d.id);
       })
       .attr('class', function (d) {
-          return 'circle'+d.id;
+          return 'circle'+d.id+' foreground';
       })
       .on('mouseover', function (d) {
         div.transition()
@@ -202,14 +218,21 @@ app.controller('plotController', function ($scope, $http) {
         })
         .text('patient: ' + p.key);
 
-      // connect patient tests
+        // add grey lines for context
+        linesGraph.append('path')
+          .attr('class', 'patient-line')
+          .attr('d', patientLine(p.values))
+          .style('stroke', '#ddd')
+          .style('fill', 'none');
+
+      // add colored lines (connect patient tests)
       linesGraph.append('path')
         .attr('class', 'patient-line')
         .attr('d', patientLine(p.values))
         .attr('id', 'tag' + p.key.replace(/\s+/g, ''))
         .style('stroke', color(p.key))
         .style('fill', 'none');
-    })
+    });
 
     // add mean line
     linesGraph.append('line')
