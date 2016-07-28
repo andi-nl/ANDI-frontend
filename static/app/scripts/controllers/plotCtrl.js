@@ -162,6 +162,9 @@ app.controller('plotController', function ($scope, $http) {
       .style('fill', function (d) {
         return color(d.id);
       })
+      .attr('class', function (d) {
+          return 'circle'+d.id;
+      })
       .on('mouseover', function (d) {
         div.transition()
           .duration(200)
@@ -191,13 +194,15 @@ app.controller('plotController', function ($scope, $http) {
           d3.select('#tag' + p.key.replace(/\s+/g, ''))
             .transition().duration(100)
             .style('opacity', newOpacity);
-          this.active = active;
+            this.active = active;
+          d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
+            .transition().duration(100)
+            .style('opacity', newOpacity);
+            this.active = active;
         })
         .text('patient: ' + p.key);
-    });
 
-    // connect patient tests
-    patients.forEach(function (p) {
+      // connect patient tests
       linesGraph.append('path')
         .attr('class', 'patient-line')
         .attr('d', patientLine(p.values))
