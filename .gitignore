@@ -13,3 +13,7 @@ node_modules
 # Python / Django
 *.pyc
 db.sqlite3
+
+# Docker environment variables files
+# contains passwords, should not version controlled
+Docker/.env
