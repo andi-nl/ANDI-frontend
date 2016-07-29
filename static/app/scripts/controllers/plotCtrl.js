@@ -236,19 +236,29 @@ app.controller('plotController', function ($scope, $http) {
 
     // add mean line
     linesGraph.append('line')
+      .attr('class', 'line')
       .attr({
         x1: xScale(tests[tests.length]),
         y1: yScale(0),
         x2: xScale(tests[tests.length - 1]),
         y2: yScale(0)
-      });
+      })
+      .style('stroke', 'black')
+      .style('shape-rendering', 'crispEdges')
+      .style('stroke-width', 1);
 
     // add upper and lower bounds
     linesGraph.append('path')
       .attr('class', 'line')
+      .style('stroke', 'lightgrey')
+      .style('stroke-width', 1)
+      .style('shape-rendering', 'crispEdges')
       .attr('d', outerLine(normcompData));
     linesGraph.append('path')
       .attr('class', 'line')
+      .style('stroke', 'lightgrey')
+      .style('stroke-width', 1)
+      .style('shape-rendering', 'crispEdges')
       .attr('d', innerLine(normcompData));
 
     // tables

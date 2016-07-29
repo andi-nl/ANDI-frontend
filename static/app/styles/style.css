@@ -17,18 +17,6 @@
     stroke-width: 2;
     opacity: 0.5;
 }
-line {
-    stroke: #2ca02c;
-    stroke-width: 2;
-    fill: none;
-    opacity: 0.8;
-}
-path {
-    stroke: steelblue;
-    stroke-width: 2;
-    fill: none;
-    opacity: 0.8;
-}
 circle {
     opacity: 0.6;
 }
