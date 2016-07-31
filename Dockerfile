@@ -11,3 +11,6 @@ WORKDIR /usr/src/app
 RUN npm install
 RUN npm install -g bower
 RUN bower install --allow-root
+
+COPY ./Docker/gunicorn_start /usr/src/app/
+RUN chmod u+x /usr/src/app/gunicorn_start

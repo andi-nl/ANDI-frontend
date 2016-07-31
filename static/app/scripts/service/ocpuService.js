@@ -5,7 +5,7 @@ angular
 ocpuService.$inject = ['$http', '$q']
 
 function ocpuService($http, $q) {
-  var ip = 'http://192.168.99.100';
+  var ip = 'http://ocpu';
   var port = '8004';
   var route = '/ocpu/library/andistats/R';
   var ocpuPath = ip + ':' + port + route;
