@@ -151,29 +151,30 @@ app.controller('plotController', function ($scope, $http) {
       })
       .text('patient: ' + p.key);
 
-      // add grey lines for context
-      background = linesGraph.append('g')
-          .attr('class', 'background')
-        .selectAll('path')
-          .data([p])
-        .enter().append('path')
-          .attr('class', 'patient-line')
-          .attr('d', patientLine(p.values))
-          .style('stroke', '#ddd')
-          .style('fill', 'none');
-
-      // add colored lines (connect patient tests)
-      foreground = linesGraph.append('g')
-          .attr('class', 'foreground')
-        .selectAll('path')
-          .data([p])
-        .enter().append('path')
-          .attr('class', 'patient-line')
-          .attr('d', patientLine(p.values))
-          .attr('id', 'tag' + p.key.replace(/\s+/g, ''))
-          .style('stroke', color(p.key))
-          .style('fill', 'none');
     });
+
+    // add grey lines for context
+    background = linesGraph.append('g')
+        .attr('class', 'background')
+      .selectAll('path')
+        .data(patients)
+      .enter().append('path')
+        .attr('class', 'patient-line')
+        .attr('d', function(p){ return patientLine(p.values); })
+        .style('stroke', '#ddd')
+        .style('fill', 'none');
+
+    // add colored lines (connect patient tests)
+    foreground = linesGraph.append('g')
+        .attr('class', 'foreground')
+      .selectAll('path')
+        .data(patients)
+      .enter().append('path')
+        .attr('class', 'patient-line')
+        .attr('d', function(p){ return patientLine(p.values); })
+        .attr('id', function(p){ return 'tag' + p.key.replace(/\s+/g, ''); })
+        .style('stroke', function(p){ return color(p.key); })
+        .style('fill', 'none');
 
     // define axes
 
