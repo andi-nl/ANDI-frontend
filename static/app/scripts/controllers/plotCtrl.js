@@ -127,25 +127,118 @@ app.controller('plotController', function ($scope, $http) {
       .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
 
+  var background, foreground;
+  var line = d3.svg.line();
+  var legendSpace = 20;
+
+  patients.forEach(function (p, i) {
+    linesGraph.append('text')
+      .attr('x', width + margin.right / 2)
+      .attr('y', i * (legendSpace))
+      .attr('class', 'legend')
+      .style('fill', color(p.key))
+      .on('click', function (el) {
+        var active = this.active !== true;
+        var newOpacity = active ? 0 : 0.5;
+        d3.select('#tag' + p.key.replace(/\s+/g, ''))
+          .transition().duration(100)
+          .style('opacity', newOpacity);
+          this.active = active;
+        d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
+          .transition().duration(100)
+          .style('opacity', newOpacity);
+          this.active = active;
+      })
+      .text('patient: ' + p.key);
+
+      // add grey lines for context
+      background = linesGraph.append('g')
+          .attr('class', 'background')
+        .selectAll('path')
+          .data([p])
+        .enter().append('path')
+          .attr('class', 'patient-line')
+          .attr('d', patientLine(p.values))
+          .style('stroke', '#ddd')
+          .style('fill', 'none');
+
+      // add colored lines (connect patient tests)
+      foreground = linesGraph.append('g')
+          .attr('class', 'foreground')
+        .selectAll('path')
+          .data([p])
+        .enter().append('path')
+          .attr('class', 'patient-line')
+          .attr('d', patientLine(p.values))
+          .attr('id', 'tag' + p.key.replace(/\s+/g, ''))
+          .style('stroke', color(p.key))
+          .style('fill', 'none');
+    });
+
     // define axes
 
     var yAxis = d3.svg.axis()
       .scale(yScale)
       .orient('left');
-    linesGraph.append('g')
-      .attr('class', 'axis')
-      .call(yAxis);
+    //linesGraph.append('g')
+    //  .attr('class', 'axis')
+    //  .call(yAxis);
 
-    var xAxis = d3.svg.axis()
-      .scale(xScale)
-      .orient('top');
+    var xAxis = d3.scale.ordinal().rangePoints([0, width], 1),
+      y = {},
+      dragging = {};
+    xAxis.domain(tests);
+    tests.forEach(function(element){
+      y[element] = yScale;
+    });
 
-    linesGraph.append('g')
-      .attr('class', 'axis')
-      .call(xAxis)
-      .selectAll('text')
-      .attr('dy', '-0.3em')
-      .attr('transform', 'rotate(45)');
+    //d3.svg.axis()
+    //  .scale(xScale)
+    //  .orient('top');
+    var g = linesGraph.selectAll(".dimension")
+        .data(tests)
+      .enter().append("g")
+        .attr("class", "dimension")
+        .attr("transform", function(d) { return "translate(" + xAxis(d) + ")"; })
+        .call(d3.behavior.drag()
+          .origin(function(d) { return {x: xAxis(d)}; })
+          .on("dragstart", function(d) {
+            console.log('dragstart '+d);
+            dragging[d] = xAxis(d);
+            console.log('dragging[d]'+dragging[d]);
+            background.attr("visibility", "hidden");
+          })
+          .on("drag", function(d) {
+            console.log('drag '+d);
+            dragging[d] = Math.min(width, Math.max(0, d3.event.x));
+            foreground.attr("d", path);
+            tests.sort(function(a, b) { return position(a) - position(b); });
+            xAxis.domain(tests);
+            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
+          })
+          .on("dragend", function(d) {
+            console.log('dragend '+d);
+            delete dragging[d];
+            transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
+            transition(foreground).attr("d", path);
+            background
+                .attr("d", path)
+              .transition()
+                .delay(500)
+                .duration(0)
+                .attr("visibility", null);
+        }));
+
+    // add (dragable) y axis for each test
+    g.append('g')
+        .attr('class', 'axis')
+        .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
+      //.call(xAxis)
+      .append('text')
+        .style("text-anchor", "middle")
+        .text(function(d) { return d; })
+        //.attr('dy', '-0.3em')
+        .attr('transform', 'rotate(45)');
 
     // Add unselected (grey) dots and lines to graph
     linesGraph.selectAll('circle.background')
@@ -195,44 +288,26 @@ app.controller('plotController', function ($scope, $http) {
           .style('opacity', 0);
       });
 
-    // add legend for patient
-    var legendSpace = 20;
+  function position(d) {
+    var v = dragging[d];
+    return v == null ? xAxis(d) : v;
+  }
 
-    patients.forEach(function (p, i) {
-      linesGraph.append('text')
-        .attr('x', width + margin.right / 2)
-        .attr('y', i * (legendSpace))
-        .attr('class', 'legend')
-        .style('fill', color(p.key))
-        .on('click', function (el) {
-          var active = this.active !== true;
-          var newOpacity = active ? 0 : 0.5;
-          d3.select('#tag' + p.key.replace(/\s+/g, ''))
-            .transition().duration(100)
-            .style('opacity', newOpacity);
-            this.active = active;
-          d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
-            .transition().duration(100)
-            .style('opacity', newOpacity);
-            this.active = active;
-        })
-        .text('patient: ' + p.key);
+  function transition(g) {
+    return g.transition().duration(500);
+  }
 
-        // add grey lines for context
-        linesGraph.append('path')
-          .attr('class', 'patient-line')
-          .attr('d', patientLine(p.values))
-          .style('stroke', '#ddd')
-          .style('fill', 'none');
-
-      // add colored lines (connect patient tests)
-      linesGraph.append('path')
-        .attr('class', 'patient-line')
-        .attr('d', patientLine(p.values))
-        .attr('id', 'tag' + p.key.replace(/\s+/g, ''))
-        .style('stroke', color(p.key))
-        .style('fill', 'none');
-    });
+  // Returns the path for a given data point.
+  function path(d) {
+    // d = patient from patients
+    // {id = 'id',
+    //  values = []}
+    return line(tests.map(function(p) {
+      // p = plotname from patient data (one of the data points from the values array)
+      var dataPoint = _.filter(d.values, ['plotname', p])[0];
+      return [position(p), y[p](dataPoint.univariateT)];
+    }));
+  }
 
     // add mean line
     linesGraph.append('line')
