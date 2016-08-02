@@ -1,11 +1,12 @@
 FROM python:3.5-onbuild
 
-RUN apt-get update && apt-get install -y \
-  curl
-
 # install nodejs
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get install -y nodejs
+ENV NODE_VERSION="v4.4.7"
+RUN curl -LO http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.gz
+RUN tar xzf node-$NODE_VERSION-linux-x64.tar.gz
+RUN cp -rp node-$NODE_VERSION-linux-x64 /usr/local/
+RUN ln -s /usr/local/node-$NODE_VERSION-linux-x64 /usr/local/node
+ENV PATH $PATH:/usr/local/node/bin
 
 WORKDIR /usr/src/app
 RUN npm install
