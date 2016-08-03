@@ -297,7 +297,17 @@ app.controller('plotController', function ($scope, $http) {
         .style("text-anchor", "middle")
         .text(function(d) { return d; })
         .attr('class', 'axis-label')
-        .attr('transform', 'rotate(45)');
+        .attr('transform', 'rotate(45)')
+        .on("mouseover", function (d) {
+            d3.select(this)
+              .transition()
+              .style('font-size', 16)
+        })
+          .on("mouseout", function (d) {
+            d3.select(this)
+              .transition()
+              .style('font-size', 11)
+        });
 
     // add visible, undragable y axis
     linesGraph.append('g')
