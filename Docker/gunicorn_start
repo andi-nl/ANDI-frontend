@@ -1,0 +1,7 @@
+#!/bin/sh
+
+python manage.py migrate
+python manage.py check_permissions
+python manage.py loaddata /usr/src/app/fixtures/maildomains.json
+exec /usr/local/bin/gunicorn ANDI.wsgi:application -w 3 -b :8000
+

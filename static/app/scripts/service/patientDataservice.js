@@ -26,7 +26,7 @@ function patientDataservice(testTableService, $rootScope) {
     patientObj.settings = {
       conf: $scope.patientData.conf,
       sig: $scope.patientData.sig,
-      nomative: $rootScope.nomative,
+      normative: $rootScope.nomative,
       chart: ''
     };
     patientObj.patientScores = [];
