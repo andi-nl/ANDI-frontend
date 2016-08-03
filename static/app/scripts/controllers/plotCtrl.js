@@ -118,10 +118,15 @@ app.controller('plotController', function ($scope, $http) {
   var legendSpace = 20;
 
   // legend
+  linesGraph.append('text')
+    .attr('x', width + margin.right / 2)
+    .attr('y', 0)
+    .attr('class', 'legend legend-title')
+    .text('Click to (de)select:');
   patients.forEach(function (p, i) {
     linesGraph.append('text')
       .attr('x', width + margin.right / 2)
-      .attr('y', i * (legendSpace))
+      .attr('y', (i+1) * (legendSpace))
       .attr('class', 'legend')
       .style('fill', color(p.key))
       .on('click', function () {
