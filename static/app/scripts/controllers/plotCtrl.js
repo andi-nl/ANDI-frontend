@@ -92,23 +92,6 @@ app.controller('plotController', function ($scope, $http) {
       .domain([minScore, maxScore])
       .range([height, 0]);
 
-    // define lines
-    var outerLine = d3.svg.line()
-      .x(function (d) {
-        return xScale(d.plotname);
-      })
-      .y(function (d) {
-        return yScale(d.outeredge)
-      })
-
-    var innerLine = d3.svg.line()
-      .x(function (d) {
-        return xScale(d.plotname);
-      })
-      .y(function (d) {
-        return yScale(d.inneredge)
-      })
-
     // define plot
     var linesGraph = d3.select('#lines-graph')
       .append('svg')
@@ -132,6 +115,7 @@ app.controller('plotController', function ($scope, $http) {
 
   var backgroundLines, foregroundLines;
   var backgroundCircles, foreGroundCircles;
+  var marginLines, upperMargin, lowerMargin;
   var line = d3.svg.line();
   var legendSpace = 20;
 
@@ -232,6 +216,24 @@ app.controller('plotController', function ($scope, $http) {
           .style('opacity', 0);
       });
 
+      // add upper and lower margins
+      marginLines = linesGraph.append('g')
+        .attr('class', 'margin-lines')
+        .selectAll('path')
+        .data([patients[0]])
+        .enter();
+      upperMargin = marginLines.append('path')
+        .attr('class', 'line')
+        .style('stroke', 'lightgrey')
+        .style('stroke-width', 1)
+        .style('shape-rendering', 'crispEdges')
+        .attr('d', pathUpperMargin);
+      lowerMargin = marginLines.append('path')
+        .attr('class', 'line')
+        .style('stroke', 'lightgrey')
+        .style('stroke-width', 1)
+        .style('shape-rendering', 'crispEdges')
+        .attr('d', pathLowerMargin);
 
     var g = linesGraph.selectAll(".dimension")
         .data(tests)
@@ -261,6 +263,10 @@ app.controller('plotController', function ($scope, $http) {
               return position(d.plotname);
             });
 
+            // update margin lines
+            upperMargin.attr('d', pathUpperMargin);
+            lowerMargin.attr('d', pathLowerMargin);
+
             g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
           })
           .on("dragend", function(d) {
@@ -271,6 +277,8 @@ app.controller('plotController', function ($scope, $http) {
             transition(foreGroundCircles).attr('cx', function (d) {
               return position(d.plotname);
             });
+            upperMargin.attr('d', pathUpperMargin);
+            lowerMargin.attr('d', pathLowerMargin);
             backgroundLines
                 .attr("d", path)
               .transition()
@@ -319,6 +327,24 @@ app.controller('plotController', function ($scope, $http) {
     }));
   }
 
+  // Returns the path for the upper margin
+  function pathUpperMargin(d) {
+    return line(tests.map(function(p) {
+      // p = plotname from patient data (one of the data points from the values array)
+      var dataPoint = _.filter(d.values, ['plotname', p])[0];
+      return [position(p), y[p](dataPoint.outeredge)];
+    }));
+  }
+
+  // Returns the path for the lower margin
+  function pathLowerMargin(d) {
+    return line(tests.map(function(p) {
+      // p = plotname from patient data (one of the data points from the values array)
+      var dataPoint = _.filter(d.values, ['plotname', p])[0];
+      return [position(p), y[p](dataPoint.inneredge)];
+    }));
+  }
+
     // add mean line
     linesGraph.append('line')
       .attr('class', 'line')
@@ -331,20 +357,6 @@ app.controller('plotController', function ($scope, $http) {
       .style('stroke', 'black')
       .style('shape-rendering', 'crispEdges')
       .style('stroke-width', 1);
-
-    // add upper and lower bounds
-    linesGraph.append('path')
-      .attr('class', 'line')
-      .style('stroke', 'lightgrey')
-      .style('stroke-width', 1)
-      .style('shape-rendering', 'crispEdges')
-      .attr('d', outerLine(normcompData));
-    linesGraph.append('path')
-      .attr('class', 'line')
-      .style('stroke', 'lightgrey')
-      .style('stroke-width', 1)
-      .style('shape-rendering', 'crispEdges')
-      .attr('d', innerLine(normcompData));
 
     // tables
 
