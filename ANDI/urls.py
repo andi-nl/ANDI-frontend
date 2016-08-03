@@ -24,9 +24,12 @@ from userena.forms import SignupFormTos
 from accounts import views
 from accounts.forms import MailDomainValidationForm
 
+from ocpu.views import compute
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
+    url(r'^compute/', compute),
     url(r'^accounts/signup/$', userena.views.signup,
         {'signup_form': MailDomainValidationForm}),
     url(r'^accounts/activate/(?P<activation_key>\w+)/$',
