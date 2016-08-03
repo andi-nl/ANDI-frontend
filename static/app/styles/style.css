@@ -22,6 +22,11 @@
   stroke-width: 1;
   shape-rendering: crispEdges;
 }
+.mean-line {
+  stroke: black;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
 circle {
     opacity: 0.6;
 }

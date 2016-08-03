@@ -329,22 +329,21 @@ app.controller('plotController', function ($scope, $http) {
     }));
   }
 
+  // Returns the path for the mean line
+  function pathMean(d) {
+    return line(tests.map(function(p) {
+      return [position(p), y[p](0.0)];
+    }));
+  }
+
   function circlex(d){
     return position(d.plotname);
   }
 
     // add mean line
-    linesGraph.append('line')
-      .attr('class', 'line')
-      .attr({
-        x1: xScale(tests[tests.length]),
-        y1: yScale(0),
-        x2: xScale(tests[tests.length - 1]),
-        y2: yScale(0)
-      })
-      .style('stroke', 'black')
-      .style('shape-rendering', 'crispEdges')
-      .style('stroke-width', 1);
+    marginLines.append('path')
+      .attr('class', 'mean-line')
+      .attr('d', pathMean);
 
     // tables
 
