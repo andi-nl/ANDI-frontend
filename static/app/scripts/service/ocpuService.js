@@ -2,27 +2,21 @@ angular
   .module('andiApp')
   .factory('ocpuService', ocpuService);
 
-ocpuService.$inject = ['$http', '$q']
+ocpuService.$inject = ['$http']
 
-function ocpuService($http, $q) {
-  var ip = 'http://ocpu';
-  var port = '8004';
-  var route = '/ocpu/library/andistats/R';
-  var ocpuPath = ip + ':' + port + route;
+function ocpuService($http) {
   var service = {
     normcomp: normcomp
   };
 
+  var url = '/compute';
+
   function normcomp(input) {
-    var defer = $q.defer();
-    ocpu.seturl(ocpuPath);
-    ocpu.call('normcomp', { 'myJSON': JSON.stringify(input) },
-      function (session) {
-        session.getObject(function (data) {
-          defer.resolve(data);
-        });
-      });
-    return defer.promise;
+    var request = {
+      method: 'normcomp',
+      input: input
+    };
+    return $http.post(url, request);
   };
 
   return service;

@@ -11,6 +11,7 @@ web:
     - ocpu:ocpu
   env_file: ./Docker/.env
   command: /bin/bash /usr/src/app/gunicorn_start
+
 nginx:
   restart: always
   build: ./Docker/nginx/
@@ -32,4 +33,4 @@ smtp:
 ocpu:
   image: andinl/andiocpu
   expose:
-    - '8004'
+    - "8004"
