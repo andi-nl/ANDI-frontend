@@ -279,16 +279,21 @@ app.controller('plotController', function ($scope, $http) {
                 .attr("visibility", null);
         }));
 
-    // add (dragable) y axis for each test
+    // add invisible, dragable y axis for each test
     g.append('g')
-        .attr('class', 'axis')
+        .attr('class', 'axis hide-axis')
         .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
-      //.call(xAxis)
       .append('text')
         .style("text-anchor", "middle")
         .text(function(d) { return d; })
-        //.attr('dy', '-0.3em')
+        .attr('class', 'axis-label')
         .attr('transform', 'rotate(45)');
+
+    // add visible, undragable y axis
+    linesGraph.append('g')
+      .attr('class', 'axis')
+      //.attr('transform', 'translate(10,0)')
+      .call(yAxis);
 
   function position(d) {
     var v = dragging[d];
