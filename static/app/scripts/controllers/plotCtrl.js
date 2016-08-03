@@ -135,6 +135,11 @@ app.controller('plotController', function ($scope, $http) {
           .transition().duration(100)
           .style('opacity', newOpacity);
           this.active = active;
+          if(active){
+            d3.select(this).style('fill', '#ddd');
+          } else {
+            d3.select(this).style('fill', color(p.key));
+          }
       })
       .text('patient: ' + p.key);
 
