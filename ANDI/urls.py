@@ -29,5 +29,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/signup/$', userena.views.signup,
         {'signup_form': MailDomainValidationForm}),
+    url(r'^accounts/activate/(?P<activation_key>\w+)/$',
+        userena.views.activate, {'success_url': '/'}),
     url(r'^accounts/', include('userena.urls')),
 ]

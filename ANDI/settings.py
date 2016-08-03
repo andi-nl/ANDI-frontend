@@ -86,6 +86,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ANDI.wsgi.application'
 
+MIGRATION_MODULES = {
+    'sites': 'ANDI.fixtures.sites_migrations',
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -155,5 +158,13 @@ ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'accounts.AndiUserProfile'
 
 USERENA_SIGNIN_REDIRECT_URL = '/'
+USERENA_REDIRECT_ON_SIGNOUT = '/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
+
+USERENA_DISABLE_PROFILE_LIST = True
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
