@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'guardian',
     'easy_thumbnails',
     'accounts',
+    'ocpu',
 ]
 
 MIDDLEWARE_CLASSES = [
