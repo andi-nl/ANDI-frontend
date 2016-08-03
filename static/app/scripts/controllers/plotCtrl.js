@@ -52,8 +52,6 @@ app.controller('plotController', function ($scope, $http) {
       .key(function (p) { return p.id; })
       .entries(normcompData);
 
-    console.log(patients)
-
     // tooltip
     var div = d3.select('body').append('div')
       .attr('class', 'tooltip')
@@ -86,7 +84,7 @@ app.controller('plotController', function ($scope, $http) {
 
     var xScale = d3.scale.ordinal()
       .domain(tests)
-      .rangePoints([0, width])
+      .rangePoints([0, width]);
 
     var yScale = d3.scale.linear()
       .domain([minScore, maxScore])
@@ -126,7 +124,7 @@ app.controller('plotController', function ($scope, $http) {
       .attr('y', i * (legendSpace))
       .attr('class', 'legend')
       .style('fill', color(p.key))
-      .on('click', function (el) {
+      .on('click', function () {
         var active = this.active !== true;
         var newOpacity = active ? 0 : 0.5;
         d3.select('#tag' + p.key.replace(/\s+/g, ''))
@@ -210,7 +208,7 @@ app.controller('plotController', function ($scope, $http) {
           .style('left', (d3.event.pageX) + 'px')
           .style('top', (d3.event.pageY - 28) + 'px');
       })
-      .on('mouseout', function (d) {
+      .on('mouseout', function () {
         div.transition()
           .duration(500)
           .style('opacity', 0);
@@ -223,16 +221,10 @@ app.controller('plotController', function ($scope, $http) {
         .data([patients[0]])
         .enter();
       upperMargin = marginLines.append('path')
-        .attr('class', 'line')
-        .style('stroke', 'lightgrey')
-        .style('stroke-width', 1)
-        .style('shape-rendering', 'crispEdges')
+        .attr('class', 'margin-line')
         .attr('d', pathUpperMargin);
       lowerMargin = marginLines.append('path')
-        .attr('class', 'line')
-        .style('stroke', 'lightgrey')
-        .style('stroke-width', 1)
-        .style('shape-rendering', 'crispEdges')
+        .attr('class', 'margin-line')
         .attr('d', pathLowerMargin);
 
     var g = linesGraph.selectAll(".dimension")
@@ -243,14 +235,11 @@ app.controller('plotController', function ($scope, $http) {
         .call(d3.behavior.drag()
           .origin(function(d) { return {x: xAxis(d)}; })
           .on("dragstart", function(d) {
-            console.log('dragstart '+d);
             dragging[d] = xAxis(d);
-            console.log('dragging[d]'+dragging[d]);
             backgroundLines.attr("visibility", "hidden");
             backgroundCircles.attr("visibility", "hidden");
           })
           .on("drag", function(d) {
-            console.log('drag '+d);
             dragging[d] = Math.min(width, Math.max(0, d3.event.x));
 
             // update lines
@@ -259,24 +248,19 @@ app.controller('plotController', function ($scope, $http) {
             xAxis.domain(tests);
 
             // update circles
-            foreGroundCircles.attr('cx', function (d) {
-              return position(d.plotname);
-            });
+            foreGroundCircles.attr('cx', circlex);
 
             // update margin lines
             upperMargin.attr('d', pathUpperMargin);
             lowerMargin.attr('d', pathLowerMargin);
 
-            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
+            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
           })
           .on("dragend", function(d) {
-            console.log('dragend '+d);
             delete dragging[d];
             transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
             transition(foregroundLines).attr("d", path);
-            transition(foreGroundCircles).attr('cx', function (d) {
-              return position(d.plotname);
-            });
+            transition(foreGroundCircles).attr('cx', circlex);
             upperMargin.attr('d', pathUpperMargin);
             lowerMargin.attr('d', pathLowerMargin);
             backgroundLines
@@ -343,6 +327,10 @@ app.controller('plotController', function ($scope, $http) {
       var dataPoint = _.filter(d.values, ['plotname', p])[0];
       return [position(p), y[p](dataPoint.inneredge)];
     }));
+  }
+
+  function circlex(d){
+    return position(d.plotname);
   }
 
     // add mean line
@@ -421,7 +409,7 @@ app.controller('plotController', function ($scope, $http) {
       data: dtUniVarData,
       columns: dtUniVarCols,
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndesFull) {
-        $(nRow).css('color', color(aData[0]))
+        $(nRow).css('color', color(aData[0]));
       }
     });
 
@@ -430,7 +418,7 @@ app.controller('plotController', function ($scope, $http) {
       data: dtMultiVarData,
       columns: dtMultiVarCols,
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndesFull) {
-        $(nRow).css('color', color(aData[0]))
+        $(nRow).css('color', color(aData[0]));
       }
     });
   };

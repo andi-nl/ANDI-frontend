@@ -17,6 +17,11 @@
     stroke-width: 2;
     opacity: 0.5;
 }
+.margin-line {
+  stroke: lightgrey;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
 circle {
     opacity: 0.6;
 }
