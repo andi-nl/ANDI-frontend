@@ -20,8 +20,8 @@ app.controller('plotController', function ($scope, ocpuService) {
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
 
-      if('error' in data){
-        console.log('error in plotCtrl: '+data.error);
+      if('error' in data.data){
+        console.log('error in plotCtrl: '+data.data.error);
       } else {
         plotCtrl.plot(data.data.data);
       }
