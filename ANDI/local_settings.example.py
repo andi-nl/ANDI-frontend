@@ -24,3 +24,8 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'ANDI Application Admin <{}>'.format(ADMIN_EMAIL_ADDRESS)
+
+# open cpu settings
+
+# Just the ip-address/domain
+OCPU_HOST = 'http://145.100.116.11'
