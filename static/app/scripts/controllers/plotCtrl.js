@@ -11,13 +11,22 @@
   @name andiApp.controller:plotController
   @description : put third tab chart event
 */
-app.controller('plotController', function ($scope, ocpuService) {
+//app.controller('plotController', function ($scope, ocpuService) {
+app.controller('plotController', function ($scope, $http) {
   var plotCtrl = this;
 
   plotCtrl.render = function () {
-    var patientObj = $scope.$parent.submitData;
-    ocpuService.normcomp(patientObj).then(function (data) {
+    //var patientObj = $scope.$parent.submitData;
+    //ocpuService.normcomp(patientObj).then(function (data) {
+    //  var normcompData = JSON.parse(data);
+    //  plotCtrl.plot(normcompData);
+    //});
+    $http.get('/static/app/data/normcomp.json').then(function (res) {
+      //console.log(data);
+      var data = res.data;
+      data = JSON.stringify(data);
       var normcompData = JSON.parse(data);
+      //console.log(normcompData);
       plotCtrl.plot(normcompData);
     });
   };
@@ -39,10 +48,9 @@ app.controller('plotController', function ($scope, ocpuService) {
       return p;
     });
     // patients array
-    var patients = _.map(normcompData, function (patient) {
-      return patient.id;
-    });
-    patients = _.union(patients);
+    var patients = d3.nest()
+      .key(function (p) { return p.id; })
+      .entries(normcompData);
 
     // tooltip
     var div = d3.select('body').append('div')
@@ -76,40 +84,13 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     var xScale = d3.scale.ordinal()
       .domain(tests)
-      .rangePoints([0, width])
+      .rangePoints([0, width]);
 
     var yScale = d3.scale.linear()
       .domain([minScore, maxScore])
       .range([height, 0]);
 
-    // define lines
-    var outerLine = d3.svg.line()
-      .x(function (d) {
-        return xScale(d.plotname);
-      })
-      .y(function (d) {
-        return yScale(d.outeredge)
-      })
-
-    var innerLine = d3.svg.line()
-      .x(function (d) {
-        return xScale(d.plotname);
-      })
-      .y(function (d) {
-        return yScale(d.inneredge)
-      })
-
-    // lines connecting tests for single patients
-    var patientLine = d3.svg.line()
-      .x(function (d) {
-        var xCoord = xScale(d.plotname);
-        return xCoord;
-      })
-      .y(function (d) {
-        return yScale(d['univariateT']);
-      });
-
-    // define scatter plot
+    // define plot
     var linesGraph = d3.select('#lines-graph')
       .append('svg')
       .attr('width', width + margin.left + margin.right)
@@ -117,40 +98,117 @@ app.controller('plotController', function ($scope, ocpuService) {
       .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
 
-    // define axes
+  var xAxis = d3.scale.ordinal().rangePoints([0, width], 1),
+    y = {},
+    dragging = {};
 
-    var yAxis = d3.svg.axis()
-      .scale(yScale)
-      .orient('left');
-    linesGraph.append('g')
-      .attr('class', 'axis')
-      .call(yAxis);
+  var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient('left');
 
-    var xAxis = d3.svg.axis()
-      .scale(xScale)
-      .orient('top');
+  xAxis.domain(tests);
+  tests.forEach(function(element){
+    y[element] = yScale;
+  });
 
-    linesGraph.append('g')
-      .attr('class', 'axis')
-      .call(xAxis)
-      .selectAll('text')
-      .attr('dy', '-0.3em')
-      .attr('transform', 'rotate(45)');
+  var backgroundLines, foregroundLines;
+  var backgroundCircles, foreGroundCircles;
+  var marginLines, upperMargin, lowerMargin;
+  var line = d3.svg.line();
+  var legendSpace = 20;
 
-    // add 'scatterplot' elements
-    linesGraph.selectAll('circle')
+  // legend
+  linesGraph.append('text')
+    .attr('x', width + margin.right / 2)
+    .attr('y', 0)
+    .attr('class', 'legend legend-title')
+    .text('Click to (de)select:');
+  patients.forEach(function (p, i) {
+    linesGraph.append('text')
+      .attr('x', width + margin.right / 2)
+      .attr('y', (i+1) * (legendSpace))
+      .attr('class', 'legend')
+      .style('fill', color(p.key))
+      .on('click', function () {
+        var active = this.active !== true;
+        var newOpacity = active ? 0 : 0.5;
+        d3.select('#tag' + p.key.replace(/\s+/g, ''))
+          .transition().duration(100)
+          .style('opacity', newOpacity);
+          this.active = active;
+        d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
+          .transition().duration(100)
+          .style('opacity', newOpacity);
+          this.active = active;
+          if(active){
+            d3.select(this).style('fill', '#ddd');
+          } else {
+            d3.select(this).style('fill', color(p.key));
+          }
+      })
+      .text('patient: ' + p.key);
+
+    });
+
+    // add grey lines for context
+    backgroundLines = linesGraph.append('g')
+        .attr('class', 'background-lines')
+        .selectAll('path')
+        .data(patients)
+      .enter().append('path')
+        .attr('class', 'patient-line')
+        .attr('d', path)
+        .style('stroke', '#ddd')
+        .style('fill', 'none');
+
+    // add colored lines (connect patient tests)
+    foregroundLines = linesGraph.append('g')
+        .attr('class', 'foreground-lines')
+        .selectAll('path')
+        .data(patients)
+      .enter().append('path')
+        .attr('class', 'patient-line')
+        .attr('d', path)
+        .attr('id', function(p){ return 'tag' + p.key.replace(/\s+/g, ''); })
+        .style('stroke', function(p){ return color(p.key); })
+        .style('fill', 'none');
+
+    // Add unselected (grey) dots and lines to graph
+    backgroundCircles = linesGraph.append('g')
+      .attr('class', 'background-circles')
+      .selectAll('circle.background')
       .data(normcompData)
       .enter()
       .append('circle')
       .attr('cx', function (d) {
-        return xScale(d.plotname);
+        return xAxis(d.plotname);
       })
       .attr('cy', function (d) {
-        return yScale(d['univariateT']);
+        return yScale(d.univariateT);
+      })
+      .attr('r', 4)
+      .attr('class', 'background-circle')
+      .style('fill', '#ddd');
+
+    // add 'scatterplot' elements
+    foreGroundCircles = linesGraph.append('g')
+      .attr('class', 'foreground-circles')
+      .selectAll('circle.foreground')
+      .data(normcompData)
+      .enter()
+      .append('circle')
+      .attr('cx', function (d) {
+        return xAxis(d.plotname);
+      })
+      .attr('cy', function (d) {
+        return yScale(d.univariateT);
       })
       .attr('r', 4)
       .style('fill', function (d) {
         return color(d.id);
+      })
+      .attr('class', function (d) {
+          return 'circle'+d.id+' foreground-circle';
       })
       .on('mouseover', function (d) {
         div.transition()
@@ -160,58 +218,157 @@ app.controller('plotController', function ($scope, ocpuService) {
           .style('left', (d3.event.pageX) + 'px')
           .style('top', (d3.event.pageY - 28) + 'px');
       })
-      .on('mouseout', function (d) {
+      .on('mouseout', function () {
         div.transition()
           .duration(500)
           .style('opacity', 0);
       });
 
-    // add legend for patient
-    var legendSpace = 20;
+      // add upper and lower margins
+      marginLines = linesGraph.append('g')
+        .attr('class', 'margin-lines')
+        .selectAll('path')
+        .data([patients[0]])
+        .enter();
+      upperMargin = marginLines.append('path')
+        .attr('class', 'margin-line')
+        .attr('d', pathUpperMargin);
+      lowerMargin = marginLines.append('path')
+        .attr('class', 'margin-line')
+        .attr('d', pathLowerMargin);
 
-    patients.forEach(function (p, i) {
-      linesGraph.append('text')
-        .attr('x', width + margin.right / 2)
-        .attr('y', i * (legendSpace))
-        .style('fill', color(p))
-        .on('click', function (el) {
-          var active = this.active !== true;
-          var newOpacity = active ? 0 : 0.5;
-          d3.select('#tag' + p.replace(/\s+/g, ''))
-            .transition().duration(100)
-            .style('opacity', newOpacity);
-          this.active = active;
+    var g = linesGraph.selectAll(".dimension")
+        .data(tests)
+      .enter().append("g")
+        .attr("class", "dimension")
+        .attr("transform", function(d) { return "translate(" + xAxis(d) + ")"; })
+        .call(d3.behavior.drag()
+          .origin(function(d) { return {x: xAxis(d)}; })
+          .on("dragstart", function(d) {
+            dragging[d] = xAxis(d);
+            backgroundLines.attr("visibility", "hidden");
+            backgroundCircles.attr("visibility", "hidden");
+          })
+          .on("drag", function(d) {
+            dragging[d] = Math.min(width, Math.max(0, d3.event.x));
+
+            // update lines
+            foregroundLines.attr("d", path);
+            tests.sort(function(a, b) { return position(a) - position(b); });
+            xAxis.domain(tests);
+
+            // update circles
+            foreGroundCircles.attr('cx', circlex);
+
+            // update margin lines
+            upperMargin.attr('d', pathUpperMargin);
+            lowerMargin.attr('d', pathLowerMargin);
+
+            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
+          })
+          .on("dragend", function(d) {
+            delete dragging[d];
+            transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
+            transition(foregroundLines).attr("d", path);
+            transition(foreGroundCircles).attr('cx', circlex);
+            upperMargin.attr('d', pathUpperMargin);
+            lowerMargin.attr('d', pathLowerMargin);
+            backgroundLines
+                .attr("d", path)
+              .transition()
+                .delay(500)
+                .duration(0)
+                .attr("visibility", null);
+            backgroundCircles
+                .attr('cx', function (d) {
+                  return position(d.plotname);
+                })
+              .transition()
+                .delay(500)
+                .duration(0)
+                .attr("visibility", null);
+        }));
+
+    // add invisible, dragable y axis for each test
+    g.append('g')
+        .attr('class', 'axis hide-axis')
+        .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
+      .append('text')
+        .style("text-anchor", "middle")
+        .text(function(d) { return d; })
+        .attr('class', 'axis-label')
+        .attr('transform', 'rotate(45)')
+        .on("mouseover", function (d) {
+            d3.select(this)
+              .transition()
+              .style('font-size', 16)
         })
-        .text('patient: ' + p);
-    });
+          .on("mouseout", function (d) {
+            d3.select(this)
+              .transition()
+              .style('font-size', 11)
+        });
 
-    // connect patient tests
-    patients.forEach(function (p) {
-      var onePatientStats = _.filter(normcompData, ['id', p]);
-      linesGraph.append('path')
-        .attr('class', 'patient-line')
-        .attr('d', patientLine(onePatientStats))
-        .attr('id', 'tag' + p.replace(/\s+/g, ''))
-        .style('stroke', color(onePatientStats[0].id))
-        .style('fill', 'none');
-    })
+    // add visible, undragable y axis
+    linesGraph.append('g')
+      .attr('class', 'axis')
+      //.attr('transform', 'translate(10,0)')
+      .call(yAxis);
+
+  function position(d) {
+    var v = dragging[d];
+    return v == null ? xAxis(d) : v;
+  }
+
+  function transition(g) {
+    return g.transition().duration(500);
+  }
+
+  // Returns the path for a given data point.
+  function path(d) {
+    // d = patient from patients
+    // {id = 'id',
+    //  values = []}
+    return line(tests.map(function(p) {
+      // p = plotname from patient data (one of the data points from the values array)
+      var dataPoint = _.filter(d.values, ['plotname', p])[0];
+      return [position(p), y[p](dataPoint.univariateT)];
+    }));
+  }
+
+  // Returns the path for the upper margin
+  function pathUpperMargin(d) {
+    return line(tests.map(function(p) {
+      // p = plotname from patient data (one of the data points from the values array)
+      var dataPoint = _.filter(d.values, ['plotname', p])[0];
+      return [position(p), y[p](dataPoint.outeredge)];
+    }));
+  }
+
+  // Returns the path for the lower margin
+  function pathLowerMargin(d) {
+    return line(tests.map(function(p) {
+      // p = plotname from patient data (one of the data points from the values array)
+      var dataPoint = _.filter(d.values, ['plotname', p])[0];
+      return [position(p), y[p](dataPoint.inneredge)];
+    }));
+  }
+
+  // Returns the path for the mean line
+  function pathMean(d) {
+    return line(tests.map(function(p) {
+      return [position(p), y[p](0.0)];
+    }));
+  }
+
+  function circlex(d){
+    return position(d.plotname);
+  }
 
     // add mean line
-    linesGraph.append('line')
-      .attr({
-        x1: xScale(tests[tests.length]),
-        y1: yScale(0),
-        x2: xScale(tests[tests.length - 1]),
-        y2: yScale(0)
-      });
-
-    // add upper and lower bounds
-    linesGraph.append('path')
-      .attr('class', 'line')
-      .attr('d', outerLine(normcompData));
-    linesGraph.append('path')
-      .attr('class', 'line')
-      .attr('d', innerLine(normcompData));
+    marginLines.append('path')
+      .attr('class', 'mean-line')
+      .attr('d', pathMean);
 
     // tables
 
@@ -237,36 +394,36 @@ app.controller('plotController', function ($scope, ocpuService) {
     var dtUniVarCols = uniVarColNames.map(function (column) {
       return {
         'title': column
-      }
+      };
     });
 
     var dtUniVarData = normcompData.map(function (p) {
       var subp = _.pick(p, uniVarCols);
-      var values = []
+      var values = [];
       for (var key in subp) {
         values.push(subp[key]);
-      };
+      }
       return values;
     });
 
     var dtMultiVarCols = multiVarColNames.map(function (column) {
       return {
         'title': column
-      }
+      };
     });
 
     // for multivariate only one row per patient
+    var dtMultiVarData = patients.map(function (p) {
+      var values = [];
+      p.values.forEach(function(element) {
+        var subp = _.pick(element, multiVarCols);
+        for (var key in subp) {
+          values.push(subp[key]);
+        }
+      });
 
-    var multiVarData = patients.map(function (patient) {
-      return _.find(normcompData, ['id', patient]);
-    });
 
-    var dtMultiVarData = multiVarData.map(function (p) {
-      var subp = _.pick(p, multiVarCols);
-      var values = []
-      for (var key in subp) {
-        values.push(subp[key]);
-      };
+
       return values;
     });
 
@@ -276,7 +433,7 @@ app.controller('plotController', function ($scope, ocpuService) {
       data: dtUniVarData,
       columns: dtUniVarCols,
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndesFull) {
-        $(nRow).css('color', color(aData[0]))
+        $(nRow).css('color', color(aData[0]));
       }
     });
 
@@ -285,7 +442,7 @@ app.controller('plotController', function ($scope, ocpuService) {
       data: dtMultiVarData,
       columns: dtMultiVarCols,
       fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndesFull) {
-        $(nRow).css('color', color(aData[0]))
+        $(nRow).css('color', color(aData[0]));
       }
     });
   };
