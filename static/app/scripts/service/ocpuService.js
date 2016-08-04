@@ -9,7 +9,7 @@ function ocpuService($http) {
     normcomp: normcomp
   };
 
-  var url = '/compute';
+  var url = '/compute/';
 
   function normcomp(input) {
     var request = {

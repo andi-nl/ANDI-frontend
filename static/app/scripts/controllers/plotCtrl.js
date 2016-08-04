@@ -12,22 +12,19 @@
   @description : put third tab chart event
 */
 //app.controller('plotController', function ($scope, ocpuService) {
-app.controller('plotController', function ($scope, $http) {
+app.controller('plotController', function ($scope, ocpuService) {
   var plotCtrl = this;
 
   plotCtrl.render = function () {
-    //var patientObj = $scope.$parent.submitData;
-    //ocpuService.normcomp(patientObj).then(function (data) {
-    //  var normcompData = JSON.parse(data);
-    //  plotCtrl.plot(normcompData);
-    //});
-    $http.get('/static/app/data/normcomp.json').then(function (res) {
-      //console.log(data);
-      var data = res.data;
-      data = JSON.stringify(data);
-      var normcompData = JSON.parse(data);
-      //console.log(normcompData);
-      plotCtrl.plot(normcompData);
+    var patientObj = $scope.$parent.submitData;
+    ocpuService.normcomp(patientObj).then(function (data) {
+      console.log(data);
+
+      if('error' in data){
+        console.log('error in plotCtrl: '+data.error);
+      } else {
+        plotCtrl.plot(data.data.data);
+      }
     });
   };
 
