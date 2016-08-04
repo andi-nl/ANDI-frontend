@@ -8,8 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def compute(request):
-    print type(request.body)
-    parameters = json.loads(request.body)
+    print(type(request.body))
+    parameters = json.loads(request.body.decode('utf-8'))
 
     method_template = '/ocpu/library/andistats/R/{}/json'
 
@@ -22,22 +22,22 @@ def compute(request):
 
     result = requests.post(url, data=data)
 
-    print result.text
-    print
-    print result.content
-    print
-    print result.status_code
+    print(result.text)
+    print()
+    print(result.content)
+    print()
+    print(result.status_code)
     #print json.loads(result.content)
     #print result.headers
 
     if result.status_code == requests.codes.ok:
         dataOut = json.loads(result.content)
-        print len(result.content)
-        print type(result.content)
-        print type(dataOut)
+        print(len(result.content))
+        print(type(result.content))
+        print(type(dataOut))
         res = json.loads(dataOut[0])
         for i in res:
-            print i.keys()
+            print(i.keys())
         return JsonResponse({'data': res})
     else:
         return JsonResponse({'error': result.text}, safe=False)

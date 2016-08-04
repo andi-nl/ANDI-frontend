@@ -166,6 +166,6 @@ LOGOUT_URL = '/accounts/signout/'
 USERENA_DISABLE_PROFILE_LIST = True
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
