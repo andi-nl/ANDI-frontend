@@ -1,3 +1,5 @@
+import os
+
 # SECURITY WARNING: keep the secret key used in production secret!
 # To generate a key in python:
 # import os
@@ -22,5 +24,12 @@ ADMIN_EMAIL_ADDRESS = ''
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'ANDI Application Admin <{}>'.format(ADMIN_EMAIL_ADDRESS)
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+
+# open cpu settings
+
+# Just the ip-address/domain
+OCPU_HOST = 'http://145.100.116.11'

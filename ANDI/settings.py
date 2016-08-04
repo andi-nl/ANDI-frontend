@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'guardian',
     'easy_thumbnails',
     'accounts',
+    'ocpu',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -149,10 +150,7 @@ STATICFILES_DIRS = [
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp'
 EMAIL_PORT = 25
-EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+
 
 # userena
 
@@ -168,6 +166,6 @@ LOGOUT_URL = '/accounts/signout/'
 USERENA_DISABLE_PROFILE_LIST = True
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
