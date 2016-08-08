@@ -42,7 +42,7 @@ def compute(request):
     #print result.headers
 
     if result.status_code == requests.codes.ok:
-        dataOut = json.loads(result.content)
+        dataOut = json.loads(result.content.decode('utf-8'))
         print(len(result.content))
         print(type(result.content))
         print(type(dataOut))
