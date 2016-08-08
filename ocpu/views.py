@@ -33,23 +33,16 @@ def compute(request):
 
     logger.info('status code of request to andi ocpu: {}'.format(result.status_code))
 
-    print(result.text)
-    print()
-    print(result.content)
-    print()
-    print(result.status_code)
-    #print json.loads(result.content)
-    #print result.headers
-
     if result.status_code == requests.codes.ok:
+        # Because the result returned by andi ocpu is a string in a list
+        # (['string']), we need to json.loads twice to get the actual json
+        # object out.
         dataOut = json.loads(result.content.decode('utf-8'))
-        print(len(result.content))
-        print(type(result.content))
-        print(type(dataOut))
         res = json.loads(dataOut[0])
-        for i in res:
-            print(i.keys())
-        return JsonResponse({'data': res})
 
-    logger.error(result.text)
-    result.raise_for_status()
+        return JsonResponse({'data': res})
+    else:
+        logger.error(result.text)
+        return JsonResponse({'error': result.text})
+
+    #result.raise_for_status()
