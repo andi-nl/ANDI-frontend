@@ -1,14 +1,18 @@
 import requests
 import json
+import logging
 
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+logger = logging.getLogger(__name__)
+
 
 @csrf_exempt
 def compute(request):
-    print(type(request.body))
+    logger.info('Called compute')
+
     parameters = json.loads(request.body.decode('utf-8'))
 
     method_template = '/ocpu/library/andistats/R/{}/json'
@@ -20,7 +24,14 @@ def compute(request):
 
     url = '{}{}'.format(settings.OCPU_HOST, method_template.format(method))
 
-    result = requests.post(url, data=data)
+    logger.info('ocpu url: {}'.format(url))
+
+    try:
+        result = requests.post(url, data=data)
+    except Exception as e:
+        logger.error(str(e))
+
+    logger.info('status code of request to andi ocpu: {}'.format(result.status_code))
 
     print(result.text)
     print()
@@ -39,7 +50,6 @@ def compute(request):
         for i in res:
             print(i.keys())
         return JsonResponse({'data': res})
-    else:
-        return JsonResponse({'error': result.text}, safe=False)
 
-    #result.raise_for_status()
+    logger.error(result.text)
+    result.raise_for_status()
