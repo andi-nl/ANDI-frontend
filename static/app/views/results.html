@@ -1,8 +1,18 @@
 <div class="col-sm-12">
   <h2>Results Plots</h2>
-  <div class="graph" id="lines-graph"></div>
-  <div>
-    <table id="uni-var-table" class="display"></table>
-    <table id="multi-var-table" class="display"></table>
-  </div>
+
+  <uib-tabset active="active">
+    <uib-tab index="0" heading="Lines Plot">
+      <p>
+        <div class="graph" id="lines-graph"></div>
+        <div>
+          <table id="uni-var-table" class="display"></table>
+          <table id="multi-var-table" class="display"></table>
+        </div>
+      </p>
+    </uib-tab>
+    <uib-tab index="1" heading="Ellipses Plot">
+      <p>Static content</p>
+    </uib-tab>
+  </ui-tabset>
 </div>
