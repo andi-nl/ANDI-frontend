@@ -1,6 +1,11 @@
 <div class="col-sm-12">
   <h2>Results Plots</h2>
 
+  <div class="alert alert-danger" ng-show="errorMessage">
+    <strong>Error:</strong>
+    {{ errorMessage }}
+  </div>
+
   <uib-tabset active="active">
     <uib-tab index="0" heading="Lines Plot">
       <p>

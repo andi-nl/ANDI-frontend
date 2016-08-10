@@ -15,13 +15,17 @@
 app.controller('plotController', function ($scope, ocpuService) {
   var plotCtrl = this;
 
+  $scope.errorMessage = null;
+
   plotCtrl.render = function () {
     var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
+      $scope.errorMessage = null;
 
       if('error' in data.data){
         console.log('error in plotCtrl: '+data.data.error);
+        $scope.errorMessage = data.data.error;
       } else {
         plotCtrl.plot(data.data.data);
       }
