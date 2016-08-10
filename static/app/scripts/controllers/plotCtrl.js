@@ -18,6 +18,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   $scope.errorMessage = null;
 
   plotCtrl.render = function () {
+    /*
     var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
@@ -28,10 +29,18 @@ app.controller('plotController', function ($scope, ocpuService) {
         $scope.errorMessage = data.data.error;
       } else {
         plotCtrl.plot(data.data.data);
+        plotCtrl.plotEllipses(data.data.ellipse);
       }
 
-      plotCtrl.plotEllipses();
-    });
+    }); */
+    d3_queue.queue(2)
+        .defer(d3.json, "static/app/data/normcomp2.json")
+        .defer(d3.json, "static/app/data/ellipsepoints2.json")
+        .await(function (error, normcomp, ellipses_points) {
+            if (error) throw error;
+            plotCtrl.plot(normcomp);
+            plotCtrl.plotEllipses(ellipses_points);
+        });
   };
 
   plotCtrl.plot = function (normcompData) {
@@ -450,7 +459,7 @@ app.controller('plotController', function ($scope, ocpuService) {
     });
   };
 
-  plotCtrl.plotEllipses = function () {
+  plotCtrl.plotEllipses = function (points) {
     var width = 700,
         height = 500,
         size = 30,
@@ -472,10 +481,9 @@ app.controller('plotController', function ($scope, ocpuService) {
         .range([0, size - padding])
         .domain([0, 10]);
 
-    var q = d3_queue.queue(2)
+    var q = d3_queue.queue(1)
         .defer(d3.csv, "static/app/data/ellipseparams.csv")
-        .defer(d3.json, "static/app/data/ellipsepoints.json")
-        .await(function (error, ellipses, points) {
+        .await(function (error, ellipses) {
             if (error) throw error;
             facets(ellipses, points);
         });
@@ -555,7 +563,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             cell.selectAll("ellipse")
                 .data(cellTests)
                 .enter().append("ellipse")
-                .attr("rx", function (d) { return dim(d.rx); })
+                .attr("rx", function (d) { debugger; return dim(d.rx); })
                 .attr("ry", function (d) { return dim(d.ry); })
                 .attr("transform", function (d) {
                     var angle = -(90 - d.angle);
