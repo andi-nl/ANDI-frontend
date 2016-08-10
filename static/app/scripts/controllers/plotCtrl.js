@@ -563,7 +563,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             cell.selectAll("ellipse")
                 .data(cellTests)
                 .enter().append("ellipse")
-                .attr("rx", function (d) { debugger; return dim(d.rx); })
+                .attr("rx", function (d) { return dim(d.rx); })
                 .attr("ry", function (d) { return dim(d.ry); })
                 .attr("transform", function (d) {
                     var angle = -(90 - d.angle);
