@@ -14,14 +14,14 @@ def _edp(t1, t2, x, y, p):
 
 def generate_ellipse_data(normcomp_data):
     """Generate data for the ellipses plot"""
-    tests = [t['plotname'] for t in normcomp_data]
+    tests = [t['testname'] for t in normcomp_data]
     tests = set(tests)
 
     patient2test = {}
     for d in normcomp_data:
         if d['id'] not in patient2test.keys():
             patient2test[d['id']] = {}
-        patient2test[d['id']][d['plotname']] = d['univariateT']
+        patient2test[d['id']][d['testname']] = d['univariateT']
 
     patients = set([p['id'] for p in normcomp_data])
 

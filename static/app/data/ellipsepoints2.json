@@ -1,37 +1,37 @@
 [{
-  "y": -4.33,
-  "test2": "AVLT Delayed recall 1 to 5",
-  "id": "22",
-  "x": -3.19,
-  "test1": "AVLT Recognition 1 to 5"
+  "test1": "AVLT-total_1_to_5",
+  "x": -4.51,
+  "y": -3.81,
+  "test2": "AVLT-recognition_1_to_5",
+  "id": "bla"
 }, {
+  "test1": "AVLT-total_1_to_5",
+  "x": -1.76,
+  "y": -3.19,
+  "test2": "AVLT-recognition_1_to_5",
+  "id": "22"
+}, {
+  "test1": "AVLT-total_1_to_5",
+  "x": -4.51,
   "y": -3.87,
-  "test2": "AVLT Delayed recall 1 to 5",
-  "id": "bla",
-  "x": -3.81,
-  "test1": "AVLT Recognition 1 to 5"
+  "test2": "AVLT-delayed_recall_1_to_5",
+  "id": "bla"
 }, {
-  "y": -1.76,
-  "test2": "AVLT Total trial 1 to 5",
-  "id": "22",
+  "test1": "AVLT-total_1_to_5",
+  "x": -1.76,
+  "y": -4.33,
+  "test2": "AVLT-delayed_recall_1_to_5",
+  "id": "22"
+}, {
+  "test1": "AVLT-recognition_1_to_5",
+  "x": -3.81,
+  "y": -3.87,
+  "test2": "AVLT-delayed_recall_1_to_5",
+  "id": "bla"
+}, {
+  "test1": "AVLT-recognition_1_to_5",
   "x": -3.19,
-  "test1": "AVLT Recognition 1 to 5"
-}, {
-  "y": -4.51,
-  "test2": "AVLT Total trial 1 to 5",
-  "id": "bla",
-  "x": -3.81,
-  "test1": "AVLT Recognition 1 to 5"
-}, {
-  "y": -1.76,
-  "test2": "AVLT Total trial 1 to 5",
-  "id": "22",
-  "x": -4.33,
-  "test1": "AVLT Delayed recall 1 to 5"
-}, {
-  "y": -4.51,
-  "test2": "AVLT Total trial 1 to 5",
-  "id": "bla",
-  "x": -3.87,
-  "test1": "AVLT Delayed recall 1 to 5"
+  "y": -4.33,
+  "test2": "AVLT-delayed_recall_1_to_5",
+  "id": "22"
 }]
