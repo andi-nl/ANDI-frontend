@@ -30,6 +30,7 @@ def compute(request):
         result = requests.post(url, data=data)
     except Exception as e:
         logger.error(str(e))
+        return JsonResponse({'error': 'Error getting results from ocpu.'})
 
     logger.info('status code of request to andi ocpu: {}'.format(result.status_code))
 
