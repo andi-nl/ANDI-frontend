@@ -451,7 +451,8 @@ app.controller('plotController', function ($scope, ocpuService) {
   };
 
   plotCtrl.plotEllipses = function () {
-    var width = 960,
+    var width = 700,
+        height = 500,
         size = 30,
         padding = 5;
 
@@ -509,8 +510,8 @@ app.controller('plotController', function ($scope, ocpuService) {
         var n = tests.length;
 
         var svg = d3.select('#ellipses-graph').append("svg")
-            .attr("width", size * n + padding)
-            .attr("height", size * n + padding)
+            .attr("width", width)
+            .attr("height", height)
             .append("g")
             .attr("transform", "translate(" + padding + "," + padding / 2 + ")");
 
