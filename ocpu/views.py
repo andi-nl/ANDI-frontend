@@ -6,6 +6,8 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from .utils import generate_ellipse_data
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,7 +43,9 @@ def compute(request):
         dataOut = json.loads(result.content.decode('utf-8'))
         res = json.loads(dataOut[0])
 
-        return JsonResponse({'data': res})
+        ellipse_data = generate_ellipse_data(res)
+
+        return JsonResponse({'data': res, 'ellipse': ellipse_data})
     else:
         logger.error(result.text)
         return JsonResponse({'error': result.text})
