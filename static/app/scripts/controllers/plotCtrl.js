@@ -17,6 +17,47 @@ app.controller('plotController', function ($scope, ocpuService) {
 
   $scope.errorMessage = null;
 
+  var patients;
+
+  var color = d3.scale.category10();
+
+  var add_legend = function (element, patients, pos){
+    var legendSpace = 20;
+    element.append('text')
+      .attr('x', pos)
+      .attr('y', 0)
+      .attr('class', 'legend legend-title')
+      .text('Click to (de)select:');
+
+    patients.forEach(function (p, i) {
+        element.append('text')
+          .attr('x', pos)
+          .attr('y', (i+1) * (legendSpace))
+          .attr('class', 'legend legend-p' + p.key.replace(/\s+/g, ''))
+          .style('fill', color(p.key))
+          .on('click', function () {
+            var active = this.active !== true;
+            var newOpacity = active ? 0 : 0.5;
+            d3.select('#tag' + p.key.replace(/\s+/g, ''))
+              .transition().duration(100)
+              .style('opacity', newOpacity);
+              this.active = active;
+            d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
+              .transition().duration(100)
+              .style('opacity', newOpacity);
+              d3.selectAll('.legend-p' + p.key.replace(/\s+/g, '')).forEach(function (e){
+                e.active = active;
+              });
+              if(active){
+                d3.selectAll('.legend-p' + p.key.replace(/\s+/g, '')).style('fill', '#ddd');
+              } else {
+                d3.selectAll('.legend-p' + p.key.replace(/\s+/g, '')).style('fill', color(p.key));
+              }
+          })
+          .text('patient: ' + p.key);
+    });
+  }
+
   plotCtrl.render = function () {
     /*
     var patientObj = $scope.$parent.submitData;
@@ -38,6 +79,11 @@ app.controller('plotController', function ($scope, ocpuService) {
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .await(function (error, normcomp, ellipses_points) {
             if (error) throw error;
+
+            patients = d3.nest()
+              .key(function (p) { return p.id; })
+              .entries(normcomp);
+
             plotCtrl.plot(normcomp);
             plotCtrl.plotEllipses(ellipses_points);
         });
@@ -53,16 +99,10 @@ app.controller('plotController', function ($scope, ocpuService) {
     var width = 700 - margin.left - margin.right;
     var height = 500 - margin.top - margin.bottom;
 
-    var color = d3.scale.category10();
-
     normcompData = normcompData.map(function (p) {
       p.id = String(p.id);
       return p;
     });
-    // patients array
-    var patients = d3.nest()
-      .key(function (p) { return p.id; })
-      .entries(normcompData);
 
     // tooltip
     var div = d3.select('body').append('div')
@@ -130,37 +170,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   var legendSpace = 20;
 
   // legend
-  linesGraph.append('text')
-    .attr('x', width + margin.right / 2)
-    .attr('y', 0)
-    .attr('class', 'legend legend-title')
-    .text('Click to (de)select:');
-  patients.forEach(function (p, i) {
-    linesGraph.append('text')
-      .attr('x', width + margin.right / 2)
-      .attr('y', (i+1) * (legendSpace))
-      .attr('class', 'legend')
-      .style('fill', color(p.key))
-      .on('click', function () {
-        var active = this.active !== true;
-        var newOpacity = active ? 0 : 0.5;
-        d3.select('#tag' + p.key.replace(/\s+/g, ''))
-          .transition().duration(100)
-          .style('opacity', newOpacity);
-          this.active = active;
-        d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
-          .transition().duration(100)
-          .style('opacity', newOpacity);
-          this.active = active;
-          if(active){
-            d3.select(this).style('fill', '#ddd');
-          } else {
-            d3.select(this).style('fill', color(p.key));
-          }
-      })
-      .text('patient: ' + p.key);
-
-    });
+  add_legend(linesGraph, patients, width + margin.right / 2);
 
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
@@ -539,6 +549,9 @@ app.controller('plotController', function ($scope, ocpuService) {
             .attr("font-size", "8px")
             .text(function (d) { return d.test1; });
 
+        // legend
+        add_legend(svg, patients, width/2);
+
         function plot(p) {
             var cell = d3.select(this);
             var cellTests = ellipses.filter(function (e) {
@@ -552,16 +565,31 @@ app.controller('plotController', function ($scope, ocpuService) {
                 return (e.test1 === p.test1 && e.test2 === p.test2);
             });
 
-            // Plot circles
-            cell.selectAll("path")
+            // Plot grey circles (for context)
+            var backgroundCircles = cell.selectAll("path.ellipse-data-background")
                 .data(cellPoints)
                 .enter().append("path")
                 .attr("transform", function (d) {
                     return "translate(" + x(d.x) + "," + y(d.y) + ")";
                 })
                 .attr("d", d3.svg.symbol().type("circle"))
-                .style("fill", "orange")
-                .style("opacity", 0.6);
+                .attr('class', 'ellipse-data-background')
+                .style("fill", '#ddd');
+
+
+            // Plot colored circles
+            var foregroundCircles = cell.selectAll("path.ellipse-data-foreground")
+                .data(cellPoints)
+                .enter().append("path")
+                .attr("transform", function (d) {
+                    return "translate(" + x(d.x) + "," + y(d.y) + ")";
+                })
+                .attr("d", d3.svg.symbol().type("circle"))
+                .attr('class', function (d) {
+                    return 'circle'+d.id+ ' ellipse-data-foreground';
+                })
+                .style("fill", function(p){ return color(p.id); })
+                .style("opacity", 0.5);
 
             // Plot green ellipses
             cell.selectAll("ellipse")
