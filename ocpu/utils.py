@@ -1,6 +1,9 @@
 """Utility functions for ocpu views"""
-
+import os
+import pandas as pd
 from itertools import combinations
+
+from django.conf import settings
 
 
 def _edp(t1, t2, x, y, p):
@@ -14,6 +17,10 @@ def _edp(t1, t2, x, y, p):
 
 def generate_ellipse_data(normcomp_data):
     """Generate data for the ellipses plot"""
+    csv = os.path.join(settings.BASE_DIR, 'static/app/data/ellipseparams.csv')
+    df = pd.read_csv(csv)
+    test_pairs = zip(list(df['test1']), list(df['test2']))
+
     tests = [t['testname'] for t in normcomp_data]
     tests = set(tests)
 
@@ -28,7 +35,10 @@ def generate_ellipse_data(normcomp_data):
     ellipse_data = []
     for (t1, t2) in combinations(tests, 2):
         for p in patients:
-            edp = _edp(t1, t2, patient2test[p][t1], patient2test[p][t2], p)
+            if (t1, t2) in test_pairs:
+                edp = _edp(t1, t2, patient2test[p][t1], patient2test[p][t2], p)
+            else:
+                edp = _edp(t2, t1, patient2test[p][t2], patient2test[p][t1], p)
             ellipse_data.append(edp)
 
     return ellipse_data
