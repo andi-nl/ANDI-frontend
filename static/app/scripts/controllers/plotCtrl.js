@@ -499,7 +499,9 @@ app.controller('plotController', function ($scope, ocpuService) {
             d.angle = +d.angle;
         });
 
-        var tests1 = ellipses.map(function (e) {
+        // select tests that need to be displayed:
+        // all tests that occur in the points data
+        var tests1 = points.map(function (e) {
             var test1 = e.test1;
             return test1;
         });
@@ -507,7 +509,7 @@ app.controller('plotController', function ($scope, ocpuService) {
         tests1 = _.union(tests1);
 
 
-        var tests2 = ellipses.map(function (e) {
+        var tests2 = points.map(function (e) {
             var test2 = e.test2;
             return test2;
         });
@@ -522,7 +524,6 @@ app.controller('plotController', function ($scope, ocpuService) {
             .attr("height", height)
             .append("g")
             .attr("transform", "translate(" + padding + "," + padding / 2 + ")");
-
 
         var cell = svg.selectAll(".cell")
             .data(cross(tests1, tests2))
@@ -541,6 +542,9 @@ app.controller('plotController', function ($scope, ocpuService) {
         function plot(p) {
             var cell = d3.select(this);
             var cellTests = ellipses.filter(function (e) {
+                // e is data about green ellipse
+                // p a cell (data from the cross function (that determines the position
+                // of a green ellipse on the screen)
                 return (e.test1 === p.test1 && e.test2 === p.test2);
             });
 
@@ -548,6 +552,7 @@ app.controller('plotController', function ($scope, ocpuService) {
                 return (e.test1 === p.test1 && e.test2 === p.test2);
             });
 
+            // Plot circles
             cell.selectAll("path")
                 .data(cellPoints)
                 .enter().append("path")
@@ -558,8 +563,7 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .style("fill", "orange")
                 .style("opacity", 0.6);
 
-
-
+            // Plot green ellipses
             cell.selectAll("ellipse")
                 .data(cellTests)
                 .enter().append("ellipse")
