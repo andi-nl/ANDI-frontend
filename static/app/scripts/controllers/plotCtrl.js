@@ -591,6 +591,10 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .style("fill", function(p){ return color(p.id); })
                 .style("opacity", 0.5);
 
+            var div = d3.select('body').append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
             // Plot green ellipses
             cell.selectAll("ellipse")
                 .data(cellTests)
@@ -602,7 +606,20 @@ app.controller('plotController', function ($scope, ocpuService) {
                     return "translate(" + x(d.cx) + "," + y(d.cy) + ") rotate(" + angle + ")";
                 })
                 .style("fill", "green")
-                .style("opacity", 0.3);
+                .style("opacity", 0.3)
+                .on('mouseover', function (d) {
+                  div.transition()
+                    .duration(200)
+                    .style('opacity', 0.8);
+                  div.html('<span>' + d.test1 + '</br>vs.</br>' + d.test2 + '</span>')
+                    .style('left', (d3.event.pageX) + 'px')
+                    .style('top', (d3.event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function () {
+                  div.transition()
+                    .duration(500)
+                    .style('opacity', 0);
+                });
 
 
         }
