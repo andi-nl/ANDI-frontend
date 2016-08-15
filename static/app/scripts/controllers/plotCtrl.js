@@ -498,141 +498,164 @@ app.controller('plotController', function ($scope, ocpuService) {
             facets(ellipses, points);
         });
 
-    function facets(ellipses, points) {
-        ellipses.forEach(function (d) {
-            d.test1 = String(d.test1);
-            d.test2 = String(d.test2);
-            d.cx = +d.cx;
-            d.cy = +d.cy;
-            d.rx = +d.rx;
-            d.ry = +d.ry;
-            d.angle = +d.angle;
-        });
-
-        // select tests that need to be displayed:
-        // all tests that occur in the points data
-        var tests1 = points.map(function (e) {
-            var test1 = e.test1;
-            return test1;
-        });
-
-        tests1 = _.union(tests1);
-
-
-        var tests2 = points.map(function (e) {
-            var test2 = e.test2;
-            return test2;
-        });
-
-        tests2 = _.union(tests2);
-
-        var tests = _.union(tests1.concat(tests2));
-        var n = tests.length;
-
-        var svg = d3.select('#ellipses-graph').append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", "translate(" + padding + "," + padding / 2 + ")");
-
-        var cell = svg.selectAll(".cell")
-            .data(cross(tests1, tests2))
-            .enter().append("g")
-            .attr("class", "cell")
-            .attr("transform", function (d) { return "translate(" + d.j * size + "," + d.i * size + ")"; })
-            .each(plot);
-
-        cell.filter(function (d) { return d.test1 === d.test2; }).append("text")
-            .attr("x", padding)
-            .attr("y", size / 2 + padding)
-            .attr("text-anchor", "left")
-            .attr("font-size", "8px")
-            .text(function (d) { return d.test1; });
-
-        // legend
-        add_legend(svg, patients, width/2);
-
-        function plot(p) {
-            var cell = d3.select(this);
-            var cellTests = ellipses.filter(function (e) {
-                // e is data about green ellipse
-                // p a cell (data from the cross function (that determines the position
-                // of a green ellipse on the screen)
-                return (e.test1 === p.test1 && e.test2 === p.test2);
+        function facets(ellipses, points) {
+            ellipses.forEach(function (d) {
+                d.test1 = String(d.test1);
+                d.test2 = String(d.test2);
+                d.cx = +d.cx;
+                d.cy = +d.cy;
+                d.rx = +d.rx;
+                d.ry = +d.ry;
+                d.angle = +d.angle;
             });
 
-            var cellPoints = points.filter(function (e) {
-                return (e.test1 === p.test1 && e.test2 === p.test2);
+            // select tests that need to be displayed:
+            // all tests that occur in the points data
+            var tests1 = points.map(function (e) {
+                var test1 = e.test1;
+                return test1;
             });
+
+            tests1 = _.union(tests1);
+
+
+            var tests2 = points.map(function (e) {
+                var test2 = e.test2;
+                return test2;
+            });
+
+            tests2 = _.union(tests2);
+
+            var tests = _.union(tests1.concat(tests2));
+            var n = tests.length;
+
+            var svg = d3.select('#ellipses-graph').append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append('g')
+                .attr("transform", "translate(" + 120 + "," + padding / 2 + ")");
+
+            var t = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
+            var h = 200;
+
+            var xOuter = d3.scale.ordinal()
+              .domain(t)
+              .rangePoints([0, h]);
+            var yOuter = d3.scale.ordinal()
+              .domain(t)
+              .rangePoints([0, h]);
+
+            var xAxis = d3.svg.axis()
+              .scale(xOuter)
+              .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+              .scale(yOuter)
+              .orient("left");
+
+            add_legend(svg, patients, width/2);
+
+            console.log(ellipses);
+            var sEllipses = ellipses.filter(function (e) {
+              var keep = false;
+              t.forEach(function (test){
+                if(test === e.test1) {
+                  keep = true;
+                }
+              });
+              return keep;
+
+              });
+
+            console.log(sEllipses);
+
+            var div = d3.select('body').append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
+            svg.selectAll('ellipse')
+              .data(sEllipses)
+              .enter()
+              .append("ellipse")
+              .attr("rx", function (d) { return dim(d.rx); })
+              .attr("ry", function (d) { return dim(d.ry); })
+              //.attr('cx', dim(0))
+              //.attr('cy', dim(0))
+              .attr("transform", function (d) {
+                  var angle = -(90 - d.angle);
+                  return "translate(" + xOuter(d.test2) + "," + yOuter(d.test1) + ") rotate(" + angle + ")";
+              })
+              .style("fill", "green")
+              .style("opacity", 0.3)
+              .on('mouseover', function (d) {
+                div.transition()
+                  .duration(200)
+                  .style('opacity', 0.8);
+                div.html('<span>' + d.test1 + '</br>vs.</br>' + d.test2 + '</span>')
+                  .style('left', (d3.event.pageX) + 'px')
+                  .style('top', (d3.event.pageY - 28) + 'px');
+              })
+              .on('mouseout', function () {
+                div.transition()
+                  .duration(500)
+                  .style('opacity', 0);
+              });
 
             // Plot grey circles (for context)
-            var backgroundCircles = cell.selectAll("path.ellipse-data-background")
-                .data(cellPoints)
-                .enter().append("path")
-                .attr("transform", function (d) {
-                    return "translate(" + x(d.x) + "," + y(d.y) + ")";
+            var backgroundCircles = svg.selectAll("circle.ellipse-data-background")
+                .data(points)
+                .enter().append("circle")
+                .attr('cx', function (d) {
+                  return x(d.x);
                 })
-                .attr("d", d3.svg.symbol().type("circle"))
+                .attr('cy', function (d) {
+                  return y(d.y);
+                })
+                .attr('r', 4)
+                .attr("transform", function (d) {
+                    var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+                    return "translate(" + translate + ")";
+                })
                 .attr('class', 'ellipse-data-background')
                 .style("fill", '#ddd');
 
-
             // Plot colored circles
-            var foregroundCircles = cell.selectAll("path.ellipse-data-foreground")
-                .data(cellPoints)
-                .enter().append("path")
-                .attr("transform", function (d) {
-                    return "translate(" + x(d.x) + "," + y(d.y) + ")";
+            var foregroundCircles = svg.selectAll("circle.ellipse-data-foreground")
+                .data(points)
+                .enter().append("circle")
+                .attr('cx', function (d) {
+                  return x(d.x);
                 })
-                .attr("d", d3.svg.symbol().type("circle"))
+                .attr('cy', function (d) {
+                  return y(d.y);
+                })
+                .attr('r', 4)
+                .attr("transform", function (d) {
+                    var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+                    return "translate(" + translate + ")";
+                })
                 .attr('class', function (d) {
                     return 'circle'+d.id+ ' ellipse-data-foreground';
                 })
                 .style("fill", function(p){ return color(p.id); })
                 .style("opacity", 0.5);
 
-            var div = d3.select('body').append('div')
-                .attr('class', 'tooltip')
-                .style('opacity', 0);
+            svg.append("g")            // Add the X Axis
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + h + ")")
+                .call(xAxis)
+                .selectAll("text")
+                  .style("text-anchor", "end")
+                  .attr("dx", "-.8em")
+                  .attr("dy", ".15em")
+                  .attr("transform", "rotate(-65)");
 
-            // Plot green ellipses
-            cell.selectAll("ellipse")
-                .data(cellTests)
-                .enter().append("ellipse")
-                .attr("rx", function (d) { return dim(d.rx); })
-                .attr("ry", function (d) { return dim(d.ry); })
-                .attr("transform", function (d) {
-                    var angle = -(90 - d.angle);
-                    return "translate(" + x(d.cx) + "," + y(d.cy) + ") rotate(" + angle + ")";
-                })
-                .style("fill", "green")
-                .style("opacity", 0.3)
-                .on('mouseover', function (d) {
-                  div.transition()
-                    .duration(200)
-                    .style('opacity', 0.8);
-                  div.html('<span>' + d.test1 + '</br>vs.</br>' + d.test2 + '</span>')
-                    .style('left', (d3.event.pageX) + 'px')
-                    .style('top', (d3.event.pageY - 28) + 'px');
-                })
-                .on('mouseout', function () {
-                  div.transition()
-                    .duration(500)
-                    .style('opacity', 0);
-                });
+            svg.append("g")         // Add the Y Axis
+                .attr("class", "y axis")
+                .call(yAxis);
+          }
 
-
-        }
-    }
-
-
-    function cross(a, b) {
-        var c = [], n = a.length, m = b.length, i, j;
-        for (i = -1; ++i < n;) for (j = -1; ++j < m;) c.push({ test1: a[i], i: i, test2: b[j], j: j });
-        return c;
-    }
-
-  };
+    };
 
   plotCtrl.render();
 });
