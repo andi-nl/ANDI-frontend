@@ -69,8 +69,11 @@ app.controller('plotController', function ($scope, ocpuService) {
         console.log('error in plotCtrl: '+data.data.error);
         $scope.errorMessage = data.data.error;
       } else {
+        patients = d3.nest()
+          .key(function (p) { return p.id; })
+          .entries(data.data.data);
         plotCtrl.plot(data.data.data);
-        plotCtrl.plotEllipses(data.data.ellipse);
+        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
     }); */
@@ -84,8 +87,10 @@ app.controller('plotController', function ($scope, ocpuService) {
               .key(function (p) { return p.id; })
               .entries(normcomp);
 
+            var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
+
             plotCtrl.plot(normcomp);
-            plotCtrl.plotEllipses(ellipses_points);
+            plotCtrl.plotEllipses(ellipses_points, tests);
         });
   };
 
@@ -469,7 +474,7 @@ app.controller('plotController', function ($scope, ocpuService) {
     });
   };
 
-  plotCtrl.plotEllipses = function (points) {
+  plotCtrl.plotEllipses = function (points, tests) {
     var width = 700,
         height = 500,
         size = 30,
@@ -495,10 +500,10 @@ app.controller('plotController', function ($scope, ocpuService) {
         .defer(d3.csv, "static/app/data/ellipseparams.csv")
         .await(function (error, ellipses) {
             if (error) throw error;
-            facets(ellipses, points);
+            facets(ellipses, points, tests);
         });
 
-        function facets(ellipses, points) {
+        function facets(ellipses, points, tests) {
             ellipses.forEach(function (d) {
                 d.test1 = String(d.test1);
                 d.test2 = String(d.test2);
@@ -509,40 +514,26 @@ app.controller('plotController', function ($scope, ocpuService) {
                 d.angle = +d.angle;
             });
 
-            // select tests that need to be displayed:
-            // all tests that occur in the points data
-            var tests1 = points.map(function (e) {
-                var test1 = e.test1;
-                return test1;
-            });
-
-            tests1 = _.union(tests1);
-
-
-            var tests2 = points.map(function (e) {
-                var test2 = e.test2;
-                return test2;
-            });
-
-            tests2 = _.union(tests2);
-
-            var tests = _.union(tests1.concat(tests2));
-            var n = tests.length;
-
             var svg = d3.select('#ellipses-graph').append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .append('g')
                 .attr("transform", "translate(" + 4 * size + "," + padding / 2 + ")");
 
-            var t = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
             var h = 2.5 * size;
 
+            // add empty strings to list of tests to shift the origin of the graph
+            var yDomain = tests.slice(0);
+            yDomain.push('');
+
+            var xDomain = tests.slice(0);
+            xDomain.splice(0, 0, '');
+
             var xOuter = d3.scale.ordinal()
-              .domain(t)
+              .domain(xDomain)
               .rangePoints([0, h]);
             var yOuter = d3.scale.ordinal()
-              .domain(t)
+              .domain(yDomain)
               .rangePoints([0, h]);
 
             var xAxis = d3.svg.axis()
@@ -558,7 +549,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             console.log(ellipses);
             var sEllipses = ellipses.filter(function (e) {
               var keep = false;
-              t.forEach(function (test){
+              tests.forEach(function (test){
                 if(test === e.test1) {
                   keep = true;
                 }
