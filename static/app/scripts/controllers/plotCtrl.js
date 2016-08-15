@@ -520,7 +520,7 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .append('g')
                 .attr("transform", "translate(" + 4 * size + "," + padding / 2 + ")");
 
-            var h = 2.5 * size;
+            var h = (tests.length + 0.5) * size;
 
             // add empty strings to list of tests to shift the origin of the graph
             var yDomain = tests.slice(0);
