@@ -1,7 +1,7 @@
 FROM python:3.5-onbuild
 
 # install nodejs
-ENV NODE_VERSION="v4.4.7"
+ENV NODE_VERSION="v6.3.1"
 RUN curl -LO http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.gz
 RUN tar xzf node-$NODE_VERSION-linux-x64.tar.gz
 RUN cp -rp node-$NODE_VERSION-linux-x64 /usr/local/
