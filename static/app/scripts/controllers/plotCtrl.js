@@ -533,10 +533,10 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .attr("width", width)
                 .attr("height", height)
                 .append('g')
-                .attr("transform", "translate(" + 120 + "," + padding / 2 + ")");
+                .attr("transform", "translate(" + 4 * size + "," + padding / 2 + ")");
 
             var t = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
-            var h = 200;
+            var h = 2.5 * size;
 
             var xOuter = d3.scale.ordinal()
               .domain(t)
