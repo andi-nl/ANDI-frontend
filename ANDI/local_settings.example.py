@@ -31,5 +31,5 @@ DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 
 # open cpu settings
 
-# Just the ip-address/domain
 OCPU_HOST = '145.100.116.11'
+OCPU_PORT = 8004
