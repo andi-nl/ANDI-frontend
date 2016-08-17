@@ -59,7 +59,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   }
 
   plotCtrl.render = function () {
-    var patientObj = $scope.$parent.submitData;
+    /*var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
       $scope.errorMessage = null;
@@ -72,11 +72,12 @@ app.controller('plotController', function ($scope, ocpuService) {
           .key(function (p) { return p.id; })
           .entries(data.data.data);
         plotCtrl.plot(data.data.data);
+        plotCtrl.plotTables(data.data.data);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
-    });
-    /*
+    }); */
+
     d3_queue.queue(2)
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
@@ -90,8 +91,9 @@ app.controller('plotController', function ($scope, ocpuService) {
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
             plotCtrl.plot(normcomp);
+            plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
-        });*/
+        });
   };
 
   plotCtrl.plot = function (normcompData) {
@@ -397,6 +399,9 @@ app.controller('plotController', function ($scope, ocpuService) {
       .attr('class', 'mean-line')
       .attr('d', pathMean);
 
+
+  plotCtrl.plotTables = function (normcompData) {
+
     // tables
 
     // columns
@@ -472,6 +477,7 @@ app.controller('plotController', function ($scope, ocpuService) {
         $(nRow).css('color', color(aData[0]));
       }
     });
+    };
   };
 
   plotCtrl.plotEllipses = function (points, tests) {
