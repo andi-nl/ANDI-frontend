@@ -75,7 +75,8 @@ app.controller('plotController', function ($scope, ocpuService) {
         var csvData = Papa.unparse(data.data.data, csvExportConfig);
         plotCtrl.normcompDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
 
-        csvData = Papa.unparse(data.data.input.patientScores, csvExportConfig);
+        var pData = transformPatientScores(data.data.input.patientScores, data.data.tests);
+        csvData = Papa.unparse(pData, csvExportConfig);
         plotCtrl.patientDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
 
         patients = d3.nest()
@@ -111,6 +112,31 @@ app.controller('plotController', function ($scope, ocpuService) {
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
         });*/
+
+    function transformPatientScores(patientScores, tests) {
+      var data = [];
+      var rows = ['id', 'age', 'sex', 'education'];
+      rows = rows.concat(tests);
+
+      var columns = [];
+      patientScores.forEach(function (p, i) {
+        columns.push('Patient ' + (i+1));
+        p.test.forEach(function (t){
+          p[t.id] = t.value;
+
+        });
+      });
+
+      rows.forEach(function (row){
+        var rowObj = {'': row};
+        columns.forEach(function (c, i){
+          rowObj[c] = patientScores[i][row];
+        });
+
+        data.push(rowObj);
+      });
+      return data;
+    }
   };
 
   plotCtrl.plotLines = function (normcompData) {
