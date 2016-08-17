@@ -1,8 +1,27 @@
 <div class="col-sm-12">
   <h2>Results Plots</h2>
-  <div class="graph" id="lines-graph"></div>
-  <div>
-    <table id="uni-var-table" class="display"></table>
-    <table id="multi-var-table" class="display"></table>
+
+  <div class="alert alert-danger" ng-show="errorMessage">
+    <strong>Error:</strong>
+    {{ errorMessage }}
   </div>
+
+  <uib-tabset active="active">
+    <uib-tab index="0" heading="Lines Plot">
+      <p>
+        <div class="graph" id="lines-graph"></div>
+      </p>
+    </uib-tab>
+    <uib-tab index="1" heading="Ellipses Plot">
+      <div class="graph" id="ellipses-graph"></div>
+    </uib-tab>
+    <uib-tab index="2" heading="Data tables">
+      <p>
+        <div>
+          <table id="uni-var-table" class="display"></table>
+          <table id="multi-var-table" class="display"></table>
+        </div>
+      </p>
+    </uib-tab>
+  </ui-tabset>
 </div>

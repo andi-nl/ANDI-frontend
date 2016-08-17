@@ -15,20 +15,88 @@
 app.controller('plotController', function ($scope, ocpuService) {
   var plotCtrl = this;
 
+  $scope.errorMessage = null;
+
+  var patients;
+
+  var color = d3.scale.category10();
+
+  var add_legend = function (element, patients, pos){
+    var legendSpace = 20;
+    element.append('text')
+      .attr('x', pos)
+      .attr('y', 0)
+      .attr('class', 'legend legend-title')
+      .text('Click to (de)select:');
+
+    patients.forEach(function (p, i) {
+        element.append('text')
+          .attr('x', pos)
+          .attr('y', (i+1) * (legendSpace))
+          .attr('class', 'legend legend-p' + p.key.replace(/\s+/g, ''))
+          .style('fill', color(p.key))
+          .on('click', function () {
+            var active = this.active !== true;
+            var newOpacity = active ? 0 : 0.5;
+            d3.select('#tag' + p.key.replace(/\s+/g, ''))
+              .transition().duration(100)
+              .style('opacity', newOpacity);
+              this.active = active;
+            d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
+              .transition().duration(100)
+              .style('opacity', newOpacity);
+              d3.selectAll('.legend-p' + p.key.replace(/\s+/g, '')).forEach(function (e){
+                e.active = active;
+              });
+              if(active){
+                d3.selectAll('.legend-p' + p.key.replace(/\s+/g, '')).style('fill', '#ddd');
+              } else {
+                d3.selectAll('.legend-p' + p.key.replace(/\s+/g, '')).style('fill', color(p.key));
+              }
+          })
+          .text('patient: ' + p.key);
+    });
+  }
+
   plotCtrl.render = function () {
-    var patientObj = $scope.$parent.submitData;
+    /*var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
+      $scope.errorMessage = null;
 
       if('error' in data.data){
         console.log('error in plotCtrl: '+data.data.error);
+        $scope.errorMessage = data.data.error;
       } else {
-        plotCtrl.plot(data.data.data);
+        patients = d3.nest()
+          .key(function (p) { return p.id; })
+          .entries(data.data.data);
+        plotCtrl.plotLines(data.data.data);
+        plotCtrl.plotTables(data.data.data);
+        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
-    });
+
+    }); */
+
+    d3_queue.queue(2)
+        .defer(d3.json, "static/app/data/normcomp2.json")
+        .defer(d3.json, "static/app/data/ellipsepoints2.json")
+        .await(function (error, normcomp, ellipses_points) {
+            if (error) throw error;
+
+            patients = d3.nest()
+              .key(function (p) { return p.id; })
+              .entries(normcomp);
+
+            var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
+
+            plotCtrl.plotLines(normcomp);
+            plotCtrl.plotTables(normcomp);
+            plotCtrl.plotEllipses(ellipses_points, tests);
+        });
   };
 
-  plotCtrl.plot = function (normcompData) {
+  plotCtrl.plotLines = function (normcompData) {
     var margin = {
       top: 80,
       right: 180,
@@ -38,16 +106,10 @@ app.controller('plotController', function ($scope, ocpuService) {
     var width = 700 - margin.left - margin.right;
     var height = 500 - margin.top - margin.bottom;
 
-    var color = d3.scale.category10();
-
     normcompData = normcompData.map(function (p) {
       p.id = String(p.id);
       return p;
     });
-    // patients array
-    var patients = d3.nest()
-      .key(function (p) { return p.id; })
-      .entries(normcompData);
 
     // tooltip
     var div = d3.select('body').append('div')
@@ -115,37 +177,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   var legendSpace = 20;
 
   // legend
-  linesGraph.append('text')
-    .attr('x', width + margin.right / 2)
-    .attr('y', 0)
-    .attr('class', 'legend legend-title')
-    .text('Click to (de)select:');
-  patients.forEach(function (p, i) {
-    linesGraph.append('text')
-      .attr('x', width + margin.right / 2)
-      .attr('y', (i+1) * (legendSpace))
-      .attr('class', 'legend')
-      .style('fill', color(p.key))
-      .on('click', function () {
-        var active = this.active !== true;
-        var newOpacity = active ? 0 : 0.5;
-        d3.select('#tag' + p.key.replace(/\s+/g, ''))
-          .transition().duration(100)
-          .style('opacity', newOpacity);
-          this.active = active;
-        d3.selectAll('.circle' + p.key.replace(/\s+/g, ''))
-          .transition().duration(100)
-          .style('opacity', newOpacity);
-          this.active = active;
-          if(active){
-            d3.select(this).style('fill', '#ddd');
-          } else {
-            d3.select(this).style('fill', color(p.key));
-          }
-      })
-      .text('patient: ' + p.key);
-
-    });
+  add_legend(linesGraph, patients, width + margin.right / 2);
 
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
@@ -367,6 +399,9 @@ app.controller('plotController', function ($scope, ocpuService) {
       .attr('class', 'mean-line')
       .attr('d', pathMean);
 
+
+  plotCtrl.plotTables = function (normcompData) {
+
     // tables
 
     // columns
@@ -442,7 +477,182 @@ app.controller('plotController', function ($scope, ocpuService) {
         $(nRow).css('color', color(aData[0]));
       }
     });
+    };
   };
+
+  plotCtrl.plotEllipses = function (points, tests) {
+    var width = 700,
+        height = 500,
+        size = 30,
+        padding = 5;
+
+    var x = d3.scale.linear()
+        .range([padding / 2, size - padding / 2])
+        .domain([-3, 3]);
+
+    var y = d3.scale.linear()
+        .range([size - padding / 2, padding / 2])
+        .domain([-3, 3]);
+
+    var dim = d3.scale.linear()
+        .range([0, size - padding])
+        .domain([0, 6]);
+
+    var scale = d3.scale.linear()
+        .range([0, size - padding])
+        .domain([0, 10]);
+
+    var q = d3_queue.queue(1)
+        .defer(d3.csv, "static/app/data/ellipseparams.csv")
+        .await(function (error, ellipses) {
+            if (error) throw error;
+            facets(ellipses, points, tests);
+        });
+
+        function facets(ellipses, points, tests) {
+            ellipses.forEach(function (d) {
+                d.test1 = String(d.test1);
+                d.test2 = String(d.test2);
+                d.cx = +d.cx;
+                d.cy = +d.cy;
+                d.rx = +d.rx;
+                d.ry = +d.ry;
+                d.angle = +d.angle;
+            });
+
+            var svg = d3.select('#ellipses-graph').append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append('g')
+                .attr("transform", "translate(" + 4 * size + "," + padding / 2 + ")");
+
+            var h = (tests.length + 0.5) * size;
+
+            // add empty strings to list of tests to shift the origin of the graph
+            var yDomain = tests.slice(0);
+            yDomain.push('');
+
+            var xDomain = tests.slice(0);
+            xDomain.splice(0, 0, '');
+
+            var xOuter = d3.scale.ordinal()
+              .domain(xDomain)
+              .rangePoints([0, h]);
+            var yOuter = d3.scale.ordinal()
+              .domain(yDomain)
+              .rangePoints([0, h]);
+
+            var xAxis = d3.svg.axis()
+              .scale(xOuter)
+              .orient("bottom");
+
+            var yAxis = d3.svg.axis()
+              .scale(yOuter)
+              .orient("left");
+
+            add_legend(svg, patients, width/2);
+
+            console.log(ellipses);
+            var sEllipses = ellipses.filter(function (e) {
+              var keep = false;
+              tests.forEach(function (test){
+                if(test === e.test1) {
+                  keep = true;
+                }
+              });
+              return keep;
+
+              });
+
+            console.log(sEllipses);
+
+            var div = d3.select('body').append('div')
+                .attr('class', 'tooltip')
+                .style('opacity', 0);
+
+            svg.selectAll('ellipse')
+              .data(sEllipses)
+              .enter()
+              .append("ellipse")
+              .attr("rx", function (d) { return dim(d.rx); })
+              .attr("ry", function (d) { return dim(d.ry); })
+              //.attr('cx', dim(0))
+              //.attr('cy', dim(0))
+              .attr("transform", function (d) {
+                  var angle = -(90 - d.angle);
+                  return "translate(" + xOuter(d.test2) + "," + yOuter(d.test1) + ") rotate(" + angle + ")";
+              })
+              .style("fill", "green")
+              .style("opacity", 0.3)
+              .on('mouseover', function (d) {
+                div.transition()
+                  .duration(200)
+                  .style('opacity', 0.8);
+                div.html('<span>' + d.test1 + '</br>vs.</br>' + d.test2 + '</span>')
+                  .style('left', (d3.event.pageX) + 'px')
+                  .style('top', (d3.event.pageY - 28) + 'px');
+              })
+              .on('mouseout', function () {
+                div.transition()
+                  .duration(500)
+                  .style('opacity', 0);
+              });
+
+            // Plot grey circles (for context)
+            var backgroundCircles = svg.selectAll("circle.ellipse-data-background")
+                .data(points)
+                .enter().append("circle")
+                .attr('cx', function (d) {
+                  return x(d.x);
+                })
+                .attr('cy', function (d) {
+                  return y(d.y);
+                })
+                .attr('r', 4)
+                .attr("transform", function (d) {
+                    var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+                    return "translate(" + translate + ")";
+                })
+                .attr('class', 'ellipse-data-background')
+                .style("fill", '#ddd');
+
+            // Plot colored circles
+            var foregroundCircles = svg.selectAll("circle.ellipse-data-foreground")
+                .data(points)
+                .enter().append("circle")
+                .attr('cx', function (d) {
+                  return x(d.x);
+                })
+                .attr('cy', function (d) {
+                  return y(d.y);
+                })
+                .attr('r', 4)
+                .attr("transform", function (d) {
+                    var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+                    return "translate(" + translate + ")";
+                })
+                .attr('class', function (d) {
+                    return 'circle'+d.id+ ' ellipse-data-foreground';
+                })
+                .style("fill", function(p){ return color(p.id); })
+                .style("opacity", 0.5);
+
+            svg.append("g")            // Add the X Axis
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + h + ")")
+                .call(xAxis)
+                .selectAll("text")
+                  .style("text-anchor", "end")
+                  .attr("dx", "-.8em")
+                  .attr("dy", ".15em")
+                  .attr("transform", "rotate(-65)");
+
+            svg.append("g")         // Add the Y Axis
+                .attr("class", "y axis")
+                .call(yAxis);
+          }
+
+    };
 
   plotCtrl.render();
 });
