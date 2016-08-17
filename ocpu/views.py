@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import SuspiciousOperation
 
 from .utils import generate_ellipse_data
 
@@ -20,7 +21,7 @@ def compute(request):
     try:
         parameters = json.loads(request.body.decode('utf-8'))
     except:
-        return JsonResponse({'error': 'Invalid input for ocpu.'})
+        raise SuspiciousOperation('Invalid input for ocpu.')
 
     method_template = '/ocpu/library/andistats/R/{}/json'
 
