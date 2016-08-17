@@ -540,13 +540,17 @@ app.controller('plotController', function ($scope, ocpuService) {
 
       console.log(ellipses);
       var sEllipses = ellipses.filter(function (e) {
-        var keep = false;
+        var keep1 = false,
+            keep2 = false;
         tests.forEach(function (test){
           if(test === e.test1) {
-            keep = true;
+            keep1 = true;
+          }
+          if(test == e.test2) {
+            keep2 = true;
           }
         });
-        return keep;
+        return keep1 && keep2;
       });
 
       console.log(sEllipses);
