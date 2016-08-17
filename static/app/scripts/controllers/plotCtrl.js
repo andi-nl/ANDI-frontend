@@ -19,6 +19,7 @@ app.controller('plotController', function ($scope, ocpuService) {
 
   var patients;
   plotCtrl.normcompDataCsv = '';
+  plotCtrl.patientDataCsv = '';
 
   var color = d3.scale.category10();
 
@@ -70,8 +71,12 @@ app.controller('plotController', function ($scope, ocpuService) {
         $scope.errorMessage = data.data.error;
       } else {
         // set export data
-        var csvData = Papa.unparse(data.data.data, {quotes: false, delimiter: "\t", newline: "\r\n"});
+        var csvExportConfig = {quotes: false, delimiter: "\t", newline: "\r\n"};
+        var csvData = Papa.unparse(data.data.data, csvExportConfig);
         plotCtrl.normcompDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
+
+        csvData = Papa.unparse(data.data.input.patientScores, csvExportConfig);
+        plotCtrl.patientDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
 
         patients = d3.nest()
           .key(function (p) { return p.id; })
