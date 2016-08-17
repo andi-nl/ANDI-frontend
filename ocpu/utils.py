@@ -19,7 +19,7 @@ def generate_ellipse_data(normcomp_data):
     """Generate data for the ellipses plot"""
     csv = os.path.join(settings.BASE_DIR, 'static/app/data/ellipseparams.csv')
     df = pd.read_csv(csv)
-    test_pairs = zip(list(df['test1']), list(df['test2']))
+    test_pairs = [pair for pair in zip(list(df['test1']), list(df['test2']))]
 
     tests = [t['testname'] for t in normcomp_data]
     tests = set(tests)
