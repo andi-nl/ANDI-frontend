@@ -71,7 +71,7 @@ app.controller('plotController', function ($scope, ocpuService) {
         patients = d3.nest()
           .key(function (p) { return p.id; })
           .entries(data.data.data);
-        plotCtrl.plot(data.data.data);
+        plotCtrl.plotLines(data.data.data);
         plotCtrl.plotTables(data.data.data);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
@@ -90,13 +90,13 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
-            plotCtrl.plot(normcomp);
+            plotCtrl.plotLines(normcomp);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
         });
   };
 
-  plotCtrl.plot = function (normcompData) {
+  plotCtrl.plotLines = function (normcompData) {
     var margin = {
       top: 80,
       right: 180,
