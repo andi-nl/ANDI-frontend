@@ -19,7 +19,8 @@ var app = angular.module('andiApp', [
   'ivh.treeview',
   'ui.ace',
   'treeGrid',
-  'ngTableToCsv'
+  'ngTableToCsv',
+  'toastr'
 ]);
 
 app.config(function ($routeProvider) {
