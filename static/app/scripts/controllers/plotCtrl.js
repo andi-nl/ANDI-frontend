@@ -18,6 +18,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   $scope.errorMessage = null;
 
   var patients;
+  plotCtrl.normcompDataCsv = '';
 
   var color = d3.scale.category10();
 
@@ -68,21 +69,32 @@ app.controller('plotController', function ($scope, ocpuService) {
         console.log('error in plotCtrl: '+data.data.error);
         $scope.errorMessage = data.data.error;
       } else {
+        // set export data
+        var csvData = Papa.unparse(data.data.data, {quotes: false, delimiter: "\t", newline: "\r\n"});
+        plotCtrl.normcompDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
+
         patients = d3.nest()
           .key(function (p) { return p.id; })
           .entries(data.data.data);
+
         plotCtrl.plotLines(data.data.data);
         plotCtrl.plotTables(data.data.data);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
     });
-    /*
-    d3.queue()
+
+    /*d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .await(function (error, normcomp, ellipses_points) {
             if (error){ throw error; }
+
+            console.log(normcomp);
+            console.log(Papa.unparse(normcomp, {quotes: false, delimiter: "\t", newline: "\r\n"}));
+
+            var csvData = Papa.unparse(normcomp, {quotes: false, delimiter: "\t", newline: "\r\n"});
+            plotCtrl.normcompDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
 
             patients = d3.nest()
               .key(function (p) { return p.id; })

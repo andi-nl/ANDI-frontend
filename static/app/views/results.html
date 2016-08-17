@@ -7,6 +7,9 @@
   </div>
 
   <uib-tabset active="active">
+    <uib-tab index="3" heading="Export data">
+      <a target="_self" href="{{plotCtrl.normcompDataCsv}}" download="normcompdata.csv">Export normcomp data.</a>
+    </uib-tab>
     <uib-tab index="0" heading="Lines Plot">
       <p>
         <div class="graph" id="lines-graph"></div>
