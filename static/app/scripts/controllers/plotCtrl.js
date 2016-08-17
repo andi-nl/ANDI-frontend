@@ -78,11 +78,11 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     }); */
 
-    d3_queue.queue(2)
+    d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .await(function (error, normcomp, ellipses_points) {
-            if (error) throw error;
+            if (error){ throw error; }
 
             patients = d3.nest()
               .key(function (p) { return p.id; })
@@ -488,10 +488,10 @@ app.controller('plotController', function ($scope, ocpuService) {
         .range([0, size - padding])
         .domain([0, 6]);
 
-    d3_queue.queue(1)
+    d3.queue()
         .defer(d3.csv, "static/app/data/ellipseparams.csv")
         .await(function (error, ellipses) {
-            if (error) throw error;
+            if (error){ throw error; }
             facets(ellipses, points, tests);
         });
 
