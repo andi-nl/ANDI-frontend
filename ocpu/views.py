@@ -5,12 +5,14 @@ import logging
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from .utils import generate_ellipse_data
 
 logger = logging.getLogger(__name__)
 
 
+@login_required
 @csrf_exempt
 def compute(request):
     logger.info('Called compute')
