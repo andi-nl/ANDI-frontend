@@ -23,5 +23,32 @@
         </div>
       </p>
     </uib-tab>
+    <uib-tab index="3" heading="Export data">
+      <div class="tabpanel">
+        <div class="alert alert-warning">
+          Please note that the data are exported as tab separated values.
+          When you open the file in Excel, please uncheck all other separators,
+          otherwise the column names and column values might not line up.
+        </div>
+        <ul>
+          <li ng-show="plotCtrl.normcompDataCsv">
+            <a target="_self" href="{{plotCtrl.normcompDataCsv}}" download="normcompdata.csv">
+              Export normcomp data
+            </a>
+          </li>
+          <li ng-show="plotCtrl.patientDataCsv">
+            <a target="_self" href="{{plotCtrl.patientDataCsv}}" download="patientdata.csv">
+              Export patient data
+            </a>
+          </li>
+          <li ng-hide="plotCtrl.normcompDataCsv">
+            No normcomp data to export
+          </li>
+          <li ng-hide="plotCtrl.patientDataCsv">
+            No patient data to export
+          </li>
+        <ul>
+      </div>
+    </uib-tab>
   </ui-tabset>
 </div>

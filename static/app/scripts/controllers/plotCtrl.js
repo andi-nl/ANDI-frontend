@@ -18,6 +18,8 @@ app.controller('plotController', function ($scope, ocpuService) {
   $scope.errorMessage = null;
 
   var patients;
+  plotCtrl.normcompDataCsv = '';
+  plotCtrl.patientDataCsv = '';
 
   var color = d3.scale.category10();
 
@@ -68,21 +70,37 @@ app.controller('plotController', function ($scope, ocpuService) {
         console.log('error in plotCtrl: '+data.data.error);
         $scope.errorMessage = data.data.error;
       } else {
+        // set export data
+        var csvExportConfig = {quotes: false, delimiter: "\t", newline: "\r\n"};
+        var csvData = Papa.unparse(data.data.data, csvExportConfig);
+        plotCtrl.normcompDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
+
+        var pData = transformPatientScores(data.data.input.patientScores, data.data.tests);
+        csvData = Papa.unparse(pData, csvExportConfig);
+        plotCtrl.patientDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
+
         patients = d3.nest()
           .key(function (p) { return p.id; })
           .entries(data.data.data);
+
         plotCtrl.plotLines(data.data.data);
         plotCtrl.plotTables(data.data.data);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
     });
-    /*
-    d3.queue()
+
+    /*d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .await(function (error, normcomp, ellipses_points) {
             if (error){ throw error; }
+
+            console.log(normcomp);
+            console.log(Papa.unparse(normcomp, {quotes: false, delimiter: "\t", newline: "\r\n"}));
+
+            var csvData = Papa.unparse(normcomp, {quotes: false, delimiter: "\t", newline: "\r\n"});
+            plotCtrl.normcompDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
 
             patients = d3.nest()
               .key(function (p) { return p.id; })
@@ -94,6 +112,31 @@ app.controller('plotController', function ($scope, ocpuService) {
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
         });*/
+
+    function transformPatientScores(patientScores, tests) {
+      var data = [];
+      var rows = ['id', 'age', 'sex', 'education'];
+      rows = rows.concat(tests);
+
+      var columns = [];
+      patientScores.forEach(function (p, i) {
+        columns.push('Patient ' + (i+1));
+        p.test.forEach(function (t){
+          p[t.id] = t.value;
+
+        });
+      });
+
+      rows.forEach(function (row){
+        var rowObj = {'': row};
+        columns.forEach(function (c, i){
+          rowObj[c] = patientScores[i][row];
+        });
+
+        data.push(rowObj);
+      });
+      return data;
+    }
   };
 
   plotCtrl.plotLines = function (normcompData) {
