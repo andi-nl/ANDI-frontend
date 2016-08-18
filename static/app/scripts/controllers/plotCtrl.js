@@ -73,11 +73,11 @@ app.controller('plotController', function ($scope, ocpuService) {
         // set export data
         var csvExportConfig = {quotes: false, delimiter: "\t", newline: "\r\n"};
         var csvData = Papa.unparse(data.data.data, csvExportConfig);
-        plotCtrl.normcompDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
+        plotCtrl.normcompDataCsv = 'data:text/plain;charset=utf-8,' + encodeURI(csvData);
 
         var pData = transformPatientScores(data.data.input.patientScores, data.data.tests);
         csvData = Papa.unparse(pData, csvExportConfig);
-        plotCtrl.patientDataCsv = 'data:text/csv;charset=utf-8,' + encodeURI(csvData);
+        plotCtrl.patientDataCsv = 'data:text/plain;charset=utf-8,' + encodeURI(csvData);
 
         patients = d3.nest()
           .key(function (p) { return p.id; })
