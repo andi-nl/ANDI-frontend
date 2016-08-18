@@ -26,12 +26,13 @@ def compute(request):
     method_template = '/ocpu/library/andistats/R/{}/json'
 
     method = parameters.get('method')
-    myJSON = json.dumps(parameters.get('input'))
+    input_data = parameters.get('input')
+    myJSON = json.dumps(input_data)
 
     if method == 'null' or myJSON == 'null':
         return JsonResponse({'error': 'Invalid input for ocpu.'})
 
-    tests = parameters.get('input').get('patientScores')[0].get('test')
+    tests = input_data.get('patientScores')[0].get('test')
     tests = [t.get('id') for t in tests]
     #myJSON = '{"settings":{"conf":"95","sig":"twoTailed","normative":"2016-01-14","chart":""},"patientScores":[{"id":"e3","age":45,"birthdate":"","testdate":"","sex":"0","education":"3","test":[{"id":"AVLT-total_1_to_5","label":"Total trial 1 to 5","Dataset":"AVLT","SPSS name":"AVLTtotal","highborder":"75.001","highweb":"75","lowborder":"15","lowweb":"0","value":45},{"id":"AVLT-recognition_1_to_5","label":"Recognition 1 to 5","Dataset":"AVLT","SPSS name":"AVLTrecognition","highborder":"30.001","highweb":"30","lowborder":"8","lowweb":"0","value":29}]},{"id":"r4","age":22,"birthdate":"","testdate":"","sex":"1","education":"5","test":[{"id":"AVLT-total_1_to_5","label":"Total trial 1 to 5","Dataset":"AVLT","SPSS name":"AVLTtotal","highborder":"75.001","highweb":"75","lowborder":"15","lowweb":"0","value":70},{"id":"AVLT-recognition_1_to_5","label":"Recognition 1 to 5","Dataset":"AVLT","SPSS name":"AVLTrecognition","highborder":"30.001","highweb":"30","lowborder":"8","lowweb":"0","value":0}]}]}'
     data = {'myJSON': myJSON}
@@ -60,7 +61,8 @@ def compute(request):
 
         return JsonResponse({'data': res,
                              'ellipse': ellipse_data,
-                             'tests': tests})
+                             'tests': tests,
+                             'input': input_data})
     else:
         logger.error(result.text)
         return JsonResponse({'error': result.text})

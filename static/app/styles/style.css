@@ -58,3 +58,7 @@ div.graph svg {
     padding-bottom: 10px;
     padding-left: 40px;
 }
+
+.tabpanel {
+  padding: 10px;
+}
