@@ -5,12 +5,12 @@ angular
 dataEntryController.$inject = [
   '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
   'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr',
-  'DATEFORMAT'
+  'DATEFORMAT', 'toastr'
 ];
 
 function dataEntryController($rootScope, $scope, $location, $timeout,
   $uibModal, $q, patientDataservice, testTableService,
-  $window, ivhTreeviewMgr, DATEFORMAT) {
+  $window, ivhTreeviewMgr, DATEFORMAT, toastr) {
   var dataEntry = this;
 
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
@@ -204,10 +204,12 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
                 if ($rootScope.nodeArr.indexOf(data[0]) < 0) {
                   $rootScope.nodeArr.push(data[0]);
                 };
+                toastr.success('Data uploaded successfully.')
               }
               else {
                 // FIXIT: use toastr instead and improve the message.
-                $scope.message = 'WARNING: Please upload only those data files that have been downloaded and filled from this website !';
+                toastr.error('Please upload only those data files that have been downloaded and filled from this website !',
+                             'Data upload failed');
               }
             }
           }
@@ -264,7 +266,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
             }
           });
           // FIXIT: use toastr for communicating status
-          alert($scope.message);
+          //alert($scope.message);
         }, 100);
         $timeout(function () {
           $('#id1').trigger('change');
