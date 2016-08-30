@@ -73,7 +73,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
       event.preventDefault();
     }
     else {
-      alert('Data for atleast one patient needs to be filled in !');
+      alert('Data for at least one patient needs to be filled in !');
       event.preventDefault();
     }
   };
