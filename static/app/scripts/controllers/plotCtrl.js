@@ -61,7 +61,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   };
 
   plotCtrl.render = function () {
-    /*var patientObj = $scope.$parent.submitData;
+    var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
       $scope.errorMessage = null;
@@ -88,9 +88,9 @@ app.controller('plotController', function ($scope, ocpuService) {
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
-    });*/
+    });
 
-    d3.queue()
+    /*d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .await(function (error, normcomp, ellipses_points) {
@@ -111,7 +111,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             plotCtrl.plotLines(normcomp);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
-        });
+        });*/
 
     function transformPatientScores(patientScores, tests) {
       var data = [];
