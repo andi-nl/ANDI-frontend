@@ -392,7 +392,7 @@ app.controller('plotController', function ($scope, ocpuService) {
       .attr('text-anchor', 'middle')
       .attr('transform', 'translate(-25,'+(height/2)+')rotate(-90)')
       .attr('class', 'axis axis-label')
-      .text('Score');
+      .text('Test statistic');
 
     function position(d) {
       var v = dragging[d];
