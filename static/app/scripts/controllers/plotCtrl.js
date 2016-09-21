@@ -141,10 +141,10 @@ app.controller('plotController', function ($scope, ocpuService) {
 
   plotCtrl.plotLines = function (normcompData) {
     var margin = {
-      top: 80,
+      top: 50,
       right: 180,
-      bottom: 80,
-      left: 80
+      bottom: 20,
+      left: 50
     };
     var width = 700 - margin.left - margin.right;
     var height = 500 - margin.top - margin.bottom;
@@ -380,10 +380,19 @@ app.controller('plotController', function ($scope, ocpuService) {
         });
 
     // add visible, undragable y axis
-    linesGraph.append('g')
+    // This axis only has integers as labels, because otherwise the y axis label
+    // placement is suboptimal.
+    yAxis.tickFormat(d3.format('d'));
+    var yaxis = linesGraph.append('g')
       .attr('class', 'axis')
-      //.attr('transform', 'translate(10,0)')
       .call(yAxis);
+
+    // add y axis label
+    yaxis.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('transform', 'translate(-25,'+(height/2)+')rotate(-90)')
+      .attr('class', 'axis axis-label')
+      .text('Test statistic');
 
     function position(d) {
       var v = dragging[d];
