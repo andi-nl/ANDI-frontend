@@ -216,6 +216,47 @@ app.controller('plotController', function ($scope, ocpuService) {
     // legend
     add_legend(linesGraph, patients, width + margin.right / 2);
 
+    // Add margin areas
+    // d3 area example: http://www.mattlayman.com/2015/d3js-area-chart.html
+    var upperMarginArea = d3.svg.area()
+      .x(function (d) {
+        return xAxis(d);
+      })
+      .y0(function (d) {
+        return y[d](0.0)
+      })
+      .y1(function (d) {
+        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        return y[d](dataPoint.outeredge);
+      });
+
+    var upperMargin = linesGraph.append('path')
+        .attr('class', 'margin-area')
+        .datum(tests)
+        .attr('d', upperMarginArea);
+
+    var lowerMarginArea = d3.svg.area()
+      .x(function (d) {
+        return xAxis(d);
+      })
+      .y0(function (d) {
+        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        return y[d](dataPoint.inneredge);
+      })
+      .y1(function (d) {
+        return y[d](0.0);
+      });
+
+      var lowerMargin = linesGraph.append('path')
+          .attr('class', 'margin-area')
+          .datum(tests)
+          .attr('d', lowerMarginArea);
+
+    // add mean line
+    linesGraph.append('path')
+        .attr('class', 'mean-line')
+        .attr('d', pathMean);
+
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
         .attr('class', 'background-lines')
@@ -287,47 +328,6 @@ app.controller('plotController', function ($scope, ocpuService) {
             .duration(500)
             .style('opacity', 0);
         });
-
-    // Add margin areas
-    // d3 area example: http://www.mattlayman.com/2015/d3js-area-chart.html
-    var upperMarginArea = d3.svg.area()
-      .x(function (d) {
-        return xAxis(d);
-      })
-      .y0(function (d) {
-        return y[d](0.0)
-      })
-      .y1(function (d) {
-        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
-        return y[d](dataPoint.outeredge);
-      });
-
-    var upperMargin = linesGraph.append('path')
-        .attr('class', 'margin-area')
-        .datum(tests)
-        .attr('d', upperMarginArea);
-
-    var lowerMarginArea = d3.svg.area()
-      .x(function (d) {
-        return xAxis(d);
-      })
-      .y0(function (d) {
-        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
-        return y[d](dataPoint.inneredge);
-      })
-      .y1(function (d) {
-        return y[d](0.0);
-      });
-
-      var lowerMargin = linesGraph.append('path')
-          .attr('class', 'margin-area')
-          .datum(tests)
-          .attr('d', lowerMarginArea);
-
-    // add mean line
-    linesGraph.append('path')
-        .attr('class', 'mean-line')
-        .attr('d', pathMean);
 
     var g = linesGraph.selectAll(".dimension")
         .data(tests)
