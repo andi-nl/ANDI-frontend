@@ -303,11 +303,9 @@ app.controller('plotController', function ($scope, ocpuService) {
       });
 
     var upperMargin = linesGraph.append('path')
-        .attr('class', 'upperMargin')
+        .attr('class', 'margin-area')
         .datum(tests)
-        .attr('d', upperMarginArea)
-        .attr('stroke', 'grey')
-        .attr('fill', 'grey');
+        .attr('d', upperMarginArea);
 
     var lowerMarginArea = d3.svg.area()
       .x(function (d) {
@@ -322,11 +320,9 @@ app.controller('plotController', function ($scope, ocpuService) {
       });
 
       var lowerMargin = linesGraph.append('path')
-          .attr('class', 'lowerMargin')
+          .attr('class', 'margin-area')
           .datum(tests)
-          .attr('d', lowerMarginArea)
-          .attr('stroke', 'grey')
-          .attr('fill', 'grey');
+          .attr('d', lowerMarginArea);
 
     // add mean line
     linesGraph.append('path')
