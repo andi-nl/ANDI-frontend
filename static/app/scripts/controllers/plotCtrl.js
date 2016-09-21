@@ -211,7 +211,6 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     var backgroundLines, foregroundLines;
     var backgroundCircles, foreGroundCircles;
-    var marginLines, upperMargin, lowerMargin;
     var line = d3.svg.line();
 
     // legend
@@ -310,21 +309,27 @@ app.controller('plotController', function ($scope, ocpuService) {
         .attr('stroke', 'grey')
         .attr('fill', 'grey');
 
-    // add upper and lower margins
-    marginLines = linesGraph.append('g')
-        .attr('class', 'margin-lines')
-        .selectAll('path')
-        .data([patients[0]])
-      .enter();
-    //upperMargin = marginLines.append('path')
-    //    .attr('class', 'margin-line')
-    //    .attr('d', pathUpperMargin);
-    lowerMargin = marginLines.append('path')
-        .attr('class', 'margin-line')
-        .attr('d', pathLowerMargin);
+    var lowerMarginArea = d3.svg.area()
+      .x(function (d) {
+        return xAxis(d);
+      })
+      .y0(function (d) {
+        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        return y[d](dataPoint.inneredge);
+      })
+      .y1(function (d) {
+        return y[d](0.0);
+      });
+
+      var lowerMargin = linesGraph.append('path')
+          .attr('class', 'lowerMargin')
+          .datum(tests)
+          .attr('d', lowerMarginArea)
+          .attr('stroke', 'grey')
+          .attr('fill', 'grey');
 
     // add mean line
-    marginLines.append('path')
+    linesGraph.append('path')
         .attr('class', 'mean-line')
         .attr('d', pathMean);
 
@@ -353,7 +358,7 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             // update margin lines
             upperMargin.attr('d', upperMarginArea);
-            lowerMargin.attr('d', pathLowerMargin);
+            lowerMargin.attr('d', lowerMarginArea);
 
             g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
           })
@@ -363,7 +368,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             transition(foregroundLines).attr("d", path);
             transition(foreGroundCircles).attr('cx', circlex);
             upperMargin.attr('d', upperMarginArea);
-            lowerMargin.attr('d', pathLowerMargin);
+            lowerMargin.attr('d', lowerMarginArea);
             backgroundLines
                 .attr("d", path)
               .transition()
@@ -424,24 +429,6 @@ app.controller('plotController', function ($scope, ocpuService) {
         // p = plotname from patient data (one of the data points from the values array)
         var dataPoint = _.filter(d.values, ['plotname', p])[0];
         return [position(p), y[p](dataPoint.univariateT)];
-      }));
-    }
-
-    // Returns the path for the upper margin
-    function pathUpperMargin(d) {
-      return line(tests.map(function(p) {
-        // p = plotname from patient data (one of the data points from the values array)
-        var dataPoint = _.filter(d.values, ['plotname', p])[0];
-        return [position(p), y[p](dataPoint.outeredge)];
-      }));
-    }
-
-    // Returns the path for the lower margin
-    function pathLowerMargin(d) {
-      return line(tests.map(function(p) {
-        // p = plotname from patient data (one of the data points from the values array)
-        var dataPoint = _.filter(d.values, ['plotname', p])[0];
-        return [position(p), y[p](dataPoint.inneredge)];
       }));
     }
 
