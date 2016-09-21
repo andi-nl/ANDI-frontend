@@ -289,21 +289,23 @@ app.controller('plotController', function ($scope, ocpuService) {
             .style('opacity', 0);
         });
 
-    console.log([patients[0]]);
+    // Add margin areas
     // d3 area example: http://www.mattlayman.com/2015/d3js-area-chart.html
     var upperMarginArea = d3.svg.area()
       .x(function (d) {
-        return xAxis(d.plotname);
+        return xAxis(d);
       })
       .y0(function (d) {
-        return yScale(0.0)
+        return y[d](0.0)
       })
       .y1(function (d) {
-        return yScale(d.outeredge+Math.random());
+        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        return y[d](dataPoint.outeredge);
       });
-    linesGraph.append('path')
+
+    var upperMargin = linesGraph.append('path')
         .attr('class', 'upperMargin')
-        .datum(patients[0].values)
+        .datum(tests)
         .attr('d', upperMarginArea)
         .attr('stroke', 'grey')
         .attr('fill', 'grey');
@@ -314,9 +316,9 @@ app.controller('plotController', function ($scope, ocpuService) {
         .selectAll('path')
         .data([patients[0]])
       .enter();
-    upperMargin = marginLines.append('path')
-        .attr('class', 'margin-line')
-        .attr('d', pathUpperMargin);
+    //upperMargin = marginLines.append('path')
+    //    .attr('class', 'margin-line')
+    //    .attr('d', pathUpperMargin);
     lowerMargin = marginLines.append('path')
         .attr('class', 'margin-line')
         .attr('d', pathLowerMargin);
@@ -350,7 +352,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             foreGroundCircles.attr('cx', circlex);
 
             // update margin lines
-            upperMargin.attr('d', pathUpperMargin);
+            upperMargin.attr('d', upperMarginArea);
             lowerMargin.attr('d', pathLowerMargin);
 
             g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
@@ -360,7 +362,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
             transition(foregroundLines).attr("d", path);
             transition(foreGroundCircles).attr('cx', circlex);
-            upperMargin.attr('d', pathUpperMargin);
+            upperMargin.attr('d', upperMarginArea);
             lowerMargin.attr('d', pathLowerMargin);
             backgroundLines
                 .attr("d", path)
