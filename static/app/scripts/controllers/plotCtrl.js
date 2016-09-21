@@ -407,6 +407,35 @@ app.controller('plotController', function ($scope, ocpuService) {
       //.attr('transform', 'translate(10,0)')
       .call(yAxis);
 
+    var yaxis = linesGraph.append('g')
+      .attr('class', 'axis')
+      .call(yAxis);
+
+    console.log('value '+yScale(0.0));
+    console.log(tests[tests.length-1]);
+    console.log('value2 '+xAxis(tests[tests.length-1]));
+    console.log(patients);
+
+    // mean/normal labels on y axis
+    var axisPadding = 5;
+    yaxis.append('text')
+        .attr('dx', xAxis(tests[tests.length-1]) + axisPadding)
+        .attr('dy', yScale(0.0))
+        .attr('class', 'axis axis-label')
+        .text('mean');
+
+    yaxis.append('text')
+        .attr('dx', xAxis(tests[tests.length-1]) + axisPadding)
+        .attr('dy', yScale(patients[0].values[0].outeredge/2))
+        .attr('class', 'axis axis-label')
+        .text('normal');
+
+    yaxis.append('text')
+        .attr('dx', xAxis(tests[tests.length-1]) + axisPadding)
+        .attr('dy', yScale(patients[0].values[0].inneredge/2))
+        .attr('class', 'axis axis-label')
+        .text('normal');
+
     function position(d) {
       var v = dragging[d];
       return v == null ? xAxis(d) : v;
