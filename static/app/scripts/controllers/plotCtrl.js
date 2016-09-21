@@ -61,7 +61,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   };
 
   plotCtrl.render = function () {
-    var patientObj = $scope.$parent.submitData;
+    /*var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
       $scope.errorMessage = null;
@@ -88,9 +88,9 @@ app.controller('plotController', function ($scope, ocpuService) {
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
-    });
+    });*/
 
-    /*d3.queue()
+    d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .await(function (error, normcomp, ellipses_points) {
@@ -111,7 +111,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             plotCtrl.plotLines(normcomp);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
-        });*/
+        });
 
     function transformPatientScores(patientScores, tests) {
       var data = [];
@@ -288,6 +288,25 @@ app.controller('plotController', function ($scope, ocpuService) {
             .duration(500)
             .style('opacity', 0);
         });
+
+    console.log([patients[0]]);
+    // d3 area example: http://www.mattlayman.com/2015/d3js-area-chart.html
+    var upperMarginArea = d3.svg.area()
+      .x(function (d) {
+        return xAxis(d.plotname);
+      })
+      .y0(function (d) {
+        return yScale(0.0)
+      })
+      .y1(function (d) {
+        return yScale(d.outeredge+Math.random());
+      });
+    linesGraph.append('path')
+        .attr('class', 'upperMargin')
+        .datum(patients[0].values)
+        .attr('d', upperMarginArea)
+        .attr('stroke', 'grey')
+        .attr('fill', 'grey');
 
     // add upper and lower margins
     marginLines = linesGraph.append('g')
