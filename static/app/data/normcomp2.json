@@ -8,11 +8,11 @@
   "univariatedf": 5075,
   "univariateT": -1.76,
   "multivariatedf": "3, 3778",
-  "inneredge": -1.9604,
+  "inneredge": -1.5,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Total trial 1 to 5 ",
   "id": "22",
   "univariatedifferences": -1.3565,
-  "outeredge": 1.9604,
+  "outeredge": 1.5,
   "shortestname": "AVLT total 1 to 5",
   "multivariatep": "0.000"
 }, {
@@ -59,11 +59,11 @@
   "univariatedf": 5075,
   "univariateT": -4.51,
   "multivariatedf": "3, 3778",
-  "inneredge": -1.9604,
+  "inneredge": -1.5,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Total trial 1 to 5 ",
   "id": "bla",
   "univariatedifferences": -3.4741,
-  "outeredge": 1.9604,
+  "outeredge": 1.5,
   "shortestname": "AVLT total 1 to 5",
   "multivariatep": "0.000"
 }, {

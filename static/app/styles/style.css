@@ -21,9 +21,9 @@
     stroke-width: 2;
     opacity: 0.5;
 }
-.margin-line {
+.margin-area {
   stroke: lightgrey;
-  stroke-width: 1;
+  fill: lightgrey;
   shape-rendering: crispEdges;
 }
 .mean-line {

@@ -211,11 +211,51 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     var backgroundLines, foregroundLines;
     var backgroundCircles, foreGroundCircles;
-    var marginLines, upperMargin, lowerMargin;
     var line = d3.svg.line();
 
     // legend
     add_legend(linesGraph, patients, width + margin.right / 2);
+
+    // Add margin areas
+    // d3 area example: http://www.mattlayman.com/2015/d3js-area-chart.html
+    var upperMarginArea = d3.svg.area()
+      .x(function (d) {
+        return xAxis(d);
+      })
+      .y0(function (d) {
+        return y[d](0.0)
+      })
+      .y1(function (d) {
+        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        return y[d](dataPoint.outeredge);
+      });
+
+    var upperMargin = linesGraph.append('path')
+        .attr('class', 'margin-area')
+        .datum(tests)
+        .attr('d', upperMarginArea);
+
+    var lowerMarginArea = d3.svg.area()
+      .x(function (d) {
+        return xAxis(d);
+      })
+      .y0(function (d) {
+        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        return y[d](dataPoint.inneredge);
+      })
+      .y1(function (d) {
+        return y[d](0.0);
+      });
+
+      var lowerMargin = linesGraph.append('path')
+          .attr('class', 'margin-area')
+          .datum(tests)
+          .attr('d', lowerMarginArea);
+
+    // add mean line
+    linesGraph.append('path')
+        .attr('class', 'mean-line')
+        .attr('d', pathMean);
 
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
@@ -289,24 +329,6 @@ app.controller('plotController', function ($scope, ocpuService) {
             .style('opacity', 0);
         });
 
-    // add upper and lower margins
-    marginLines = linesGraph.append('g')
-        .attr('class', 'margin-lines')
-        .selectAll('path')
-        .data([patients[0]])
-      .enter();
-    upperMargin = marginLines.append('path')
-        .attr('class', 'margin-line')
-        .attr('d', pathUpperMargin);
-    lowerMargin = marginLines.append('path')
-        .attr('class', 'margin-line')
-        .attr('d', pathLowerMargin);
-
-    // add mean line
-    marginLines.append('path')
-        .attr('class', 'mean-line')
-        .attr('d', pathMean);
-
     var g = linesGraph.selectAll(".dimension")
         .data(tests)
       .enter().append("g")
@@ -331,8 +353,8 @@ app.controller('plotController', function ($scope, ocpuService) {
             foreGroundCircles.attr('cx', circlex);
 
             // update margin lines
-            upperMargin.attr('d', pathUpperMargin);
-            lowerMargin.attr('d', pathLowerMargin);
+            upperMargin.attr('d', upperMarginArea);
+            lowerMargin.attr('d', lowerMarginArea);
 
             g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
           })
@@ -341,8 +363,8 @@ app.controller('plotController', function ($scope, ocpuService) {
             transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
             transition(foregroundLines).attr("d", path);
             transition(foreGroundCircles).attr('cx', circlex);
-            upperMargin.attr('d', pathUpperMargin);
-            lowerMargin.attr('d', pathLowerMargin);
+            upperMargin.attr('d', upperMarginArea);
+            lowerMargin.attr('d', lowerMarginArea);
             backgroundLines
                 .attr("d", path)
               .transition()
@@ -387,6 +409,26 @@ app.controller('plotController', function ($scope, ocpuService) {
       .attr('class', 'axis')
       .call(yAxis);
 
+    // mean/normal labels on y axis
+    var axisPadding = 5;
+    yaxis.append('text')
+        .attr('dx', xAxis(tests[tests.length-1]) + axisPadding)
+        .attr('dy', yScale(0.0))
+        .attr('class', 'axis axis-label')
+        .text('mean');
+
+    yaxis.append('text')
+        .attr('dx', xAxis(tests[tests.length-1]) + axisPadding)
+        .attr('dy', yScale(patients[0].values[0].outeredge/2))
+        .attr('class', 'axis axis-label')
+        .text('normal');
+
+    yaxis.append('text')
+        .attr('dx', xAxis(tests[tests.length-1]) + axisPadding)
+        .attr('dy', yScale(patients[0].values[0].inneredge/2))
+        .attr('class', 'axis axis-label')
+        .text('normal');
+
     // add y axis label
     yaxis.append('text')
       .attr('text-anchor', 'middle')
@@ -412,24 +454,6 @@ app.controller('plotController', function ($scope, ocpuService) {
         // p = plotname from patient data (one of the data points from the values array)
         var dataPoint = _.filter(d.values, ['plotname', p])[0];
         return [position(p), y[p](dataPoint.univariateT)];
-      }));
-    }
-
-    // Returns the path for the upper margin
-    function pathUpperMargin(d) {
-      return line(tests.map(function(p) {
-        // p = plotname from patient data (one of the data points from the values array)
-        var dataPoint = _.filter(d.values, ['plotname', p])[0];
-        return [position(p), y[p](dataPoint.outeredge)];
-      }));
-    }
-
-    // Returns the path for the lower margin
-    function pathLowerMargin(d) {
-      return line(tests.map(function(p) {
-        // p = plotname from patient data (one of the data points from the values array)
-        var dataPoint = _.filter(d.values, ['plotname', p])[0];
-        return [position(p), y[p](dataPoint.inneredge)];
       }));
     }
 
