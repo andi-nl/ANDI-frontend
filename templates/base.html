@@ -34,8 +34,7 @@
     <![endif]-->
 
   <!-- Add your site or application content here -->
-  <div class="header">
-    <div class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
@@ -44,20 +43,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a href="http://www.andi.nl/home/">
-            <img src="{% static 'app/images/logonobackcolour.png' %}" alt="ANDI logo" style="width:500px;">
+          <a class="navbar-brand" href="http://www.andi.nl/home/">
+            <img src="{% static 'app/images/andilogo-smaller.png' %}" alt="ANDI logo" style="height:35px;">
           </a>
-          {% if user.is_authenticated %}
-            <a href="{% url 'userena_profile_detail' username=user.username %}">{{ user.username }}</a> is signed in | <a href="{% url 'userena_signout' %}">sign out</a>
-          {% else %}
-            <a href="{% url 'userena_signin' %}">sign in</a> | <a href="{% url 'userena_signup' %}">sign up</a>
-          {% endif %}
         </div>
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
+          <ul class="nav navbar-nav">
+              <li class="active"><a href="/">Test selection</a></li>
+          </ul>
+          <p class="navbar-text navbar-right">
+            {% if user.is_authenticated %}
+              <a href="{% url 'userena_profile_detail' username=user.username %}">{{ user.username }}</a> is signed in | <a href="{% url 'userena_signout' %}">sign out</a>
+            {% else %}
+              <a href="{% url 'userena_signin' %}">sign in</a> | <a href="{% url 'userena_signup' %}">sign up</a>
+            {% endif %}
+          </p>
         </div>
       </div>
-    </div>
-  </div>
+    </nav>
+
   <div class="container" ng-app="andiApp">
     {% if messages %}
       {% for msg in messages %}
@@ -71,9 +75,19 @@
   </div>
   <div class="footer">
     <div class="container">
-      <a href="http://www.esciencecenter.nl">
-        <img src="{% static 'app/images/logo_netherlands_escience_center.jpg' %}" alt="eScience logo" style="height:15px;">
-      </a>
+      <hr>
+      <div class="row">
+        <div class="col-md-8 vcenter">
+          <a href="http://www.esciencecenter.nl">
+            <img src="{% static 'app/images/logonobackcolour.png' %}" alt="ANDI logo" style="width:550px">
+          </a>
+        </div>
+        <div class="col-md-4 pull-right vcenter">
+          <a href="http://www.esciencecenter.nl">
+            <img src="{% static 'app/images/logo_netherlands_escience_center.jpg' %}" alt="eScience logo">
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
