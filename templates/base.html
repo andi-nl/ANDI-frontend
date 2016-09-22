@@ -48,7 +48,7 @@
           </a>
         </div>
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
-          <a href="/#/test-selection" class="btn btn-default navbar-btn">Test selection</a>
+          <a href="/#/test-selection" class="btn btn-default navbar-btn">Restart</a>
           <p class="navbar-text navbar-right">
             {% if user.is_authenticated %}
               <a href="{% url 'userena_profile_detail' username=user.username %}">{{ user.username }}</a> is signed in | <a href="{% url 'userena_signout' %}">sign out</a>
