@@ -257,11 +257,6 @@ app.controller('plotController', function ($scope, ocpuService) {
           .datum(tests)
           .attr('d', lowerMarginArea);
 
-    // add mean line
-    linesGraph.append('path')
-        .attr('class', 'mean-line')
-        .attr('d', pathMean);
-
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
         .attr('class', 'background-lines')
@@ -405,6 +400,11 @@ app.controller('plotController', function ($scope, ocpuService) {
           .transition()
             .style('font-size', 11);
         });
+
+    // add mean line
+    linesGraph.append('path')
+        .attr('class', 'mean-line')
+        .attr('d', pathMean);
 
     // add visible, undragable y axis
     // This axis only has integers as labels, because otherwise the y axis label
