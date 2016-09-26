@@ -66,3 +66,10 @@ div.graph svg {
 .navbar {
   margin-bottom: 15px;
 }
+
+.center {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 15px;
+}
