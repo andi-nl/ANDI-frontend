@@ -587,7 +587,7 @@ app.controller('plotController', function ($scope, ocpuService) {
           .attr("width", width)
           .attr("height", height)
           .append('g')
-          .attr("transform", "translate(" + 4 * size + "," + padding / 2 + ")");
+          .attr("transform", "translate(" + size * 6 + "," + padding * 10 + ")");
 
       var h = (tests.length + 0.5) * size;
 
