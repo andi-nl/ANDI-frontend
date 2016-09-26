@@ -63,12 +63,13 @@ div.graph svg {
   padding: 10px;
 }
 
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
-
 .navbar {
   margin-bottom: 15px;
+}
+
+.center {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 15px;
 }
