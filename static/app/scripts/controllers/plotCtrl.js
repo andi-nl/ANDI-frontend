@@ -141,13 +141,13 @@ app.controller('plotController', function ($scope, ocpuService) {
 
   plotCtrl.plotLines = function (normcompData) {
     var margin = {
-      top: 50,
+      top: 100,
       right: 180,
       bottom: 20,
       left: 50
     };
     var width = 700 - margin.left - margin.right;
-    var height = 500 - margin.top - margin.bottom;
+    var height = 550 - margin.top - margin.bottom;
 
     normcompData = normcompData.map(function (p) {
       p.id = String(p.id);
@@ -191,8 +191,9 @@ app.controller('plotController', function ($scope, ocpuService) {
     // define plot
     var linesGraph = d3.select('#lines-graph')
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
+      .attr('width', width + margin.left + margin.right + 'px')
+      .attr('height', height + margin.top + margin.bottom + 'px')
+      .append('g')
       .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
 
