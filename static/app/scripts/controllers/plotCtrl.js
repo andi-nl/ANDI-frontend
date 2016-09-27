@@ -108,7 +108,9 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
-            plotCtrl.plotLines(normcomp);
+            var input = {'settings': {'sig': 'oneTailedRight'}};
+
+            plotCtrl.plotLines(normcomp, input);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
         });
@@ -139,7 +141,7 @@ app.controller('plotController', function ($scope, ocpuService) {
     }
   };
 
-  plotCtrl.plotLines = function (normcompData) {
+  plotCtrl.plotLines = function (normcompData, input) {
     var margin = {
       top: 50,
       right: 180,
@@ -256,6 +258,28 @@ app.controller('plotController', function ($scope, ocpuService) {
     linesGraph.append('path')
         .attr('class', 'mean-line')
         .attr('d', pathMean);
+
+    // add margin lines for one tailed boundaries (if required)
+    console.log('input');
+    console.log(input);
+
+    var lowerOnetailedMargin, upperOnetailedMargin;
+    var marginLines = linesGraph.append('g')
+        .attr('class', 'margin-lines')
+        .selectAll('path')
+        .data([patients[0]])
+      .enter();
+
+    if(drawInneredgeOnetailed(input)) {
+      lowerOnetailedMargin = marginLines.append('path')
+          .attr('class', 'margin-line')
+          .style('stroke-dasharray', ('5, 3'))
+          .attr('d', pathLowerMargin);
+
+    } else if(input.settings.sig === 'oneTailedLeft') {
+      console.log(input.settings.sig);
+
+    }
 
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
@@ -464,8 +488,24 @@ app.controller('plotController', function ($scope, ocpuService) {
       }));
     }
 
+    // Returns the path for the lower one tailed margin
+    function pathLowerMargin(d) {
+      return line(tests.map(function(p) {
+        // p = plotname from patient data (one of the data points from the values array)
+        var dataPoint = _.filter(d.values, ['plotname', p])[0];
+        return [position(p), y[p](dataPoint.inneredgeOnetailed)];
+      }));
+    }
+
     function circlex(d){
       return position(d.plotname);
+    }
+
+    function drawInneredgeOnetailed(input){
+      if(input.settings.sig === 'oneTailedRight'){
+        return true;
+      }
+      return false;
     }
   };
 
