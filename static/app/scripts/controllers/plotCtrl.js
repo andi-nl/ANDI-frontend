@@ -108,7 +108,7 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
-            var input = {'settings': {'sig': 'oneTailedRight'}};
+            var input = {'settings': {'sig': 'oneTailedLeft'}};
 
             plotCtrl.plotLines(normcomp, input);
             plotCtrl.plotTables(normcomp);
@@ -275,10 +275,11 @@ app.controller('plotController', function ($scope, ocpuService) {
           .attr('class', 'margin-line')
           .style('stroke-dasharray', ('5, 3'))
           .attr('d', pathLowerMargin);
-
-    } else if(input.settings.sig === 'oneTailedLeft') {
-      console.log(input.settings.sig);
-
+    } else if(drawOuteredgeOnetailed(input)) {
+      upperOnetailedMargin = marginLines.append('path')
+          .attr('class', 'margin-line')
+          .style('stroke-dasharray', ('5, 3'))
+          .attr('d', pathUpperMargin);
     }
 
     // add grey lines for context
@@ -382,6 +383,9 @@ app.controller('plotController', function ($scope, ocpuService) {
             if(drawInneredgeOnetailed(input)) {
               lowerOnetailedMargin.attr('d', pathLowerMargin);
             }
+            if(drawOuteredgeOnetailed(input)) {
+              upperOnetailedMargin.attr('d', pathUpperMargin);
+            }
 
             g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
           })
@@ -395,6 +399,10 @@ app.controller('plotController', function ($scope, ocpuService) {
             if(drawInneredgeOnetailed(input)) {
               lowerOnetailedMargin.attr('d', pathLowerMargin);
             }
+            if(drawOuteredgeOnetailed(input)) {
+              upperOnetailedMargin.attr('d', pathUpperMargin);
+            }
+
             backgroundLines
                 .attr("d", path)
               .transition()
@@ -503,12 +511,28 @@ app.controller('plotController', function ($scope, ocpuService) {
       }));
     }
 
+    // Returns the path for the upper one tailed margin
+    function pathUpperMargin(d) {
+      return line(tests.map(function(p) {
+        // p = plotname from patient data (one of the data points from the values array)
+        var dataPoint = _.filter(d.values, ['plotname', p])[0];
+        return [position(p), y[p](dataPoint.outeredgeOnetailed)];
+      }));
+    }
+
     function circlex(d){
       return position(d.plotname);
     }
 
     function drawInneredgeOnetailed(input){
       if(input.settings.sig === 'oneTailedRight'){
+        return true;
+      }
+      return false;
+    }
+
+    function drawOuteredgeOnetailed(input){
+      if(input.settings.sig === 'oneTailedLeft'){
         return true;
       }
       return false;
