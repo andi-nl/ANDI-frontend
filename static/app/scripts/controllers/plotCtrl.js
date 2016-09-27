@@ -260,6 +260,91 @@ app.controller('plotController', function ($scope, ocpuService) {
           .datum(tests)
           .attr('d', lowerMarginArea);
 
+      var g = linesGraph.selectAll(".dimension")
+          .data(tests)
+        .enter().append("g")
+          .attr("class", "dimension")
+          .attr("transform", function(d) { return "translate(" + xAxis(d) + ")"; })
+          .call(d3.behavior.drag()
+            .origin(function(d) { return {x: xAxis(d)}; })
+            .on("dragstart", function(d) {
+              dragging[d] = xAxis(d);
+              backgroundLines.attr("visibility", "hidden");
+              backgroundCircles.attr("visibility", "hidden");
+            })
+            .on("drag", function(d) {
+              dragging[d] = Math.min(width, Math.max(0, d3.event.x));
+
+              // update lines
+              foregroundLines.attr("d", path);
+              tests.sort(function(a, b) { return position(a) - position(b); });
+              xAxis.domain(tests);
+
+              // update circles
+              foreGroundCircles.attr('cx', circlex);
+
+              // update margin lines
+              upperMargin.attr('d', upperMarginArea);
+              lowerMargin.attr('d', lowerMarginArea);
+              if(drawInneredgeOnetailed(input)) {
+                lowerOnetailedMargin.attr('d', pathLowerMargin);
+              }
+              if(drawOuteredgeOnetailed(input)) {
+                upperOnetailedMargin.attr('d', pathUpperMargin);
+              }
+
+              g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
+            })
+            .on("dragend", function(d) {
+              delete dragging[d];
+              transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
+              transition(foregroundLines).attr("d", path);
+              transition(foreGroundCircles).attr('cx', circlex);
+              upperMargin.attr('d', upperMarginArea);
+              lowerMargin.attr('d', lowerMarginArea);
+              if(drawInneredgeOnetailed(input)) {
+                lowerOnetailedMargin.attr('d', pathLowerMargin);
+              }
+              if(drawOuteredgeOnetailed(input)) {
+                upperOnetailedMargin.attr('d', pathUpperMargin);
+              }
+
+              backgroundLines
+                  .attr("d", path)
+                .transition()
+                  .delay(500)
+                  .duration(0)
+                  .attr("visibility", null);
+              backgroundCircles
+                  .attr('cx', function (d) {
+                    return position(d.plotname);
+                  })
+                .transition()
+                  .delay(500)
+                  .duration(0)
+                  .attr("visibility", null);
+            }));
+
+      // add dragable y axis for each test
+      g.append('g')
+          .attr('class', 'axis')
+          .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
+        .append('text')
+          .style("text-anchor", "middle")
+          .text(function(d) { return d; })
+          .attr('class', 'axis-label')
+          .attr('transform', 'rotate(45)')
+          .on("mouseover", function () {
+            d3.select(this)
+            .transition()
+              .style('font-size', 16);
+          })
+          .on("mouseout", function () {
+            d3.select(this)
+            .transition()
+              .style('font-size', 11);
+          });
+
     // add mean line
     linesGraph.append('path')
         .attr('class', 'mean-line')
@@ -355,91 +440,6 @@ app.controller('plotController', function ($scope, ocpuService) {
           div.transition()
             .duration(500)
             .style('opacity', 0);
-        });
-
-    var g = linesGraph.selectAll(".dimension")
-        .data(tests)
-      .enter().append("g")
-        .attr("class", "dimension")
-        .attr("transform", function(d) { return "translate(" + xAxis(d) + ")"; })
-        .call(d3.behavior.drag()
-          .origin(function(d) { return {x: xAxis(d)}; })
-          .on("dragstart", function(d) {
-            dragging[d] = xAxis(d);
-            backgroundLines.attr("visibility", "hidden");
-            backgroundCircles.attr("visibility", "hidden");
-          })
-          .on("drag", function(d) {
-            dragging[d] = Math.min(width, Math.max(0, d3.event.x));
-
-            // update lines
-            foregroundLines.attr("d", path);
-            tests.sort(function(a, b) { return position(a) - position(b); });
-            xAxis.domain(tests);
-
-            // update circles
-            foreGroundCircles.attr('cx', circlex);
-
-            // update margin lines
-            upperMargin.attr('d', upperMarginArea);
-            lowerMargin.attr('d', lowerMarginArea);
-            if(drawInneredgeOnetailed(input)) {
-              lowerOnetailedMargin.attr('d', pathLowerMargin);
-            }
-            if(drawOuteredgeOnetailed(input)) {
-              upperOnetailedMargin.attr('d', pathUpperMargin);
-            }
-
-            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
-          })
-          .on("dragend", function(d) {
-            delete dragging[d];
-            transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
-            transition(foregroundLines).attr("d", path);
-            transition(foreGroundCircles).attr('cx', circlex);
-            upperMargin.attr('d', upperMarginArea);
-            lowerMargin.attr('d', lowerMarginArea);
-            if(drawInneredgeOnetailed(input)) {
-              lowerOnetailedMargin.attr('d', pathLowerMargin);
-            }
-            if(drawOuteredgeOnetailed(input)) {
-              upperOnetailedMargin.attr('d', pathUpperMargin);
-            }
-
-            backgroundLines
-                .attr("d", path)
-              .transition()
-                .delay(500)
-                .duration(0)
-                .attr("visibility", null);
-            backgroundCircles
-                .attr('cx', function (d) {
-                  return position(d.plotname);
-                })
-              .transition()
-                .delay(500)
-                .duration(0)
-                .attr("visibility", null);
-          }));
-
-    // add dragable y axis for each test
-    g.append('g')
-        .attr('class', 'axis')
-        .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
-      .append('text')
-        .style("text-anchor", "middle")
-        .text(function(d) { return d; })
-        .attr('class', 'axis-label')
-        .attr('transform', 'rotate(45)')
-        .on("mouseover", function () {
-          d3.select(this)
-          .transition()
-            .style('font-size', 16);
-        })
-        .on("mouseout", function () {
-          d3.select(this)
-          .transition()
-            .style('font-size', 11);
         });
 
     // add mean line
