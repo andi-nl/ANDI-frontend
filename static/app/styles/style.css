@@ -34,6 +34,7 @@
 .margin-line {
   stroke: #a1d99b;
   stroke-width: 2;
+  fill: none;
   shape-rendering: crispEdges;
 }
 .hide-axis line, .hide-axis path, .hide-axis text {

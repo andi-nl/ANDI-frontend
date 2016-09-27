@@ -379,6 +379,9 @@ app.controller('plotController', function ($scope, ocpuService) {
             // update margin lines
             upperMargin.attr('d', upperMarginArea);
             lowerMargin.attr('d', lowerMarginArea);
+            if(drawInneredgeOnetailed(input)) {
+              lowerOnetailedMargin.attr('d', pathLowerMargin);
+            }
 
             g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
           })
@@ -389,6 +392,9 @@ app.controller('plotController', function ($scope, ocpuService) {
             transition(foreGroundCircles).attr('cx', circlex);
             upperMargin.attr('d', upperMarginArea);
             lowerMargin.attr('d', lowerMarginArea);
+            if(drawInneredgeOnetailed(input)) {
+              lowerOnetailedMargin.attr('d', pathLowerMargin);
+            }
             backgroundLines
                 .attr("d", path)
               .transition()
