@@ -77,7 +77,7 @@
                     </tr>
                     <tr>
                       <td class="right-td" ng-init='this["birthdate"+$index] = false'>
-                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup="{{format}}"
+                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" uib-datepicker-popup="{{format}}"
                           is-open='this["birthdate"+$index]' close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}"
                           ng-model="patient[$index]['birthdate']" ng-click='this["birthdate"+$index]=true' ng-required="dataEntry.dateRequired($index);"
                         />
@@ -86,7 +86,7 @@
                     </tr>
                     <tr>
                       <td class="right-td" ng-init='this["testdate"+$index] = false'>
-                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" class="textField" uib-datepicker-popup="{{format}}"
+                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" uib-datepicker-popup="{{format}}"
                           is-open='this["testdate"+$index]' close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}"
                           ng-model="patient[$index]['testdate']" ng-click='this["testdate"+$index] = true' ng-required="dataEntry.dateRequired($index);"
                         />
@@ -96,7 +96,7 @@
                     </tr>
                     <tr>
                       <td class="right-td">
-                        <select class="textField" ng-disabled="isDisabled" name="sex{{$index}}" id="sex{{$index}}" ng-model="patient[$index].sex"
+                        <select ng-disabled="isDisabled" name="sex{{$index}}" id="sex{{$index}}" ng-model="patient[$index].sex"
                           required>
                                       <option value="0"> Male </option>
                                       <option value="1"> Female</option>
@@ -108,7 +108,7 @@
                     </tr>
                     <tr>
                       <td class="right-td">
-                        <select class="textField" ng-disabled="isDisabled" name="education{{$index}}" id="education{{$index}}" ng-model="patient[$index].education"
+                        <select ng-disabled="isDisabled" name="education{{$index}}" id="education{{$index}}" ng-model="patient[$index].education"
                           required>
                                       <option value="1"> Verhage 1 </option>
                                       <option value="2"> Verhage 2 </option>
@@ -124,7 +124,7 @@
                     </tr>
                     <tr ng-repeat="(key, value) in selectedTest">
                       <td class="right-td">
-                        <input class="textField" ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"
+                        <input ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"
                           ng-disabled="treeDisable" type="number" min="{{value.lowweb}}" max="{{value.highweb}}">
 
                         <!--   <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.required && dataEntry.submited">Required</span> -->

@@ -52,11 +52,9 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
 }
-div.graph svg {
-    padding-top: 60px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    padding-left: 40px;
+
+svg {
+    overflow: visible;
 }
 
 .tabpanel {
