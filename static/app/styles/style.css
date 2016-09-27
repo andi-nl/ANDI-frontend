@@ -32,8 +32,8 @@
   shape-rendering: crispEdges;
 }
 .margin-line {
-  stroke: #a1d99b;
-  stroke-width: 2;
+  stroke: black;
+  stroke-width: 1;
   fill: none;
   shape-rendering: crispEdges;
 }
