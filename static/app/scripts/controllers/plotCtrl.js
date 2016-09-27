@@ -143,13 +143,13 @@ app.controller('plotController', function ($scope, ocpuService) {
 
   plotCtrl.plotLines = function (normcompData, input) {
     var margin = {
-      top: 50,
+      top: 100,
       right: 180,
       bottom: 20,
       left: 50
     };
     var width = 700 - margin.left - margin.right;
-    var height = 500 - margin.top - margin.bottom;
+    var height = 550 - margin.top - margin.bottom;
 
     normcompData = normcompData.map(function (p) {
       p.id = String(p.id);
@@ -193,8 +193,9 @@ app.controller('plotController', function ($scope, ocpuService) {
     // define plot
     var linesGraph = d3.select('#lines-graph')
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
+      .attr('width', width + margin.left + margin.right + 'px')
+      .attr('height', height + margin.top + margin.bottom + 'px')
+      .append('g')
       .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -203,6 +204,11 @@ app.controller('plotController', function ($scope, ocpuService) {
       dragging = {};
 
     var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .tickFormat(function (d) { return ''; })
+      .orient('left');
+
+    var yAxisFixed = d3.svg.axis()
       .scale(yScale)
       .orient('left');
 
@@ -416,9 +422,9 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .attr("visibility", null);
           }));
 
-    // add invisible, dragable y axis for each test
+    // add dragable y axis for each test
     g.append('g')
-        .attr('class', 'axis hide-axis')
+        .attr('class', 'axis')
         .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
       .append('text')
         .style("text-anchor", "middle")
@@ -436,13 +442,18 @@ app.controller('plotController', function ($scope, ocpuService) {
             .style('font-size', 11);
         });
 
+    // add mean line
+    linesGraph.append('path')
+        .attr('class', 'mean-line')
+        .attr('d', pathMean);
+
     // add visible, undragable y axis
     // This axis only has integers as labels, because otherwise the y axis label
     // placement is suboptimal.
-    yAxis.tickFormat(d3.format('d'));
+    yAxisFixed.tickFormat(d3.format('d'));
     var yaxis = linesGraph.append('g')
       .attr('class', 'axis')
-      .call(yAxis);
+      .call(yAxisFixed);
 
     // mean/normal labels on y axis
     var axisPadding = 5;
@@ -653,7 +664,7 @@ app.controller('plotController', function ($scope, ocpuService) {
           .attr("width", width)
           .attr("height", height)
           .append('g')
-          .attr("transform", "translate(" + 4 * size + "," + padding / 2 + ")");
+          .attr("transform", "translate(" + size * 6 + "," + padding * 10 + ")");
 
       var h = (tests.length + 0.5) * size;
 
