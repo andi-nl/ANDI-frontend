@@ -202,6 +202,11 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     var yAxis = d3.svg.axis()
       .scale(yScale)
+      .tickFormat(function (d) { return ''; })
+      .orient('left');
+
+    var yAxisFixed = d3.svg.axis()
+      .scale(yScale)
       .orient('left');
 
     xAxis.domain(tests);
@@ -251,11 +256,6 @@ app.controller('plotController', function ($scope, ocpuService) {
           .attr('class', 'margin-area')
           .datum(tests)
           .attr('d', lowerMarginArea);
-
-    // add mean line
-    linesGraph.append('path')
-        .attr('class', 'mean-line')
-        .attr('d', pathMean);
 
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
@@ -381,9 +381,9 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .attr("visibility", null);
           }));
 
-    // add invisible, dragable y axis for each test
+    // add dragable y axis for each test
     g.append('g')
-        .attr('class', 'axis hide-axis')
+        .attr('class', 'axis')
         .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
       .append('text')
         .style("text-anchor", "middle")
@@ -401,13 +401,18 @@ app.controller('plotController', function ($scope, ocpuService) {
             .style('font-size', 11);
         });
 
+    // add mean line
+    linesGraph.append('path')
+        .attr('class', 'mean-line')
+        .attr('d', pathMean);
+
     // add visible, undragable y axis
     // This axis only has integers as labels, because otherwise the y axis label
     // placement is suboptimal.
-    yAxis.tickFormat(d3.format('d'));
+    yAxisFixed.tickFormat(d3.format('d'));
     var yaxis = linesGraph.append('g')
       .attr('class', 'axis')
-      .call(yAxis);
+      .call(yAxisFixed);
 
     // mean/normal labels on y axis
     var axisPadding = 5;
