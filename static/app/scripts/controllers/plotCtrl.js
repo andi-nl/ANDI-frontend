@@ -260,9 +260,6 @@ app.controller('plotController', function ($scope, ocpuService) {
         .attr('d', pathMean);
 
     // add margin lines for one tailed boundaries (if required)
-    console.log('input');
-    console.log(input);
-
     var lowerOnetailedMargin, upperOnetailedMargin;
     var marginLines = linesGraph.append('g')
         .attr('class', 'margin-lines')
