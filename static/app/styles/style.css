@@ -22,8 +22,8 @@
     opacity: 0.5;
 }
 .margin-area {
-  stroke: lightgrey;
-  fill: lightgrey;
+  stroke: #cedb9e;
+  fill: #cedb9e;
   shape-rendering: crispEdges;
 }
 .mean-line {
