@@ -61,7 +61,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   };
 
   plotCtrl.render = function () {
-    /*var patientObj = $scope.$parent.submitData;
+    var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
       $scope.errorMessage = null;
@@ -83,14 +83,14 @@ app.controller('plotController', function ($scope, ocpuService) {
           .key(function (p) { return p.id; })
           .entries(data.data.data);
 
-        plotCtrl.plotLines(data.data.data);
+        plotCtrl.plotLines(data.data.data, data.data.input);
         plotCtrl.plotTables(data.data.data);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
-    });*/
+    });
 
-    d3.queue()
+    /*d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .await(function (error, normcomp, ellipses_points) {
@@ -113,7 +113,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             plotCtrl.plotLines(normcomp, input);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
-        });
+        });*/
 
     function transformPatientScores(patientScores, tests) {
       var data = [];
@@ -525,14 +525,14 @@ app.controller('plotController', function ($scope, ocpuService) {
     }
 
     function drawInneredgeOnetailed(input){
-      if(input.settings.sig === 'oneTailedRight'){
+      if(input.settings.sig === 'oneTailedLeft'){
         return true;
       }
       return false;
     }
 
     function drawOuteredgeOnetailed(input){
-      if(input.settings.sig === 'oneTailedLeft'){
+      if(input.settings.sig === 'oneTailedRight'){
         return true;
       }
       return false;
