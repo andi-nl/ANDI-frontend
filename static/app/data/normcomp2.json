@@ -9,10 +9,12 @@
   "univariateT": -1.76,
   "multivariatedf": "3, 3778",
   "inneredge": -1.5,
+  "inneredgeOnetailed": -1.4,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Total trial 1 to 5 ",
   "id": "22",
   "univariatedifferences": -1.3565,
   "outeredge": 1.5,
+  "outeredgeOnetailed": 1.4,
   "shortestname": "AVLT total 1 to 5",
   "multivariatep": "0.000"
 }, {
@@ -26,10 +28,12 @@
   "univariateT": -4.33,
   "multivariatedf": "3, 3778",
   "inneredge": -1.9605,
+  "inneredgeOnetailed": -1.6452,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Delayed recall 1 to 5 ",
   "id": "22",
   "univariatedifferences": -3.7317,
   "outeredge": 1.9605,
+  "outeredgeOnetailed": 1.6452,
   "shortestname": "AVLT delayed recall 1 to 5",
   "multivariatep": "0.000"
 }, {
@@ -43,10 +47,12 @@
   "univariateT": -3.19,
   "multivariatedf": "3, 3778",
   "inneredge": -1.9606,
+  "inneredgeOnetailed": -1.6452,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Recognition 1 to 5 ",
   "id": "22",
   "univariatedifferences": -3.0125,
   "outeredge": 1.9606,
+  "outeredgeOnetailed": 1.6452,
   "shortestname": "AVLT recognition 1 to 5",
   "multivariatep": "0.000"
 }, {
@@ -60,10 +66,12 @@
   "univariateT": -4.51,
   "multivariatedf": "3, 3778",
   "inneredge": -1.5,
+  "inneredgeOnetailed": -1.4,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Total trial 1 to 5 ",
   "id": "bla",
   "univariatedifferences": -3.4741,
   "outeredge": 1.5,
+  "outeredgeOnetailed": 1.4,
   "shortestname": "AVLT total 1 to 5",
   "multivariatep": "0.000"
 }, {
@@ -77,10 +85,12 @@
   "univariateT": -3.87,
   "multivariatedf": "3, 3778",
   "inneredge": -1.9605,
+  "inneredgeOnetailed": -1.6452,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Delayed recall 1 to 5 ",
   "id": "bla",
   "univariatedifferences": -3.3413,
   "outeredge": 1.9605,
+  "outeredgeOnetailed": 1.6452,
   "shortestname": "AVLT delayed recall 1 to 5",
   "multivariatep": "0.000"
 }, {
@@ -94,10 +104,12 @@
   "univariateT": -3.81,
   "multivariatedf": "3, 3778",
   "inneredge": -1.9606,
+  "inneredgeOnetailed": -1.6452,
   "longtestname": "Auditory Verbal Learning Test (AVLT) Recognition 1 to 5 ",
   "id": "bla",
   "univariatedifferences": -3.5892,
   "outeredge": 1.9606,
+  "outeredgeOnetailed": 1.6452,
   "shortestname": "AVLT recognition 1 to 5",
   "multivariatep": "0.000"
 }]

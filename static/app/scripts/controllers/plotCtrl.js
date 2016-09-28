@@ -83,7 +83,7 @@ app.controller('plotController', function ($scope, ocpuService) {
           .key(function (p) { return p.id; })
           .entries(data.data.data);
 
-        plotCtrl.plotLines(data.data.data);
+        plotCtrl.plotLines(data.data.data, data.data.input);
         plotCtrl.plotTables(data.data.data);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
@@ -108,7 +108,9 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
-            plotCtrl.plotLines(normcomp);
+            var input = {'settings': {'sig': 'oneTailedLeft'}};
+
+            plotCtrl.plotLines(normcomp, input);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
         });*/
@@ -139,7 +141,7 @@ app.controller('plotController', function ($scope, ocpuService) {
     }
   };
 
-  plotCtrl.plotLines = function (normcompData) {
+  plotCtrl.plotLines = function (normcompData, input) {
     var margin = {
       top: 100,
       right: 180,
@@ -258,6 +260,116 @@ app.controller('plotController', function ($scope, ocpuService) {
           .datum(tests)
           .attr('d', lowerMarginArea);
 
+      var g = linesGraph.selectAll(".dimension")
+          .data(tests)
+        .enter().append("g")
+          .attr("class", "dimension")
+          .attr("transform", function(d) { return "translate(" + xAxis(d) + ")"; })
+          .call(d3.behavior.drag()
+            .origin(function(d) { return {x: xAxis(d)}; })
+            .on("dragstart", function(d) {
+              dragging[d] = xAxis(d);
+              backgroundLines.attr("visibility", "hidden");
+              backgroundCircles.attr("visibility", "hidden");
+            })
+            .on("drag", function(d) {
+              dragging[d] = Math.min(width, Math.max(0, d3.event.x));
+
+              // update lines
+              foregroundLines.attr("d", path);
+              tests.sort(function(a, b) { return position(a) - position(b); });
+              xAxis.domain(tests);
+
+              // update circles
+              foreGroundCircles.attr('cx', circlex);
+
+              // update margin lines
+              upperMargin.attr('d', upperMarginArea);
+              lowerMargin.attr('d', lowerMarginArea);
+              if(drawInneredgeOnetailed(input)) {
+                lowerOnetailedMargin.attr('d', pathLowerMargin);
+              }
+              if(drawOuteredgeOnetailed(input)) {
+                upperOnetailedMargin.attr('d', pathUpperMargin);
+              }
+
+              g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
+            })
+            .on("dragend", function(d) {
+              delete dragging[d];
+              transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
+              transition(foregroundLines).attr("d", path);
+              transition(foreGroundCircles).attr('cx', circlex);
+              upperMargin.attr('d', upperMarginArea);
+              lowerMargin.attr('d', lowerMarginArea);
+              if(drawInneredgeOnetailed(input)) {
+                lowerOnetailedMargin.attr('d', pathLowerMargin);
+              }
+              if(drawOuteredgeOnetailed(input)) {
+                upperOnetailedMargin.attr('d', pathUpperMargin);
+              }
+
+              backgroundLines
+                  .attr("d", path)
+                .transition()
+                  .delay(500)
+                  .duration(0)
+                  .attr("visibility", null);
+              backgroundCircles
+                  .attr('cx', function (d) {
+                    return position(d.plotname);
+                  })
+                .transition()
+                  .delay(500)
+                  .duration(0)
+                  .attr("visibility", null);
+            }));
+
+      // add dragable y axis for each test
+      g.append('g')
+          .attr('class', 'axis')
+          .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
+        .append('text')
+          .style("text-anchor", "middle")
+          .text(function(d) { return d; })
+          .attr('class', 'axis-label')
+          .attr('transform', 'rotate(45)')
+          .on("mouseover", function () {
+            d3.select(this)
+            .transition()
+              .style('font-size', 16);
+          })
+          .on("mouseout", function () {
+            d3.select(this)
+            .transition()
+              .style('font-size', 11);
+          });
+
+    // add mean line
+    linesGraph.append('path')
+        .attr('class', 'mean-line')
+        .attr('d', pathMean);
+
+    // add margin lines for one tailed boundaries (if required)
+    var lowerOnetailedMargin, upperOnetailedMargin;
+    var marginLines = linesGraph.append('g')
+        .attr('class', 'margin-lines')
+        .selectAll('path')
+        .data([patients[0]])
+      .enter();
+
+    if(drawInneredgeOnetailed(input)) {
+      lowerOnetailedMargin = marginLines.append('path')
+          .attr('class', 'margin-line')
+          .style('stroke-dasharray', ('5, 3'))
+          .attr('d', pathLowerMargin);
+    } else if(drawOuteredgeOnetailed(input)) {
+      upperOnetailedMargin = marginLines.append('path')
+          .attr('class', 'margin-line')
+          .style('stroke-dasharray', ('5, 3'))
+          .attr('d', pathUpperMargin);
+    }
+
     // add grey lines for context
     backgroundLines = linesGraph.append('g')
         .attr('class', 'background-lines')
@@ -330,78 +442,6 @@ app.controller('plotController', function ($scope, ocpuService) {
             .style('opacity', 0);
         });
 
-    var g = linesGraph.selectAll(".dimension")
-        .data(tests)
-      .enter().append("g")
-        .attr("class", "dimension")
-        .attr("transform", function(d) { return "translate(" + xAxis(d) + ")"; })
-        .call(d3.behavior.drag()
-          .origin(function(d) { return {x: xAxis(d)}; })
-          .on("dragstart", function(d) {
-            dragging[d] = xAxis(d);
-            backgroundLines.attr("visibility", "hidden");
-            backgroundCircles.attr("visibility", "hidden");
-          })
-          .on("drag", function(d) {
-            dragging[d] = Math.min(width, Math.max(0, d3.event.x));
-
-            // update lines
-            foregroundLines.attr("d", path);
-            tests.sort(function(a, b) { return position(a) - position(b); });
-            xAxis.domain(tests);
-
-            // update circles
-            foreGroundCircles.attr('cx', circlex);
-
-            // update margin lines
-            upperMargin.attr('d', upperMarginArea);
-            lowerMargin.attr('d', lowerMarginArea);
-
-            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; });
-          })
-          .on("dragend", function(d) {
-            delete dragging[d];
-            transition(d3.select(this)).attr("transform", "translate(" + xAxis(d) + ")");
-            transition(foregroundLines).attr("d", path);
-            transition(foreGroundCircles).attr('cx', circlex);
-            upperMargin.attr('d', upperMarginArea);
-            lowerMargin.attr('d', lowerMarginArea);
-            backgroundLines
-                .attr("d", path)
-              .transition()
-                .delay(500)
-                .duration(0)
-                .attr("visibility", null);
-            backgroundCircles
-                .attr('cx', function (d) {
-                  return position(d.plotname);
-                })
-              .transition()
-                .delay(500)
-                .duration(0)
-                .attr("visibility", null);
-          }));
-
-    // add dragable y axis for each test
-    g.append('g')
-        .attr('class', 'axis')
-        .each(function(d) { d3.select(this).call(yAxis.scale(y[d])); })
-      .append('text')
-        .style("text-anchor", "middle")
-        .text(function(d) { return d; })
-        .attr('class', 'axis-label')
-        .attr('transform', 'rotate(45)')
-        .on("mouseover", function () {
-          d3.select(this)
-          .transition()
-            .style('font-size', 16);
-        })
-        .on("mouseout", function () {
-          d3.select(this)
-          .transition()
-            .style('font-size', 11);
-        });
-
     // add mean line
     linesGraph.append('path')
         .attr('class', 'mean-line')
@@ -470,8 +510,40 @@ app.controller('plotController', function ($scope, ocpuService) {
       }));
     }
 
+    // Returns the path for the lower one tailed margin
+    function pathLowerMargin(d) {
+      return line(tests.map(function(p) {
+        // p = plotname from patient data (one of the data points from the values array)
+        var dataPoint = _.filter(d.values, ['plotname', p])[0];
+        return [position(p), y[p](dataPoint.inneredgeOnetailed)];
+      }));
+    }
+
+    // Returns the path for the upper one tailed margin
+    function pathUpperMargin(d) {
+      return line(tests.map(function(p) {
+        // p = plotname from patient data (one of the data points from the values array)
+        var dataPoint = _.filter(d.values, ['plotname', p])[0];
+        return [position(p), y[p](dataPoint.outeredgeOnetailed)];
+      }));
+    }
+
     function circlex(d){
       return position(d.plotname);
+    }
+
+    function drawInneredgeOnetailed(input){
+      if(input.settings.sig === 'oneTailedLeft'){
+        return true;
+      }
+      return false;
+    }
+
+    function drawOuteredgeOnetailed(input){
+      if(input.settings.sig === 'oneTailedRight'){
+        return true;
+      }
+      return false;
     }
   };
 

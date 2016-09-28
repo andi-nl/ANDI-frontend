@@ -22,13 +22,19 @@
     opacity: 0.5;
 }
 .margin-area {
-  stroke: lightgrey;
-  fill: lightgrey;
+  stroke: #c7e9c0;
+  fill: #c7e9c0;
   shape-rendering: crispEdges;
 }
 .mean-line {
   stroke: black;
   stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.margin-line {
+  stroke: black;
+  stroke-width: 1;
+  fill: none;
   shape-rendering: crispEdges;
 }
 .hide-axis line, .hide-axis path, .hide-axis text {
