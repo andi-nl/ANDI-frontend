@@ -26,6 +26,7 @@
   </fieldset>
   <input type="submit" value="{% trans "Signin" %}" />
   <p class="forgot-password"><a href="{% url 'userena_password_reset' %}" title="{% trans 'Forgot your password?' %}">{% trans "Forgot your password?" %}</a></p>
+  <p>To use this website you need to create an account. If you have not yet, please <a href="/accounts/signup/">sign up</a></p>
   {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
 </form>
 {% endblock %}
