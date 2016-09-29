@@ -147,8 +147,8 @@
     <label>One tailed or two tailed </label>
     <select ng-init="patientData.sig='twoTailed'" name="sig" ng-model="patientData.sig" class="form-control" required>
                       <option value="twoTailed">Two Tailed</option>
-                      <option value="oneTailedRight">One Tailed Right</option>
-                      <option value="oneTailedLeft">One Tailed Left</option>
+                      <option value="oneTailedRight">Test for supernormality</option>
+                      <option value="oneTailedLeft">Test for impairment</option>
                     </select>
     <span class="has-error" ng-show="dataEntry.submited && patientData.form.sig.$error.required">Required</span>
     <br><br>
