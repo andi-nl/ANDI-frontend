@@ -16,6 +16,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   var plotCtrl = this;
 
   $scope.errorMessage = null;
+  $scope.ellipsePlotWarning = null;
 
   var patients;
   plotCtrl.normcompDataCsv = '';
@@ -691,6 +692,11 @@ app.controller('plotController', function ($scope, ocpuService) {
               }
               return true;
             });
+
+            // Display warning if points have been filtered.
+            if(visiblePoints.length < points.length){
+              $scope.ellipsePlotWarning = 'Some data points are outside the visible area of the graph. These have been removed.';
+            }
 
             // Plot grey circles (for context)
             svg.selectAll("circle.ellipse-data-background")
