@@ -1,7 +1,7 @@
 [{
   "id": "bla",
   "test1": "AVLT-delayed_recall_1_to_5",
-  "x": -3,
+  "x": -15,
   "test2": "AVLT-total_1_to_5",
   "y": 0
 }, {
@@ -15,5 +15,5 @@
   "test1": "AVLT-recognition_1_to_5",
   "x": 1,
   "test2": "AVLT-delayed_recall_1_to_5",
-  "y": -3
+  "y": -15
 }]

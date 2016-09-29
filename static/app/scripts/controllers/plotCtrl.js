@@ -679,9 +679,22 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .style('opacity', 0);
             });
 
+            // Filter data points that are outside the grey square
+            var visiblePoints = points.filter(function(d) {
+              // Because test2 is the x axis and test1 the y axis, we have to
+              // switch x and y here.
+              if(x(d.y) > size || x(d.y) < 0){
+                return false;
+              }
+              if(y(d.x) > size || y(d.x) < 0){
+                return false;
+              }
+              return true;
+            });
+
             // Plot grey circles (for context)
             svg.selectAll("circle.ellipse-data-background")
-                .data(points)
+                .data(visiblePoints)
               .enter().append("circle")
                 // Because test2 is the x axis and test1 the y axis, we have to
                 // switch x and y here.
@@ -703,7 +716,7 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             // Plot colored circles
             svg.selectAll("circle.ellipse-data-foreground")
-                .data(points)
+                .data(visiblePoints)
               .enter().append("circle")
                 // Because test2 is the x axis and test1 the y axis, we have to
                 // switch x and y here.
