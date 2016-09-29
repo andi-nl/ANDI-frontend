@@ -16,6 +16,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   var plotCtrl = this;
 
   $scope.errorMessage = null;
+  $scope.ellipsePlotWarning = null;
 
   var patients;
   plotCtrl.normcompDataCsv = '';
@@ -713,6 +714,23 @@ app.controller('plotController', function ($scope, ocpuService) {
           .attr('class', 'tooltip')
           .style('opacity', 0);
 
+      // Draw lightly colored squares behind the ellipses, to mark the area in which
+      // datapoints can be plotted for this ellipse
+      svg.selectAll('rect.ellipse-background')
+            .data(sEllipses)
+          .enter().append('rect')
+            .attr("transform", function (d) {
+              // We put test2 in xOuter and test1 in yOuter, because we want to
+              // fill the lower left triangle with ellipses.
+              return "translate(" + xOuter(d.test2) + "," + yOuter(d.test1) + ")";
+            })
+            .attr('class', 'ellipse-background')
+            .attr('x', -size/2)
+            .attr('y', -size/2)
+            .attr('width', size)
+            .attr('height', size)
+
+      // Draw ellipses
       svg.selectAll('ellipse')
             .data(sEllipses)
           .enter().append("ellipse")
@@ -740,9 +758,27 @@ app.controller('plotController', function ($scope, ocpuService) {
                 .style('opacity', 0);
             });
 
+            // Filter data points that are outside the grey square
+            var visiblePoints = points.filter(function(d) {
+              // Because test2 is the x axis and test1 the y axis, we have to
+              // switch x and y here.
+              if(x(d.y) > size || x(d.y) < 0){
+                return false;
+              }
+              if(y(d.x) > size || y(d.x) < 0){
+                return false;
+              }
+              return true;
+            });
+
+            // Display warning if points have been filtered.
+            if(visiblePoints.length < points.length){
+              $scope.ellipsePlotWarning = 'Some data points are outside the visible area of the graph. These have been removed.';
+            }
+
             // Plot grey circles (for context)
             svg.selectAll("circle.ellipse-data-background")
-                .data(points)
+                .data(visiblePoints)
               .enter().append("circle")
                 // Because test2 is the x axis and test1 the y axis, we have to
                 // switch x and y here.
@@ -764,7 +800,7 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             // Plot colored circles
             svg.selectAll("circle.ellipse-data-foreground")
-                .data(points)
+                .data(visiblePoints)
               .enter().append("circle")
                 // Because test2 is the x axis and test1 the y axis, we have to
                 // switch x and y here.
