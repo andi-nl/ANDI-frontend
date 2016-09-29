@@ -92,7 +92,7 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     /*d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
-        .defer(d3.json, "static/app/data/ellipsepoints2.json")
+        .defer(d3.json, "static/app/data/ellipsepoints3.json")
         .await(function (error, normcomp, ellipses_points) {
             if (error){ throw error; }
 
@@ -720,7 +720,9 @@ app.controller('plotController', function ($scope, ocpuService) {
             .attr("ry", function (d) { return dim(d.ry); })
             .attr("transform", function (d) {
                 var angle = -(90 - d.angle);
-                  return "translate(" + xOuter(d.test2) + "," + yOuter(d.test1) + ") rotate(" + angle + ")";
+                // We put test2 in xOuter and test1 in yOuter, because we want to
+                // fill the lower left triangle with ellipses.
+                return "translate(" + xOuter(d.test2) + "," + yOuter(d.test1) + ") rotate(" + angle + ")";
             })
             .style("fill", "green")
             .style("opacity", 0.3)
@@ -742,16 +744,20 @@ app.controller('plotController', function ($scope, ocpuService) {
             svg.selectAll("circle.ellipse-data-background")
                 .data(points)
               .enter().append("circle")
+                // Because test2 is the x axis and test1 the y axis, we have to
+                // switch x and y here.
                 .attr('cx', function (d) {
-                  return x(d.x);
+                  return x(d.y);
                 })
                 .attr('cy', function (d) {
-                  return y(d.y);
+                  return y(d.x);
                 })
                 .attr('r', 4)
                 .attr("transform", function (d) {
-                    var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
-                    return "translate(" + translate + ")";
+                  // We put test2 in xOuter and test1 in yOuter, because the
+                  // ellipses are in the lower left triangle.
+                  var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+                  return "translate(" + translate + ")";
                 })
                 .attr('class', 'ellipse-data-background')
                 .style("fill", '#ddd');
@@ -760,16 +766,20 @@ app.controller('plotController', function ($scope, ocpuService) {
             svg.selectAll("circle.ellipse-data-foreground")
                 .data(points)
               .enter().append("circle")
+                // Because test2 is the x axis and test1 the y axis, we have to
+                // switch x and y here.
                 .attr('cx', function (d) {
-                  return x(d.x);
+                  return x(d.y);
                 })
                 .attr('cy', function (d) {
-                  return y(d.y);
+                  return y(d.x);
                 })
                 .attr('r', 4)
                 .attr("transform", function (d) {
-                    var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
-                    return "translate(" + translate + ")";
+                  // We put test2 in xOuter and test1 in yOuter, because the
+                  // ellipses are in the lower left triangle.
+                  var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+                  return "translate(" + translate + ")";
                 })
                 .attr('class', function (d) {
                     return 'circle'+d.id+ ' ellipse-data-foreground';
