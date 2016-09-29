@@ -73,3 +73,9 @@ div.graph svg {
     vertical-align: middle;
     margin-bottom: 15px;
 }
+
+rect.ellipse-background {
+  stroke: #f2f2f2;
+  fill: #f8f8f8;
+  stroke-width: 1;
+}
