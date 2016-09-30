@@ -4,8 +4,7 @@ web:
   expose:
     - "8000"
   volumes:
-    - /usr/src/app
-    - /usr/src/static
+    - /usr/src/app/static
   links:
     - smtp:smtp
     - ocpu:ocpu
@@ -17,8 +16,6 @@ nginx:
   build: ./Docker/nginx/
   ports:
     - "80:80"
-  volumes:
-    - /www/static
   volumes_from:
     - web
   links:
