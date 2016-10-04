@@ -58,7 +58,6 @@ def compute(request):
         res = json.loads(dataOut[0])
 
         tests_data = generate_tests_data(res)
-        print(tests_data)
 
         ellipse_data = generate_ellipse_data(res)
 
