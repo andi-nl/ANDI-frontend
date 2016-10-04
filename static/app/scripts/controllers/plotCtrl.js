@@ -84,7 +84,7 @@ app.controller('plotController', function ($scope, ocpuService) {
           .key(function (p) { return p.id; })
           .entries(data.data.data);
 
-        plotCtrl.plotLines(data.data.data, data.data.input);
+        plotCtrl.plotLines(data.data.data, data.data.testsData, data.data.input);
         plotCtrl.plotTables(data.data.data);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
@@ -94,7 +94,8 @@ app.controller('plotController', function ($scope, ocpuService) {
     /*d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints3.json")
-        .await(function (error, normcomp, ellipses_points) {
+        .defer(d3.json, "static/app/data/tests_data.json")
+        .await(function (error, normcomp, ellipses_points, tests_data) {
             if (error){ throw error; }
 
             console.log(normcomp);
@@ -111,7 +112,7 @@ app.controller('plotController', function ($scope, ocpuService) {
 
             var input = {'settings': {'sig': 'oneTailedLeft'}};
 
-            plotCtrl.plotLines(normcomp, input);
+            plotCtrl.plotLines(normcomp, tests_data, input);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
         });*/
@@ -142,7 +143,7 @@ app.controller('plotController', function ($scope, ocpuService) {
     }
   };
 
-  plotCtrl.plotLines = function (normcompData, input) {
+  plotCtrl.plotLines = function (normcompData, testsData, input) {
     var margin = {
       top: 100,
       right: 180,
@@ -235,7 +236,7 @@ app.controller('plotController', function ($scope, ocpuService) {
         return y[d](0.0)
       })
       .y1(function (d) {
-        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        var dataPoint = _.filter(testsData, ['plotname', d])[0];
         return y[d](dataPoint.outeredge);
       });
 
@@ -249,7 +250,7 @@ app.controller('plotController', function ($scope, ocpuService) {
         return xAxis(d);
       })
       .y0(function (d) {
-        var dataPoint = _.filter(patients[0].values, ['plotname', d])[0];
+        var dataPoint = _.filter(testsData, ['plotname', d])[0];
         return y[d](dataPoint.inneredge);
       })
       .y1(function (d) {
@@ -410,7 +411,7 @@ app.controller('plotController', function ($scope, ocpuService) {
         .attr('class', 'background-circle')
         .style('fill', '#ddd');
 
-    // add 'scatterplot' elements
+    // add colored circles
     foreGroundCircles = linesGraph.append('g')
         .attr('class', 'foreground-circles')
         .selectAll('circle.foreground')
@@ -427,8 +428,8 @@ app.controller('plotController', function ($scope, ocpuService) {
           return color(d.id);
         })
         .attr('class', function (d) {
-            return 'circle'+d.id+' foreground-circle';
-          })
+          return 'circle'+d.id+' foreground-circle';
+        })
         .on('mouseover', function (d) {
           div.transition()
             .duration(200)
@@ -497,11 +498,15 @@ app.controller('plotController', function ($scope, ocpuService) {
       // d = patient from patients
       // {id = 'id',
       //  values = []}
-      return line(tests.map(function(p) {
+      var points = []
+      tests.forEach(function(p) {
         // p = plotname from patient data (one of the data points from the values array)
         var dataPoint = _.filter(d.values, ['plotname', p])[0];
-        return [position(p), y[p](dataPoint.univariateT)];
-      }));
+        if(dataPoint){
+          points.push([position(p), y[p](dataPoint.univariateT)]);
+        }
+      });
+      return line(points);
     }
 
     // Returns the path for the mean line

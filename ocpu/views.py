@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import SuspiciousOperation
 
-from .utils import generate_ellipse_data
+from .utils import generate_ellipse_data, generate_tests_data
 
 logger = logging.getLogger(__name__)
 
@@ -57,11 +57,14 @@ def compute(request):
         dataOut = json.loads(result.content.decode('utf-8'))
         res = json.loads(dataOut[0])
 
+        tests_data = generate_tests_data(res)
+
         ellipse_data = generate_ellipse_data(res)
 
         return JsonResponse({'data': res,
                              'ellipse': ellipse_data,
                              'tests': tests,
+                             'testsData': tests_data,
                              'input': input_data})
     else:
         logger.error(result.text)
