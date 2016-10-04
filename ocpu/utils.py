@@ -43,3 +43,11 @@ def generate_ellipse_data(normcomp_data):
                 ellipse_data.append(edp)
 
     return ellipse_data
+
+
+def generate_tests_data(normcomp_data):
+    tests_data = {}
+    for d in normcomp_data:
+        tests_data[d['plotname']] = d
+
+    return list(tests_data.values())
