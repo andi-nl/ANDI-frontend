@@ -607,21 +607,25 @@ app.controller('plotController', function ($scope, ocpuService) {
 
     // add tables
     $('#uni-var-table').dataTable({
-      bFilter: false,
+      // https://datatables.net/reference/option/dom
+      dom: 'Brtlip',
       data: dtUniVarData,
       columns: dtUniVarCols,
       fnRowCallback: function (nRow, aData) {
         $(nRow).css('color', color(aData[0]));
-      }
+      },
+      buttons: ['pdf']
     });
 
     $('#multi-var-table').dataTable({
-      bFilter: false,
+      // https://datatables.net/reference/option/dom
+      dom: 'Brtlip',
       data: dtMultiVarData,
       columns: dtMultiVarCols,
       fnRowCallback: function (nRow, aData) {
         $(nRow).css('color', color(aData[0]));
-      }
+      },
+      buttons: ['pdf']
     });
   };
 
