@@ -555,10 +555,22 @@ app.controller('plotController', function ($scope, svgExportService) {
   };
 
   plotCtrl.svg2pdf = function (svgName) {
-    console.log('svg2pdf');
     svgExportService.svg2pdf(svgName).then(function(data) {
-      console.log('result from the svg2pdf service');
-      console.log(data);
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = 'display: none';
+      var blob = new Blob([data.data], {type: 'application/pdf'}),
+          url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = svgName+'.pdf';
+        a.click();
+        // wait a little while before removing the link
+        // otherwise it doesn't work in firefox
+        // see: http://stackoverflow.com/questions/30694453/blob-createobjecturl-download-not-working-in-firefox-but-works-when-debugging
+        setTimeout(function(){
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, 500);
     });
   };
 
