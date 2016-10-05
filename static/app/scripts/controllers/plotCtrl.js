@@ -12,7 +12,7 @@
   @description : put third tab chart event
 */
 //app.controller('plotController', function ($scope, ocpuService) {
-app.controller('plotController', function ($scope, ocpuService) {
+app.controller('plotController', function ($scope, svgExportService) {
   var plotCtrl = this;
 
   $scope.errorMessage = null;
@@ -62,7 +62,7 @@ app.controller('plotController', function ($scope, ocpuService) {
   };
 
   plotCtrl.render = function () {
-    var patientObj = $scope.$parent.submitData;
+    /*var patientObj = $scope.$parent.submitData;
     ocpuService.normcomp(patientObj).then(function (data) {
       console.log(data);
       $scope.errorMessage = null;
@@ -89,9 +89,9 @@ app.controller('plotController', function ($scope, ocpuService) {
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
-    });
+    });*/
 
-    /*d3.queue()
+    d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
         .defer(d3.json, "static/app/data/ellipsepoints3.json")
         .defer(d3.json, "static/app/data/tests_data.json")
@@ -115,7 +115,7 @@ app.controller('plotController', function ($scope, ocpuService) {
             plotCtrl.plotLines(normcomp, tests_data, input);
             plotCtrl.plotTables(normcomp);
             plotCtrl.plotEllipses(ellipses_points, tests);
-        });*/
+        });
 
     function transformPatientScores(patientScores, tests) {
       var data = [];
@@ -197,6 +197,7 @@ app.controller('plotController', function ($scope, ocpuService) {
       .append('svg')
       .attr('width', width + margin.left + margin.right + 'px')
       .attr('height', height + margin.top + margin.bottom + 'px')
+      .attr('class', 'lines-graph')
       .append('g')
       .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
@@ -551,6 +552,14 @@ app.controller('plotController', function ($scope, ocpuService) {
       }
       return false;
     }
+  };
+
+  plotCtrl.svg2pdf = function (svgName) {
+    console.log('svg2pdf');
+    svgExportService.svg2pdf(svgName).then(function(data) {
+      console.log('result from the svg2pdf service');
+      console.log(data);
+    });
   };
 
   plotCtrl.plotTables = function (normcompData) {
