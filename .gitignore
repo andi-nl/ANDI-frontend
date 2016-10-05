@@ -1,11 +1,21 @@
-/node_modules
+node_modules
 /dist
 /.tmp
 /.sass-cache
-/bower_components
+*/bower_components
+django.log
 
 # vim temp files
 *.*~
 
 # R related files
 .Rhistory
+
+# Python / Django
+*.pyc
+db.sqlite3
+*local_settings.py
+
+# Docker environment variables files
+# contains passwords, should not version controlled
+Docker/.env

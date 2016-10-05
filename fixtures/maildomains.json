@@ -1,0 +1,13 @@
+[{
+  "model": "accounts.allowedmaildomain",
+  "pk": 1,
+  "fields": {
+    "domain": "esciencecenter.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 2,
+  "fields": {
+    "domain": "gmail.com"
+  }
+}]

@@ -1,0 +1,33 @@
+web:
+  restart: always
+  build: .
+  expose:
+    - "8000"
+  volumes:
+    - /usr/src/app/static
+  links:
+    - smtp:smtp
+    - ocpu:ocpu
+  env_file: ./Docker/.env
+  command: /bin/bash /usr/src/app/gunicorn_start
+
+nginx:
+  restart: always
+  build: ./Docker/nginx/
+  ports:
+    - "80:80"
+  volumes_from:
+    - web
+  links:
+    - web:web
+
+smtp:
+  image: catatnight/postfix
+  expose:
+    - "25"
+  env_file: ./Docker/.env
+
+ocpu:
+  image: andinl/andiocpu
+  expose:
+    - "8004"

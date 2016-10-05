@@ -1,0 +1,85 @@
+.axis path, .axis line {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+}
+.legend {
+    font-size: 16px;
+    font-weight: bold;
+    text-anchor: start;
+}
+.legend-title {
+  font-size: 11px;
+  font-weight: normal;;
+}
+.patient-line {
+    stroke-width: 2;
+    opacity: 0.5;
+}
+.margin-area {
+  stroke: #c7e9c0;
+  fill: #c7e9c0;
+  shape-rendering: crispEdges;
+}
+.mean-line {
+  stroke: black;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.margin-line {
+  stroke: black;
+  stroke-width: 1;
+  fill: none;
+  shape-rendering: crispEdges;
+}
+.hide-axis line, .hide-axis path, .hide-axis text {
+  opacity: 0;
+}
+.hide-axis text.axis-label {
+  opacity: 1;
+}
+circle {
+    opacity: 0.6;
+}
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 160px;
+    height: 38px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: white;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+svg {
+    overflow: visible;
+}
+
+.tabpanel {
+  padding: 10px;
+}
+
+.navbar {
+  margin-bottom: 15px;
+}
+
+.center {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 15px;
+}
+
+rect.ellipse-background {
+  stroke: #f2f2f2;
+  fill: #f8f8f8;
+  stroke-width: 1;
+}
