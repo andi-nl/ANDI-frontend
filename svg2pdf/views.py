@@ -1,9 +1,9 @@
-import requests
+from reportlab.pdfgen import canvas
 import json
 import logging
 
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import SuspiciousOperation
@@ -22,3 +22,13 @@ def svg2pdf(request):
         raise SuspiciousOperation('Invalid input for svg2pdf.')
 
     print(parameters)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.pdf"'
+
+    p = canvas.Canvas(response)
+
+    p.drawString(100, 100, "Hello world.")
+    p.showPage()
+    p.save()
+    return response
