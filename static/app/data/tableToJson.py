@@ -1,6 +1,6 @@
 import sys, json
 
-sep = "\t"
+sep = ";"
 
 def get_line(lines):
     l = lines.pop(0)
