@@ -694,6 +694,7 @@ app.controller('plotController', function ($scope, svgExportService) {
       var svg = d3.select('#ellipses-graph').append("svg")
           .attr("width", width)
           .attr("height", height)
+          .attr("class", "ellipses-graph")
           .append('g')
           .attr("transform", "translate(" + size * 6 + "," + padding * 10 + ")");
 
