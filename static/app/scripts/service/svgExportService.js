@@ -23,7 +23,7 @@ function svgExportService($http) {
       var request = {
         svg: xml
       };
-      return $http.post(url, request);
+      return $http.post(url, request, {responseType: 'arraybuffer'});
 
     }, function error(response){
       console.log('error');
