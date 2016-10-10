@@ -13,7 +13,7 @@ function svgExportService($http) {
   var url = '/svg2pdf/';
 
   function svg2pdf(svgClassName) {
-    var svg = document.getElementsByClassName(svgClassName)[0];
+    var svg = document.getElementsByClassName(svgClassName)[0].cloneNode(true);
 
     // a lot of style information is in de CSS, so, add the css to the svg
     return getCSS().then(function success(response){
