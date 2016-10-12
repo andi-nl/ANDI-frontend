@@ -5,7 +5,10 @@
         "children": [
           {
             "Dataset": "AVLT", 
-            "SPSS name": "AVLTtotal", 
+            "SPSS.name": "AVLTtotal", 
+            "computed_variable_arguments": "AVLT__trial1,AVLT__trial2,AVLT__trial3,AVLT__trial4,AVLT__trial5", 
+            "description,,,,,,\r": "NL: 15 woordentest. Total correct (5 trial version)\r", 
+            "dutch_alias": "15WT, vijftien woordentest, 15 woordentest", 
             "highborder": "75.001", 
             "highweb": "75", 
             "id": "AVLT-total_1_to_5", 
@@ -15,7 +18,10 @@
           }, 
           {
             "Dataset": "AVLT", 
-            "SPSS name": "AVLT_delrecal_all", 
+            "SPSS.name": "AVLT_delrecal_all", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "NL: 15 woordentest. Total correct on 20 minutes delayed recall (5 trial version),,,,\r", 
+            "dutch_alias": "15WT, vijftien woordentest, 15 woordentest", 
             "highborder": "15.001", 
             "highweb": "15", 
             "id": "AVLT-delayed_recall_1_to_5", 
@@ -25,7 +31,10 @@
           }, 
           {
             "Dataset": "AVLT", 
-            "SPSS name": "AVLTrecognition", 
+            "SPSS.name": "AVLTrecognition", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "NL: 15 woordentest. Total correct on recognition (5 trial version),,,,\r", 
+            "dutch_alias": "15WT, vijftien woordentest, 15 woordentest", 
             "highborder": "30.001", 
             "highweb": "30", 
             "id": "AVLT-recognition_1_to_5", 
@@ -35,55 +44,18 @@
           }
         ], 
         "id": "AVLT", 
-        "label": "Auditory Verbal Learning Test (AVLT)"
+        "label": "Auditory Verbal Learning Test"
       }, 
       {
         "children": [
           {
             "Dataset": "RBMT", 
-            "SPSS name": "RBMTpr1immrec", 
+            "SPSS.name": "RBMTprIMMED", 
+            "computed_variable_arguments": "RBMT__prose_1_immrec,RBMT__prose_2_immrec", 
+            "description,,,,,,\r": "Total of first and second story immediate recall,,,,,\r", 
+            "dutch_alias": "", 
             "highborder": "42.001", 
             "highweb": "42", 
-            "id": "RBMT-prose_1_immrec", 
-            "label": "prose 1 immediate recall", 
-            "lowborder": "5", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "RBMT", 
-            "SPSS name": "RBMTpr1delrec", 
-            "highborder": "42.001", 
-            "highweb": "42", 
-            "id": "RBMT-prose_1_delrec", 
-            "label": "prose 1 delayed recall", 
-            "lowborder": "2", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "RBMT", 
-            "SPSS name": "RBMTpr2immrec", 
-            "highborder": "42.001", 
-            "highweb": "42", 
-            "id": "RBMT-prose_2_immrec", 
-            "label": "prose 2 immediate recall", 
-            "lowborder": "5", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "RBMT", 
-            "SPSS name": "RBMTpr2delrec", 
-            "highborder": "42.001", 
-            "highweb": "42", 
-            "id": "RBMT-prose_2_delrec", 
-            "label": "prose 2 delayed recall", 
-            "lowborder": "2", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "RBMT", 
-            "SPSS name": "RBMTprIMMED", 
-            "highborder": "84.001", 
-            "highweb": "84", 
             "id": "RBMT-prose_1_plus_pr2_immrec", 
             "label": "prose 1 + 2 immediate recall", 
             "lowborder": "10", 
@@ -91,9 +63,12 @@
           }, 
           {
             "Dataset": "RBMT", 
-            "SPSS name": "RBMTprDELAY", 
-            "highborder": "84.001", 
-            "highweb": "84", 
+            "SPSS.name": "RBMTprDELAY", 
+            "computed_variable_arguments": "RBMT__prose_1_delrec,RBMT__prose_2_delrec", 
+            "description,,,,,,\r": "Total of first and second story delayed recall,,,,,\r", 
+            "dutch_alias": "", 
+            "highborder": "42.001", 
+            "highweb": "42", 
             "id": "RBMT-prose_1_plus_pr2_delrec", 
             "label": "prose 1 + 2 delayed recall", 
             "lowborder": "4", 
@@ -101,7 +76,7 @@
           }
         ], 
         "id": "RBMT", 
-        "label": "Rivermead Behaviour Memory Test (RBMT)"
+        "label": "Rivermead Behavioural Memory Test"
       }
     ], 
     "id": "m", 
@@ -113,7 +88,10 @@
         "children": [
           {
             "Dataset": "TMT", 
-            "SPSS name": "TMTa", 
+            "SPSS.name": "TMTa", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "Total time in seconds on TMTa,,,,,,\r", 
+            "dutch_alias": "", 
             "highborder": "150.001", 
             "highweb": "3000", 
             "id": "TMT-a", 
@@ -123,7 +101,10 @@
           }, 
           {
             "Dataset": "TMT", 
-            "SPSS name": "TMTb", 
+            "SPSS.name": "TMTb", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "Total time in seconds on TMTb,,,,,,\r", 
+            "dutch_alias": "", 
             "highborder": "500.001", 
             "highweb": "3000", 
             "id": "TMT-b", 
@@ -139,32 +120,41 @@
         "children": [
           {
             "Dataset": "Stroop", 
-            "SPSS name": "Stroop_CardI_whole", 
+            "SPSS.name": "Stroop_CardI_whole", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "NL: Stroop woordkaart. Total time in seconds on Stroop card I (word),,,,,,\r", 
+            "dutch_alias": "", 
             "highborder": "100.001", 
             "highweb": "3000", 
-            "id": "Stroop-card_I_word", 
-            "label": "Card I word", 
-            "lowborder": "30", 
+            "id": "Stroop-card_I_c", 
+            "label": "Card I color", 
+            "lowborder": "15", 
             "lowweb": "0"
           }, 
           {
             "Dataset": "Stroop", 
-            "SPSS name": "Stroop_CardII_whole", 
+            "SPSS.name": "Stroop_CardII_whole", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "NL: Stroop kleurkaart. Total time in seconds on Stroop card II (color),,,,,,\r", 
+            "dutch_alias": "", 
             "highborder": "100.001", 
             "highweb": "3000", 
-            "id": "Stroop-card_II_color", 
-            "label": "Card II color", 
-            "lowborder": "30", 
+            "id": "Stroop-card_II_w", 
+            "label": "Card II word", 
+            "lowborder": "15", 
             "lowweb": "0"
           }, 
           {
             "Dataset": "Stroop", 
-            "SPSS name": "Stroop_CardIII_whole", 
-            "highborder": "500.001", 
+            "SPSS.name": "Stroop_CardIII_whole", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "NL: Stroop kleur-woord kaart. Total time in seconds on Stroop card III (interference),,,,,,\r", 
+            "dutch_alias": "", 
+            "highborder": "400.001", 
             "highweb": "3000", 
-            "id": "Stroop-card_III_interference", 
-            "label": "Card III interference", 
-            "lowborder": "30", 
+            "id": "Stroop-card_III_cw", 
+            "label": "Card III color word", 
+            "lowborder": "15", 
             "lowweb": "0"
           }
         ], 
@@ -181,41 +171,14 @@
         "children": [
           {
             "Dataset": "LF", 
-            "SPSS name": "LF_letter1", 
-            "highborder": "600.001", 
-            "highweb": "60", 
-            "id": "LF-letter_1", 
-            "label": "1st letter", 
-            "lowborder": "3", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "LF", 
-            "SPSS name": "LF_letter2", 
-            "highborder": "600.001", 
-            "highweb": "60", 
-            "id": "LF-letter_2", 
-            "label": "2nd letter", 
-            "lowborder": "3", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "LF", 
-            "SPSS name": "LF_letter3", 
-            "highborder": "600.001", 
-            "highweb": "60", 
-            "id": "LF-letter_3", 
-            "label": "3rd letter", 
-            "lowborder": "3", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "LF", 
-            "SPSS name": "LF_totalletter123", 
+            "SPSS.name": "LF_totalletter123", 
+            "computed_variable_arguments": "LF__letter_1,LF__letter_2,LF__letter_3", 
+            "description,,,,,,\r": "Total of all three letters,,,,\r", 
+            "dutch_alias": "Letterfluency", 
             "highborder": "180.001", 
             "highweb": "180", 
             "id": "LF-total_letter_123", 
-            "label": "total 3 letters", 
+            "label": "total 3 lettters", 
             "lowborder": "10", 
             "lowweb": "0"
           }
@@ -227,12 +190,28 @@
         "children": [
           {
             "Dataset": "SF", 
-            "SPSS name": "Sfanimal", 
+            "SPSS.name": "Sfanimal", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "Total number of animals in 60 seconds,,,,,,\r", 
+            "dutch_alias": "Categoriefluency", 
             "highborder": "60.001", 
             "highweb": "60", 
             "id": "SF-Animals", 
             "label": "total animals 1 minute", 
             "lowborder": "8", 
+            "lowweb": "0"
+          }, 
+          {
+            "Dataset": "SF", 
+            "SPSS.name": "Sfoccupation", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "Total number of occupations in 60 seconds,,,,,,\r", 
+            "dutch_alias": "Categoriefluency", 
+            "highborder": "60.001", 
+            "highweb": "60", 
+            "id": "SF-Occupations", 
+            "label": "total occupations 1 minute", 
+            "lowborder": "5", 
             "lowweb": "0"
           }
         ], 
@@ -248,63 +227,49 @@
       {
         "children": [
           {
-            "Dataset": "DART", 
-            "SPSS name": "DARTRAW", 
-            "highborder": "100.001", 
-            "highweb": "100", 
-            "id": "DART-raw_score", 
-            "label": "raw score", 
-            "lowborder": "20", 
+            "Dataset": "MMSE", 
+            "SPSS.name": "MMSETotal", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "Total score on the MMSE,,,,,,\r", 
+            "dutch_alias": "", 
+            "highborder": "30.001", 
+            "highweb": "30", 
+            "id": "MMSE-total", 
+            "label": "total score", 
+            "lowborder": "22", 
             "lowweb": "0"
           }
         ], 
-        "id": "DART", 
-        "label": "Dutch Adult Reading Test"
+        "id": "MMSE", 
+        "label": "Mini-Metal State Examination"
       }
     ], 
-    "id": "iq", 
-    "label": "(premorbid) IQ tests"
+    "id": "cs", 
+    "label": "Cognitive screening tools"
   }, 
   {
     "children": [
       {
         "children": [
           {
-            "Dataset": "HADS", 
-            "SPSS name": "HADS_anxiety", 
-            "highborder": "9.001", 
-            "highweb": "21", 
-            "id": "HADS-anxiety", 
-            "label": "Anxiety scale", 
-            "lowborder": "0", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "HADS", 
-            "SPSS name": "HADS_depression", 
-            "highborder": "9.001", 
-            "highweb": "21", 
-            "id": "HADS-depression", 
-            "label": "Depression scale", 
-            "lowborder": "0", 
-            "lowweb": "0"
-          }, 
-          {
-            "Dataset": "HADS", 
-            "SPSS name": "HADS_total", 
-            "highborder": "13.001", 
-            "highweb": "42", 
-            "id": "HADS-total", 
-            "label": "total score", 
-            "lowborder": "0", 
+            "Dataset": "BNT", 
+            "SPSS.name": "BNT_long", 
+            "computed_variable_arguments": "", 
+            "description,,,,,,\r": "Raw score on BNT long,,,,,", 
+            "dutch_alias": "", 
+            "highborder": "60.001", 
+            "highweb": "60", 
+            "id": "BNT-LongVersion", 
+            "label": "long version", 
+            "lowborder": "30", 
             "lowweb": "0"
           }
         ], 
-        "id": "HADS", 
-        "label": "Hospital Anxiety Depression Scale"
+        "id": "BNT", 
+        "label": "Boston Naming Test"
       }
     ], 
-    "id": "q", 
-    "label": "Questionnaires depression/anxiety"
+    "id": "l", 
+    "label": "Language tests"
   }
 ]
