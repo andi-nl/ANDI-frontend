@@ -12,7 +12,7 @@
   @description : put third tab chart event
 */
 //app.controller('plotController', function ($scope, ocpuService) {
-app.controller('plotController', function ($scope, ocpuService) {
+app.controller('plotController', function ($scope, ocpuService, svgExportService) {
   var plotCtrl = this;
 
   $scope.errorMessage = null;
@@ -197,6 +197,7 @@ app.controller('plotController', function ($scope, ocpuService) {
       .append('svg')
       .attr('width', width + margin.left + margin.right + 'px')
       .attr('height', height + margin.top + margin.bottom + 'px')
+      .attr('class', 'lines-graph')
       .append('g')
       .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')');
@@ -553,6 +554,26 @@ app.controller('plotController', function ($scope, ocpuService) {
     }
   };
 
+  plotCtrl.svg2pdf = function (svgName) {
+    svgExportService.svg2pdf(svgName).then(function(data) {
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = 'display: none';
+      var blob = new Blob([data.data], {type: 'application/pdf'}),
+          url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = svgName+'.pdf';
+        a.click();
+        // wait a little while before removing the link
+        // otherwise it doesn't work in firefox
+        // see: http://stackoverflow.com/questions/30694453/blob-createobjecturl-download-not-working-in-firefox-but-works-when-debugging
+        setTimeout(function(){
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, 500);
+    });
+  };
+
   plotCtrl.plotTables = function (normcompData) {
 
     // columns
@@ -673,6 +694,7 @@ app.controller('plotController', function ($scope, ocpuService) {
       var svg = d3.select('#ellipses-graph').append("svg")
           .attr("width", width)
           .attr("height", height)
+          .attr("class", "ellipses-graph")
           .append('g')
           .attr("transform", "translate(" + size * 6 + "," + padding * 10 + ")");
 

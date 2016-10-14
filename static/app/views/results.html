@@ -8,9 +8,12 @@
 
   <uib-tabset active="active">
     <uib-tab index="0" heading="Lines Plot">
-      <p>
-        <div class="graph" id="lines-graph"></div>
-      </p>
+      <div class="tabpanel">
+        <button type="button" class="btn btn-default btn-sm" ng-click="plotCtrl.svg2pdf('lines-graph')">PDF</button>
+        <p>
+          <div class="graph" id="lines-graph"></div>
+        </p>
+      </div>
     </uib-tab>
     <uib-tab index="1" heading="Ellipses Plot">
       <div class="tabpanel" ng-show="ellipsePlotWarning">
@@ -18,6 +21,7 @@
           <strong>Warning:</strong>
           {{ ellipsePlotWarning }}
         </div>
+        <button type="button" class="btn btn-default btn-sm" ng-click="plotCtrl.svg2pdf('ellipses-graph')">PDF</button>
       </div>
       <div class="graph" id="ellipses-graph"></div>
     </uib-tab>

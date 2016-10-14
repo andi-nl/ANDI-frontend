@@ -1,5 +1,9 @@
 FROM python:3.5-onbuild
 
+# necessary system level dependencies
+RUN apt-get update && apt-get install -y \
+  libffi-dev
+
 # install nodejs
 ENV NODE_VERSION="v6.7.0"
 RUN curl -LO http://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.gz
