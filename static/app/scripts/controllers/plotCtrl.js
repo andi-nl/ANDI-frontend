@@ -93,12 +93,13 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
     /*d3.queue()
         .defer(d3.json, "static/app/data/normcomp2.json")
-        .defer(d3.json, "static/app/data/ellipsepoints3.json")
+        .defer(d3.json, "static/app/data/ellipsepoints2.json")
         .defer(d3.json, "static/app/data/tests_data.json")
         .await(function (error, normcomp, ellipses_points, tests_data) {
             if (error){ throw error; }
 
             console.log(normcomp);
+            console.log(ellipses_points);
             console.log(Papa.unparse(normcomp, {quotes: false, delimiter: "\t", newline: "\r\n"}));
 
             var csvData = Papa.unparse(normcomp, {quotes: false, delimiter: "\t", newline: "\r\n"});
@@ -789,87 +790,89 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
                 .style('opacity', 0);
             });
 
-            // Filter data points that are outside the grey square
-            var visiblePoints = points.filter(function(d) {
-              // Because test2 is the x axis and test1 the y axis, we have to
-              // switch x and y here.
-              if(x(d.y) > size || x(d.y) < 0){
-                return false;
-              }
-              if(y(d.x) > size || y(d.x) < 0){
-                return false;
-              }
-              return true;
-            });
+      // Filter data points that are outside the grey square
+      var visiblePoints = points.filter(function(d) {
+        // Because test2 is the x axis and test1 the y axis, we have to
+        // switch x and y here.
+        if(x(d.y) > size || x(d.y) < 0){
+          return false;
+        }
+        if(y(d.x) > size || y(d.x) < 0){
+          return false;
+        }
+          return true;
+      });
+      console.log(visiblePoints);
 
-            // Display warning if points have been filtered.
-            if(visiblePoints.length < points.length){
-              $scope.ellipsePlotWarning = 'Some data points are outside the visible area of the graph. These have been removed.';
-            }
+      // Display warning if points have been filtered.
+      if(visiblePoints.length < points.length){
+        console.log('displaying warning');
+        $scope.ellipsePlotWarning = 'Some data points are outside the visible area of the graph. These have been removed.';
+      }
 
-            // Plot grey circles (for context)
-            svg.selectAll("circle.ellipse-data-background")
-                .data(visiblePoints)
-              .enter().append("circle")
-                // Because test2 is the x axis and test1 the y axis, we have to
-                // switch x and y here.
-                .attr('cx', function (d) {
-                  return x(d.y);
-                })
-                .attr('cy', function (d) {
-                  return y(d.x);
-                })
-                .attr('r', 4)
-                .attr("transform", function (d) {
-                  // We put test2 in xOuter and test1 in yOuter, because the
-                  // ellipses are in the lower left triangle.
-                  var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
-                  return "translate(" + translate + ")";
-                })
-                .attr('class', 'ellipse-data-background')
-                .style("fill", '#ddd');
+      // Plot grey circles (for context)
+      svg.selectAll("circle.ellipse-data-background")
+          .data(visiblePoints)
+        .enter().append("circle")
+          // Because test2 is the x axis and test1 the y axis, we have to
+          // switch x and y here.
+          .attr('cx', function (d) {
+            return x(d.y);
+          })
+          .attr('cy', function (d) {
+            return y(d.x);
+          })
+          .attr('r', 4)
+          .attr("transform", function (d) {
+            // We put test2 in xOuter and test1 in yOuter, because the
+            // ellipses are in the lower left triangle.
+            var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+              return "translate(" + translate + ")";
+            })
+          .attr('class', 'ellipse-data-background')
+          .style("fill", '#ddd');
 
-            // Plot colored circles
-            svg.selectAll("circle.ellipse-data-foreground")
-                .data(visiblePoints)
-              .enter().append("circle")
-                // Because test2 is the x axis and test1 the y axis, we have to
-                // switch x and y here.
-                .attr('cx', function (d) {
-                  return x(d.y);
-                })
-                .attr('cy', function (d) {
-                  return y(d.x);
-                })
-                .attr('r', 4)
-                .attr("transform", function (d) {
-                  // We put test2 in xOuter and test1 in yOuter, because the
-                  // ellipses are in the lower left triangle.
-                  var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
-                  return "translate(" + translate + ")";
-                })
-                .attr('class', function (d) {
-                    return 'circle'+d.id+ ' ellipse-data-foreground';
-                })
-                .style("fill", function(p){ return color(p.id); })
-                .style("opacity", 0.5);
+      // Plot colored circles
+      svg.selectAll("circle.ellipse-data-foreground")
+          .data(visiblePoints)
+        .enter().append("circle")
+          // Because test2 is the x axis and test1 the y axis, we have to
+          // switch x and y here.
+          .attr('cx', function (d) {
+            return x(d.y);
+          })
+          .attr('cy', function (d) {
+            return y(d.x);
+          })
+          .attr('r', 4)
+          .attr("transform", function (d) {
+            // We put test2 in xOuter and test1 in yOuter, because the
+            // ellipses are in the lower left triangle.
+            var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
+              return "translate(" + translate + ")";
+            })
+          .attr('class', function (d) {
+              return 'circle'+d.id+ ' ellipse-data-foreground';
+          })
+          .style("fill", function(p){ return color(p.id); })
+          .style("opacity", 0.5);
 
-            // Add the X Axis
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + h + ")")
-                .call(xAxis)
-                .selectAll("text")
-                  .style("text-anchor", "end")
-                  .attr("dx", "-.8em")
-                  .attr("dy", ".15em")
-                  .attr("transform", "rotate(-65)");
+      // Add the X Axis
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + h + ")")
+            .call(xAxis)
+          .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
 
-            // Add the Y Axis
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis);
-          }
+      // Add the Y Axis
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
+      }
     };
 
   plotCtrl.render();
