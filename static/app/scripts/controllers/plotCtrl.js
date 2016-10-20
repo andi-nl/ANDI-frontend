@@ -582,9 +582,8 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       'oneTailedLeft': 'test for impairment'
     };
 
-    plotCtrl.testDirection = tailsMapping[input.settings.sig];
-    plotCtrl.confidenceInterval = input.settings.conf;
-
+    plotCtrl.univariateTitle = 'Univariate normative comparisons, '+ tailsMapping[input.settings.sig] + ', ' + input.settings.conf + '% confidence interval';
+    plotCtrl.multivariateTitle = 'Multivariate normative comparisons, '+ tailsMapping[input.settings.sig] + ', ' + input.settings.conf + '% confidence interval';
 
     // columns
     var uniVarCols = [
@@ -650,7 +649,12 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       fnRowCallback: function (nRow, aData) {
         $(nRow).css('color', color(aData[0]));
       },
-      buttons: ['pdf']
+      buttons: [
+        {
+          extend: 'pdf',
+          title: plotCtrl.univariateTitle
+        }
+      ]
     });
 
     $('#multi-var-table').dataTable({
@@ -661,7 +665,12 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       fnRowCallback: function (nRow, aData) {
         $(nRow).css('color', color(aData[0]));
       },
-      buttons: ['pdf']
+      buttons: [
+        {
+          extend: 'pdf',
+          title: plotCtrl.multivariateTitle 
+        }
+      ]
     });
   };
 
