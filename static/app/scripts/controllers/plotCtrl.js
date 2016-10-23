@@ -85,7 +85,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
           .entries(data.data.data);
 
         plotCtrl.plotLines(data.data.data, data.data.testsData, data.data.input);
-        plotCtrl.plotTables(data.data.data);
+        plotCtrl.plotTables(data.data.data, data.data.input);
         plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
       }
 
@@ -111,10 +111,10 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
-            var input = {'settings': {'sig': 'oneTailedLeft'}};
+            var input = {'settings': {'sig': 'oneTailedLeft', 'conf': '95'}};
 
             plotCtrl.plotLines(normcomp, tests_data, input);
-            plotCtrl.plotTables(normcomp);
+            plotCtrl.plotTables(normcomp, input);
             plotCtrl.plotEllipses(ellipses_points, tests);
         });*/
 
@@ -575,7 +575,15 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
     });
   };
 
-  plotCtrl.plotTables = function (normcompData) {
+  plotCtrl.plotTables = function (normcompData, input) {
+    var tailsMapping = {
+      'twoTailed': 'two tailed',
+      'oneTailedRight': 'test for supernormality',
+      'oneTailedLeft': 'test for impairment'
+    };
+
+    plotCtrl.univariateTitle = 'Univariate normative comparisons, '+ tailsMapping[input.settings.sig] + ', ' + input.settings.conf + '% confidence interval';
+    plotCtrl.multivariateTitle = 'Multivariate normative comparisons, '+ tailsMapping[input.settings.sig] + ', ' + input.settings.conf + '% confidence interval';
 
     // columns
     var uniVarCols = [
@@ -641,7 +649,12 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       fnRowCallback: function (nRow, aData) {
         $(nRow).css('color', color(aData[0]));
       },
-      buttons: ['pdf']
+      buttons: [
+        {
+          extend: 'pdf',
+          title: plotCtrl.univariateTitle
+        }
+      ]
     });
 
     $('#multi-var-table').dataTable({
@@ -652,7 +665,12 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       fnRowCallback: function (nRow, aData) {
         $(nRow).css('color', color(aData[0]));
       },
-      buttons: ['pdf']
+      buttons: [
+        {
+          extend: 'pdf',
+          title: plotCtrl.multivariateTitle 
+        }
+      ]
     });
   };
 
