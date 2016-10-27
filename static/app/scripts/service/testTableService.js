@@ -75,10 +75,15 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     });
   };
 
+  function getTestsDataFromCsv(){
+    return $http.get(dataPath + 'test_variable_info.csv');
+  }
+
   return {
     getTest: getTest,
     getRelease: getRelease,
     expandCollapseTree: expandCollapseTree,
-    findTest: findTest
+    findTest: findTest,
+    getTestsDataFromCsv: getTestsDataFromCsv
   };
 };

@@ -46,6 +46,35 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
   };
 
   vm.go = function (path) {
+    // TODO: make sure tests are selected (issue #127)
+
+    // Add intermediary variables to $rootScope.selectedTest
+    testTableService.getTestsDataFromCsv().then(function success(response){
+      var csvConfig = {
+        header: true,
+        dynamicTyping: true,
+      };
+      var data = Papa.parse(response.data, csvConfig);
+      var tests = data.data;
+
+      var selectedTestsWithComputedVarArguments = {};
+      var computedVarArgs;
+      angular.forEach($rootScope.selectedTest, function(test){
+        computedVarArgs = test.computed_variable_arguments.split(',');
+        if(computedVarArgs[0] !== ""){
+          computedVarArgs.forEach(function(arg){
+            var add = _.find(tests, function(t) { return t.ID === arg; });
+            selectedTestsWithComputedVarArguments[arg] = add;
+          });
+        }
+        selectedTestsWithComputedVarArguments[test.id] = test;
+      });
+      $rootScope.selectedTest = selectedTestsWithComputedVarArguments;
+    }, function error(response){
+      console.log('error');
+      console.log(response);
+    });
+
     $location.path(path);
   };
 
