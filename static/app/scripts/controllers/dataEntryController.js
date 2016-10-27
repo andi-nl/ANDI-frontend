@@ -13,6 +13,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   $window, ivhTreeviewMgr, DATEFORMAT, toastr) {
   var dataEntry = this;
 
+  // $rootScope.tests: object containing data about tests that can be selected (a tree of all available tests)
   $rootScope.tests = ($rootScope.tests !== undefined) ? $rootScope.tests : [];
   $rootScope.txtvalue = ($rootScope.txtvalue !== undefined) ? $rootScope.txtvalue : '';
 
@@ -22,6 +23,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   dataEntry.submited = false; // for custom validation flag
 
   // Make selected test object
+  // $rootScope.selectedTest: object containg tests selected by the user
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};
 
   // Patient List
