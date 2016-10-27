@@ -668,7 +668,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       buttons: [
         {
           extend: 'pdf',
-          title: plotCtrl.multivariateTitle 
+          title: plotCtrl.multivariateTitle
         }
       ]
     });
@@ -678,19 +678,21 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
     var width = 700,
         height = 500,
         size = 30,
-        padding = 5;
+        padding = 5,
+        min = -3,
+        max = 3;
 
     var x = d3.scale.linear()
-        .range([padding / 2, size - padding / 2])
-        .domain([-3, 3]);
+        .range([0, size])
+        .domain([min, max]);
 
     var y = d3.scale.linear()
-        .range([size - padding / 2, padding / 2])
-        .domain([-3, 3]);
+        .range([size, 0])
+        .domain([min, max]);
 
     var dim = d3.scale.linear()
         .range([0, size - padding])
-        .domain([0, 6]);
+        .domain([0, 2*max]);
 
     d3.queue()
         .defer(d3.csv, "static/app/data/ellipseparams.csv")
@@ -808,66 +810,70 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
                 .style('opacity', 0);
             });
 
-      // Filter data points that are outside the grey square
-      var visiblePoints = points.filter(function(d) {
-        // Because test2 is the x axis and test1 the y axis, we have to
-        // switch x and y here.
-        if(x(d.y) > size || x(d.y) < 0){
-          return false;
-        }
-        if(y(d.x) > size || y(d.x) < 0){
-          return false;
-        }
-          return true;
-      });
-      console.log(visiblePoints);
+      // Update ellipses points data with info about which marks to show
+      // and move points outside the grey boxes to the boundaries
+      // Crosses are points outside the boundaries,
+      // Circles are points inside the boundaries
+      var warn = false;
+      points.forEach(function(d) {
+        d.mark = 'circle';
 
-      // Display warning if points have been filtered.
-      if(visiblePoints.length < points.length){
-        console.log('displaying warning');
-        $scope.ellipsePlotWarning = 'Some data points are outside the visible area of the graph. These have been removed.';
+        if(d.y > max){
+          d.y = max;
+          d.mark = 'cross';
+          warn = true;
+        }
+        if(d.y < min){
+          d.y = min;
+          d.mark = 'cross';
+          warn = true;
+        }
+
+        if(d.x > max){
+          d.x = max;
+          d.mark = 'cross';
+          warn = true;
+        }
+        if(d.x < min){
+          d.x = min;
+          d.mark = 'cross';
+          warn = true;
+        }
+
+        return d;
+      });
+      console.log(points);
+
+      // Display warning if points are outside the boundary
+      if(warn){
+        $scope.ellipsePlotWarning = 'Some data points are outside the visible area of the graph. These have been drawn as crosses on the graph borders.';
       }
+      var mark = d3.svg.symbol().type(function(d){ return d.mark; }).size(50);
 
       // Plot grey circles (for context)
-      svg.selectAll("circle.ellipse-data-background")
-          .data(visiblePoints)
-        .enter().append("circle")
-          // Because test2 is the x axis and test1 the y axis, we have to
-          // switch x and y here.
-          .attr('cx', function (d) {
-            return x(d.y);
-          })
-          .attr('cy', function (d) {
-            return y(d.x);
-          })
-          .attr('r', 4)
+      svg.selectAll(".ellipse-data-background")
+          .data(points)
+        .enter().append('path')
+          .attr('d', mark)
           .attr("transform", function (d) {
             // We put test2 in xOuter and test1 in yOuter, because the
             // ellipses are in the lower left triangle.
-            var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
-              return "translate(" + translate + ")";
+            var translate = (xOuter(d.test2) - size/2 + x(d.y) + "," + (yOuter(d.test1) - size/2 + y(d.x)));
+              return "translate(" + translate + ") rotate(45)";
             })
           .attr('class', 'ellipse-data-background')
           .style("fill", '#ddd');
 
       // Plot colored circles
-      svg.selectAll("circle.ellipse-data-foreground")
-          .data(visiblePoints)
-        .enter().append("circle")
-          // Because test2 is the x axis and test1 the y axis, we have to
-          // switch x and y here.
-          .attr('cx', function (d) {
-            return x(d.y);
-          })
-          .attr('cy', function (d) {
-            return y(d.x);
-          })
-          .attr('r', 4)
+      svg.selectAll(".ellipse-data-foreground")
+          .data(points)
+        .enter().append('path')
+          .attr('d', mark)
           .attr("transform", function (d) {
             // We put test2 in xOuter and test1 in yOuter, because the
             // ellipses are in the lower left triangle.
-            var translate = (xOuter(d.test2) - size/2 + "," + (yOuter(d.test1) - size/2));
-              return "translate(" + translate + ")";
+            var translate = (xOuter(d.test2) - size/2 + x(d.y) + "," + (yOuter(d.test1) - size/2 + y(d.x)));
+              return "translate(" + translate + ") rotate(45)";
             })
           .attr('class', function (d) {
               return 'circle'+d.id+ ' ellipse-data-foreground';
