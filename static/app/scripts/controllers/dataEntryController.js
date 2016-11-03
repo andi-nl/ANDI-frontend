@@ -159,22 +159,31 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     console.log(value);
     if($rootScope.selectedTest[testName].intermediary){
       useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
+      computedVarArgs = $rootScope.selectedTest[useTest].computed_variable_arguments.split(',');
+      var allEmpty = true;
+      var allFilled = true;
+      computedVarArgs.forEach(function(arg){
+        var v = $scope.patient.form['test'+patientId+'_'+arg].$viewValue;
+        if(v){
+          allEmpty = false;
+        } else {
+          allFilled = false;
+        }
+        console.log('allFilled: '+allFilled);
+        if(!allFilled){
+          $scope.patient[patientId].test[useTest] = '';
+        }
+      });
       if(value){
         console.log('Disable input field for '+$rootScope.selectedTest[testName].intermediaryValueFor);
         $rootScope.selectedTest[useTest].disabled = true;
+        if(allFilled){
+          console.log('all intermediary values filled, calculate computed value!');
+          console.log('test'+patientId+'_'+useTest);
+          $scope.patient[patientId].test[useTest] = 10;
+        }
       } else {
         console.log('Complicated '+$rootScope.selectedTest[testName].intermediaryValueFor);
-        computedVarArgs = $rootScope.selectedTest[useTest].computed_variable_arguments.split(',');
-        var allEmpty = true;
-        var allFilled = true;
-        computedVarArgs.forEach(function(arg){
-          var v = $scope.patient.form['test'+patientId+'_'+arg].$viewValue;
-          if(v){
-            allEmpty = false;
-          } else {
-            allFilled = false;
-          }
-        });
         if(allEmpty){
           useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
           $rootScope.selectedTest[useTest].disabled = false;

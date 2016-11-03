@@ -83,3 +83,13 @@ rect.ellipse-background {
   fill: #f8f8f8;
   stroke-width: 1;
 }
+
+input:-moz-read-only { /* For Firefox */
+    background-color: #f2f2f2;
+    border: 1px solid #a9a9a9;
+}
+
+input:read-only {
+    background-color: #f2f2f2;
+    border: 1px solid #a9a9a9;
+}
