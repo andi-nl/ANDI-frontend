@@ -125,7 +125,7 @@
                     <tr ng-repeat="(key, value) in selectedTest">
                       <td class="right-td">
                         <input ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"
-                          ng-disabled="value.disabled" type="number" min="{{value.lowweb}}" max="{{value.highweb}}" ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(key, 'test'+$parent.$index+'_'+key, $parent.$index)">
+                          ng-readonly="value.disabled" type="number" min="{{value.lowweb}}" max="{{value.highweb}}" ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(key, 'test'+$parent.$index+'_'+key, $parent.$index)">
 
                         <!--   <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.required && dataEntry.submited">Required</span> -->
                         <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
