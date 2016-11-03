@@ -25,6 +25,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   // Make selected test object
   // $rootScope.selectedTest: object containg tests selected by the user
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};
+  console.log($rootScope.selectedTest);
 
   // Patient List
   dataEntry.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
@@ -141,6 +142,58 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
           sorted.push($scope.patient[i].id);
           $scope.patient.form['id' + i].$setValidity('duplicate', !false);
         }
+      }
+    }
+  };
+
+  /*
+   * Disable input fields for computed variables/intermediary variables
+   */
+  dataEntry.disableIntermediaryAndComputedVariables = function(testName, fieldId, patientId) {
+    var computedVarArgs;
+    var useTest;
+    console.log(testName);
+    console.log(fieldId);
+    console.log(patientId);
+    var value = $scope.patient.form[fieldId].$viewValue;
+    console.log(value);
+    if($rootScope.selectedTest[testName].intermediary){
+      useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
+      if(value){
+        console.log('Disable input field for '+$rootScope.selectedTest[testName].intermediaryValueFor);
+        $rootScope.selectedTest[useTest].disabled = true;
+      } else {
+        console.log('Complicated '+$rootScope.selectedTest[testName].intermediaryValueFor);
+        computedVarArgs = $rootScope.selectedTest[useTest].computed_variable_arguments.split(',');
+        var allEmpty = true;
+        var allFilled = true;
+        computedVarArgs.forEach(function(arg){
+          var v = $scope.patient.form['test'+patientId+'_'+arg].$viewValue;
+          if(v){
+            allEmpty = false;
+          } else {
+            allFilled = false;
+          }
+        });
+        if(allEmpty){
+          useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
+          $rootScope.selectedTest[useTest].disabled = false;
+        }
+      }
+    } else {
+      computedVarArgs = $rootScope.selectedTest[testName].computed_variable_arguments.split(',');
+      console.log(computedVarArgs);
+      if(computedVarArgs[0] !== ""){
+        computedVarArgs.forEach(function(arg){
+          console.log(arg);
+          if(value){
+            console.log('Disable '+$rootScope.selectedTest[testName].computed_variable_arguments);
+            $rootScope.selectedTest[arg].disabled = true;
+          } else {
+            console.log('Enable '+$rootScope.selectedTest[testName].computed_variable_arguments);
+            $rootScope.selectedTest[arg].disabled = false;
+          }
+        });
       }
     }
   };

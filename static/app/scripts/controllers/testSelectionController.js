@@ -64,9 +64,13 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
         if(computedVarArgs[0] !== ""){
           computedVarArgs.forEach(function(arg){
             var add = _.find(tests, function(t) { return t.ID === arg; });
+            add.intermediary = true;
+            add.intermediaryValueFor = test.id;
+            add.disabled = false;
             selectedTestsWithComputedVarArguments[arg] = add;
           });
         }
+        test.disabled = false;
         selectedTestsWithComputedVarArguments[test.id] = test;
       });
       $rootScope.selectedTest = selectedTestsWithComputedVarArguments;
