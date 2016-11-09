@@ -21,7 +21,7 @@
         <tr>
           <td></td>
           <td ng-repeat="patientData in dataEntry.patient">
-            <button class="remBtn" ng-click="dataEntry.removeColumn($index,$event);">Remove</button>
+            <button ng-show="dataEntry.patient.length > 1" class="remBtn" ng-click="dataEntry.removeColumn($index,$event);">Remove</button>
           </td>
         </tr>
         <tr>

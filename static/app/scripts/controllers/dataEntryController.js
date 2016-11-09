@@ -77,6 +77,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
       event.preventDefault();
     }
     else {
+      // This shouldn't happen anymore, because no delete button is displayed
+      // when there is only one patient. However, for overcompleteness, the
+      // alert message is kept.
       alert('Data for at least one patient needs to be filled in !');
       event.preventDefault();
     }
