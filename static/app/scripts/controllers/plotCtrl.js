@@ -588,12 +588,12 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
     // columns
     var uniVarCols = [
       'id', 'plotname', 'univariatedifferences', 'univariateT',
-      'univariatedf', 'univariatep'
+      'N', 'univariatep'
     ];
 
     var uniVarColNames = [
       'patient', 'test variable', 'difference', 't-value',
-      'degrees of freedom', 'p-value'
+      'N', 'p-value'
     ];
 
     var multiVarCols = [
@@ -668,7 +668,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       buttons: [
         {
           extend: 'pdf',
-          title: plotCtrl.multivariateTitle 
+          title: plotCtrl.multivariateTitle
         }
       ]
     });
