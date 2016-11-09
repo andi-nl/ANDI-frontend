@@ -43,7 +43,7 @@
               <td class="main-td">education</td>
             </tr>
             <tr ng-repeat="(key, value) in selectedTest">
-              <td class="right-td"> {{key}} </td>
+              <td class="right-td"> <span class="{{value.class}}">{{key}}</span> </td>
             </tr>
           </table>
         </td>

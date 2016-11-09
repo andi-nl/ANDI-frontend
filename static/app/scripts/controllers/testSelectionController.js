@@ -67,8 +67,10 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
             add.intermediary = true;
             add.intermediaryValueFor = test.id;
             add.disabled = false;
+            add.class = 'intermediary';
             selectedTestsWithComputedVarArguments[arg] = add;
           });
+          test.class = 'computed';
         }
         test.disabled = false;
         selectedTestsWithComputedVarArguments[test.id] = test;
