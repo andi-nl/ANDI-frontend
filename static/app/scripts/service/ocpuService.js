@@ -6,18 +6,27 @@ ocpuService.$inject = ['$http']
 
 function ocpuService($http) {
   var service = {
-    normcomp: normcomp
+    normcomp: normcomp,
+    calccomposite: calccomposite
   };
 
   var url = '/compute/';
 
-  function normcomp(input) {
+  function ocpu(method, input) {
     var request = {
-      method: 'normcomp',
+      method: method,
       input: input
     };
     return $http.post(url, request);
   };
+
+  function normcomp(input) {
+    return ocpu('normcomp', input);
+  }
+
+  function calccomposite(input) {
+    return ocpu('calccomposite', input);
+  }
 
   return service;
 }

@@ -4,12 +4,12 @@ angular
 
 dataEntryController.$inject = [
   '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
-  'patientDataservice', 'testTableService', '$window', 'ivhTreeviewMgr',
-  'DATEFORMAT', 'toastr'
+  'patientDataservice', 'testTableService', 'ocpuService',
+  '$window', 'ivhTreeviewMgr', 'DATEFORMAT', 'toastr'
 ];
 
 function dataEntryController($rootScope, $scope, $location, $timeout,
-  $uibModal, $q, patientDataservice, testTableService,
+  $uibModal, $q, patientDataservice, testTableService, ocpuService,
   $window, ivhTreeviewMgr, DATEFORMAT, toastr) {
   var dataEntry = this;
 
@@ -147,59 +147,67 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   };
 
   /*
-   * Disable input fields for computed variables/intermediary variables
+   * Disable/enable input fields for computed variables/intermediary variables
    */
   dataEntry.disableIntermediaryAndComputedVariables = function(testName, fieldId, patientId) {
+    // testName: the name of the test for which a value was added, changed, or removed
+    // fieldId: the name of the input field in which a value was added, changed, or removed
+    // patientId: the id of the patient for which a value was added, changed, or removed
     var computedVarArgs;
     var useTest;
-    console.log(testName);
-    console.log(fieldId);
-    console.log(patientId);
     var value = $scope.patient.form[fieldId].$viewValue;
-    console.log(value);
+
     if($rootScope.selectedTest[testName].intermediary){
       useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
       computedVarArgs = $rootScope.selectedTest[useTest].computed_variable_arguments.split(',');
+
+      // check whether either all intermediary values are empty or filled
       var allEmpty = true;
       var allFilled = true;
+      var args = [];
       computedVarArgs.forEach(function(arg){
         var v = $scope.patient.form['test'+patientId+'_'+arg].$viewValue;
         if(v){
           allEmpty = false;
+          args.push(v);
         } else {
           allFilled = false;
         }
-        console.log('allFilled: '+allFilled);
         if(!allFilled){
           $scope.patient[patientId].test[useTest] = '';
         }
       });
+
       if(value){
-        console.log('Disable input field for '+$rootScope.selectedTest[testName].intermediaryValueFor);
+        // an intermediary value was added (or changed); disable the input field for the computed variable
         $rootScope.selectedTest[useTest].disabled = true;
         if(allFilled){
-          console.log('all intermediary values filled, calculate computed value!');
-          console.log('test'+patientId+'_'+useTest);
-          $scope.patient[patientId].test[useTest] = 10;
+          // all intermediary values required for calculating the computed value are available
+          // so, calculate the computed value
+          var input = {'compVar': useTest, 'args': args};
+          ocpuService.calccomposite(input).then(function (data) {
+            $scope.patient[patientId].test[useTest] = data.data.data.value;
+          });
         }
       } else {
-        console.log('Complicated '+$rootScope.selectedTest[testName].intermediaryValueFor);
+        // an intermediary value was removed
         if(allEmpty){
+          // all intermediary values are empty, enable the input field for the computed value
           useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
           $rootScope.selectedTest[useTest].disabled = false;
         }
       }
     } else {
+      // we are not dealing with a value for an intermediary variable
+      // check to see whether we are dealing with a value for a computed variable
       computedVarArgs = $rootScope.selectedTest[testName].computed_variable_arguments.split(',');
-      console.log(computedVarArgs);
       if(computedVarArgs[0] !== ""){
         computedVarArgs.forEach(function(arg){
-          console.log(arg);
           if(value){
-            console.log('Disable '+$rootScope.selectedTest[testName].computed_variable_arguments);
+            // a computed value was filled in; disable the input fields for the intermediary values
             $rootScope.selectedTest[arg].disabled = true;
           } else {
-            console.log('Enable '+$rootScope.selectedTest[testName].computed_variable_arguments);
+            // a computed value was removed; enable the input fields for the intermediary values
             $rootScope.selectedTest[arg].disabled = false;
           }
         });
