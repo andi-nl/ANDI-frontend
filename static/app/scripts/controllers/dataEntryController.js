@@ -158,6 +158,10 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     var useTest;
     var value = $scope.patient.form[fieldId].$viewValue;
 
+    console.log(testName);
+    console.log(fieldId);
+    console.log(patientId);
+
     if($rootScope.selectedTest[testName].intermediary){
       useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
       computedVarArgs = $rootScope.selectedTest[useTest].computed_variable_arguments.split(',');
@@ -175,7 +179,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
           allFilled = false;
         }
         if(!allFilled){
-          $scope.patient[patientId].test[useTest] = '';
+          $scope.patient[patientId][useTest] = '';
         }
       });
 
@@ -187,7 +191,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
           // so, calculate the computed value
           var input = {'compVar': useTest, 'args': args};
           ocpuService.calccomposite(input).then(function (data) {
-            $scope.patient[patientId].test[useTest] = data.data.data.value;
+            $scope.patient[patientId][useTest] = data.data.data.value;
           });
         }
       } else {

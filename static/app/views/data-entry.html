@@ -81,7 +81,7 @@
           <td ng-repeat="patientData in dataEntry.patient">
             <input ng-model="patient[$index][inputName]" id="test{{$index}}_{{inputName}}" name="test{{$index}}_{{inputName}}"
               ng-readonly="value.disabled" type="number" min="{{value.lowweb}}" max="{{value.highweb}}"
-              ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(key, 'test'+$index+'_'+inputName, $index)">
+              ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(inputName, 'test'+$index+'_'+inputName, $index)">
             <span class="has-error" ng-show="patient.form['test{{$index}}_{{inputName}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
             <span class="has-error" ng-show="patient.form['test{{$index}}_{{inputName}}'].$error.max">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
             <span class="has-error" ng-show="patient.form['test{{$index}}_{{inputName}}'].$error.number">Not valid number!</span>
