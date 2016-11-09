@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import SuspiciousOperation
 
-from .utils import do_normcomp
+from .utils import do_normcomp, do_calccomposite
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +26,8 @@ def compute(request):
 
     if method == 'normcomp':
         return do_normcomp(parameters)
+    elif method == 'calccomposite':
+        return do_calccomposite(parameters)
     else:
         msg = 'ocpu called with "{}"; method not implemented'.format(method)
         logger.error(msg)

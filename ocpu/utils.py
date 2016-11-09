@@ -89,6 +89,18 @@ def do_normcomp(parameters):
                          'input': input_data})
 
 
+def do_calccomposite(parameters):
+    method = parameters.get('method')
+    data = {'inputfile': json.dumps(parameters.get('input'))}
+
+    res = _ocpu_request(method, data)
+    if 'error' in res.keys():
+        return JsonResponse(res)
+
+    res = res['data'][0]
+    return JsonResponse({'data': res})
+
+
 def _ocpu_request(method, data):
     method_template = '/ocpu/library/andistats/R/{}/json'
     url = 'http://{}:{}{}'.format(settings.OCPU_HOST, settings.OCPU_PORT,
