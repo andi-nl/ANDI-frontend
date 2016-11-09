@@ -28,7 +28,8 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   console.log($rootScope.selectedTest);
 
   // Patient List
-  dataEntry.patient = [{ 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': $rootScope.selectedTest }];
+  dataEntry.patient = [];
+  dataEntry.patient.push(patientDataservice.addPatient($rootScope.selectedTest));
 
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.message = 'Data Uploaded successfully.';

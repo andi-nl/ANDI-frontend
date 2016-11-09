@@ -18,7 +18,12 @@ function patientDataservice(testTableService, $rootScope) {
     calculateAge: calculateAge
   };
   function addPatient(selectedTest) {
-    return { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': selectedTest };
+    var patient = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '' };
+    _.forOwn(selectedTest, function(value, key){
+      patient[key] = '';
+    });
+    console.log(patient);
+    return patient;
   }
   function submitPatient($scope) {
     // make Patient Object

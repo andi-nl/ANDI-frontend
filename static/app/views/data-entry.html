@@ -16,131 +16,80 @@
       <button type="button" ng-hide="btnAddPatient" class="btn rightBtn" ng-click="dataEntry.addPatient()"> Add Patient</button>
     </div>
     <!-- Table structure -->
-    <table class="">
-      <tr>
-        <td>
-          <!-- export csv Table structure -->
-          <table style="width:250px;" class="table table-bordered">
-            <tr>
-              <td class="right-td"></td>
-            </tr>
-            <tr>
-              <td class="main-td ">id</td>
-            </tr>
-            <tr>
-              <td class="main-td">age</td>
-            </tr>
-            <tr>
-              <td class="main-td">birthdate</td>
-            </tr>
-            <tr>
-              <td class="main-td">testdate</td>
-            </tr>
-            <tr>
-              <td class="main-td">sex</td>
-            </tr>
-            <tr>
-              <td class="main-td">education</td>
-            </tr>
-            <tr ng-repeat="(key, value) in selectedTest">
-              <td class="right-td"> <span class="{{value.class}}">{{key}}</span> </td>
-            </tr>
-          </table>
-        </td>
-        <td>
-          <!-- patient array wise create column -->
-          <div ng-class="dataEntry.counter>3? 'tblscrollpadding' : 'tblscroll'">
-            <table>
-              <tr>
-                <td ng-repeat="patientData in dataEntry.patient">
-                  <table border="0" class="table table-bordered">
-                    <tr>
-                      <td class="right-td">
-                        <button class="remBtn" ng-click="dataEntry.removeColumn($index,$event);">Remove</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="right-td">
-                        <input type="text" name="id{{$index}}" id="id{{$index}}" ng-model="patient[$index].id" ng-change="dataEntry.verifyId()" required>
-                        <span class="has-error" ng-show="patient.form.id{{$index}}.$error.required  && dataEntry.submited">Required<br/>
-                                      </span>
-                        <span class="has-error" ng-show="patient.form.id{{$index}}.$error.duplicate">Patient ids should be unique!</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="right-td">
-                        <input ng-disabled="isDisabled" min="0" ng-keyup="dataEntry.disableDate($index)" ng-required="!dataEntry.dateRequired($index);"
-                          type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
-                        <span class="has-error" ng-show="patient.form.age{{$index}}.$error.required && dataEntry.submited">Required.</span>
-                        <span class="has-error" ng-show="patient.form.age{{$index}}.$error.min">Enter valid age in years</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="right-td" ng-init='this["birthdate"+$index] = false'>
-                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" uib-datepicker-popup="{{format}}"
-                          is-open='this["birthdate"+$index]' close-text="Close" name="birthdate{{$index}}" id="birthdate{{$index}}"
-                          ng-model="patient[$index]['birthdate']" ng-click='this["birthdate"+$index]=true' ng-required="dataEntry.dateRequired($index);"
-                        />
-                        <span class="has-error" ng-show="patient.form.birthdate{{$index}}.$error.required && dataEntry.submited">Required</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="right-td" ng-init='this["testdate"+$index] = false'>
-                        <input type="text" ng-disabled="isDisabled" ng-change="dataEntry.calculateAge($index)" uib-datepicker-popup="{{format}}"
-                          is-open='this["testdate"+$index]' close-text="Close" name="testdate{{$index}}" id="testdate{{$index}}"
-                          ng-model="patient[$index]['testdate']" ng-click='this["testdate"+$index] = true' ng-required="dataEntry.dateRequired($index);"
-                        />
-                        <span class="has-error" ng-show="patient.form.testdate{{$index}}.$error.required && dataEntry.submited">Required</span>
+    <div ng-class="dataEntry.counter>3? 'tblscrollpadding' : 'tblscroll'">
+      <table class="table table-bordered">
+        <tr>
+          <td></td>
+          <td ng-repeat="patientData in dataEntry.patient">
+            <button class="remBtn" ng-click="dataEntry.removeColumn($index,$event);">Remove</button>
+          </td>
+        </tr>
+        <tr>
+          <td>id</td>
+          <td ng-repeat="patientData in dataEntry.patient">
+            <input type="text" name="id{{$index}}" id="id{{$index}}" ng-model="patient[$index].id" ng-change="dataEntry.verifyId()" required>
+            <span class="has-error" ng-show="patient.form.id{{$index}}.$error.required  && dataEntry.submited">Required<br/></span>
+            <span class="has-error" ng-show="patient.form.id{{$index}}.$error.duplicate">Patient ids should be unique!</span>
+          </td>
+        </tr>
+        <tr>
+          <td>age</td>
+          <td ng-repeat="patientData in dataEntry.patient">
+            <input ng-disabled="isDisabled" min="0" ng-keyup="dataEntry.disableDate($index)" ng-required="!dataEntry.dateRequired($index);"
+              type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
+            <span class="has-error" ng-show="patient.form.age{{$index}}.$error.required && dataEntry.submited">Required.</span>
+            <span class="has-error" ng-show="patient.form.age{{$index}}.$error.min">Enter valid age in years</span>
+          </td>
+        </tr>
+        <tr>
+          <td>birthdate</td>
+          <td ng-repeat="patientData in dataEntry.patient">
+          </td>
+        </tr>
+        <tr>
+          <td>testdate</td>
+          <td ng-repeat="patientData in dataEntry.patient">
+          </td>
+        </tr>
+        <tr>
+          <td>sex</td>
+          <td ng-repeat="patientData in dataEntry.patient">
+            <select ng-disabled="isDisabled" name="sex{{$index}}" id="sex{{$index}}" ng-model="patient[$index].sex" required>
+              <option value="0"> Male </option>
+              <option value="1"> Female</option>
+            </select>
+            <span class="has-error" ng-show="patient.form.sex{{$index}}.$error.required && dataEntry.submited">Required</span>
+          </td>
+        </tr>
+        <tr>
+          <td>education</td>
+          <td ng-repeat="patientData in dataEntry.patient">
+            <select ng-disabled="isDisabled" name="education{{$index}}" id="education{{$index}}" ng-model="patient[$index].education" required>
+              <option value="1"> Verhage 1 </option>
+              <option value="2"> Verhage 2 </option>
+              <option value="3"> Verhage 3</option>
+              <option value="4"> Verhage 4</option>
+              <option value="5"> Verhage 5</option>
+              <option value="6"> Verhage 6</option>
+              <option value="7"> Verhage 7</option>
+            </select>
+            <span class="has-error" ng-show="patient.form.education{{$index}}.$error.required && dataEntry.submited">Required</span>
+          </td>
+        </tr>
+        <tr ng-repeat="(inputName, value) in selectedTest">
+          <td> <span class="{{value.class}}">{{inputName}}</span> </td>
+          <td ng-repeat="patientData in dataEntry.patient">
+            <input ng-model="patient[$index][inputName]" id="test{{$index}}_{{inputName}}" name="test{{$index}}_{{inputName}}"
+              ng-readonly="value.disabled" type="number" min="{{value.lowweb}}" max="{{value.highweb}}"
+              ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(key, 'test'+$index+'_'+inputName, $index)">
+            <span class="has-error" ng-show="patient.form['test{{$index}}_{{inputName}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
+            <span class="has-error" ng-show="patient.form['test{{$index}}_{{inputName}}'].$error.max">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
+            <span class="has-error" ng-show="patient.form['test{{$index}}_{{inputName}}'].$error.number">Not valid number!</span>
+          </td>
+        </tr>
+      </table>
+    </div>
 
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="right-td">
-                        <select ng-disabled="isDisabled" name="sex{{$index}}" id="sex{{$index}}" ng-model="patient[$index].sex"
-                          required>
-                                      <option value="0"> Male </option>
-                                      <option value="1"> Female</option>
-                                    </select>
-
-                        <span class="has-error" ng-show="patient.form.sex{{$index}}.$error.required && dataEntry.submited">Required</span>
-
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="right-td">
-                        <select ng-disabled="isDisabled" name="education{{$index}}" id="education{{$index}}" ng-model="patient[$index].education"
-                          required>
-                                      <option value="1"> Verhage 1 </option>
-                                      <option value="2"> Verhage 2 </option>
-                                      <option value="3"> Verhage 3</option>
-                                      <option value="4"> Verhage 4</option>
-                                      <option value="5"> Verhage 5</option>
-                                      <option value="6"> Verhage 6</option>
-                                      <option value="7"> Verhage 7</option>
-                                      </select>
-
-                        <span class="has-error" ng-show="patient.form.education{{$index}}.$error.required && dataEntry.submited">Required</span>
-                      </td>
-                    </tr>
-                    <tr ng-repeat="(key, value) in selectedTest">
-                      <td class="right-td">
-                        <input ng-model="patient[$parent.$index].test[key]" name="test{{$parent.$index}}_{{key}}" id="test{{$parent.$index}}_{{key}}"
-                          ng-readonly="value.disabled" type="number" min="{{value.lowweb}}" max="{{value.highweb}}" ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(key, 'test'+$parent.$index+'_'+key, $parent.$index)">
-
-                        <!--   <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.required && dataEntry.submited">Required</span> -->
-                        <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
-                        <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.max">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
-                        <span class="has-error" ng-show="patient.form['test{{$parent.$index}}_{{key}}'].$error.number">Not valid number!</span>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </td>
-      </tr>
-    </table>
     <br><br>
     <h3>Advanced Settings</h3>
     <hr>
