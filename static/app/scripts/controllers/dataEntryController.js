@@ -85,53 +85,6 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     }
   };
 
-  dataEntry.dateRequired = function (index) {
-    var valid = false;
-    if (($rootScope.fileData === undefined || $rootScope.fileData === null || $rootScope.fileData === '')) {
-      if ($scope.patient[index] !== undefined && $scope.patient[index].age !== undefined && $scope.patient[index].age !== '') {
-        valid = false;
-      }
-      else {
-        valid = true;
-      }
-    }
-    else {
-      if ($scope.patient[index] !== undefined && $scope.patient[index].age === undefined) {
-        valid = false;
-      }
-    }
-    return valid;
-  };
-
-  /*
-  Disable birthdate and testdate input when age input is filled in.
-  */
-  dataEntry.disableDate = function (index) {
-    if ($scope.patient.form['age' + index].$viewValue !== '' && $scope.patient.form['age' + index].$viewValue !== undefined && $scope.patient.form['age' + index].$viewValue !== null) {
-      $('#birthdate' + index).attr('disabled', true);
-      $('#testdate' + index).attr('disabled', true);
-    }
-    else {
-      $('#birthdate' + index).attr('disabled', false);
-      $('#testdate' + index).attr('disabled', false);
-    }
-  };
-
-  /*
-  Calculate age based on birthdate and testdate.
-  */
-  dataEntry.calculateAge = function (index) {
-    if (dataEntry.shouldCalcAge) {
-      var birthDate = $scope.patient.form['birthdate' + index].$viewValue;
-      var testDate = $scope.patient.form['testdate' + index].$viewValue;
-      if (testDate !== undefined && birthDate !== undefined) {
-        var years = patientDataservice.calculateAge(birthDate, testDate);
-        $scope.patient.form['age' + index].$setViewValue(years);
-        $('#age' + index).val(years);
-      }
-    }
-  };
-
   /*
   Verify if patient IDs are unique.
   */

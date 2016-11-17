@@ -35,20 +35,9 @@
         <tr>
           <td>age</td>
           <td ng-repeat="patientData in dataEntry.patient">
-            <input ng-disabled="isDisabled" min="0" ng-keyup="dataEntry.disableDate($index)" ng-required="!dataEntry.dateRequired($index);"
-              type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
+            <input ng-disabled="isDisabled" min="0" type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patient[$index].age">
             <span class="has-error" ng-show="patient.form.age{{$index}}.$error.required && dataEntry.submited">Required.</span>
             <span class="has-error" ng-show="patient.form.age{{$index}}.$error.min">Enter valid age in years</span>
-          </td>
-        </tr>
-        <tr>
-          <td>birthdate</td>
-          <td ng-repeat="patientData in dataEntry.patient">
-          </td>
-        </tr>
-        <tr>
-          <td>testdate</td>
-          <td ng-repeat="patientData in dataEntry.patient">
           </td>
         </tr>
         <tr>
