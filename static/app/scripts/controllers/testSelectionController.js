@@ -21,6 +21,8 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
   $scope.downloadtemplate = false;
   $rootScope.fileData = '';
 
+  vm.templateData = '';
+
   /* Normative Date Change Time load new selected date test data*/
   testTableService.getRelease(function (response) {
     $scope.folders = response;
@@ -157,5 +159,38 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
         console.log('Modal dismissed at: ' + new Date());
       });
     }
+  };
+
+  /*
+   * Create csv upload file, using papa parse
+   */
+  vm.dataTemplate = function(){
+    var fields = ["", "Information", "Patient 1"];
+    var data = [
+      ["id", "(alphanumeric)", ""],
+      ["age", "(in years)", ""],
+      ["sex", "(M-0 F-1)", ""],
+      ["education", "(1-7)", ""]
+    ];
+    var info;
+
+    _.forEach($rootScope.selectedTest, function(value, key){
+      info = "("+value.lowweb+"-"+value.highweb;
+      if(value.intermediary){
+        info = info+"; intermediary value for "+value.intermediaryValueFor;
+      }
+      info = info+")";
+      data.push([key, info, ""]);
+    });
+
+    // set the data for the download template
+    var config = {
+      delimiter: '\t'
+    }
+    var csvData = Papa.unparse({
+      fields: fields,
+      data: data
+    }, config)
+    vm.templateData = 'data:text/csv;charset=UTF-8,' + encodeURI(csvData);
   };
 }

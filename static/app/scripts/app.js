@@ -19,11 +19,10 @@ var app = angular.module('andiApp', [
   'ivh.treeview',
   'ui.ace',
   'treeGrid',
-  'ngTableToCsv',
   'toastr'
 ]);
 
-app.config(function ($routeProvider) {
+app.config(function ($routeProvider, $compileProvider) {
   $routeProvider
     .when('/', {
       redirectTo: '/test-selection'
@@ -46,5 +45,6 @@ app.config(function ($routeProvider) {
     .otherwise({
       redirectTo: '/'
     });
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
 })
   .constant('DATEFORMAT', 'dd-MM-yyyy');
