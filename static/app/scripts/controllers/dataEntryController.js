@@ -4,12 +4,12 @@ angular
 
 dataEntryController.$inject = [
   '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
-  'patientDataservice', 'testTableService', 'ocpuService',
+  'patientDataservice', 'testTableService', 'ocpuService', 'dataUploadService',
   '$window', 'ivhTreeviewMgr', 'DATEFORMAT', 'toastr'
 ];
 
 function dataEntryController($rootScope, $scope, $location, $timeout,
-  $uibModal, $q, patientDataservice, testTableService, ocpuService,
+  $uibModal, $q, patientDataservice, testTableService, ocpuService, dataUploadService,
   $window, ivhTreeviewMgr, DATEFORMAT, toastr) {
   var dataEntry = this;
 
@@ -25,7 +25,6 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   // Make selected test object
   // $rootScope.selectedTest: object containg tests selected by the user
   $rootScope.selectedTest = ($rootScope.selectedTest !== undefined) ? $rootScope.selectedTest : {};
-  console.log($rootScope.selectedTest);
 
   // Patient List
   dataEntry.patient = [];
@@ -196,122 +195,33 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   // FIXIT: shoudl get it's own controller / service
   if ($rootScope.fileData !== undefined && $rootScope.fileData !== null && $rootScope.fileData !== '') {
     var replacearr = $rootScope.txtvalue.split(';');
-    var files = $rootScope.fileData;
-    var r = new FileReader();
-
-    /*
-    Read csv file and make daynamic form.
-    FIXIT: Parsing should be done by csv parsing package not home made solution.
-    */
-    r.onload = function (e) {
-      var contents = e.target.result;
-      var rows = contents.split('\n');
-      $scope.patient[0] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
-      $rootScope.nodeArr = [];
-      $rootScope.selectedTest = {};
-
-      angular.forEach(rows, function (fval, fkey) {
-        var data = fval.split(';');
-        if (data[1] === 'Information') {
-          $scope.validfile = true;
-        }
-      });
-      if ($scope.validfile) {
-        angular.forEach(rows, function (val, key) {
-          var data = val.split(';');
-          if (key === 1) {
-            var k = 1;
-            for (var i = 0; i < data.length; i++) {
-              if (data[i] !== '' && i > 2) {
-                $scope.patient[k] = { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': {} };
-                $scope.dataEntry.counter++;
-                k++;
-              }
-            }
-          }
-          if (key > 4) {
-            if (isNaN(parseInt(data[0])) && data[0] !== '') {
-              var IdAvailability = testTableService.findTest(data[0], 'id');
-              if (IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined) {
-                $rootScope.selectedTest[data[0]] = IdAvailability;
-                if ($rootScope.nodeArr.indexOf(data[0]) < 0) {
-                  $rootScope.nodeArr.push(data[0]);
-                };
-                toastr.success('Data uploaded successfully.')
-              }
-              else {
-                // FIXIT: use toastr instead and improve the message.
-                toastr.error('Please upload only those data files that have been downloaded and filled from this website !',
-                             'Data upload failed');
-              }
-            }
-          }
-        });
-        angular.forEach($scope.patient, function (val, key) {
-          if (parseInt(key)) {
-            $scope.dataEntry.patient[key] = val;
-          }
-        });
-        $timeout(function () {
-          angular.forEach(rows, function (val, key) {
-            var data = val.split(';');
-            if (key > 0) {
-              for (var j = 0; j < data.length; j++) {
-                var fieldVal = '';
-                if (j !== 0 && j !== 1) {
-                  if (key > 4) {
-                    var IdAvailability = testTableService.findTest(data[0], 'id');
-                    if (IdAvailability && IdAvailability.id !== null && IdAvailability.id !== undefined) {
-                      var field = data[0];
-                      fieldVal = data[j];
-                      if ($.inArray(fieldVal, replacearr) >= 0) {
-                        fieldVal = '';
-                      }
-                      else {
-                        fieldVal = parseInt(fieldVal);
-                      }
-                      $scope.patient.form['test' + (j - 2) + '_' + field].$setViewValue(fieldVal);
-                      $scope.patient[j - 2].test[field] = fieldVal;
-                      $('#test' + (j - 2) + '_' + field.replace(/ /g, '_')).val(fieldVal);
-                    }
-                  }
-                  else {
-                    if (data[j] !== '') {
-                      $scope.patient.form[data[0] + (j - 2)].$setViewValue(data[j]);
-                    }
-                    else {
-                      delete $scope.patient[(j - 2)][data[0]];
-                    }
-                    fieldVal = data[j];
-                    if (data[0] === 'age') {
-                      $('#birthdate' + (j - 2)).attr('disabled', true);
-                      $('#testdate' + (j - 2)).attr('disabled', true);
-                      fieldVal = parseInt(fieldVal);
-                    }
-                    if (data[0] === 'sex' || data[0] === 'education') {
-                      fieldVal = parseInt(fieldVal);
-                    }
-                    document.getElementById(data[0] + (j - 2)).value = fieldVal;
-                  }
-                }
-              }
-              $('#files').val('');
-            }
-          });
-          // FIXIT: use toastr for communicating status
-          //alert($scope.message);
-        }, 100);
-        $timeout(function () {
-          $('#id1').trigger('change');
-        }, 1000);
-      }
-      else {
-        $rootScope.fileErr = true;
-        $rootScope.txtvalue = '';
-        $rootScope.filebutton = true;
-        $location.path('/test-selection');
-      }
-    };
-    r.readAsText(files[0]);
+    dataUploadService.upload($rootScope.fileData, replacearr);
   }
+
+  $scope.$on('csvUploaded', function(event, patients){
+    dataEntry.patient = patients;
+    $scope.patient = patients;
+    // TODO: set sex and education
+
+    console.log('patients');
+    console.log(patients);
+
+    // Update info about selected tests (from the uploaded csv file)
+    $rootScope.nodeArr = [];
+    $rootScope.selectedTest = {};
+
+    console.log('loop over tests');
+    _.forOwn(patients[0], function(value, key){
+      var testFromTree = testTableService.findTest(key, 'id');
+      if (testFromTree && testFromTree.id !== null && testFromTree.id !== undefined) {
+        $rootScope.selectedTest[key] = testFromTree;
+        if ($rootScope.nodeArr.indexOf(key) < 0) {
+          $rootScope.nodeArr.push(key);
+        }
+      }
+
+      // update which tests are selected in the tree data structure
+      ivhTreeviewMgr.selectEach($rootScope.tests, $rootScope.nodeArr);
+    });
+  });
 }
