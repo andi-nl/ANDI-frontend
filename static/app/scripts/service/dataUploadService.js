@@ -51,7 +51,6 @@ function dataUploadService($rootScope, patientDataservice) {
       $rootScope.$broadcast('csvUploaded', patients);
     };
     r.readAsText(files[0]);
-    return patients;
   }
 
   return {
