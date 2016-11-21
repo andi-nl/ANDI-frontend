@@ -4,9 +4,9 @@ angular
   .module('andiApp')
   .factory('dataUploadService', dataUploadService);
 
-dataUploadService.$inject = ['$rootScope', 'patientDataservice']
+dataUploadService.$inject = ['$rootScope', 'toastr', 'patientDataservice']
 
-function dataUploadService($rootScope, patientDataservice) {
+function dataUploadService($rootScope, toastr, patientDataservice) {
 
   function upload(data, missing){
     var missingValues = [];
@@ -37,8 +37,32 @@ function dataUploadService($rootScope, patientDataservice) {
           // TODO: do data checking
           var fieldName = row[0];
           row.splice(2).forEach(function(value, index){
-            // remove missing values
             var val;
+            var p;
+
+            if(patients[index].id === ''){
+              p = '#'+(index+1)
+            } else {
+              p = patients[index].id
+            }
+
+            // sex must be 0 or 1
+            if(fieldName === 'sex' && (value !== 0 && value !== 1)){
+              toastr.warning('Patient '+p+': Invalid value for "sex". Using empty value instead.');
+              val = '';
+            } else {
+              val = value;
+            }
+
+            // education must be between 1 and 7
+            if(fieldName === 'education' && (value < 0 || value > 7)){
+              toastr.warning('Patient '+p+': Invalid value for "education". Using empty value instead.');
+              val = '';
+            } else {
+              val = value;
+            }
+
+            // remove missing values
             if(_.includes(missingValues, value)){
               val = '';
             } else {
