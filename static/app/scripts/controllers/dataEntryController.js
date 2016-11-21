@@ -194,7 +194,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   // FIXIT: this code is about importing ata from the uploaded file.
   // FIXIT: shoudl get it's own controller / service
   if ($rootScope.fileData !== undefined && $rootScope.fileData !== null && $rootScope.fileData !== '') {
-    var replacearr = $rootScope.txtvalue.split(';');
+    var replacearr = $rootScope.txtvalue.split(',');
     dataUploadService.upload($rootScope.fileData, replacearr);
   }
 

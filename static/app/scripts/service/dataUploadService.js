@@ -8,7 +8,13 @@ dataUploadService.$inject = ['$rootScope', 'patientDataservice']
 
 function dataUploadService($rootScope, patientDataservice) {
 
-  function upload(data, missingValues){
+  function upload(data, missing){
+    var missingValues = [];
+    missing.forEach(function(val){
+      console.log(val, parseInt(val));
+      missingValues.push(parseInt(val));
+    });
+
     var selectedTests = {};
     var patients = [];
 
@@ -28,10 +34,17 @@ function dataUploadService($rootScope, patientDataservice) {
       // add data from csv to patients array
       if(data.data.length > 2){
         data.data.splice(1).forEach(function(row){
-          // TODO: do data checking and removal of missing values
+          // TODO: do data checking
           var fieldName = row[0];
           row.splice(2).forEach(function(value, index){
-            patients[index][fieldName] = value;
+            // remove missing values
+            var val;
+            if(_.includes(missingValues, value)){
+              val = '';
+            } else {
+              val = value;
+            }
+            patients[index][fieldName] = val;
           });
         });
       }
