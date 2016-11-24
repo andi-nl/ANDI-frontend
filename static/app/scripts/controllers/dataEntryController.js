@@ -18,8 +18,6 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   $rootScope.txtvalue = ($rootScope.txtvalue !== undefined) ? $rootScope.txtvalue : '';
 
   dataEntry.alertMessage = '';
-  dataEntry.counter = 1;
-  dataEntry.shouldCalcAge = true;
   dataEntry.submited = false; // for custom validation flag
 
   // Make selected test object
@@ -32,71 +30,42 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
 
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.message = 'Data Uploaded successfully.';
-  $scope.validfile = false;
   $rootScope.fileErr = false;
-  $scope.format = DATEFORMAT;
+
+  dataEntry.go = function (path) {
+    $location.path(path);
+  };
 
   /*
   *Add Patient* button event
   When user clicks *Add patient* button
   new object is being pushed to the patient array
   */
-  dataEntry.go = function (path) {
-    $location.path(path);
-  };
-
   dataEntry.addPatient = function () {
     dataEntry.patient.push(patientDataservice.addPatient($rootScope.selectedTest));
-    dataEntry.counter++;
   };
 
-  /*
-     Remove patient from the table.
-     Check that at least one patient is present.
-  */
   dataEntry.removeColumn = function (index, event) {
     // remove the column specified in index
-    // you must cycle all the rows and remove the item
-    // row by row
-    if (dataEntry.patient.length > 1) {
-      dataEntry.patient.splice(index, 1);
-      var formObj = $scope.patient.form;
-      delete $scope.patient['form'];
-      var x = [];
-      $.each($scope.patient, function (i, n) {
-        x.push(n);
-      });
-      x.splice(index, 1);
-      $scope.patient = x.reduce(function (o, v, i) {
-        o[i] = v;
-        return o;
-      }, {});
-      $scope.patient.form = formObj;
-      dataEntry.counter--;
-      event.preventDefault();
-    }
-    else {
-      // This shouldn't happen anymore, because no delete button is displayed
-      // when there is only one patient. However, for overcompleteness, the
-      // alert message is kept.
-      alert('Data for at least one patient needs to be filled in !');
-      event.preventDefault();
-    }
+    dataEntry.patient.splice(index, 1);
+    event.preventDefault();
   };
 
   /*
   Verify if patient IDs are unique.
   */
   dataEntry.verifyId = function () {
+    console.log('verifyId');
     var sorted = [];
-    for (var i in $scope.patient) {
-      if ($scope.patient[i].id !== null && $scope.patient[i].id !== '' && $scope.patient[i].id !== undefined) {
-        if (sorted.indexOf($scope.patient[i].id) >= 0) {
-          $scope.patient.form['id' + i].$setValidity('duplicate', !true);
+    for (var i in dataEntry.patient) {
+      console.log(i);
+      if (dataEntry.patient[i].id !== null && dataEntry.patient[i].id !== '' && dataEntry.patient[i].id !== undefined) {
+        if (sorted.indexOf(dataEntry.patient[i].id) >= 0) {
+          $scope.patientForm['id' + i].$setValidity('duplicate', !true);
         }
         else {
-          sorted.push($scope.patient[i].id);
-          $scope.patient.form['id' + i].$setValidity('duplicate', !false);
+          sorted.push(dataEntry.patient[i].id);
+          $scope.patientForm['id' + i].$setValidity('duplicate', !false);
         }
       }
     }
@@ -108,10 +77,10 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   dataEntry.disableIntermediaryAndComputedVariables = function(testName, fieldId, patientId) {
     // testName: the name of the test for which a value was added, changed, or removed
     // fieldId: the name of the input field in which a value was added, changed, or removed
-    // patientId: the id of the patient for which a value was added, changed, or removed
+    // patientId: the index of the patient for which a value was added, changed, or removed
     var computedVarArgs;
     var useTest;
-    var value = $scope.patient.form[fieldId].$viewValue;
+    var value = $scope.patientForm[fieldId].$viewValue;
 
     console.log(testName);
     console.log(fieldId);
@@ -126,7 +95,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
       var allFilled = true;
       var args = [];
       computedVarArgs.forEach(function(arg){
-        var v = $scope.patient.form['test'+patientId+'_'+arg].$viewValue;
+        var v = $scope.patientForm['test'+patientId+'_'+arg].$viewValue;
         if(v){
           allEmpty = false;
           args.push(v);
@@ -134,7 +103,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
           allFilled = false;
         }
         if(!allFilled){
-          $scope.patient[patientId][useTest] = '';
+          dataEntry.patient[patientId][useTest] = '';
         }
       });
 
@@ -146,7 +115,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
           // so, calculate the computed value
           var input = {'compVar': useTest, 'args': args};
           ocpuService.calccomposite(input).then(function (data) {
-            $scope.patient[patientId][useTest] = data.data.data.value;
+            dataEntry.patient[patientId][useTest] = data.data.data.value;
           });
         }
       } else {
@@ -180,7 +149,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   */
   dataEntry.submit = function (isValid) {
     // check if form is valid
-    if ($scope.patient.form.$invalid) {
+    if ($scope.patientForm.$invalid) {
       $scope.dataEntry.submited = true;
     }
     else {

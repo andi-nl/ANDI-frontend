@@ -25,6 +25,8 @@ function patientDataservice(testTableService, $rootScope) {
     return patient;
   }
   function submitPatient($scope) {
+    // TODO: don't use $scope.patient
+    // TODO: dont' use $scope.dataEntry.counter
     // make Patient Object
     limit = 0;
     patientObj.settings = {
