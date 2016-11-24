@@ -200,8 +200,6 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
 
   $scope.$on('csvUploaded', function(event, patients){
     dataEntry.patient = patients;
-    $scope.patient = patients;
-    // TODO: set sex and education
 
     console.log('patients');
     console.log(patients);

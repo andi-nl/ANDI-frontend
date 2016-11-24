@@ -41,33 +41,41 @@ function dataUploadService($rootScope, toastr, patientDataservice) {
             var p;
 
             if(patients[index].id === ''){
-              p = '#'+(index+1)
+              p = '#'+(index+1);
             } else {
-              p = patients[index].id
+              p = patients[index].id;
             }
 
-            // sex must be 0 or 1
-            if(fieldName === 'sex' && (value !== 0 && value !== 1)){
-              toastr.warning('Patient '+p+': Invalid value for "sex". Using empty value instead.');
-              val = '';
-            } else {
-              val = value;
+            switch(fieldName) {
+              case 'sex':
+                // sex must be 0 or 1
+                if(value !== 0 && value !== 1){
+                  toastr.warning('Patient '+p+': Invalid value for "sex". Using empty value instead.');
+                  val = '';
+                } else {
+                  // The form needs a string
+                  val = ''+value;
+                }
+                break;
+              case 'education':
+                // education must be between 1 and 7
+                if(value < 0 || value > 7){
+                  toastr.warning('Patient '+p+': Invalid value for "education". Using empty value instead.');
+                  val = '';
+                } else {
+                  // The form needs a string
+                  val = ''+value;
+                }
+                break;
+              default:
+                // remove missing values
+                if(_.includes(missingValues, value)){
+                  val = '';
+                } else {
+                  val = value;
+                }
             }
 
-            // education must be between 1 and 7
-            if(fieldName === 'education' && (value < 0 || value > 7)){
-              toastr.warning('Patient '+p+': Invalid value for "education". Using empty value instead.');
-              val = '';
-            } else {
-              val = value;
-            }
-
-            // remove missing values
-            if(_.includes(missingValues, value)){
-              val = '';
-            } else {
-              val = value;
-            }
             patients[index][fieldName] = val;
           });
         });
