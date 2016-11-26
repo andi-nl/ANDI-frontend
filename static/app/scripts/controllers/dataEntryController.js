@@ -86,9 +86,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     console.log(fieldId);
     console.log(patientId);
 
-    if($rootScope.selectedTest[testName].intermediary){
-      useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
-      computedVarArgs = $rootScope.selectedTest[useTest].computed_variable_arguments.split(',');
+    if($rootScope.selectedTestsWithComputedVarArguments[testName].intermediary){
+      useTest = $rootScope.selectedTestsWithComputedVarArguments[testName].intermediaryValueFor;
+      computedVarArgs = $rootScope.selectedTestsWithComputedVarArguments[useTest].computed_variable_arguments.split(',');
 
       // check whether either all intermediary values are empty or filled
       var allEmpty = true;
@@ -109,7 +109,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
 
       if(value){
         // an intermediary value was added (or changed); disable the input field for the computed variable
-        $rootScope.selectedTest[useTest].disabled = true;
+        $rootScope.selectedTestsWithComputedVarArguments[useTest].disabled = true;
         if(allFilled){
           // all intermediary values required for calculating the computed value are available
           // so, calculate the computed value
@@ -122,22 +122,22 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
         // an intermediary value was removed
         if(allEmpty){
           // all intermediary values are empty, enable the input field for the computed value
-          useTest = $rootScope.selectedTest[testName].intermediaryValueFor;
-          $rootScope.selectedTest[useTest].disabled = false;
+          useTest = $rootScope.selectedTestsWithComputedVarArguments[testName].intermediaryValueFor;
+          $rootScope.selectedTestsWithComputedVarArguments[useTest].disabled = false;
         }
       }
     } else {
       // we are not dealing with a value for an intermediary variable
       // check to see whether we are dealing with a value for a computed variable
-      computedVarArgs = $rootScope.selectedTest[testName].computed_variable_arguments.split(',');
+      computedVarArgs = $rootScope.selectedTestsWithComputedVarArguments[testName].computed_variable_arguments.split(',');
       if(computedVarArgs[0] !== ""){
         computedVarArgs.forEach(function(arg){
           if(value){
             // a computed value was filled in; disable the input fields for the intermediary values
-            $rootScope.selectedTest[arg].disabled = true;
+            $rootScope.selectedTestsWithComputedVarArguments[arg].disabled = true;
           } else {
             // a computed value was removed; enable the input fields for the intermediary values
-            $rootScope.selectedTest[arg].disabled = false;
+            $rootScope.selectedTestsWithComputedVarArguments[arg].disabled = false;
           }
         });
       }
