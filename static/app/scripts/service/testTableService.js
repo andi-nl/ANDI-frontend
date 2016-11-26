@@ -106,7 +106,12 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
         test.disabled = false;
         selectedTestsWithComputedVarArguments[test.id] = test;
       });
+      // Broadcast alone was not sufficient, because for some reason the broadcast
+      // was not received when the user came back to the test selection page by
+      // clicking the 'previous' button. However, the broadcast is required to
+      // set the correct data for the data upload csv file.
       $rootScope.selectedTestsWithComputedVarArguments = selectedTestsWithComputedVarArguments;
+      $rootScope.$broadcast('selectedTestsWithComputedVarArguments', selectedTestsWithComputedVarArguments);
     }, function error(response){
       console.log('error');
       console.log(response);

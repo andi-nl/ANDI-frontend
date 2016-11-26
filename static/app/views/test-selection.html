@@ -62,11 +62,11 @@
         <div ng-if="testSelection.getSelectedNodes(data)" ng-repeat="data in tests" ng-include="'tree_item_renderer'"></div>
       </div>
       <hr>
-      <!-- csv genrate button -->
-      <a ng-if="downloadtemplate==true" class="btn" title="Export Table" ng-click='testSelection.dataTemplate()' href="{{ testSelection.templateData }}" download="PatientTable.csv">
+      <!-- csv generate button -->
+      <a ng-show="nodeArr.length>0" class="btn" title="Download template" ng-click='testSelection.dataTemplate()'>
         <i class="glyphicon glyphicon-new-window"></i>Download Template
       </a>
-      <!--End csv genrate button -->
+      <!--End csv generate button -->
       <div class="alert alert-info">
         <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient
         has their own column.
