@@ -4,9 +4,9 @@ angular
   .module('andiApp')
   .factory('dataUploadService', dataUploadService);
 
-dataUploadService.$inject = ['$rootScope', 'toastr', 'patientDataservice']
+dataUploadService.$inject = ['$rootScope', 'toastr', 'patientDataservice', 'testTableService']
 
-function dataUploadService($rootScope, toastr, patientDataservice) {
+function dataUploadService($rootScope, toastr, patientDataservice, testTableService) {
 
   function upload(data, missing){
     var missingValues = [];
@@ -15,7 +15,6 @@ function dataUploadService($rootScope, toastr, patientDataservice) {
       missingValues.push(parseInt(val));
     });
 
-    var selectedTests = {};
     var patients = [];
 
     console.log('upload');
@@ -23,6 +22,7 @@ function dataUploadService($rootScope, toastr, patientDataservice) {
     var files = data;
     var r = new FileReader();
     r.onloadend = function (e) {
+      $rootScope.selectedTest = {};
       var data = Papa.parse(e.target.result, {delimiter: '\t', dynamicTyping: true});
       console.log(data);
 
@@ -36,6 +36,10 @@ function dataUploadService($rootScope, toastr, patientDataservice) {
         data.data.splice(1).forEach(function(row){
           // TODO: check if patients with the same id are a problem (is the problem caught when the form is submitted?)
           var fieldName = row[0];
+          var test = testTableService.findTest(fieldName, 'id');
+          if(test !== {}){
+            $rootScope.selectedTest[fieldName] = test;
+          }
           row.splice(2).forEach(function(value, index){
             var val;
             var p;
@@ -81,6 +85,7 @@ function dataUploadService($rootScope, toastr, patientDataservice) {
         });
       }
       $rootScope.$broadcast('csvUploaded', patients);
+      testTableService.setSelectedTestsWithComputedVarArguments();
     };
     r.readAsText(files[0]);
   }
