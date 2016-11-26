@@ -79,11 +79,46 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     return $http.get(dataPath + 'test_variable_info.csv');
   }
 
+  function setSelectedTestsWithComputedVarArguments(){
+    getTestsDataFromCsv().then(function success(response){
+      var csvConfig = {
+        header: true,
+        dynamicTyping: true,
+      };
+      var data = Papa.parse(response.data, csvConfig);
+      var tests = data.data;
+
+      var selectedTestsWithComputedVarArguments = {};
+      var computedVarArgs;
+      angular.forEach($rootScope.selectedTest, function(test){
+        computedVarArgs = test.computed_variable_arguments.split(',');
+        if(computedVarArgs[0] !== ""){
+          computedVarArgs.forEach(function(arg){
+            var add = _.find(tests, function(t) { return t.ID === arg; });
+            add.intermediary = true;
+            add.intermediaryValueFor = test.id;
+            add.disabled = false;
+            add.class = 'intermediary';
+            selectedTestsWithComputedVarArguments[arg] = add;
+          });
+          test.class = 'computed';
+        }
+        test.disabled = false;
+        selectedTestsWithComputedVarArguments[test.id] = test;
+      });
+      $rootScope.selectedTestsWithComputedVarArguments = selectedTestsWithComputedVarArguments;
+    }, function error(response){
+      console.log('error');
+      console.log(response);
+    });
+  }
+
   return {
     getTest: getTest,
     getRelease: getRelease,
     expandCollapseTree: expandCollapseTree,
     findTest: findTest,
-    getTestsDataFromCsv: getTestsDataFromCsv
+    getTestsDataFromCsv: getTestsDataFromCsv,
+    setSelectedTestsWithComputedVarArguments: setSelectedTestsWithComputedVarArguments
   };
 };
