@@ -108,7 +108,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
 
       if(value){
         // an intermediary value was added (or changed); disable the input field for the computed variable
-        $rootScope.selectedTestsWithComputedVarArguments[useTest].disabled = true;
+        patient[useTest+'_disabled'] = true;
         if(allFilled){
           // all intermediary values required for calculating the computed value are available
           // so, calculate the computed value
@@ -122,7 +122,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
         if(allEmpty){
           // all intermediary values are empty, enable the input field for the computed value
           useTest = $rootScope.selectedTestsWithComputedVarArguments[testName].intermediaryValueFor;
-          $rootScope.selectedTestsWithComputedVarArguments[useTest].disabled = false;
+          patient[useTest+'_disabled'] = false;
         }
       }
     } else {
@@ -133,10 +133,10 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
         computedVarArgs.forEach(function(arg){
           if(value){
             // a computed value was filled in; disable the input fields for the intermediary values
-            $rootScope.selectedTestsWithComputedVarArguments[arg].disabled = true;
+            patient[arg+'_disabled'] = true;
           } else {
             // a computed value was removed; enable the input fields for the intermediary values
-            $rootScope.selectedTestsWithComputedVarArguments[arg].disabled = false;
+            patient[arg+'_disabled'] = false;
           }
         });
       }
