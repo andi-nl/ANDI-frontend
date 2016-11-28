@@ -56,7 +56,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
   Verify if patient IDs are unique.
   */
-  dataEntry.verifyId = function () {
+  dataEntry.verifyId = function() {
     console.log('verifyId');
     var sorted = [];
     for (var i in dataEntry.patient) {
@@ -84,7 +84,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   Submit form and move to results page.
   */
   dataEntry.submit = function() {
-    // check if form is valid
+    dataEntry.verifyId();
     if ($scope.patientForm.$invalid) {
       $scope.dataEntry.submited = true;
     }

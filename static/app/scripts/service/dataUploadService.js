@@ -35,7 +35,6 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
         // add data from csv to patients array
         if(data.data.length > 2){
           data.data.splice(1).forEach(function(row){
-            // TODO: check if patients with the same id are a problem (is the problem caught when the form is submitted?)
             var fieldName = row[0];
             var test = testTableService.findTest(fieldName, 'id');
             if(test !== {}){
