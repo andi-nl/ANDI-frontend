@@ -8,7 +8,7 @@ dataUploadService.$inject = ['$rootScope', '$location', 'toastr', 'patientDatase
 
 function dataUploadService($rootScope, $location, toastr, patientDataservice, testTableService) {
 
-  var patients = [];
+  var patients;
 
   function upload(data, missing){
     var missingValues = [];
@@ -27,10 +27,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
         var data = Papa.parse(e.target.result, {delimiter: '\t', dynamicTyping: true});
         console.log(data);
 
-        // make array with empty patients
-        for(var i=0; i<(data.data[0].length-2); i++){
-          patients.push({});
-        }
+        patients = [];
 
         // add data from csv to patients array
         if(data.data.length > 2){
@@ -43,6 +40,11 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
             row.splice(2).forEach(function(value, index){
               var val;
               var p;
+
+              // add new, empty patient if required
+              if(patients.length <= index){
+                patients.push(patientDataservice.addPatient([]));
+              }
 
               if(patients[index].id === ''){
                 p = '#'+(index+1);
@@ -90,6 +92,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
         $rootScope.$broadcast('csvUploaded', patients);
         testTableService.setSelectedTestsWithComputedVarArguments();
       } catch(err){
+        console.log(err);
         // invalid file
         $rootScope.fileErr = true;
         $location.path('/test-selection');
