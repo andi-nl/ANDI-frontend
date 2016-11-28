@@ -87,20 +87,27 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
           });
         }
 
-        toastr.success('Data uploaded successfully.');
+        if(patients.length == 0){
+          dataUploadFailed('No patient data found in file. Please enter data for at least one patient using the template downloaded from this page.');
+        } else {
+          toastr.success('Data uploaded successfully.');
+        }
 
         $rootScope.$broadcast('csvUploaded', patients);
         testTableService.setSelectedTestsWithComputedVarArguments();
       } catch(err){
         console.log(err);
         // invalid file
-        $rootScope.fileErr = true;
-        $location.path('/test-selection');
-
+        dataUploadFailed('Invalid file format. Please download the correct template to upload data.');
       }
 
     };
     r.readAsText(files[0]);
+  }
+
+  function dataUploadFailed(msg){
+    $rootScope.fileErr = msg;
+    $location.path('/test-selection');
   }
 
   // check intermediary and computed values

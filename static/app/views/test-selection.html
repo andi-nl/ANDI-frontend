@@ -8,8 +8,8 @@
     In case you wish to select an older version you can click ‘older version’. Note that we highly recommend always using
     the latest version. When you have completed the test selection, press Next to go to the next step.
   </div>
-  <div ng-if="fileErr" class="alert alert-warning">
-    <span>Please upload only the file downloaded from this portal !</span>
+  <div ng-show="fileErr" class="alert alert-danger">
+    <span>{{ fileErr }}</span>
   </div>
 </div>
 <div class="col-sm-12">
