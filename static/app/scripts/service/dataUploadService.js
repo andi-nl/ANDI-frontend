@@ -93,8 +93,6 @@ function dataUploadService($rootScope, toastr, patientDataservice, testTableServ
 
   // check intermediary and computed values
   $rootScope.$on('selectedTestsWithComputedVarArguments', function(event, tests){
-    console.log('check intermediary and computed values');
-
     patients.forEach(function(patient){
       _.forOwn(tests, function(test, testName){
         patientDataservice.disableIntermediaryAndComputedVariables(testName, patient);

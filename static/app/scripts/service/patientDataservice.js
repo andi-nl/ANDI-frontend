@@ -3,9 +3,9 @@ angular
   .module('andiApp')
   .factory('patientDataservice', patientDataservice);
 
-patientDataservice.$inject = ['testTableService', '$rootScope', 'ocpuService'];
+patientDataservice.$inject = ['testTableService', '$rootScope', 'ocpuService', 'toastr'];
 
-function patientDataservice(testTableService, $rootScope, ocpuService) {
+function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
   var limit = 0;
   var patientObj = {};
   var d1 = '';
@@ -102,6 +102,11 @@ function patientDataservice(testTableService, $rootScope, ocpuService) {
       if(value){
         // an intermediary value was added (or changed); disable the input field for the computed variable
         patient[useTest+'_disabled'] = true;
+
+        if(patient[useTest] !== ''){
+          toastr.warning('Patient '+patient.id+': Intermediary value "'+testName+'" provided, removing value for '+useTest+'.');
+          patient[useTest] = '';
+        }
         if(allFilled){
           // all intermediary values required for calculating the computed value are available
           // so, calculate the computed value
