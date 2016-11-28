@@ -19,48 +19,46 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
     _.forOwn(selectedTest, function(value, key){
       patient[key] = '';
     });
-    console.log(patient);
     return patient;
   }
-  function submitPatient($scope) {
-    // TODO: don't use $scope.patient
-    // TODO: dont' use $scope.dataEntry.counter
-    // make Patient Object
+
+  function submitPatient(conf, sig, patients) {
     limit = 0;
     patientObj.settings = {
-      conf: $scope.patientData.conf,
-      sig: $scope.patientData.sig,
+      conf: conf,
+      sig: sig,
       normative: $rootScope.nomative,
       chart: ''
     };
     patientObj.patientScores = [];
-    for (var i in $scope.patient) {
-      if (limit < $scope.dataEntry.counter) {
-        var patientTest = {
-          id: $scope.patient[i].id,
-          age: $scope.patient[i].age,
-          sex: $scope.patient[i].sex,
-          education: $scope.patient[i].education,
-          test: []
-        };
-        angular.forEach($scope.nodeArr, function (nodeval) {
-          var labelField = testTableService.findTest(nodeval, 'id');
-          patientTest.test.push({
-            id: nodeval,
-            label: labelField.label,
-            Dataset: labelField.Dataset,
-            'SPSS name': labelField['SPSS name'],
-            highborder: labelField.highborder,
-            highweb: labelField.highweb,
-            lowborder: labelField.lowborder,
-            lowweb: labelField.lowweb,
-            value: ($scope.patient[i].test !== undefined && $scope.patient[i].test[nodeval] !== undefined && $scope.patient[i].test[nodeval] !== null && $scope.patient[i].test[nodeval] !== '') ? $scope.patient[i].test[nodeval] : 999999999
-          });
+
+    var patientTest;
+
+    patients.forEach(function(patient){
+      patientTest = {
+        id: patient.id,
+        age: parseInt(patient.age),
+        sex: parseInt(patient.sex),
+        education: parseInt(patient.education),
+        test: []
+      };
+      _.forOwn($rootScope.selectedTest, function (test, testName) {
+        patientTest.test.push({
+          id: testName,
+          label: test.label,
+          Dataset: test.Dataset,
+          'SPSS name': test['SPSS.name'],
+          highborder: test.highborder,
+          highweb: test.highweb,
+          lowborder: test.lowborder,
+          lowweb: test.lowweb,
+          value: (patient[testName] !== undefined && patient[testName] !== null && patient[testName] !== '') ? patient[testName] : 999999999
         });
-        patientObj.patientScores.push(patientTest);
-        limit++;
-      }
-    }
+      });
+
+      patientObj.patientScores.push(patientTest);
+    });
+
     return patientObj;
   }
 
@@ -91,8 +89,11 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
         } else {
           allFilled = false;
         }
-        if(!allFilled){
-          patient[useTest] = '';
+        if(!allFilled && !allEmpty){
+          if(patient[useTest] !== ''){
+            toastr.warning('Patient '+patient.id+': Intermediary value "'+testName+'" provided, removing value for '+useTest+'.');
+            patient[useTest] = '';
+          }
         }
       });
 
@@ -100,10 +101,6 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
         // an intermediary value was added (or changed); disable the input field for the computed variable
         patient[useTest+'_disabled'] = true;
 
-        if(patient[useTest] !== ''){
-          toastr.warning('Patient '+patient.id+': Intermediary value "'+testName+'" provided, removing value for '+useTest+'.');
-          patient[useTest] = '';
-        }
         if(allFilled){
           // all intermediary values required for calculating the computed value are available
           // so, calculate the computed value

@@ -90,7 +90,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     }
     else {
       $scope.dataEntry.submited = true;
-      $rootScope.submitData = patientDataservice.submitPatient($scope);
+      $rootScope.submitData = patientDataservice.submitPatient($scope.patientData.conf, $scope.patientData.sig, dataEntry.patient);
       $location.path('/results');
     }
   };
