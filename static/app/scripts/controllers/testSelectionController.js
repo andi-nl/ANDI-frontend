@@ -1,3 +1,5 @@
+'use strict';
+
 angular
   .module('andiApp')
   .controller('testSelectionController', testSelectionController);
@@ -33,14 +35,14 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
 
   vm.getTreeData = function (val) {
     treeData(val);
-  }
+  };
   var treeData = function (val) {
     testTableService.getTest(val, function (dataObj) {
       $scope.normativedatalabel = true;
       $rootScope.tests = dataObj.data;
       $rootScope.nomative = dataObj.defaultFolder;
       if ($rootScope.selectedTest !== undefined) {
-        angular.forEach($rootScope.selectedTest, function (value, key) {
+        angular.forEach($rootScope.selectedTest, function (value) {
           testArr.push(value.id);
         });
         ivhTreeviewMgr.selectEach($rootScope.tests, testArr);
@@ -83,7 +85,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
     if (node.selected === true && (node.children !== undefined && node.children.length === 0)) {
       if ($rootScope.nodeArr.indexOf(node.id) < 0) {
         $rootScope.nodeArr.push(node.id);
-      };
+      }
       $rootScope.selectedTest[node.id] = node;
     }
     if (node.selected === false && (node.children !== undefined && node.children.length === 0)) {

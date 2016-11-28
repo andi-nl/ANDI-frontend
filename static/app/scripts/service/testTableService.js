@@ -24,7 +24,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
       }, function (response) {
         return (response);
       });
-  };
+  }
 
   function getTest(defaultFolder, callback) {
     $http.get(dataPath + defaultFolder + tableFile)
@@ -38,7 +38,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
       function (response) {
         return (response);
       });
-  };
+  }
 
   function expandCollapseTree(testSearch) {
     if (testSearch === '') {
@@ -47,7 +47,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     if (testSearch !== '' && testSearch.length > 0) {
       ivhTreeviewMgr.expandRecursive(testData, testData);
     }
-  };
+  }
 
   /*
   based on findField find particular test and return test object
@@ -57,7 +57,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     childTest($rootScope.tests, value, findField); // check on child test
     keepgoing = true;
     return testid;
-  };
+  }
 
   function childTest(treedata, value, findField) {
     angular.forEach(treedata, function (childVal, childKey) {
@@ -73,7 +73,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
         }
       }
     });
-  };
+  }
 
   function getTestsDataFromCsv(){
     return $http.get(dataPath + 'test_variable_info.csv');
@@ -126,4 +126,4 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     getTestsDataFromCsv: getTestsDataFromCsv,
     setSelectedTestsWithComputedVarArguments: setSelectedTestsWithComputedVarArguments
   };
-};
+}

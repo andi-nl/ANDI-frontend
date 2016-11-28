@@ -4,7 +4,7 @@ angular
   .module('andiApp')
   .factory('dataUploadService', dataUploadService);
 
-dataUploadService.$inject = ['$rootScope', '$location', 'toastr', 'patientDataservice', 'testTableService']
+dataUploadService.$inject = ['$rootScope', '$location', 'toastr', 'patientDataservice', 'testTableService'];
 
 function dataUploadService($rootScope, $location, toastr, patientDataservice, testTableService) {
 

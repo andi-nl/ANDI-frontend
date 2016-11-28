@@ -8,10 +8,7 @@ patientDataservice.$inject = ['testTableService', '$rootScope', 'ocpuService', '
 function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
   var limit = 0;
   var patientObj = {};
-  var d1 = '';
-  var d2 = '';
-  var yrs = '';
-  var years = '';
+
   return {
     addPatient: addPatient,
     submitPatient: submitPatient,
@@ -46,7 +43,7 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
           education: $scope.patient[i].education,
           test: []
         };
-        angular.forEach($scope.nodeArr, function (nodeval, nodekey) {
+        angular.forEach($scope.nodeArr, function (nodeval) {
           var labelField = testTableService.findTest(nodeval, 'id');
           patientTest.test.push({
             id: nodeval,
@@ -140,4 +137,4 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
       }
     }
   }
-};
+}

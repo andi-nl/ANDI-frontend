@@ -1,8 +1,10 @@
+'use strict';
+
 angular
   .module('andiApp')
   .factory('svgExportService', svgExportService);
 
-svgExportService.$inject = ['$http']
+svgExportService.$inject = ['$http'];
 
 function svgExportService($http) {
   var service = {

@@ -1,15 +1,12 @@
+'use strict';
+
 angular
   .module('andiApp')
   .factory('ocpuService', ocpuService);
 
-ocpuService.$inject = ['$http']
+ocpuService.$inject = ['$http'];
 
 function ocpuService($http) {
-  var service = {
-    normcomp: normcomp,
-    calccomposite: calccomposite
-  };
-
   var url = '/compute/';
 
   function ocpu(method, input) {
@@ -18,7 +15,7 @@ function ocpuService($http) {
       input: input
     };
     return $http.post(url, request);
-  };
+  }
 
   function normcomp(input) {
     return ocpu('normcomp', input);
@@ -28,5 +25,8 @@ function ocpuService($http) {
     return ocpu('calccomposite', input);
   }
 
-  return service;
+  return {
+    normcomp: normcomp,
+    calccomposite: calccomposite
+  };
 }

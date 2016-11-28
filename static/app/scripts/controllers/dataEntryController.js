@@ -1,3 +1,5 @@
+'use strict';
+
 angular
   .module('andiApp')
   .controller('dataEntryController', dataEntryController);
@@ -5,12 +7,12 @@ angular
 dataEntryController.$inject = [
   '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
   'patientDataservice', 'testTableService', 'ocpuService', 'dataUploadService',
-  '$window', 'ivhTreeviewMgr', 'DATEFORMAT', 'toastr'
+  '$window', 'ivhTreeviewMgr'
 ];
 
 function dataEntryController($rootScope, $scope, $location, $timeout,
   $uibModal, $q, patientDataservice, testTableService, ocpuService, dataUploadService,
-  $window, ivhTreeviewMgr, DATEFORMAT, toastr) {
+  $window, ivhTreeviewMgr) {
   var dataEntry = this;
 
   // $rootScope.tests: object containing data about tests that can be selected (a tree of all available tests)
@@ -81,7 +83,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
   Submit form and move to results page.
   */
-  dataEntry.submit = function (isValid) {
+  dataEntry.submit = function() {
     // check if form is valid
     if ($scope.patientForm.$invalid) {
       $scope.dataEntry.submited = true;
