@@ -8,14 +8,14 @@ dataUploadService.$inject = ['$rootScope', 'toastr', 'patientDataservice', 'test
 
 function dataUploadService($rootScope, toastr, patientDataservice, testTableService) {
 
+  var patients = [];
+
   function upload(data, missing){
     var missingValues = [];
     missing.forEach(function(val){
       console.log(val, parseInt(val));
       missingValues.push(parseInt(val));
     });
-
-    var patients = [];
 
     console.log('upload');
     console.log(data);
@@ -84,11 +84,23 @@ function dataUploadService($rootScope, toastr, patientDataservice, testTableServ
           });
         });
       }
+
       $rootScope.$broadcast('csvUploaded', patients);
       testTableService.setSelectedTestsWithComputedVarArguments();
     };
     r.readAsText(files[0]);
   }
+
+  // check intermediary and computed values
+  $rootScope.$on('selectedTestsWithComputedVarArguments', function(event, tests){
+    console.log('check intermediary and computed values');
+
+    patients.forEach(function(patient){
+      _.forOwn(tests, function(test, testName){
+        patientDataservice.disableIntermediaryAndComputedVariables(testName, patient);
+      });
+    });
+  });
 
   return {
     upload: upload
