@@ -74,15 +74,15 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
    * Disable/enable input fields for computed variables/intermediary variables
    */
-  dataEntry.disableIntermediaryAndComputedVariables = function(testName, patientId) {
+  dataEntry.disableIntermediaryAndComputedVariables = function(testName, patient) {
     // testName: the name of the test for which a value was added, changed, or removed
-    // patientId: the index of the patient for which a value was added, changed, or removed
+    // patient: patient object for which a value was added, changed, or removed
     var computedVarArgs;
     var useTest;
-    var value = dataEntry.patient[patientId][testName];
+    var value = patient[testName];
 
     console.log(testName);
-    console.log(patientId);
+    console.log(patient);
     console.log(value);
 
     if($rootScope.selectedTestsWithComputedVarArguments[testName].intermediary){
@@ -94,7 +94,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
       var allFilled = true;
       var args = [];
       computedVarArgs.forEach(function(arg){
-        var v = dataEntry.patient[patientId][arg];
+        var v = patient[arg];
         if(v){
           allEmpty = false;
           args.push(v);
@@ -102,7 +102,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
           allFilled = false;
         }
         if(!allFilled){
-          dataEntry.patient[patientId][useTest] = '';
+          patient[useTest] = '';
         }
       });
 
@@ -114,7 +114,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
           // so, calculate the computed value
           var input = {'compVar': useTest, 'args': args};
           ocpuService.calccomposite(input).then(function (data) {
-            dataEntry.patient[patientId][useTest] = data.data.data.value;
+            patient[useTest] = data.data.data.value;
           });
         }
       } else {
