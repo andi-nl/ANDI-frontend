@@ -74,17 +74,16 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   /*
    * Disable/enable input fields for computed variables/intermediary variables
    */
-  dataEntry.disableIntermediaryAndComputedVariables = function(testName, fieldId, patientId) {
+  dataEntry.disableIntermediaryAndComputedVariables = function(testName, patientId) {
     // testName: the name of the test for which a value was added, changed, or removed
-    // fieldId: the name of the input field in which a value was added, changed, or removed
     // patientId: the index of the patient for which a value was added, changed, or removed
     var computedVarArgs;
     var useTest;
-    var value = $scope.patientForm[fieldId].$viewValue;
+    var value = dataEntry.patient[patientId][testName];
 
     console.log(testName);
-    console.log(fieldId);
     console.log(patientId);
+    console.log(value);
 
     if($rootScope.selectedTestsWithComputedVarArguments[testName].intermediary){
       useTest = $rootScope.selectedTestsWithComputedVarArguments[testName].intermediaryValueFor;
@@ -95,7 +94,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
       var allFilled = true;
       var args = [];
       computedVarArgs.forEach(function(arg){
-        var v = $scope.patientForm['test'+patientId+'_'+arg].$viewValue;
+        var v = dataEntry.patient[patientId][arg];
         if(v){
           allEmpty = false;
           args.push(v);
