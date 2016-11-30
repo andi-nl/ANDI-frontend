@@ -3,74 +3,135 @@ angular
   .module('andiApp')
   .factory('patientDataservice', patientDataservice);
 
-patientDataservice.$inject = ['testTableService', '$rootScope'];
+patientDataservice.$inject = ['testTableService', '$rootScope', 'ocpuService', 'toastr'];
 
-function patientDataservice(testTableService, $rootScope) {
+function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
   var limit = 0;
   var patientObj = {};
-  var d1 = '';
-  var d2 = '';
-  var yrs = '';
-  var years = '';
+
   return {
     addPatient: addPatient,
     submitPatient: submitPatient,
-    calculateAge: calculateAge
+    disableIntermediaryAndComputedVariables: disableIntermediaryAndComputedVariables
   };
   function addPatient(selectedTest) {
-    return { 'id': '', 'age': '', 'birthdate': '', 'testdate': '', 'sex': '', 'education': '', 'test': selectedTest };
+    var patient = { 'id': '', 'age': '', 'sex': '', 'education': '' };
+    _.forOwn(selectedTest, function(value, key){
+      patient[key] = '';
+    });
+    return patient;
   }
-  function submitPatient($scope) {
-    // make Patient Object
+
+  function submitPatient(conf, sig, patients) {
     limit = 0;
     patientObj.settings = {
-      conf: $scope.patientData.conf,
-      sig: $scope.patientData.sig,
+      conf: conf,
+      sig: sig,
       normative: $rootScope.nomative,
       chart: ''
     };
     patientObj.patientScores = [];
-    for (var i in $scope.patient) {
-      if (limit < $scope.dataEntry.counter) {
-        var patientTest = {
-          id: $scope.patient[i].id,
-          age: $scope.patient[i].age,
-          'birthdate': ($scope.patient[i].birthdate !== undefined && $scope.patient[i].birthdate !== null) ? $scope.patient[i].birthdate : '',
-          'testdate': ($scope.patient[i].testdate !== undefined && $scope.patient[i].testdate !== null) ? $scope.patient[i].testdate : '',
-          sex: $scope.patient[i].sex,
-          education: $scope.patient[i].education,
-          test: []
-        };
-        angular.forEach($scope.nodeArr, function (nodeval, nodekey) {
-          var labelField = testTableService.findTest(nodeval, 'id');
-          patientTest.test.push({
-            id: nodeval,
-            label: labelField.label,
-            Dataset: labelField.Dataset,
-            'SPSS name': labelField['SPSS name'],
-            highborder: labelField.highborder,
-            highweb: labelField.highweb,
-            lowborder: labelField.lowborder,
-            lowweb: labelField.lowweb,
-            value: ($scope.patient[i].test !== undefined && $scope.patient[i].test[nodeval] !== undefined && $scope.patient[i].test[nodeval] !== null && $scope.patient[i].test[nodeval] !== '') ? $scope.patient[i].test[nodeval] : 999999999
-          });
+
+    var patientTest;
+
+    patients.forEach(function(patient){
+      patientTest = {
+        id: patient.id,
+        age: parseInt(patient.age),
+        sex: parseInt(patient.sex),
+        education: parseInt(patient.education),
+        test: []
+      };
+      _.forOwn($rootScope.selectedTest, function (test, testName) {
+        patientTest.test.push({
+          id: testName,
+          label: test.label,
+          Dataset: test.Dataset,
+          'SPSS name': test['SPSS.name'],
+          highborder: test.highborder,
+          highweb: test.highweb,
+          lowborder: test.lowborder,
+          lowweb: test.lowweb,
+          value: (patient[testName] !== undefined && patient[testName] !== null && patient[testName] !== '') ? patient[testName] : 999999999
         });
-        patientObj.patientScores.push(patientTest);
-        limit++;
-      }
-    }
+      });
+
+      patientObj.patientScores.push(patientTest);
+    });
+
     return patientObj;
   }
 
-  function calculateAge(birthDate, testDate) {
-    var parts1 = birthDate.split('-');
-    var parts2 = testDate.split('-');
-    var date1 = parts1[2] + '-' + parts1[1] + '-' + parts1[0];
-    var date2 = parts2[2] + '-' + parts2[1] + '-' + parts2[0];
-    d1 = moment(date1);
-    d2 = moment(date2);
-    yrs = moment.duration(d2.diff(d1)).asYears();
-    years = Math.floor(yrs);
-    return years;
+  function disableIntermediaryAndComputedVariables(testName, patient) {
+    // testName: the name of the test for which a value was added, changed, or removed
+    // patient: patient object for which a value was added, changed, or removed
+    var computedVarArgs;
+    var useTest;
+    var value = patient[testName];
+
+    //console.log(testName);
+    //console.log(patient);
+    //console.log(value);
+
+    if($rootScope.selectedTestsWithComputedVarArguments[testName].intermediary){
+      useTest = $rootScope.selectedTestsWithComputedVarArguments[testName].intermediaryValueFor;
+      computedVarArgs = $rootScope.selectedTestsWithComputedVarArguments[useTest].computed_variable_arguments.split(',');
+
+      // check whether either all intermediary values are empty or filled
+      var allEmpty = true;
+      var allFilled = true;
+      var args = [];
+      computedVarArgs.forEach(function(arg){
+        var v = patient[arg];
+        if(v){
+          allEmpty = false;
+          args.push(v);
+        } else {
+          allFilled = false;
+        }
+        if(!allFilled && !allEmpty){
+          if(patient[useTest] !== ''){
+            toastr.warning('Patient '+patient.id+': Intermediary value "'+testName+'" provided, removing value for '+useTest+'.');
+            patient[useTest] = '';
+          }
+        }
+      });
+
+      if(value){
+        // an intermediary value was added (or changed); disable the input field for the computed variable
+        patient[useTest+'_disabled'] = true;
+
+        if(allFilled){
+          // all intermediary values required for calculating the computed value are available
+          // so, calculate the computed value
+          var input = {'compVar': useTest, 'args': args};
+          ocpuService.calccomposite(input).then(function (data) {
+            patient[useTest] = data.data.data.value;
+          });
+        }
+      } else {
+        // an intermediary value was removed
+        if(allEmpty){
+          // all intermediary values are empty, enable the input field for the computed value
+          useTest = $rootScope.selectedTestsWithComputedVarArguments[testName].intermediaryValueFor;
+          patient[useTest+'_disabled'] = false;
+        }
+      }
+    } else {
+      // we are not dealing with a value for an intermediary variable
+      // check to see whether we are dealing with a value for a computed variable
+      computedVarArgs = $rootScope.selectedTestsWithComputedVarArguments[testName].computed_variable_arguments.split(',');
+      if(computedVarArgs[0] !== ""){
+        computedVarArgs.forEach(function(arg){
+          if(value){
+            // a computed value was filled in; disable the input fields for the intermediary values
+            patient[arg+'_disabled'] = true;
+          } else {
+            // a computed value was removed; enable the input fields for the intermediary values
+            patient[arg+'_disabled'] = false;
+          }
+        });
+      }
+    }
   }
-};
+}

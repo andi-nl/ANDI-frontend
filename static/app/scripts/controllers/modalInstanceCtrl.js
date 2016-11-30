@@ -1,3 +1,4 @@
+'use strict';
 /*
   @name andiApp.controller:ModalInstanceCtrl
   @description : modal popup controller to put ok and cancel popup event

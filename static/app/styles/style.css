@@ -83,3 +83,13 @@ rect.ellipse-background {
   fill: #f8f8f8;
   stroke-width: 1;
 }
+
+.computed {
+  font-style:none;
+  font-weight:bold;
+}
+
+.intermediary{
+  font-weight:normal;
+  font-style:italic;
+}

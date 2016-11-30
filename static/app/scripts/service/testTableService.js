@@ -24,7 +24,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
       }, function (response) {
         return (response);
       });
-  };
+  }
 
   function getTest(defaultFolder, callback) {
     $http.get(dataPath + defaultFolder + tableFile)
@@ -38,7 +38,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
       function (response) {
         return (response);
       });
-  };
+  }
 
   function expandCollapseTree(testSearch) {
     if (testSearch === '') {
@@ -47,7 +47,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     if (testSearch !== '' && testSearch.length > 0) {
       ivhTreeviewMgr.expandRecursive(testData, testData);
     }
-  };
+  }
 
   /*
   based on findField find particular test and return test object
@@ -57,7 +57,7 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
     childTest($rootScope.tests, value, findField); // check on child test
     keepgoing = true;
     return testid;
-  };
+  }
 
   function childTest(treedata, value, findField) {
     angular.forEach(treedata, function (childVal, childKey) {
@@ -73,12 +73,57 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
         }
       }
     });
-  };
+  }
+
+  function getTestsDataFromCsv(){
+    return $http.get(dataPath + 'test_variable_info.csv');
+  }
+
+  function setSelectedTestsWithComputedVarArguments(){
+    getTestsDataFromCsv().then(function success(response){
+      var csvConfig = {
+        header: true,
+        dynamicTyping: true,
+      };
+      var data = Papa.parse(response.data, csvConfig);
+      var tests = data.data;
+
+      var selectedTestsWithComputedVarArguments = {};
+      var computedVarArgs;
+      angular.forEach($rootScope.selectedTest, function(test){
+        computedVarArgs = test.computed_variable_arguments.split(',');
+        if(computedVarArgs[0] !== ""){
+          computedVarArgs.forEach(function(arg){
+            var add = _.find(tests, function(t) { return t.ID === arg; });
+            add.intermediary = true;
+            add.intermediaryValueFor = test.id;
+            add.disabled = false;
+            add.class = 'intermediary';
+            selectedTestsWithComputedVarArguments[arg] = add;
+          });
+          test.class = 'computed';
+        }
+        test.disabled = false;
+        selectedTestsWithComputedVarArguments[test.id] = test;
+      });
+      // Broadcast alone was not sufficient, because for some reason the broadcast
+      // was not received when the user came back to the test selection page by
+      // clicking the 'previous' button. However, the broadcast is required to
+      // set the correct data for the data upload csv file.
+      $rootScope.selectedTestsWithComputedVarArguments = selectedTestsWithComputedVarArguments;
+      $rootScope.$broadcast('selectedTestsWithComputedVarArguments', selectedTestsWithComputedVarArguments);
+    }, function error(response){
+      console.log('error');
+      console.log(response);
+    });
+  }
 
   return {
     getTest: getTest,
     getRelease: getRelease,
     expandCollapseTree: expandCollapseTree,
-    findTest: findTest
+    findTest: findTest,
+    getTestsDataFromCsv: getTestsDataFromCsv,
+    setSelectedTestsWithComputedVarArguments: setSelectedTestsWithComputedVarArguments
   };
-};
+}

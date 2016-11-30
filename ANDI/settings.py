@@ -206,6 +206,11 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
+        'ocpu.utils': {
+            'handlers': ['logfile'],
+            'level': 'INFO',
+            'propagate': True,
+        },
         'django': {
             'handlers': ['console', 'logfile'],
         }
