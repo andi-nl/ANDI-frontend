@@ -112,11 +112,13 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
 
   // check intermediary and computed values
   $rootScope.$on('selectedTestsWithComputedVarArguments', function(event, tests){
-    patients.forEach(function(patient){
-      _.forOwn(tests, function(test, testName){
-        patientDataservice.disableIntermediaryAndComputedVariables(testName, patient);
+    if(typeof patients !== 'undefined' && patients.length > 0){
+      patients.forEach(function(patient){
+        _.forOwn(tests, function(test, testName){
+          patientDataservice.disableIntermediaryAndComputedVariables(testName, patient);
+        });
       });
-    });
+    }
   });
 
   return {
