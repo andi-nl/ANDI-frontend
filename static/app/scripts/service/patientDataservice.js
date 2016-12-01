@@ -104,6 +104,16 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
         if(allFilled){
           // all intermediary values required for calculating the computed value are available
           // so, calculate the computed value
+
+          if(patient[useTest] !== ''){
+            // the uploaded data contained both all intermediary values and the
+            // computed value, so remove the submitted computed value, otherwise
+            // all input fields will be disabled.
+            toastr.warning('Patient '+patient.id+': All intermediary values for '+useTest+' and a value for '+
+                           useTest+'provided, rerecalulating '+useTest+' based on intermediary values.');
+            patient[useTest] = '';
+          }
+
           var input = {'compVar': useTest, 'args': args};
           ocpuService.calccomposite(input).then(function (data) {
             patient[useTest] = data.data.data.value;
