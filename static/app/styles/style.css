@@ -93,3 +93,8 @@ rect.ellipse-background {
   font-weight:normal;
   font-style:italic;
 }
+
+.fixed-height{
+  display:block;
+  height: 150px;
+}

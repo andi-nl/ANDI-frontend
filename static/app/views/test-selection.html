@@ -11,20 +11,11 @@
 </div>
 <div class="col-sm-12">
   <div class="col-sm-7">
-    <h4>Normative data</h4>
-    <!-- Normative date dropdown -->
-    <div ng-if="normativedatalabel==true">
-      <span style="font-size:14px">{{nomative}}</h4>
-      <input type="button" ng-click="testSelection.selectDate();" value="change">
-    </div>
-    <div ng-if="normativedatalabel==false">
-      <select ng-model="nomative" ng-options="v for v in folders.values" ng-change="testSelection.getTreeData(nomative)" class="form-control" required></select>
-    </div>
     <!-- Search textbox field -->
-    <h4>Search for neuropsychological tests</h4>
+    <h3>Select neuropsychological tests</h3>
     <input type="text" ng-model="testSearch" class="form-control" ng-keyup="testSelection.treeExpanded(testSearch)" placeholder="Search for ..."/>
     <!-- parent child wise test directive-->
-    <div
+    <div class="fixed-height"
       ivh-treeview-id-attribute="'uuid'"
       ivh-treeview="tests"
       ivh-treeview-expand-to-depth="0"
@@ -34,7 +25,7 @@
       ivh-treeview-on-cb-change="fancy.otherAwesomeCallback(ivhNode, ivhIsSelected, ivhTree)"></div>
   </div>
   <div class="col-sm-5">
-    <h4>Selected Tests</h4>
+    <h3>Selected Tests</h3>
     <!-- selected node template -->
     <script type="text/ng-template" id="tree_item_renderer">
       <span ng-if="data.children.length===0" ng-click="nodeClicked(data)">
@@ -49,24 +40,46 @@
     <div class="tree" style="max-height:330px;overflow-y:auto;">
       <div ng-if="testSelection.getSelectedNodes(data)" ng-repeat="data in tests" ng-include="'tree_item_renderer'"></div>
     </div>
-    <h3>Advanced Settings</h3>
-    <hr>
-    <!-- csv generate button -->
-    <a ng-show="nodeArr.length>0" class="btn" title="Download template" ng-click='testSelection.dataTemplate()'>
-      <i class="glyphicon glyphicon-new-window"></i>Download Template
-    </a>
-    <!--End csv generate button -->
-    <div class="alert alert-info">
-      <strong>NOTE!</strong>To upload a batch of patient scores please download this template. Please make sure each patient has their own column.
+  </div>
+</div>
+
+<div class="col-sm-12">
+  <hr>
+  <h3>Advanced</h3>
+  <div class="col-sm-3">
+    Normative data
+    <!-- Normative date dropdown -->
+    <div ng-if="normativedatalabel==true">
+      <span style="font-size:14px">{{nomative}}</h4>
+        <button class="btn btn-default" ng-click="testSelection.selectDate();" value="change">change</button>
+      </div>
+      <div ng-if="normativedatalabel==false">
+        <select ng-model="nomative" ng-options="v for v in folders.values" ng-change="testSelection.getTreeData(nomative)" class="form-control" required></select>
+      </span>
     </div>
+  </div>
+  <div class="col-sm-3">
+    <br/>
+    <!-- csv generate button -->
+    <button class="btn btn-default" title="Download template" ng-click='testSelection.dataTemplate()'>
+      <span class="glyphicon glyphicon-download"></span>&nbsp;Download Template
+    </button>
+    <br/>
+    To upload a batch of patient scores download the template. Please make sure each patient has their own column.
+    <!--End csv generate button -->
+  </div>
+  <div class="col-sm-2">
     <!-- upload csv -->
+    <br/>
     <div ng-if="filebutton==true" class="fileinput fileinput-new" data-provides="fileinput">
       <label for="files">
-        <span class="btn btn-default btn-file">Upload Data</span>
+        <span class="btn btn-default btn-file"><span class="glyphicon glyphicon-upload"></span>&nbsp;Upload Data</span>
       </label>
-      <input style="visibility: hidden; position: absolute;" id="files" ng-model="fileContent" custom-on-change="testSelection.uploadCsv" class="form-control" type="file" name="files" accept=".csv">
+      <input style="visibility: hidden; position: absolute;" id="files" ng-model="fileContent" custom-on-change="testSelection.uploadCsv"
+             class="form-control" type="file" name="files" accept=".csv">
     </div>
     <!-- end upload csv -->
+    <br/><br>
   </div>
 </div>
 <div class="col-sm-12">
