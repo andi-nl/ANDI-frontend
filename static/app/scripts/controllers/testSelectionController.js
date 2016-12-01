@@ -137,8 +137,12 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
    * Create csv upload file, using papa parse
    */
   vm.dataTemplate = function(){
-    testTableService.setSelectedTestsWithComputedVarArguments();
-    vm.downloadtemplate = true;
+    if($scope.nodeArr.length > 0){
+      testTableService.setSelectedTestsWithComputedVarArguments();
+      vm.downloadtemplate = true;
+    } else {
+      $rootScope.fileErr = "Please select one or more tests before downloading the template.";
+    }
   };
 
   // Finish setting the template data
