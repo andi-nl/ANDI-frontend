@@ -52,11 +52,14 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
 
   vm.go = function (path) {
     // TODO: make sure tests are selected (issue #127)
+    if($scope.nodeArr.length > 0){
+      // Add intermediary variables to $rootScope.selectedTest
+      testTableService.setSelectedTestsWithComputedVarArguments();
 
-    // Add intermediary variables to $rootScope.selectedTest
-    testTableService.setSelectedTestsWithComputedVarArguments();
-
-    $location.path(path);
+      $location.path(path);
+    } else {
+      $rootScope.fileErr = "Please select one or more tests.";
+    }
   };
 
   /* get selected Normative Date test List*/
