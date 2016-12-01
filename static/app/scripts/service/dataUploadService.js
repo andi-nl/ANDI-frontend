@@ -104,7 +104,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
       } catch(err){
         console.log(err);
         // invalid file
-        dataUploadFailed('Invalid file format. Please download the correct template to upload data.');
+        dataUploadFailed('Invalid file format. Please try downloading the template again.');
       }
 
     };
