@@ -109,3 +109,7 @@ rect.ellipse-background {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.errorlist {
+  color: red;
+}
