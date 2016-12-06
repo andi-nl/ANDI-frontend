@@ -34,6 +34,8 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   $scope.message = 'Data Uploaded successfully.';
   $rootScope.fileErr = false;
 
+  $scope.uploadSpinner = false;
+
   dataEntry.go = function (path) {
     $location.path(path);
   };
@@ -101,6 +103,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   // FIXIT: shoudl get it's own controller / service
   if ($rootScope.fileData !== undefined && $rootScope.fileData !== null && $rootScope.fileData !== '') {
     var replacearr = $rootScope.txtvalue.split(',');
+    $scope.uploadSpinner = true;
     dataUploadService.upload($rootScope.fileData, replacearr);
   }
 
@@ -127,5 +130,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
       // update which tests are selected in the tree data structure
       ivhTreeviewMgr.selectEach($rootScope.tests, $rootScope.nodeArr);
     });
+  });
+
+  $scope.$on('checkedIntermediaryAndComputedVariables', function(){
+    $scope.uploadSpinner = false;
   });
 }

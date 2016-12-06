@@ -125,6 +125,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
         });
       });
     }
+    $rootScope.$broadcast('checkedIntermediaryAndComputedVariables');
   });
 
   return {
