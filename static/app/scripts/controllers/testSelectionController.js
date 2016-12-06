@@ -151,7 +151,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
   // Finish setting the template data
   $rootScope.$on('selectedTestsWithComputedVarArguments', function(event, tests){
     if(vm.downloadtemplate){
-      var fields = ["", "Information", "Patient 1"];
+      var fields = ["", "Information (please do not remove this column)", "Patient 1"];
       var data = [
         ["id", "(alphanumeric)", ""],
         ["age", "(in years)", ""],
