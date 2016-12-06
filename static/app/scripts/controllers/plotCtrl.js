@@ -18,6 +18,8 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
   $scope.errorMessage = null;
   $scope.ellipsePlotWarning = null;
 
+  $scope.ocpuSpinner = true;
+
   var patients;
   plotCtrl.normcompDataCsv = '';
   plotCtrl.patientDataCsv = '';
@@ -71,6 +73,9 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
         console.log('error in plotCtrl: '+data.data.error);
         $scope.errorMessage = data.data.error;
       } else {
+        // stop spinner
+        $scope.ocpuSpinner = false;
+
         // set export data
         var csvExportConfig = {quotes: false, delimiter: "\t", newline: "\r\n"};
         var csvData = Papa.unparse(data.data.data, csvExportConfig);
