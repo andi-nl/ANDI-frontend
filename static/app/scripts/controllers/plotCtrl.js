@@ -86,7 +86,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
         plotCtrl.plotLines(data.data.data, data.data.testsData, data.data.input);
         plotCtrl.plotTables(data.data.data, data.data.input);
-        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
+        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests, data.data.input.settings);
       }
 
     });
@@ -111,11 +111,11 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
-            var input = {'settings': {'sig': 'oneTailedLeft', 'conf': '95'}};
+            var input = {'settings': {'sig': 'oneTailedLeft', 'conf': '95', 'normative': '2016-01-14'}};
 
             plotCtrl.plotLines(normcomp, tests_data, input);
             plotCtrl.plotTables(normcomp, input);
-            plotCtrl.plotEllipses(ellipses_points, tests);
+            plotCtrl.plotEllipses(ellipses_points, tests, input.settings);
         });*/
 
     function transformPatientScores(patientScores, tests) {
@@ -674,7 +674,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
     });
   };
 
-  plotCtrl.plotEllipses = function (points, tests) {
+  plotCtrl.plotEllipses = function (points, tests, settings) {
     var width = 700,
         height = 500,
         size = 30,
@@ -694,11 +694,18 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
         .range([0, size - padding])
         .domain([0, 2*max]);
 
+    var ellipseparams = "static/app/data/"+settings.normative+"/ellipseparams"+settings.conf+".csv";
+    console.log(ellipseparams);
+
     d3.queue()
-        .defer(d3.csv, "static/app/data/ellipseparams.csv")
+        .defer(d3.csv, ellipseparams)
         .await(function (error, ellipses) {
-            if (error){ throw error; }
-            facets(ellipses, points, tests);
+            if (error){
+              console.log(error);
+              throw error;
+            } else {
+              facets(ellipses, points, tests);
+            }
         });
 
     function facets(ellipses, points, tests) {
