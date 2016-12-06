@@ -183,7 +183,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
        anchor.attr({
            href: 'data:attachment/csv;charset=utf-8,' + encodeURI(csvData),
            target: '_blank',
-           download: 'patientTable.csv'
+           download: 'patientTable.txt'
        })[0].click();
 
        // make sure the template is not downloaded if the user clicks the 'next' button
