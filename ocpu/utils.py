@@ -21,9 +21,11 @@ def _edp(t1, t2, x, y, p):
             'id': p}
 
 
-def generate_ellipse_data(normcomp_data):
+def generate_ellipse_data(normcomp_data, normcomp_settings):
     """Generate data for the ellipses plot"""
-    csv = os.path.join(settings.BASE_DIR, 'static/app/data/ellipseparams.csv')
+    ep_file = 'static/app/data/{}/ellipseparams{}.csv'.format(
+        normcomp_settings.get('normative'), normcomp_settings.get('conf'))
+    csv = os.path.join(settings.BASE_DIR, ep_file)
     df = pd.read_csv(csv)
     test_pairs = [pair for pair in zip(list(df['test1']), list(df['test2']))]
 
@@ -80,7 +82,7 @@ def do_normcomp(parameters):
 
     tests_data = generate_tests_data(res)
 
-    ellipse_data = generate_ellipse_data(res)
+    ellipse_data = generate_ellipse_data(res, input_data.get('settings'))
 
     return JsonResponse({'data': res,
                          'ellipse': ellipse_data,
