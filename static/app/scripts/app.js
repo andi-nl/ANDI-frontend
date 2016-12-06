@@ -19,7 +19,8 @@ var app = angular.module('andiApp', [
   'ivh.treeview',
   'ui.ace',
   'treeGrid',
-  'toastr'
+  'toastr',
+  'angularSpinner'
 ]);
 
 app.config(function ($routeProvider, $compileProvider) {
