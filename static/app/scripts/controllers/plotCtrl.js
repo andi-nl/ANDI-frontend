@@ -12,7 +12,7 @@
   @description : put third tab chart event
 */
 //app.controller('plotController', function ($scope, ocpuService) {
-app.controller('plotController', function ($scope, ocpuService, svgExportService) {
+app.controller('plotController', function ($scope, ocpuService, svgExportService, testTableService) {
   var plotCtrl = this;
 
   $scope.errorMessage = null;
@@ -82,6 +82,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
         plotCtrl.normcompDataCsv = 'data:text/plain;charset=utf-8,' + encodeURI(csvData);
 
         var pData = transformPatientScores(data.data.input.patientScores, data.data.tests);
+        console.log(pData);
         csvData = Papa.unparse(pData, csvExportConfig);
         plotCtrl.patientDataCsv = 'data:text/plain;charset=utf-8,' + encodeURI(csvData);
 
@@ -124,6 +125,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
         });*/
 
     function transformPatientScores(patientScores, tests) {
+      console.log(tests);
       var data = [];
       var rows = ['id', 'age', 'sex', 'education'];
       rows = rows.concat(tests);
@@ -139,6 +141,27 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
       rows.forEach(function (row){
         var rowObj = {'': row};
+        var test = testTableService.findTest(row, 'id');
+        var inf = 'n/a';
+        if(_.isEmpty(test)){
+          switch (row) {
+            case 'id':
+              inf = '(alphanumeric)';
+              break;
+            case 'age':
+              inf = 'in years';
+              break;
+            case 'sex':
+              inf = '(M-0 F-1)';
+              break;
+            case 'education':
+              inf = '(1-7)';
+              break;
+          }
+        } else {
+          inf = "("+test.lowweb+"-"+test.highweb+")";
+        }
+        rowObj['Information (please do not remove this column)'] = inf;
         columns.forEach(function (c, i){
           rowObj[c] = patientScores[i][row];
         });
