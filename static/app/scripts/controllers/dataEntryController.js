@@ -7,12 +7,12 @@ angular
 dataEntryController.$inject = [
   '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
   'patientDataservice', 'testTableService', 'ocpuService', 'dataUploadService',
-  '$window', 'ivhTreeviewMgr'
+  '$window', 'ivhTreeviewMgr', 'toastr'
 ];
 
 function dataEntryController($rootScope, $scope, $location, $timeout,
   $uibModal, $q, patientDataservice, testTableService, ocpuService, dataUploadService,
-  $window, ivhTreeviewMgr) {
+  $window, ivhTreeviewMgr, toastr) {
   var dataEntry = this;
 
   // $rootScope.tests: object containing data about tests that can be selected (a tree of all available tests)
@@ -87,6 +87,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     dataEntry.verifyId();
     if ($scope.patientForm.$invalid) {
       $scope.dataEntry.submited = true;
+      toastr.error('Required fields are missing. Please check the patient data you are submitting.');
     }
     else {
       $scope.dataEntry.submited = true;
