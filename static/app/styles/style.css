@@ -98,3 +98,14 @@ rect.ellipse-background {
   display:block;
   height: 150px;
 }
+
+.terms-box {
+  overflow-y: scroll;
+  height:400px;
+  border-style: double;
+}
+
+.terms {
+  padding-left: 10px;
+  padding-right: 10px;
+}
