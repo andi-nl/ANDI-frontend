@@ -37,7 +37,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
             if(!_.isEmpty(test)){
               $rootScope.selectedTest[fieldName] = test;
             }
-            row.splice(2).forEach(function(value, index){
+            row.splice(1).forEach(function(value, index){
               var val;
               var p;
 

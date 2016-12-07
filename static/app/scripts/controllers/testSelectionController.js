@@ -151,22 +151,16 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
   // Finish setting the template data
   $rootScope.$on('selectedTestsWithComputedVarArguments', function(event, tests){
     if(vm.downloadtemplate){
-      var fields = ["", "Information (please do not remove this column)", "Patient 1"];
+      var fields = ["", "Patient 1"];
       var data = [
-        ["id", "(alphanumeric)", ""],
-        ["age", "(in years)", ""],
-        ["sex", "(M-0 F-1)", ""],
-        ["education", "(1-7)", ""]
+        ["id", ""],
+        ["age", ""],
+        ["sex", ""],
+        ["education", ""]
       ];
-      var info;
 
       _.forEach(tests, function(value, key){
-        info = "("+value.lowweb+"-"+value.highweb;
-        if(value.intermediary){
-          info = info+" / intermediary value for "+value.intermediaryValueFor;
-        }
-        info = info+")";
-        data.push([key, info, ""]);
+        data.push([key, ""]);
       });
 
       // set the data for the download template
