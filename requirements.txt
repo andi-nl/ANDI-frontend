@@ -1,5 +1,6 @@
 Django==1.9.7
 django-angular==0.8.2
+django-csvimport==2.5
 django-userena==2.0.1
 requests==2.10.0
 gunicorn

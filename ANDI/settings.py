@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'accounts',
     'ocpu',
+    'csvimport.app.CSVImportConf',
 ]
 
 MIDDLEWARE_CLASSES = [
