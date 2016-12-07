@@ -43,7 +43,7 @@ def generate_ellipse_data(normcomp_data, normcomp_settings):
     ellipse_data = []
     for (t1, t2) in combinations(tests, 2):
         for p in patients:
-            if patient2test[p].get(t1) and patient2test[p].get(t2):
+            if t1 in patient2test[p].keys() and t2 in patient2test[p].keys():
                 if (t1, t2) in test_pairs:
                     edp = _edp(t1, t2, patient2test[p][t1], patient2test[p][t2], p)
                 else:
