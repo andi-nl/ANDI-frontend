@@ -52,11 +52,14 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
 
   vm.go = function (path) {
     // TODO: make sure tests are selected (issue #127)
+    if($scope.nodeArr.length > 0){
+      // Add intermediary variables to $rootScope.selectedTest
+      testTableService.setSelectedTestsWithComputedVarArguments();
 
-    // Add intermediary variables to $rootScope.selectedTest
-    testTableService.setSelectedTestsWithComputedVarArguments();
-
-    $location.path(path);
+      $location.path(path);
+    } else {
+      $rootScope.fileErr = "Please select one or more tests.";
+    }
   };
 
   /* get selected Normative Date test List*/
@@ -137,14 +140,18 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
    * Create csv upload file, using papa parse
    */
   vm.dataTemplate = function(){
-    testTableService.setSelectedTestsWithComputedVarArguments();
-    vm.downloadtemplate = true;
+    if($scope.nodeArr.length > 0){
+      testTableService.setSelectedTestsWithComputedVarArguments();
+      vm.downloadtemplate = true;
+    } else {
+      $rootScope.fileErr = "Please select one or more tests before downloading the template.";
+    }
   };
 
   // Finish setting the template data
   $rootScope.$on('selectedTestsWithComputedVarArguments', function(event, tests){
     if(vm.downloadtemplate){
-      var fields = ["", "Information", "Patient 1"];
+      var fields = ["", "Information (please do not remove this column)", "Patient 1"];
       var data = [
         ["id", "(alphanumeric)", ""],
         ["age", "(in years)", ""],
@@ -176,7 +183,7 @@ function testSelectionController($rootScope, $scope, $location, $timeout,
        anchor.attr({
            href: 'data:attachment/csv;charset=utf-8,' + encodeURI(csvData),
            target: '_blank',
-           download: 'patientTable.csv'
+           download: 'patientTable.txt'
        })[0].click();
 
        // make sure the template is not downloaded if the user clicks the 'next' button

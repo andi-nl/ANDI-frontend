@@ -16,16 +16,17 @@
       <button type="button" ng-hide="btnAddPatient" class="btn rightBtn" ng-click="dataEntry.addPatient()"> Add Patient</button>
     </div>
     <!-- Table structure -->
-    <div ng-class="dataEntry.patient.length>3? 'tblscrollpadding' : 'tblscroll'">
-      <table class="table table-bordered">
+    <div class="tblscroll">
+      <span us-spinner="{radius:30, width:10, length: 20}" spinner-on="uploadSpinner"></span>
+      <table class="table table-bordered data-entry-table">
         <tr>
-          <td></td>
-          <td ng-repeat="patientData in dataEntry.patient">
+          <td class="data-entry-td"></td>
+          <td  class="data-entry-td" ng-repeat="patientData in dataEntry.patient">
             <button ng-show="dataEntry.patient.length > 1" class="remBtn" ng-click="dataEntry.removeColumn($index,$event);">Remove</button>
           </td>
         </tr>
         <tr>
-          <td>id</td>
+          <td class="data-entry-td">id</td>
           <td ng-repeat="patientData in dataEntry.patient">
             <input type="text" name="id{{$index}}" id="id{{$index}}" ng-model="patientData.id" ng-change="dataEntry.verifyId()" required>
             <span class="has-error" ng-show="patientForm.id{{$index}}.$error.required  && dataEntry.submited">Required<br/></span>
@@ -33,16 +34,16 @@
           </td>
         </tr>
         <tr>
-          <td>age</td>
-          <td ng-repeat="patientData in dataEntry.patient">
-            <input ng-disabled="isDisabled" min="0" type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patientData.age">
+          <td class="data-entry-td">age</td>
+          <td class="data-entry-td" ng-repeat="patientData in dataEntry.patient">
+            <input min="0" type="number" name="age{{$index}}" id="age{{$index}}" ng-model="patientData.age" required>
             <span class="has-error" ng-show="patientForm.age{{$index}}.$error.required && dataEntry.submited">Required.</span>
             <span class="has-error" ng-show="patientForm.age{{$index}}.$error.min">Enter valid age in years</span>
           </td>
         </tr>
         <tr>
-          <td>sex</td>
-          <td ng-repeat="patientData in dataEntry.patient">
+          <td class="data-entry-td">sex</td>
+          <td class="data-entry-td" ng-repeat="patientData in dataEntry.patient">
             <select ng-disabled="isDisabled" name="sex{{$index}}" id="sex{{$index}}" ng-model="patientData.sex" required>
               <option value="0"> Male </option>
               <option value="1"> Female</option>
@@ -51,8 +52,8 @@
           </td>
         </tr>
         <tr>
-          <td>education</td>
-          <td ng-repeat="patientData in dataEntry.patient">
+          <td class="data-entry-td">education</td>
+          <td class="data-entry-td" ng-repeat="patientData in dataEntry.patient">
             <select ng-disabled="isDisabled" name="education{{$index}}" id="education{{$index}}"ng-model="patientData.education" required>
               <option value="1"> Verhage 1 </option>
               <option value="2"> Verhage 2 </option>
@@ -66,11 +67,12 @@
           </td>
         </tr>
         <tr ng-repeat="(inputName, value) in selectedTestsWithComputedVarArguments">
-          <td> <span class="{{value.class}}">{{inputName}}</span> </td>
-          <td ng-repeat="patientData in dataEntry.patient">
+          <td class="data-entry-td"> <span class="{{value.class}}">{{inputName}}</span> </td>
+          <td class="data-entry-td" ng-repeat="patientData in dataEntry.patient">
             <input ng-model="patientData[inputName]" id="test{{$index}}_{{inputName}}" name="test{{$index}}_{{inputName}}"
               ng-readonly="patientData[inputName+'_disabled']" type="number" min="{{value.lowweb}}" max="{{value.highweb}}"
-              ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(inputName, patientData)">
+              ng-keyup="dataEntry.disableIntermediaryAndComputedVariables(inputName, patientData)"
+              ng-change="dataEntry.disableIntermediaryAndComputedVariables(inputName, patientData)">
             <span class="has-error" ng-show="patientForm['test{{$index}}_{{inputName}}'].$error.min">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
             <span class="has-error" ng-show="patientForm['test{{$index}}_{{inputName}}'].$error.max">Enter value between {{value.lowweb}} to {{value.highweb}}</span>
             <span class="has-error" ng-show="patientForm['test{{$index}}_{{inputName}}'].$error.number">Not valid number!</span>

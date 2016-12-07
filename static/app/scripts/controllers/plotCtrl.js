@@ -12,11 +12,13 @@
   @description : put third tab chart event
 */
 //app.controller('plotController', function ($scope, ocpuService) {
-app.controller('plotController', function ($scope, ocpuService, svgExportService) {
+app.controller('plotController', function ($scope, ocpuService, svgExportService, testTableService) {
   var plotCtrl = this;
 
   $scope.errorMessage = null;
   $scope.ellipsePlotWarning = null;
+
+  $scope.ocpuSpinner = true;
 
   var patients;
   plotCtrl.normcompDataCsv = '';
@@ -70,13 +72,18 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       if('error' in data.data){
         console.log('error in plotCtrl: '+data.data.error);
         $scope.errorMessage = data.data.error;
+        $scope.ocpuSpinner = false;
       } else {
+        // stop spinner
+        $scope.ocpuSpinner = false;
+
         // set export data
         var csvExportConfig = {quotes: false, delimiter: "\t", newline: "\r\n"};
         var csvData = Papa.unparse(data.data.data, csvExportConfig);
         plotCtrl.normcompDataCsv = 'data:text/plain;charset=utf-8,' + encodeURI(csvData);
 
         var pData = transformPatientScores(data.data.input.patientScores, data.data.tests);
+        console.log(pData);
         csvData = Papa.unparse(pData, csvExportConfig);
         plotCtrl.patientDataCsv = 'data:text/plain;charset=utf-8,' + encodeURI(csvData);
 
@@ -86,7 +93,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
         plotCtrl.plotLines(data.data.data, data.data.testsData, data.data.input);
         plotCtrl.plotTables(data.data.data, data.data.input);
-        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests);
+        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests, data.data.input.settings);
       }
 
     });
@@ -111,14 +118,15 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
             var tests = ["AVLT-total_1_to_5", "AVLT-delayed_recall_1_to_5", "AVLT-recognition_1_to_5"];
 
-            var input = {'settings': {'sig': 'oneTailedLeft', 'conf': '95'}};
+            var input = {'settings': {'sig': 'oneTailedLeft', 'conf': '95', 'normative': '2016-01-14'}};
 
             plotCtrl.plotLines(normcomp, tests_data, input);
             plotCtrl.plotTables(normcomp, input);
-            plotCtrl.plotEllipses(ellipses_points, tests);
+            plotCtrl.plotEllipses(ellipses_points, tests, input.settings);
         });*/
 
     function transformPatientScores(patientScores, tests) {
+      console.log(tests);
       var data = [];
       var rows = ['id', 'age', 'sex', 'education'];
       rows = rows.concat(tests);
@@ -134,6 +142,27 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
       rows.forEach(function (row){
         var rowObj = {'': row};
+        var test = testTableService.findTest(row, 'id');
+        var inf = 'n/a';
+        if(_.isEmpty(test)){
+          switch (row) {
+            case 'id':
+              inf = '(alphanumeric)';
+              break;
+            case 'age':
+              inf = 'in years';
+              break;
+            case 'sex':
+              inf = '(M-0 F-1)';
+              break;
+            case 'education':
+              inf = '(1-7)';
+              break;
+          }
+        } else {
+          inf = "("+test.lowweb+"-"+test.highweb+")";
+        }
+        rowObj['Information (please do not remove this column)'] = inf;
         columns.forEach(function (c, i){
           rowObj[c] = patientScores[i][row];
         });
@@ -674,7 +703,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
     });
   };
 
-  plotCtrl.plotEllipses = function (points, tests) {
+  plotCtrl.plotEllipses = function (points, tests, settings) {
     var width = 700,
         height = 500,
         size = 30,
@@ -694,11 +723,18 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
         .range([0, size - padding])
         .domain([0, 2*max]);
 
+    var ellipseparams = "static/app/data/"+settings.normative+"/ellipseparams"+settings.conf+".csv";
+    console.log(ellipseparams);
+
     d3.queue()
-        .defer(d3.csv, "static/app/data/ellipseparams.csv")
+        .defer(d3.csv, ellipseparams)
         .await(function (error, ellipses) {
-            if (error){ throw error; }
-            facets(ellipses, points, tests);
+            if (error){
+              console.log(error);
+              throw error;
+            } else {
+              facets(ellipses, points, tests);
+            }
         });
 
     function facets(ellipses, points, tests) {
@@ -753,7 +789,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
           if(test === e.test1) {
             keep1 = true;
           }
-          if(test == e.test2) {
+          if(test === e.test2) {
             keep2 = true;
           }
         });
@@ -780,7 +816,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
             .attr('x', -size/2)
             .attr('y', -size/2)
             .attr('width', size)
-            .attr('height', size)
+            .attr('height', size);
 
       // Draw ellipses
       svg.selectAll('ellipse')

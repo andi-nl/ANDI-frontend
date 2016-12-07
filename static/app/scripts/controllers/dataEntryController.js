@@ -7,12 +7,12 @@ angular
 dataEntryController.$inject = [
   '$rootScope', '$scope', '$location', '$timeout', '$uibModal', '$q',
   'patientDataservice', 'testTableService', 'ocpuService', 'dataUploadService',
-  '$window', 'ivhTreeviewMgr'
+  '$window', 'ivhTreeviewMgr', 'toastr'
 ];
 
 function dataEntryController($rootScope, $scope, $location, $timeout,
   $uibModal, $q, patientDataservice, testTableService, ocpuService, dataUploadService,
-  $window, ivhTreeviewMgr) {
+  $window, ivhTreeviewMgr, toastr) {
   var dataEntry = this;
 
   // $rootScope.tests: object containing data about tests that can be selected (a tree of all available tests)
@@ -33,6 +33,8 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   $rootScope.nodeArr = ($rootScope.nodeArr !== undefined) ? $rootScope.nodeArr : [];
   $scope.message = 'Data Uploaded successfully.';
   $rootScope.fileErr = false;
+
+  $scope.uploadSpinner = false;
 
   dataEntry.go = function (path) {
     $location.path(path);
@@ -87,6 +89,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     dataEntry.verifyId();
     if ($scope.patientForm.$invalid) {
       $scope.dataEntry.submited = true;
+      toastr.error('Required fields are missing. Please check the patient data you are submitting.');
     }
     else {
       $scope.dataEntry.submited = true;
@@ -100,6 +103,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
   // FIXIT: shoudl get it's own controller / service
   if ($rootScope.fileData !== undefined && $rootScope.fileData !== null && $rootScope.fileData !== '') {
     var replacearr = $rootScope.txtvalue.split(',');
+    $scope.uploadSpinner = true;
     dataUploadService.upload($rootScope.fileData, replacearr);
   }
 
@@ -126,5 +130,9 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
       // update which tests are selected in the tree data structure
       ivhTreeviewMgr.selectEach($rootScope.tests, $rootScope.nodeArr);
     });
+  });
+
+  $scope.$on('checkedIntermediaryAndComputedVariables', function(){
+    $scope.uploadSpinner = false;
   });
 }

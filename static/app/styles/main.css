@@ -76,17 +76,24 @@ body {
   height: 500px;
 }
 
-.right-td{
+.data-entry-td{
   width: 143px;
   height: 50px;
 }
+
 .tblscroll{
-  width:500px;overflow-y:hidden;
+  overflow-x:auto;
 }
+
+data-entry-table{
+  margin-right: 5px;
+}
+
 .tblscrollpadding{
   width:400px;overflow-y:hidden;padding-top: 10px;
 }
 .rightBtn{
+  padding-left: 5px;
   float:right;
 }
 .ivh-treeview-toggle{

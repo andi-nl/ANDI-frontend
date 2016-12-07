@@ -91,8 +91,12 @@ function testTableService($http, ivhTreeviewMgr, $rootScope) {
       var selectedTestsWithComputedVarArguments = {};
       var computedVarArgs;
       angular.forEach($rootScope.selectedTest, function(test){
-        computedVarArgs = test.computed_variable_arguments.split(',');
-        if(computedVarArgs[0] !== ""){
+        if(test.computed_variable_arguments === undefined){
+          computedVarArgs = [];
+        } else {
+          computedVarArgs = test.computed_variable_arguments.split(',');
+        }
+        if(computedVarArgs.length > 0 && computedVarArgs[0] !== ""){
           computedVarArgs.forEach(function(arg){
             var add = _.find(tests, function(t) { return t.ID === arg; });
             add.intermediary = true;

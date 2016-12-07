@@ -93,3 +93,23 @@ rect.ellipse-background {
   font-weight:normal;
   font-style:italic;
 }
+
+.fixed-height{
+  display:block;
+  height: 150px;
+}
+
+.terms-box {
+  overflow-y: scroll;
+  height:400px;
+  border-style: double;
+}
+
+.terms {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.errorlist {
+  color: red;
+}

@@ -34,7 +34,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
           data.data.splice(1).forEach(function(row){
             var fieldName = row[0];
             var test = testTableService.findTest(fieldName, 'id');
-            if(test !== {}){
+            if(!_.isEmpty(test)){
               $rootScope.selectedTest[fieldName] = test;
             }
             row.splice(2).forEach(function(value, index){
@@ -87,18 +87,24 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
           });
         }
 
-        if(patients.length == 0){
-          dataUploadFailed('No patient data found in file. Please enter data for at least one patient using the template downloaded from this page.');
+        if(patients.length === 0 || _.isEmpty($rootScope.selectedTest)){
+          if(patients.length === 0){
+            dataUploadFailed('No patient data found in file. Please enter data for at least one patient using the template downloaded from this page.');
+          }
+
+          if(_.isEmpty($rootScope.selectedTest)){
+            dataUploadFailed('No tests data found in file. Please select at least one test and download the template again.');
+          }
         } else {
           toastr.success('Data uploaded successfully.');
-        }
 
-        $rootScope.$broadcast('csvUploaded', patients);
-        testTableService.setSelectedTestsWithComputedVarArguments();
+          $rootScope.$broadcast('csvUploaded', patients);
+          testTableService.setSelectedTestsWithComputedVarArguments();
+        }
       } catch(err){
         console.log(err);
         // invalid file
-        dataUploadFailed('Invalid file format. Please download the correct template to upload data.');
+        dataUploadFailed('Invalid file format. Please try downloading the template again.');
       }
 
     };
@@ -112,11 +118,14 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
 
   // check intermediary and computed values
   $rootScope.$on('selectedTestsWithComputedVarArguments', function(event, tests){
-    patients.forEach(function(patient){
-      _.forOwn(tests, function(test, testName){
-        patientDataservice.disableIntermediaryAndComputedVariables(testName, patient);
+    if(typeof patients !== 'undefined' && patients.length > 0){
+      patients.forEach(function(patient){
+        _.forOwn(tests, function(test, testName){
+          patientDataservice.disableIntermediaryAndComputedVariables(testName, patient);
+        });
       });
-    });
+    }
+    $rootScope.$broadcast('checkedIntermediaryAndComputedVariables');
   });
 
   return {
