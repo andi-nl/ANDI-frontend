@@ -75,7 +75,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
                   break;
                 default:
                   // remove missing values
-                  if(_.includes(missingValues, value)){
+                  if(_.includes(missingValues, value) || typeof(value) === 'string'){
                     val = '';
                   } else {
                     val = value;
