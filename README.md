@@ -35,7 +35,7 @@ sudo apt-get install virtualenv
 
 Install [Docker](https://docs.docker.com/engine/installation/)
 ```
-sudo apt-get install docker
+sudo apt-get install docker.io
 ```
 
 Clone repository
