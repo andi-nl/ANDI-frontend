@@ -789,7 +789,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
           if(test === e.test1) {
             keep1 = true;
           }
-          if(test == e.test2) {
+          if(test === e.test2) {
             keep2 = true;
           }
         });
@@ -816,7 +816,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
             .attr('x', -size/2)
             .attr('y', -size/2)
             .attr('width', size)
-            .attr('height', size)
+            .attr('height', size);
 
       // Draw ellipses
       svg.selectAll('ellipse')
