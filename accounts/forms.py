@@ -19,12 +19,14 @@ class MailDomainValidationForm(SignupFormTos):
 
         data = self.cleaned_data['email']
 
-        domain_whitelist = [d.domain for d in AllowedMailDomain.objects.all()]
-        domain = data.split('@')[1]
-        if not domain in domain_whitelist:
-            email_whitelist = [e.email
+        domain_whitelist = [d.domain.lower()
+                            for d in AllowedMailDomain.objects.all()]
+        domain = data.split('@')[1].lower()
+        if domain not in domain_whitelist:
+            email_whitelist = [e.email.lower()
                                for e in AllowedEMailAddress.objects.all()]
-            if not data in email_whitelist:
+            email = data.lower()
+            if email not in email_whitelist:
                 msg = 'Registration not allowed for "%(email)s".\n' + \
                       'Please send an email to ... to request an account ' \
                       'for the ANDI application.'
