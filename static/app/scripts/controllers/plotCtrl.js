@@ -72,6 +72,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       if('error' in data.data){
         console.log('error in plotCtrl: '+data.data.error);
         $scope.errorMessage = data.data.error;
+        $scope.ocpuSpinner = false;
       } else {
         // stop spinner
         $scope.ocpuSpinner = false;
