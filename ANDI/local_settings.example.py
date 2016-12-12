@@ -21,7 +21,7 @@ DOMAIN = 'localhost:8000'
 # use to request an account
 ADMIN_EMAIL_ADDRESS = ''
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = ''
@@ -31,5 +31,5 @@ DEFAULT_FROM_EMAIL = 'user@example.com'
 
 # open cpu settings
 
-OCPU_HOST = '145.100.116.11'
+OCPU_HOST = 'localhost'
 OCPU_PORT = 8004

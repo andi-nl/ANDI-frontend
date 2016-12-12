@@ -69,8 +69,7 @@ cp ANDI/local_settings.example.py ANDI/local_settings.py
 ```
 
 Adjust this file according to your local settings. You can update the `DEFAULT_FROM_EMAIL`
-to your own email address. The `OCPU_HOST` should be a string containing the IP address
-reported by the OCPU docker (see below).
+to your own email address. The other settings can be kept as they are in the example.
 
 Initialize database
 ```
@@ -97,13 +96,7 @@ python manage.py loaddata fixtures/maildomains.json
 
 ## Run for development
 
-Run the mailserver, ocpu service, and webserver each in their own terminal.
-
-Start dummy mailserver for activation email (the email is not really send, but printed in the terminal)
-
-```
-python -m smtpd -n -c DebuggingServer localhost:1025
-```
+Run the ocpu service and webserver each in their own terminal.
 
 Start ocpu service
 
@@ -128,3 +121,6 @@ The ANDI app can be found at: http://localhost:8000/
 
 The admin module can be found at: http://localhost:8000/admin/
 You can log into the admin module with the superuser created earlier.
+
+Activation emails are printed in the terminal where Django is running. (Keep in
+mind that you may need to scroll back.)
