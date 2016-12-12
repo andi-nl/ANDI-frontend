@@ -6,7 +6,7 @@ To log into the ANDI admin module, you need an admin account (a.k.a. superuser a
 
 The picture below shows a screenshot of the ANDI admin module.
 
-![screenshot ANDI admin module](https://github.com/jvdzwaan/ANDI-frontend/blob/django/doc/img/andi-admin.png?raw=true "Screenshot of the ANDI admin module")
+![screenshot ANDI admin module](https://raw.githubusercontent.com/jvdzwaan/ANDI-frontend/emaildomains/doc/img/andi-admin.png "Screenshot of the ANDI admin module")
 
 The admin interface shows the different parts of the user administration. The most important parts are 'Allowed e mail addresss' and 'Allowed mail domains' under 'Accounts', and 'Users' under 'Authentication and Authorization'.
 
@@ -45,7 +45,7 @@ You can upload a csv file multiple times without problems. So, it is probably be
 manually add allowed email addresses, but make changes to a locally stored csv file and
 upload this file whenever something changes (this way you always have a backup).
 
-![screenshot CSV import email addressess](https://github.com/jvdzwaan/ANDI-frontend/blob/django/doc/img/cvs-import-email-address.png?raw=true "Screenshot of the form for importing allowed email addresses from a csv file")
+![screenshot CSV import email addressess](https://raw.githubusercontent.com/jvdzwaan/ANDI-frontend/emaildomains/doc/img/csv-import-email-address.png "Screenshot of the form for importing allowed email addresses from a csv file")
 
 ### Allowed mail domains
 
@@ -66,7 +66,7 @@ You can upload a csv file multiple times without problems. So, it is probably be
 manually add allowed mail domains, but make changes to a locally stored csv file and
 upload this file whenever something changes (this way you always have a backup).
 
-![screenshot CSV import mail domains](https://github.com/jvdzwaan/ANDI-frontend/blob/django/doc/img/csv-import-mail-domains.png?raw=true "Screenshot of the form for importing allowed mail domains from a csv file")
+![screenshot CSV import mail domains](https://raw.githubusercontent.com/jvdzwaan/ANDI-frontend/emaildomains/doc/img/csv-import-email-address.png "Screenshot of the form for importing allowed mail domains from a csv file")
 
 ## Authentication and Authorization
 
