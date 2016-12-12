@@ -31,9 +31,42 @@ To add or change the email addresses on the whitelist, click 'Add' or 'Change' b
 
 **Please note** that deleting an email address from this list stops the person with that email address from creating a new account only. How to delete a user is explained [here](#Delete user).
 
+You can upload a csv file containing a list of allowed email addresses. To do so, click
+`add` under `CSV IMPORTER` (next to `Csv imports`).
+
+In the form, type `accounts.AllowedEMailAddress` in the 'Model name' text field. Next
+type `email` in the 'Field list' text field. Then
+click 'Choose File' and choose the csv file with the email domains. The csv file should
+contain a single column with email addresses. Finally, choose 'Save'.
+
+You can check whether the mail addresses were added by clicking 'Home' and then 'Allowed e mail address'.
+
+You can upload a csv file multiple times without problems. So, it is probably best to not
+manually add allowed email addresses, but make changes to a locally stored csv file and
+upload this file whenever something changes (this way you always have a backup).
+
+![screenshot CSV import email addressess](https://github.com/jvdzwaan/ANDI-frontend/blob/django/doc/img/cvs-import-email-address.png?raw=true "Screenshot of the form for importing allowed email addresses from a csv file")
+
 ### Allowed mail domains
 
 To add or change the email domains on the whitelist, click 'Add' or 'Change' behind 'Allowed mail domains'. Clicking 'Allowed mail domains' shows a list of all the mail domains on the whitelist. From here new mail domains can be added, and existing ones can be changed or deleted by clicking on the respective links.
+
+You can upload a csv file containing a list of allowed email addresses. To do so, click
+`add` under `CSV IMPORTER` (next to `Csv imports`).
+
+In the form, type `accounts.AllowedMailDomain` in the 'Model name' text field. Next
+type `domain` in the 'Field list' text field. Then
+click 'Choose File' and choose the csv file with the email domains. The csv file should
+contain a single column with email domains (so the part of email addresses after the @-sign).
+Finally, choose 'Save'.
+
+You can check whether the mail domains were added by clicking 'Home' and then 'Allowed mail domain'.
+
+You can upload a csv file multiple times without problems. So, it is probably best to not
+manually add allowed mail domains, but make changes to a locally stored csv file and
+upload this file whenever something changes (this way you always have a backup).
+
+![screenshot CSV import mail domains](https://github.com/jvdzwaan/ANDI-frontend/blob/django/doc/img/csv-import-mail-domains.png?raw=true "Screenshot of the form for importing allowed mail domains from a csv file")
 
 ## Authentication and Authorization
 
