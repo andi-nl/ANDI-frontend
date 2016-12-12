@@ -660,6 +660,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       buttons: [
         {
           extend: 'pdf',
+          text: 'Download table as PDF',
           title: plotCtrl.univariateTitle
         }
       ]
@@ -676,6 +677,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       buttons: [
         {
           extend: 'pdf',
+          text: 'Download table as PDF',
           title: plotCtrl.multivariateTitle
         }
       ]
