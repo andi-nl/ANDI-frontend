@@ -10,7 +10,7 @@
   <uib-tabset active="active">
     <uib-tab index="0" heading="Lines Plot">
       <div class="tabpanel">
-        <button type="button" class="btn btn-default btn-sm" ng-click="plotCtrl.svg2pdf('lines-graph')">PDF</button>
+        <button type="button" class="btn btn-default btn-sm" ng-click="plotCtrl.svg2pdf('lines-graph')">Download graph as PDF</button>
         <p>
           <div class="graph" id="lines-graph"></div>
         </p>
@@ -22,7 +22,7 @@
           <strong>Warning:</strong>
           {{ ellipsePlotWarning }}
         </div>
-        <button type="button" class="btn btn-default btn-sm" ng-click="plotCtrl.svg2pdf('ellipses-graph')">PDF</button>
+        <button type="button" class="btn btn-default btn-sm" ng-click="plotCtrl.svg2pdf('ellipses-graph')">Download graph as PDF</button>
       </div>
       <div class="graph" id="ellipses-graph"></div>
     </uib-tab>
@@ -40,8 +40,8 @@
     <uib-tab index="3" heading="Export data">
       <div class="tabpanel">
         <div class="alert alert-warning">
-          Please note that the data are exported as tab separated values.
-          When you open the file in Excel, please uncheck all other separators,
+          Please note that the data are exported as a text file with tab separated values.
+          When you open the exported text file in Excel, please use only tabs as separators,
           otherwise the column names and column values might not line up.
         </div>
         <ul>
@@ -61,7 +61,13 @@
           <li ng-hide="plotCtrl.patientDataCsv">
             No patient data to export
           </li>
-        <ul>
+        </ul>
+        <div>
+          <br/>
+          <br/>
+          Thank you for using the ANDI website!
+        </div>
+
       </div>
     </uib-tab>
   </ui-tabset>
