@@ -1,7 +1,7 @@
 {% extends 'userena/base_userena.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Signup" %}{% endblock %}
+{% block title %}{% trans "Create account" %}{% endblock %}
 
 {% block content %}
 <div class="terms-box">
@@ -233,7 +233,7 @@
 <form action="" method="post">
   {% csrf_token %}
   <fieldset>
-    <legend>{% trans "Signup" %}</legend>
+    <legend>{% trans "Create account" %}</legend>
     {{ form.non_field_errors }}
     {% for field in form %}
     {{ field.errors }}
@@ -250,6 +250,6 @@
     {% endif %}
     {% endfor %}
   </fieldset>
-  <input type="submit" value="{% trans "Signup"%}" />
+  <input type="submit" value="{% trans "Create account"%}" />
 </form>
 {% endblock %}

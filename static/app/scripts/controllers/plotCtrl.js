@@ -142,27 +142,6 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
       rows.forEach(function (row){
         var rowObj = {'': row};
-        var test = testTableService.findTest(row, 'id');
-        var inf = 'n/a';
-        if(_.isEmpty(test)){
-          switch (row) {
-            case 'id':
-              inf = '(alphanumeric)';
-              break;
-            case 'age':
-              inf = 'in years';
-              break;
-            case 'sex':
-              inf = '(M-0 F-1)';
-              break;
-            case 'education':
-              inf = '(1-7)';
-              break;
-          }
-        } else {
-          inf = "("+test.lowweb+"-"+test.highweb+")";
-        }
-        rowObj['Information (please do not remove this column)'] = inf;
         columns.forEach(function (c, i){
           rowObj[c] = patientScores[i][row];
         });
@@ -681,6 +660,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       buttons: [
         {
           extend: 'pdf',
+          text: 'Download table as PDF',
           title: plotCtrl.univariateTitle
         }
       ]
@@ -697,6 +677,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
       buttons: [
         {
           extend: 'pdf',
+          text: 'Download table as PDF',
           title: plotCtrl.multivariateTitle
         }
       ]

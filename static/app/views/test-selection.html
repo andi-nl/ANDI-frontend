@@ -1,9 +1,21 @@
 <div class="col-sm-12">
   <h2>Test selection</h2>
   <div class="alert alert-info">
-    Welcome to the ANDI portal. On this page you can select the neuropsychological tests you have administered and which you want to analyze. You can browse the tests by category, or search for the tests by using the ‘search for…’ function. Clicking the
-    ‘+’ icon will expand each section. Ticking the boxes will add the tests to the ‘Selected tests’ list, and from here you can arrange the order of your variables. Your data will automatically be compared to the latest version of ANDI. In case you wish
-    to select an older version you can click ‘older version’. Note that we highly recommend always using the latest version. When you have completed the test selection, press Next to go to the next step.
+    <p>
+      Welcome to the ANDI portal. <b>Please, use it with Google Chrome or Mozilla Firefox.</b>
+    </p>
+    <p>
+      On this page you can select the neuropsychological tests you have administered
+      and which you want to analyze. You can browse the tests by category, or search
+      for the tests by using the ‘search for...’ function. Clicking the ‘+’ icon will
+      expand each section. Ticking the boxes will add the tests to the ‘Selected tests’ list.
+    </p>
+    <p>
+      Your data will automatically be compared to the latest version of ANDI.
+      In case you wish to select an older version you can click ‘change’. However,
+      we highly recommend always using the latest version. When you have completed
+      the test selection, press Next to go to the next step.
+    </p>
   </div>
   <div ng-show="fileErr" class="alert alert-danger">
     <span>{{ fileErr }}</span>
@@ -15,7 +27,7 @@
     <h3>Select neuropsychological tests</h3>
     <input type="text" ng-model="testSearch" class="form-control" ng-keyup="testSelection.treeExpanded(testSearch)" placeholder="Search for ..."/>
     <!-- parent child wise test directive-->
-    <div class="fixed-height"
+    <div
       ivh-treeview-id-attribute="'uuid'"
       ivh-treeview="tests"
       ivh-treeview-expand-to-depth="0"
@@ -66,12 +78,15 @@
     </button>
     <br/>
     <p>
-      To upload a batch of patient scores download the template. This template is a
-      tab separated text file, that should be opened in Excel.
+      If you want to upload a batch of patient scores, then first download this template.
+      The template is a text file containing tab separated values that should be opened
+      in Excel. Please make sure each patient has their own column and a unique ID.
     </p>
     <p>
-      When using the template, please make sure each patient has their
-      own column and do not remove the "Information" column.
+      After you have
+      saved the .txt file, you can enter your patients’ data and upload it to the ANDI
+      website by clicking “upload data” and "choose file". Once the file has been uploaded
+      you will be asked to define your missing values.
     </p>
     <!--End csv generate button -->
   </div>

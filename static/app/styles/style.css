@@ -94,11 +94,6 @@ rect.ellipse-background {
   font-style:italic;
 }
 
-.fixed-height{
-  display:block;
-  height: 150px;
-}
-
 .terms-box {
   overflow-y: scroll;
   height:400px;

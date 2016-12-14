@@ -37,7 +37,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
             if(!_.isEmpty(test)){
               $rootScope.selectedTest[fieldName] = test;
             }
-            row.splice(2).forEach(function(value, index){
+            row.splice(1).forEach(function(value, index){
               var val;
               var p;
 
@@ -75,7 +75,7 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
                   break;
                 default:
                   // remove missing values
-                  if(_.includes(missingValues, value)){
+                  if(_.includes(missingValues, value) || typeof(value) === 'string'){
                     val = '';
                   } else {
                     val = value;
