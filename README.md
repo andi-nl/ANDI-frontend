@@ -33,10 +33,7 @@ Install [virtualenv](https://virtualenv.pypa.io/en/stable/installation/)
 sudo apt-get install virtualenv
 ```
 
-Install [Docker](https://docs.docker.com/engine/installation/)
-```
-sudo apt-get install docker.io
-```
+Install [Docker](https://docs.docker.com/engine/installation/) by following official [installation instructions](https://docs.docker.com/engine/installation/linux/ubuntulinux/).
 
 Clone repository
 ```
