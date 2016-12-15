@@ -1,9 +1,7 @@
 """Utility functions for ocpu views"""
-import os
 import json
 import requests
 import logging
-import pandas as pd
 from itertools import combinations
 
 from django.conf import settings
@@ -23,14 +21,8 @@ def _edp(t1, t2, x, y, p):
 
 def generate_ellipse_data(normcomp_data, normcomp_settings):
     """Generate data for the ellipses plot"""
-    ep_file = 'static/app/data/{}/ellipseparams{}.csv'.format(
-        normcomp_settings.get('normative'), normcomp_settings.get('conf'))
-    csv = os.path.join(settings.BASE_DIR, ep_file)
-    df = pd.read_csv(csv)
-    test_pairs = [pair for pair in zip(list(df['test1']), list(df['test2']))]
-
     tests = [t['testname'] for t in normcomp_data]
-    tests = set(tests)
+    tests = sorted(set(tests))
 
     patient2test = {}
     for d in normcomp_data:
@@ -41,16 +33,15 @@ def generate_ellipse_data(normcomp_data, normcomp_settings):
     patients = set([p['id'] for p in normcomp_data])
 
     ellipse_data = []
+    test_pairs = []
     for (t1, t2) in combinations(tests, 2):
+        test_pairs.append((t1, t2))
         for p in patients:
             if t1 in patient2test[p].keys() and t2 in patient2test[p].keys():
-                if (t1, t2) in test_pairs:
-                    edp = _edp(t1, t2, patient2test[p][t1], patient2test[p][t2], p)
-                else:
-                    edp = _edp(t2, t1, patient2test[p][t2], patient2test[p][t1], p)
+                edp = _edp(t1, t2, patient2test[p][t1], patient2test[p][t2], p)
                 ellipse_data.append(edp)
 
-    return ellipse_data
+    return ellipse_data, test_pairs
 
 
 def generate_tests_data(normcomp_data):
@@ -82,10 +73,12 @@ def do_normcomp(parameters):
 
     tests_data = generate_tests_data(res)
 
-    ellipse_data = generate_ellipse_data(res, input_data.get('settings'))
+    ell_data, test_pairs = generate_ellipse_data(res,
+                                                 input_data.get('settings'))
 
     return JsonResponse({'data': res,
-                         'ellipse': ellipse_data,
+                         'ellipse': ell_data,
+                         'testPairs': test_pairs,
                          'tests': tests,
                          'testsData': tests_data,
                          'input': input_data})

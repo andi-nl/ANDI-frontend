@@ -93,7 +93,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
         plotCtrl.plotLines(data.data.data, data.data.testsData, data.data.input);
         plotCtrl.plotTables(data.data.data, data.data.input);
-        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests, data.data.input.settings);
+        plotCtrl.plotEllipses(data.data.ellipse, data.data.tests, data.data.testPairs, data.data.input.settings);
       }
 
     });
@@ -684,7 +684,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
     });
   };
 
-  plotCtrl.plotEllipses = function (points, tests, settings) {
+  plotCtrl.plotEllipses = function (points, tests, testPairs, settings) {
     var width = 700,
         height = 500,
         size = 30,
@@ -714,11 +714,11 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
               console.log(error);
               throw error;
             } else {
-              facets(ellipses, points, tests);
+              facets(ellipses, points, tests, testPairs);
             }
         });
 
-    function facets(ellipses, points, tests) {
+    function facets(ellipses, points, tests, testPairs) {
       ellipses.forEach(function (d) {
         d.test1 = String(d.test1);
         d.test2 = String(d.test2);
@@ -764,17 +764,13 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
 
       console.log(ellipses);
       var sEllipses = ellipses.filter(function (e) {
-        var keep1 = false,
-            keep2 = false;
-        tests.forEach(function (test){
-          if(test === e.test1) {
-            keep1 = true;
-          }
-          if(test === e.test2) {
-            keep2 = true;
+        var keep = false;
+        testPairs.forEach(function (tests){
+          if(tests[0] === e.test1 && tests[1] === e.test2) {
+            keep = true;
           }
         });
-        return keep1 && keep2;
+        return keep;
       });
 
       console.log(sEllipses);
@@ -789,9 +785,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
             .data(sEllipses)
           .enter().append('rect')
             .attr("transform", function (d) {
-              // We put test2 in xOuter and test1 in yOuter, because we want to
-              // fill the lower left triangle with ellipses.
-              return "translate(" + xOuter(d.test2) + "," + yOuter(d.test1) + ")";
+              return "translate(" + xOuter(d.test1) + "," + yOuter(d.test2) + ")";
             })
             .attr('class', 'ellipse-background')
             .attr('x', -size/2)
@@ -807,9 +801,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
             .attr("ry", function (d) { return dim(d.ry); })
             .attr("transform", function (d) {
                 var angle = -(90 - d.angle);
-                // We put test2 in xOuter and test1 in yOuter, because we want to
-                // fill the lower left triangle with ellipses.
-                return "translate(" + xOuter(d.test2) + "," + yOuter(d.test1) + ") rotate(" + angle + ")";
+                return "translate(" + xOuter(d.test1) + "," + yOuter(d.test2) + ") rotate(" + angle + ")";
             })
             .style("fill", "green")
             .style("opacity", 0.3)
@@ -873,9 +865,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
         .enter().append('path')
           .attr('d', mark)
           .attr("transform", function (d) {
-            // We put test2 in xOuter and test1 in yOuter, because the
-            // ellipses are in the lower left triangle.
-            var translate = (xOuter(d.test2) - size/2 + x(d.y) + "," + (yOuter(d.test1) - size/2 + y(d.x)));
+            var translate = (xOuter(d.test1) - size/2 + x(d.x) + "," + (yOuter(d.test2) - size/2 + y(d.y)));
               return "translate(" + translate + ") rotate(45)";
             })
           .attr('class', 'ellipse-data-background')
@@ -887,9 +877,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
         .enter().append('path')
           .attr('d', mark)
           .attr("transform", function (d) {
-            // We put test2 in xOuter and test1 in yOuter, because the
-            // ellipses are in the lower left triangle.
-            var translate = (xOuter(d.test2) - size/2 + x(d.y) + "," + (yOuter(d.test1) - size/2 + y(d.x)));
+            var translate = (xOuter(d.test1) - size/2 + x(d.x) + "," + (yOuter(d.test2) - size/2 + y(d.y)));
               return "translate(" + translate + ") rotate(45)";
             })
           .attr('class', function (d) {
