@@ -19,11 +19,8 @@ def _edp(t1, t2, x, y, p):
             'id': p}
 
 
-def generate_ellipse_data(normcomp_data, normcomp_settings):
+def generate_ellipse_data(normcomp_data, tests):
     """Generate data for the ellipses plot"""
-    tests = [t['testname'] for t in normcomp_data]
-    tests = sorted(set(tests))
-
     patient2test = {}
     for d in normcomp_data:
         if d['id'] not in patient2test.keys():
@@ -73,11 +70,10 @@ def do_normcomp(parameters):
 
     tests_data = generate_tests_data(res)
 
-    ell_data, test_pairs = generate_ellipse_data(res,
-                                                 input_data.get('settings'))
+    ellipse_data, test_pairs = generate_ellipse_data(res, tests)
 
     return JsonResponse({'data': res,
-                         'ellipse': ell_data,
+                         'ellipse': ellipse_data,
                          'testPairs': test_pairs,
                          'tests': tests,
                          'testsData': tests_data,
