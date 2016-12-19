@@ -4,6 +4,8 @@ from django.utils.translation import ugettext as _
 
 from userena.forms import SignupFormTos
 
+from django.conf import settings
+
 from .models import AllowedMailDomain, AllowedEMailAddress
 
 
@@ -28,11 +30,12 @@ class MailDomainValidationForm(SignupFormTos):
             email = data.lower()
             if email not in email_whitelist:
                 msg = 'Registration not allowed for "%(email)s".\n' + \
-                      'Please send an email to ... to request an account ' \
-                      'for the ANDI application.'
+                      'Please send an email to %(adminemail)s to request an ' \
+                      'account for the ANDI portal.'
                 raise ValidationError(
                     _(msg), code='invalid',
-                    params={'email': data},
+                    params={'email': data,
+                            'adminemail': settings.ADMIN_EMAIL_ADDRESS},
                 )
 
         return data
