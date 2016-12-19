@@ -73,6 +73,10 @@ function dataUploadService($rootScope, $location, toastr, patientDataservice, te
                     val = ''+value;
                   }
                   break;
+                case 'id':
+                  // do nothing, but make sure strings aren't removed
+                  val = value;
+                  break;
                 default:
                   // remove missing values
                   if(_.includes(missingValues, value) || typeof(value) === 'string'){
