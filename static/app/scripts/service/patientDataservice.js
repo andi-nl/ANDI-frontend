@@ -91,7 +91,7 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
         }
         if(!allFilled && !allEmpty){
           if(patient[useTest] !== ''){
-            toastr.warning('Patient '+patient.id+': Intermediary value "'+testName+'" provided, removing value for '+useTest+'.');
+            toastr.warning('Patient '+patient.id+': Some intermediary values provided, removing value for '+useTest+'.');
             patient[useTest] = '';
           }
         }
