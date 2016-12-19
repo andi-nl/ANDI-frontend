@@ -89,8 +89,6 @@ Load list of allowed email domains
 python manage.py loaddata fixtures/maildomains.json
 ```
 
-(This list needs to be updated with correct domains.)
-
 ## Run for development
 
 Run the ocpu service and webserver each in their own terminal.
