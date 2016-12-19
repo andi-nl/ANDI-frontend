@@ -60,6 +60,13 @@ Install Python requirements
 pip install -r requirements.txt
 ```
 
+For csv imports of allowed mail domains and email addresses, a specific version of
+[django-csvimport](https://github.com/edcrewe/django-csvimport) is used. Although
+a pull request containing a required change was made, it wasn't merged, and without the
+code changes, the package does not work. If there is an error message for installing
+this specific package, please check to see if the pull request was merged, and update the
+`django-csvimport` entry in `requirements.txt`.
+
 Change local settings
 ```
 cp ANDI/local_settings.example.py ANDI/local_settings.py
@@ -88,8 +95,6 @@ Load list of allowed email domains
 ```
 python manage.py loaddata fixtures/maildomains.json
 ```
-
-(This list needs to be updated with correct domains.)
 
 ## Run for development
 
