@@ -91,7 +91,7 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
         }
         if(!allFilled && !allEmpty){
           if(patient[useTest] !== ''){
-            toastr.warning('Patient '+patient.id+': Intermediary value "'+testName+'" provided, removing value for '+useTest+'.');
+            toastr.warning('Patient '+patient.id+': Some intermediary values provided, removing value for '+useTest+'.');
             patient[useTest] = '';
           }
         }
@@ -130,21 +130,27 @@ function patientDataservice(testTableService, $rootScope, ocpuService, toastr) {
     } else {
       // we are not dealing with a value for an intermediary variable
       // check to see whether we are dealing with a value for a computed variable
-      if($rootScope.selectedTestsWithComputedVarArguments[testName].computed_variable_arguments === undefined){
-        computedVarArgs = [];
-      } else {
-        computedVarArgs = $rootScope.selectedTestsWithComputedVarArguments[testName].computed_variable_arguments.split(',');
-      }
-      if(computedVarArgs.length > 0 && computedVarArgs[0] !== ""){
-        computedVarArgs.forEach(function(arg){
-          if(value){
-            // a computed value was filled in; disable the input fields for the intermediary values
-            patient[arg+'_disabled'] = true;
-          } else {
-            // a computed value was removed; enable the input fields for the intermediary values
-            patient[arg+'_disabled'] = false;
-          }
-        });
+      //
+      // First: make sure that the current field is not already disabled
+      // (a disabled (readonly) field triggers this function if the user uses tab to
+      // navigate the text fields)
+      if(patient[testName+'_disabled'] === false){
+        if($rootScope.selectedTestsWithComputedVarArguments[testName].computed_variable_arguments === undefined){
+          computedVarArgs = [];
+        } else {
+          computedVarArgs = $rootScope.selectedTestsWithComputedVarArguments[testName].computed_variable_arguments.split(',');
+        }
+        if(computedVarArgs.length > 0 && computedVarArgs[0] !== ""){
+          computedVarArgs.forEach(function(arg){
+            if(value){
+              // a computed value was filled in; disable the input fields for the intermediary values
+              patient[arg+'_disabled'] = true;
+            } else {
+              // a computed value was removed; enable the input fields for the intermediary values
+              patient[arg+'_disabled'] = false;
+            }
+          });
+        }
       }
     }
   }

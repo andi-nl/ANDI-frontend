@@ -89,7 +89,7 @@ function dataEntryController($rootScope, $scope, $location, $timeout,
     dataEntry.verifyId();
     if ($scope.patientForm.$invalid) {
       $scope.dataEntry.submited = true;
-      toastr.error('Required fields are missing. Please check the patient data you are submitting.');
+      toastr.error('There is a problem with the form. Please check the patient data you are submitting.');
     }
     else {
       $scope.dataEntry.submited = true;
