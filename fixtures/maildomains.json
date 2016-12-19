@@ -2,12 +2,558 @@
   "model": "accounts.allowedmaildomain",
   "pk": 1,
   "fields": {
-    "domain": "esciencecenter.nl"
+    "domain": "amc.uva.nl"
   }
 }, {
   "model": "accounts.allowedmaildomain",
   "pk": 2,
   "fields": {
-    "domain": "gmail.com"
+    "domain": "nki.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 3,
+  "fields": {
+    "domain": "ggzingeest.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 4,
+  "fields": {
+    "domain": "rug.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 5,
+  "fields": {
+    "domain": "maastrichtuniversity.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 6,
+  "fields": {
+    "domain": "donders.ru.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 7,
+  "fields": {
+    "domain": "uva.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 8,
+  "fields": {
+    "domain": "vumc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 9,
+  "fields": {
+    "domain": "radboudumc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 10,
+  "fields": {
+    "domain": "uu.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 11,
+  "fields": {
+    "domain": "umcutrecht.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 12,
+  "fields": {
+    "domain": "fsw.leidenuniv.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 13,
+  "fields": {
+    "domain": "uvt.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 14,
+  "fields": {
+    "domain": "lumc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 15,
+  "fields": {
+    "domain": "adrz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 16,
+  "fields": {
+    "domain": "asz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 17,
+  "fields": {
+    "domain": "amc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 18,
+  "fields": {
+    "domain": "amphia.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 19,
+  "fields": {
+    "domain": "antoniusziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 20,
+  "fields": {
+    "domain": "zuyderland.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 21,
+  "fields": {
+    "domain": "bernhoven.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 22,
+  "fields": {
+    "domain": "bethesda.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 23,
+  "fields": {
+    "domain": "bovenij.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 24,
+  "fields": {
+    "domain": "bravisziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 25,
+  "fields": {
+    "domain": "cwz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 26,
+  "fields": {
+    "domain": "catharinaziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 27,
+  "fields": {
+    "domain": "vanweelbethesda.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 28,
+  "fields": {
+    "domain": "tjongerschans.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 29,
+  "fields": {
+    "domain": "dz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 30,
+  "fields": {
+    "domain": "diakhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 31,
+  "fields": {
+    "domain": "elkerliek.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 32,
+  "fields": {
+    "domain": "erasmusmc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 33,
+  "fields": {
+    "domain": "flevoziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 34,
+  "fields": {
+    "domain": "zgv.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 35,
+  "fields": {
+    "domain": "gelre.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 36,
+  "fields": {
+    "domain": "nwz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 37,
+  "fields": {
+    "domain": "hagaziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 38,
+  "fields": {
+    "domain": "havenziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 39,
+  "fields": {
+    "domain": "ghz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 40,
+  "fields": {
+    "domain": "ysl.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 41,
+  "fields": {
+    "domain": "ikazia.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 42,
+  "fields": {
+    "domain": "isala.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 43,
+  "fields": {
+    "domain": "jbz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 44,
+  "fields": {
+    "domain": "spaarnegasthuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 45,
+  "fields": {
+    "domain": "lzr.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 46,
+  "fields": {
+    "domain": "maasstadziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 47,
+  "fields": {
+    "domain": "mumc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 48,
+  "fields": {
+    "domain": "pantein.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 49,
+  "fields": {
+    "domain": "mzh.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 50,
+  "fields": {
+    "domain": "mmc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 51,
+  "fields": {
+    "domain": "meandermc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 52,
+  "fields": {
+    "domain": "mcgroep.com"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 53,
+  "fields": {
+    "domain": "znb.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 54,
+  "fields": {
+    "domain": "mchaaglanden.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 55,
+  "fields": {
+    "domain": "mst.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 56,
+  "fields": {
+    "domain": "NijSmellinghe.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 57,
+  "fields": {
+    "domain": "ozg.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 58,
+  "fields": {
+    "domain": "olvg.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 59,
+  "fields": {
+    "domain": "refaja.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 60,
+  "fields": {
+    "domain": "reinier-mdc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 61,
+  "fields": {
+    "domain": "alrijne.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 62,
+  "fields": {
+    "domain": "rijnstate.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 63,
+  "fields": {
+    "domain": "rivas.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 64,
+  "fields": {
+    "domain": "zrt.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 65,
+  "fields": {
+    "domain": "rkz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 66,
+  "fields": {
+    "domain": "sxb.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 67,
+  "fields": {
+    "domain": "scheperziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 68,
+  "fields": {
+    "domain": "sfg.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 69,
+  "fields": {
+    "domain": "slaz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 70,
+  "fields": {
+    "domain": "slingeland.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 71,
+  "fields": {
+    "domain": "slz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 72,
+  "fields": {
+    "domain": "spijkenissemc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 73,
+  "fields": {
+    "domain": "st-anna.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 74,
+  "fields": {
+    "domain": "etz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 75,
+  "fields": {
+    "domain": "sjgweert.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 76,
+  "fields": {
+    "domain": "stjansdal.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 77,
+  "fields": {
+    "domain": "skbwinterswijk.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 78,
+  "fields": {
+    "domain": "llz.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 79,
+  "fields": {
+    "domain": "umcg.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 80,
+  "fields": {
+    "domain": "viecuri.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 81,
+  "fields": {
+    "domain": "franciscus.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 82,
+  "fields": {
+    "domain": "waterlandziekenhuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 83,
+  "fields": {
+    "domain": "westfriesgasthuis.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 84,
+  "fields": {
+    "domain": "wza.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 85,
+  "fields": {
+    "domain": "zaansmc.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 86,
+  "fields": {
+    "domain": "zha.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 87,
+  "fields": {
+    "domain": "bronovo.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 88,
+  "fields": {
+    "domain": "zgt.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 89,
+  "fields": {
+    "domain": "sionsberg.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 90,
+  "fields": {
+    "domain": "tergooiziekenhuizen.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 91,
+  "fields": {
+    "domain": "zzv.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 92,
+  "fields": {
+    "domain": "zuwehofpoort.nl"
+  }
+}, {
+  "model": "accounts.allowedmaildomain",
+  "pk": 94,
+  "fields": {
+    "domain": "esciencecenter.nl"
   }
 }]
