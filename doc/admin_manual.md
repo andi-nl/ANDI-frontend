@@ -36,8 +36,13 @@ You can upload a csv file containing a list of allowed email addresses. To do so
 
 In the form, type `accounts.AllowedEMailAddress` in the 'Model name' text field. Next
 type `email` in the 'Field list' text field. Then
-click 'Choose File' and choose the csv file with the email domains. The csv file should
-contain a single column with email addresses. Finally, choose 'Save'.
+click 'Choose File' and choose the csv file with the email domains.
+The 'Encoding' field can be left empty.
+The csv file should contain a single column with email addresses (see the example below).
+
+![screenshot CSV file email addresses](https://raw.githubusercontent.com/jvdzwaan/ANDI-frontend/emaildomains/doc/img/example-csv-email-addresses.png "Screenshot of a csv file that contains a list of allowed email addresses")
+
+Finally, choose 'Save'.
 
 You can check whether the mail addresses were added by clicking 'Home' and then 'Allowed e mail address'.
 
@@ -56,8 +61,13 @@ You can upload a csv file containing a list of allowed email addresses. To do so
 
 In the form, type `accounts.AllowedMailDomain` in the 'Model name' text field. Next
 type `domain` in the 'Field list' text field. Then
-click 'Choose File' and choose the csv file with the email domains. The csv file should
-contain a single column with email domains (so the part of email addresses after the @-sign).
+click 'Choose File' and choose the csv file with the email domains.
+The 'Encoding' field can be left empty.
+The csv file should contain a single column with email domains (so the part of
+email addresses after the @-sign) (see the example below).
+
+![screenshot CSV file mail domains](https://raw.githubusercontent.com/jvdzwaan/ANDI-frontend/emaildomains/doc/img/example-csv-maildomains.png "Screenshot of a csv file that contains a list of allowed email domains")
+
 Finally, choose 'Save'.
 
 You can check whether the mail domains were added by clicking 'Home' and then 'Allowed mail domain'.
