@@ -15,7 +15,7 @@ sudo apt-get install npm
 
 Install [bower](https://bower.io/#install-bower)
 ```
-
+npm install -g bower
 ```
 Install [Python 3](https://www.python.org/downloads/) and other requirements
 ```
