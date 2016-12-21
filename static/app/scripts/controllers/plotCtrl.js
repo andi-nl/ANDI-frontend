@@ -685,8 +685,8 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
   };
 
   plotCtrl.plotEllipses = function (points, tests, testPairs, settings) {
-    var width = 700,
-        height = 500,
+    var width = 750,
+        height = 700,
         size = 30,
         padding = 5,
         min = -3,
@@ -734,7 +734,7 @@ app.controller('plotController', function ($scope, ocpuService, svgExportService
           .attr("height", height)
           .attr("class", "ellipses-graph")
           .append('g')
-          .attr("transform", "translate(" + size * 6 + "," + padding * 10 + ")");
+          .attr("transform", "translate(" + size * 6.5 + "," + padding * 10 + ")");
 
       var h = (tests.length + 0.5) * size;
 
