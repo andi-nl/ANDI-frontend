@@ -29,7 +29,7 @@ class MailDomainValidationForm(SignupFormTos):
                                for e in AllowedEMailAddress.objects.all()]
             email = data.lower()
             if email not in email_whitelist:
-                msg = 'Registration not allowed for "%(email)s".\n' + \
+                msg = 'Automatic registration not possible for "%(email)s".\n' + \
                       'Please send an email to %(adminemail)s to request an ' \
                       'account for the ANDI portal.'
                 raise ValidationError(
