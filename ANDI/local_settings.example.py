@@ -13,7 +13,7 @@ DEBUG = True
 ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
 # domain the ANDI application is hosted on, e.g., www.andi.nl
-DOMAIN = os.environ['DOMAIN']
+DOMAIN = [os.environ['DOMAIN']]
 
 # email settings
 
