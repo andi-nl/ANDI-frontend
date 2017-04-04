@@ -10,7 +10,7 @@ SECRET_KEY = '-(%*&koiplct1vfmiy_aovb@*ncmggq#$s%vi2b4ql8za=k2!#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS']
+ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
 # domain the ANDI application is hosted on, e.g., www.andi.nl
 DOMAIN = os.environ['DOMAIN']
