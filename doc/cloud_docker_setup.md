@@ -6,7 +6,7 @@ Create virtual machine using Ubuntu 16.04 x64 image.
 Update software
 
 ```sh
-sudo apt-get udpate
+sudo apt-get update
 sudo apt-get upgrade
 ```
 
