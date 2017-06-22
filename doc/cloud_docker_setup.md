@@ -64,3 +64,5 @@ Users information is stored in `/usr/src/app/db.sqlite3` in `andifrontend_web` c
 docker cp andifrontend_web_1:/usr/src/app/db.sqlite3 ./
 docker cp db.sqlite3 andifrontend_web_1:/usr/src/app/db.sqlite3
 ```
+## Cleanup
+To cleanup all containers and images follow the inscructions in [this gist](https://gist.github.com/mkuzak/ad231e0cc232f5fc5e45)
