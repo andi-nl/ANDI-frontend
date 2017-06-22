@@ -33,6 +33,8 @@ sudo ufw enable
 Clone ANDI-frontend repository
 ```sh
 git clone https://github.com/andi-nl/ANDI-frontend
+# enter the repository
+cd ANDI-frontend
 ```
 
 ### Fill in Settings for Django Application
