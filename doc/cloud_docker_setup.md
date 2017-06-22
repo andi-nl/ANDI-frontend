@@ -66,3 +66,6 @@ docker cp db.sqlite3 andifrontend_web_1:/usr/src/app/db.sqlite3
 ```
 ## Cleanup
 To cleanup all containers and images follow the inscructions in [this gist](https://gist.github.com/mkuzak/ad231e0cc232f5fc5e45)
+
+## Running in production
+Enable email verification (will only work when the dnas is setup properly and `http://analyse.andi.nl/` points to this ip address) by commenting out `USERENA_DISABLE_PROFILE_LIST = True` on line 167 in `ANDI/settings.py` file.
